@@ -16,7 +16,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    power(_uuid:String,_power:Boolean,_callback?:Function) {
+    power( _uuid:String, _power:Boolean, _callback?:Function ) {
         return this._api.patch(  this._basepath +'/' + _uuid + '/power' , { power : _power } , _callback );
     }
 
@@ -41,11 +41,10 @@ export class Server extends Gridscale.GridscaleObjects {
      * 
      * @param _uuid
      * @param _ip_uuid
-     * @param _options
      * @param _callback
      * @returns {any}
      */
-    ip(_uuid, _ip_uuid,_options?,_callback?){
+    ip(_uuid, _ip_uuid, _callback?){
         return this._sub_get('ips',_uuid,_ip_uuid,_callback);
     }
 
@@ -99,11 +98,10 @@ export class Server extends Gridscale.GridscaleObjects {
      * 
      * @param _uuid
      * @param _storage_uuid
-     * @param _options
      * @param _callback
      * @returns {any}
      */
-    storage(_uuid, _storage_uuid, _options?,_callback?){
+    storage(_uuid, _storage_uuid,_callback?){
         return this._sub_get('storages',_uuid,_storage_uuid,_callback);
     }
 
@@ -150,6 +148,79 @@ export class Server extends Gridscale.GridscaleObjects {
     }
 
 
+
+    /**
+     *  Isoimages    
+     * 
+     */
+
+
+    /**
+     *  Get Storages for this Object
+     *
+     * @param _uuid Object UUID
+     * @param _callback Callback Function
+     */
+    isoimages(_uuid,_options?,_callback?){
+        return this._sub('isoimages',_uuid,_options,_callback);
+    }
+
+    
+    /**
+     * Get single Storage <=> Server Relation
+     * 
+     * @param _uuid
+     * @param _isoimage_uuid
+     * @param _callback
+     * @returns {any}
+     */
+    isoimage(_uuid, _isoimage_uuid,_callback?){
+        return this._sub_get('isoimages',_uuid,_isoimage_uuid,_callback);
+    }
+
+
+    /**
+     * Patch Storage that is related to a Server i flag it as Bootdevice
+     * 
+     * 
+     * @param _uuid
+     * @param _isoimage_uuid
+     * @param _attribute
+     * @param _callback
+     * @returns {any|TRequest}
+     */
+    patchIsoimage(_uuid,_isoimage_uuid,_attribute,_callback?){
+        return this._sub_patch('isoimages',_uuid,_isoimage_uuid,_attribute,_callback);
+    }
+
+
+    /**
+     * Relate Storage with Server
+     *
+     * @param _uuid Server UUID
+     * @param _isoimage_uuid IP UUID
+     * @param _callback  Callback Function
+     * @returns {TRequest|any}
+     */
+    relateIsoimage(_uuid,_isoimage_uuid,_callback?){
+        return this._sub_post('isoimages',_uuid,{"object_uuid":_isoimage_uuid},_callback);
+    }
+
+
+    /**
+     * Remove Isoimage from Server
+     *
+     *
+     * @param _uuid Server UUID
+     * @param _isoimage_uuid IP UUID
+     * @param _callback
+     * @returns {any|void|PromiseLike<void>}
+     */
+    detachIsoimage(_uuid,_isoimage_uuid,_callback?){
+        return this._sub_remove('isoimages',_uuid,_isoimage_uuid,_callback);
+    }
+
+
     /**
      *  Networks    
      * 
@@ -172,11 +243,10 @@ export class Server extends Gridscale.GridscaleObjects {
      * 
      * @param _uuid
      * @param _network_uuid Network UUID
-     * @param _options
      * @param _callback
      * @returns {any}
      */
-    network(_uuid, _network_uuid, _options?,_callback?){
+    network(_uuid, _network_uuid,_callback?){
         return this._sub_get('networks',_uuid,_network_uuid,_callback);
     }
 
