@@ -136,6 +136,14 @@ client.SSHKey.create( attribute [, callback ] )
 client.SSHKey.patch( uuid , attribute [, callback ] )   
 client.SSHKey.events( uuid [, requestoptions , callback ] ) 
 
+## ObjectStorage
+client.ObjectStorage.accessKeys( [ requestoptions , callback ] )  
+client.ObjectStorage.accessKey( access_key [, callback ] )  
+client.ObjectStorage.createAccessKey([ callback ] )  
+client.ObjectStorage.removeAccessKey( access [, callback ] )  
+client.ObjectStorage.buckets( [ requestoptions , callback ] )   
+client.ObjectStorage.bucket( bucket_name [ , callback ] ) 
+
 
 ## Examples
 

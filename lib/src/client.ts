@@ -10,6 +10,7 @@
     var SSHKey = require('./Objects/SSHKey').SSHKey;
     var Template = require('./Objects/Template').Template;
     var Location = require('./Objects/Location').Location;
+    var ObjectStorage = require('./Objects/ObjectStorage').Location;
 
 
     /**
@@ -26,6 +27,7 @@
         public SSHKey: any;
         public Template: any;
         public Location: any;
+        public ObjectStorage: any;
 
         public watchRequest: Function;
 
@@ -55,6 +57,7 @@
             this.SSHKey = new SSHKey(api);
             this.Template = new Template(api);
             this.Location = new Location(api);
+            this.ObjectStorage = new ObjectStorage(api);
 
             this.watchRequest = api.watchRequest;
 
