@@ -1,0 +1,36 @@
+{
+  "name": "@gridscale/api",
+  "version": "0.0.7",
+  "description": "gridscale API Wrapper",
+  "main": "./lib/gridscale.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify lib/gridscale.ts -p [ tsify --noImplicitAny ] > dist/gridscale.js"
+  },
+  "author": "Marc Dittmann <marc@gridscale.io> (https://gridscale.io/)",
+  "keywords": [
+    "gridscale",
+    "api",
+    "cloud",
+    "server"
+  ],
+  "homepage": "https://gridscale.io",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "lodash": "^4.17.4",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "bluebird": "^3.5.0",
+    "browserify": "^14.1.0",
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-jsdoc": "^2.1.0",
+    "tsify": "^3.0.1",
+    "typescript": "^2.2.2"
+  }
+}

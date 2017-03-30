@@ -1,0 +1,296 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" crossorigin="anonymous"></script>       
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" media="all" href="css/style.css"  />
+        <script src="../dist/dev/web.js"></script>
+        <script>
+            
+            var gsclient = new gs.Client('18ab1b9e634c02bc49b6e017df937c9f56688d355664f9dd7acdf688c8933bda','bd52dca3-d71c-41ab-a86e-8a83e4fa1b33');
+            window['gsclient'] = gsclient;
+
+
+            var DEFAULT_LOCATION_ID = "39a7d783-3873-4b2f-915b-4c86c28344e5";
+            var currentLinks = {};
+            var currentKey = '';
+            
+            /**
+             * Debug and Dump Response
+             * @returns {Function}
+             */
+            var dumpResponse = function (_name,_key ) {
+                var name = _name;
+                
+                return function (_result) {
+                    console.group(name);
+                    console.log('Status' , _result.success);
+                    console.log('Result' , _result.result);
+                    console.log('Response' , _result.response);
+                    _result.links && console.log('Links' , _result.links);
+                    console.groupEnd();
+
+                    if (_key) {
+                        currentKey = _key;
+                        buildHtmlTable(_.toArray( _result.result[_key] ),'#table');
+
+                        $('#headline').html( name );
+
+                        jQuery('#links').html('');
+                        if (_result.links) {
+                            currentLinks = _result.links;
+                            var btns = '<div class="btn-group" role="group" aria-label="...">';
+                            for( var key in currentLinks ){
+                                btns += '<a class="btn btn-default" data-mode="'+ key +'">'+ key +'</a>';
+                            }
+                            jQuery('#links').html(btns+'</div>');
+
+                        }
+                        
+                        
+                        $('#info').html('Zeige '+ _result.result._meta.count +' von '+ _result.result._meta.total +'. Seite: ' + (_result.result._meta.page + 1) + ' von ' + ( Math.ceil( _result.result._meta.total / _result.result._meta.limit ) ) + '');
+                    } else {
+                        jQuery('#links').html('');
+                        jQuery('#table').html('');
+                        jQuery('#headline').html('');
+                        jQuery('#info').html('');
+                    }
+                                        
+                    
+                    if ( _result.response.request['method'] == 'POST' || _result.response.request['method'] == 'PATCH' ) {
+                        watch(_result);
+                    }
+                    
+                }
+            };
+            
+            
+            
+
+            // Builds the HTML Table out of myList.
+            function buildHtmlTable(myList,selector) {
+                $(selector).html('');
+                var columns = addAllColumnHeaders(myList, selector);
+
+                for (var i = 0; i < myList.length; i++) {
+                    var row$ = $('<tr/>');
+                    for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                        var cellValue = myList[i][columns[colIndex]];
+                        if (cellValue == null) cellValue = "";
+                        row$.append($('<td/>').html(cellValue));
+                    }
+                    $(selector).append(row$);
+                }
+            }
+
+            // Adds a header row to the table and returns the set of columns.
+            // Need to do union of keys from all records as some records may not contain
+            // all records.
+            function addAllColumnHeaders(myList, selector) {
+                var columnSet = [];
+                var headerTr$ = $('<tr/>');
+
+                for (var i = 0; i < myList.length; i++) {
+                    var rowHash = myList[i];
+                    for (var key in rowHash) {
+                        if ($.inArray( key , columnSet) == -1) {
+                            columnSet.push( key );
+                            headerTr$.append($('<th/>').html( key ));
+                        }
+                    }
+                }
+                $(selector).append(headerTr$);
+
+                return columnSet;
+            }
+            
+            
+            var watch = function(_result){
+                gsclient.watchRequest( _result.response.headers['x-request-id'] ).then(function(){
+                    console.log('Job Done :' + _result.response.headers['x-request-id']);
+                });
+            };
+            
+            
+            jQuery(document).ready(function(){
+
+                jQuery('body').on('click','#links a',function(e){
+                    var $self = $(e.currentTarget);   
+                    if ( _.isFunction(currentLinks[$self.data('mode')]) ){
+                        currentLinks[$self.data('mode')]().then( dumpResponse('Link: ' + $self.data('mode') , currentKey ) );
+                    }
+                    
+                });
+
+                gsclient.Server.setDefaults({
+                    "limit" : 2
+                });
+                
+                
+                $('#list-server').on('click',function(){
+                    gsclient.Server.list().then(dumpResponse('Server-List','servers'));
+                });
+
+                $('#list-server-paging').on('click',function(){
+                    gsclient.Server.list({
+                        page    : 0,
+                        limit   : 4,
+                        fields  : ['name'],
+                        sort    : ['-name'],
+                        filter  : ['name=xx']
+                    }).then(dumpResponse('Server-List','servers'));
+                });
+                
+                $('#get-server').on('click',function(){
+                    gsclient.Server.get("c8202d2f-f424-4fcd-b131-7db7b04d504e").then( dumpResponse('Server-Get') );
+                });
+                
+                $('#delete-server').on('click',function(){
+                    gsclient.Server.remove(  $('.server-uuid').val() ).then( dumpResponse('Delete-Server') );
+                });
+                
+                $('#start-server').on('click',function(){
+                    gsclient.Server.power(  $('.server-uuid').val() , true ).then( function(e){watch(e)} );
+                });
+                
+                $('#stop-server').on('click',function(){
+                    gsclient.Server.power(  $('.server-uuid').val() , false ).then( function(e){watch(e)} );
+                });
+                
+                $('#events-server').on('click',function(){
+                    gsclient.Server.events( $('.server-uuid').val() ).then( dumpResponse('Events-Server') );
+                });
+                
+                $('#ips-server').on('click',function(){
+                    gsclient.Server.ips( $('.server-uuid').val() ).then( dumpResponse('IPs-Server') );
+                });
+                
+                $('#pool').on('click',function(){
+                    gsclient.pooling( $('.req-uuid').val() ).then( dumpResponse('Pooling') );
+                });
+
+                $('#create-server').on('click',function(){
+                    gsclient.Server.create( {
+                        "name" : $('.server-name').val(),
+                        "cores" : 1,
+                        "memory" : 1,
+                        "location_uuid" : DEFAULT_LOCATION_ID
+                    } ).then( dumpResponse('Create Server') );
+                });
+
+
+
+                $('#create-storage').on('click',function(){
+                    gsclient.Storage.create( {
+                        "name" : $('.storage-name').val(),
+                        "capacity" : 1,
+                        "location_uuid" : DEFAULT_LOCATION_ID
+                    } ).then( dumpResponse('Create Storage') );
+                });
+
+
+                $('#list-storage').on('click',function(){
+                    gsclient.Storage.list().then(dumpResponse('Storage-List','storages'));
+                });
+
+                $('#list-storage-paging').on('click',function(){
+                    gsclient.Storage.list({
+                        page: 0,
+                        limit: 4,
+                        fields: ['name'],
+                        sort: ['-name'],
+                        filter: ['name=xx']
+                    }).then(dumpResponse('Storage-List','storages'));
+                });
+                
+                
+            });
+            
+            
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <h1>gridscale API</h1>
+                    <h3>Server</h3>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"><a id="list-server">List Servers</a></li>
+                        <li role="presentation"><a id="list-server-paging">List Servers (Paging)</a></li>
+                        <li role="presentation"><a id="get-server">Get Server ("c8202d2f-f424-4fcd-b131-7db7b04d504e")</a></li>
+                    </ul>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            
+                            <div class="input-group">                                
+                                <input type="text" class="form-control server-name" placeholder="Name">                                
+                            </div>
+                        </div>
+                        <a id="create-server" class="btn btn-primary">Server erstellen</a>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control server-uuid" placeholder="Name">
+                            </div>
+                        </div>
+                        <a id="delete-server" class="btn btn-primary">Löschen</a>
+                        <a id="start-server" class="btn btn-primary">Start</a>
+                        <a id="stop-server" class="btn btn-primary">Stop</a>
+                        <a id="events-server" class="btn btn-primary">Events</a>
+                        <a id="ips-server" class="btn btn-primary">IPs</a>
+                    </div>
+                    
+
+                    <h3>Storages</h3>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation"><a id="list-storage">List Storages</a></li>
+                        <li role="presentation"><a id="list-storage-paging">List Storages (Paging)</a></li>
+                    </ul>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control storage-name" placeholder="Name">
+                            </div>
+                        </div>
+                        <a id="create-storage" class="btn btn-primary">Storage erstellen</a>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control req-uuid"  placeholder="Name">
+                            </div>
+                        </div>
+                        <a id="pool" class="btn btn-primary">Pool</a>
+                    </div>
+                    
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <h1>&nbsp;</h1>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="headline">Request Preview</div>
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <tbody id="table">
+    
+                                </tbody>
+                            </table>                        
+                        </div>
+                        <div class="panel-footer clearfix">
+                            <div class="pull-left" id="links"></div>
+                            <div class="pull-right" id="info"></div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </body>    
+</html>
