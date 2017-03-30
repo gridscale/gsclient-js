@@ -74,7 +74,6 @@ client.Server.relateIsoimage( uuid , isoimage_uuid [, callback ] )
 client.Server.detachIsoimage( uuid , isoimage_uuid [, callback ] )
 
 ## Storage
-
 client.Storage.list( [ requestoptions , callback ] )  
 client.Storage.get( uuid [, callback ] )  
 client.Storage.remove( uuid [, callback ] )  
@@ -93,8 +92,49 @@ client.Storage.patchSnapshotScheduler( uuid , snapshot_scheduler_uuid, attribute
 client.Storage.relateSnapshotScheduler( uuid , snapshot_scheduler_uuid [, callback ] )  
 client.Storage.detachSnapshotScheduler( uuid , snapshot_scheduler_uuid [, callback ] )
 
+## Network
+client.Network.list( [ requestoptions , callback ] )  
+client.Network.get( uuid [, callback ] )  
+client.Network.remove( uuid [, callback ] )  
+client.Network.create( attribute [, callback ] )  
+client.Network.patch( uuid , attribute [, callback ] )   
+client.Network.events( uuid [, requestoptions , callback ] ) 
 
+## Location
+client.Location.list( [ requestoptions , callback ] )  
+client.Location.get( uuid [, callback ] )  
 
+## IP
+client.IP.list( [ requestoptions , callback ] )  
+client.IP.get( uuid [, callback ] )  
+client.IP.remove( uuid [, callback ] )  
+client.IP.create( attribute [, callback ] )  
+client.IP.patch( uuid , attribute [, callback ] )   
+client.IP.events( uuid [, requestoptions , callback ] ) 
+
+## ISOImage
+client.ISOImage.list( [ requestoptions , callback ] )  
+client.ISOImage.get( uuid [, callback ] )  
+client.ISOImage.remove( uuid [, callback ] )  
+client.ISOImage.create( attribute [, callback ] )  
+client.IsoImage.patch( uuid , attribute [, callback ] )   
+client.ISOImage.events( uuid [, requestoptions , callback ] ) 
+
+## Template
+client.Template.list( [ requestoptions , callback ] )  
+client.Template.get( uuid [, callback ] )  
+client.Template.remove( uuid [, callback ] )  
+client.Template.create( attribute [, callback ] )  
+client.Template.patch( uuid , attribute [, callback ] )   
+client.Template.events( uuid [, requestoptions , callback ] ) 
+
+## SSHKey
+client.SSHKey.list( [ requestoptions , callback ] )  
+client.SSHKey.get( uuid [, callback ] )  
+client.SSHKey.remove( uuid [, callback ] )  
+client.SSHKey.create( attribute [, callback ] )  
+client.SSHKey.patch( uuid , attribute [, callback ] )   
+client.SSHKey.events( uuid [, requestoptions , callback ] ) 
 
 
 ## Examples
