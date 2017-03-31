@@ -44,11 +44,12 @@ var requestoptions = {
     
     filter : [name=toller_name,capacity<=30,label=adsf]
 }
-        
+
 client.Server.setDefaults( requestoptions );
 ```
 You can also Use the Options in a Single request to Filter you Objects    
- ```js   
+
+```js
 client.Server.list({
     page: 0,
     limit : 10,        
