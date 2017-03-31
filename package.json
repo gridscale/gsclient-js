@@ -1,6 +1,6 @@
 {
   "name": "@gridscale/api",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "gridscale API Wrapper",
   "main": "./lib/gridscale.js",
   "scripts": {
