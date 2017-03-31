@@ -33,9 +33,7 @@ export class GridscaleObjects {
      */
     public setDefaults( _options ) {
         
-        console.log('Update Defaults' , _options );
-        
-        _.assignIn( this._defaults , _options );
+         _.assignIn( this._defaults , _options );
     }
     
     

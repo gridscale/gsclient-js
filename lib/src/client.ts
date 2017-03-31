@@ -10,7 +10,7 @@
     var SSHKey = require('./Objects/SSHKey').SSHKey;
     var Template = require('./Objects/Template').Template;
     var Location = require('./Objects/Location').Location;
-    var ObjectStorage = require('./Objects/ObjectStorage').Location;
+    var ObjectStorage = require('./Objects/ObjectStorage').ObjectStorage;
 
 
     /**

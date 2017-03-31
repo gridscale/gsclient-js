@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f6a924b-3c8c-467f-aaf7-57856fbfd8b6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/npm-debug.log" afterPath="$PROJECT_DIR$/npm-debug.log" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/npm-debug.log" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/dev/gridscale.js" afterPath="$PROJECT_DIR$/dist/dev/gridscale.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/dev/web.js" afterPath="$PROJECT_DIR$/dist/dev/web.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/Objects/GridscaleObjects.ts" afterPath="$PROJECT_DIR$/lib/src/Objects/GridscaleObjects.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/api.ts" afterPath="$PROJECT_DIR$/lib/src/api.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/client.ts" afterPath="$PROJECT_DIR$/lib/src/client.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />

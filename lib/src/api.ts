@@ -24,15 +24,16 @@ class GSError extends Error {
     var settings = {
         endpoint: 'https://apidev.gridscale.io',
         token: '',
-        userId: ''
+        userId: '',
+        limit: 50,
+        watchdelay: 50
     };
 
     /**
      * Store Token for Current Session
      * @param _token Secret Token
      */
-    var storeToken = (_token,_userId) => {
-        
+    var storeToken = (_token,_userId) => {        
         // Store Token
         settings.token = _token;
         settings.userId = _userId;
@@ -122,6 +123,13 @@ class GSError extends Error {
                         links[linkname] = link( parsedResult._links[linkname] );
                     }
                     result.links = links;                    
+                }
+
+                /**
+                 * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
+                 */
+                if ( result.response.request['method'] == 'POST' || result.response.request['method'] == 'PATCH' || result.response.request['method'] == 'DELETE' ) {
+                   result.watch = () => watchRequest( result.response.headers['x-request-id'] );
                 }
                 
                 _resolve( result );
@@ -275,7 +283,11 @@ class GSError extends Error {
             
             // Check Request Status to Decide if we start again
             if (_result.response.statusCode == 202) {
-                buildAndStartRequestCallback(_requestid , _resolve, _reject);
+                
+                setTimeout(()=>{
+                    buildAndStartRequestCallback(_requestid , _resolve, _reject);
+                }, settings.watchdelay );  
+                
             } else if ( _result.response.statusCode == 200 ) {
                 
                 // Job done
