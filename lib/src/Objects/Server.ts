@@ -57,7 +57,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    relateIp(_uuid,_ip_uuid,_callback?){
+    addIp(_uuid,_ip_uuid,_callback?){
         return this._sub_post('ips',_uuid,{"object_uuid":_ip_uuid},_callback);
     }
 
@@ -71,7 +71,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    detachIp(_uuid,_ip_uuid,_callback?){
+    removeIp(_uuid,_ip_uuid,_callback?){
         return this._sub_remove('ips',_uuid,_ip_uuid,_callback);
     }
 
@@ -129,7 +129,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    relateStorage(_uuid,_storage_uuid,_callback?){
+    addStorage(_uuid,_storage_uuid,_callback?){
         return this._sub_post('storages',_uuid,{"object_uuid":_storage_uuid},_callback);
     }
 
@@ -143,7 +143,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    detachStorage(_uuid,_storage_uuid,_callback?){
+    removeStorage(_uuid,_storage_uuid,_callback?){
         return this._sub_remove('storages',_uuid,_storage_uuid,_callback);
     }
 
@@ -202,7 +202,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    relateIsoimage(_uuid,_isoimage_uuid,_callback?){
+    addISOmage(_uuid,_isoimage_uuid,_callback?){
         return this._sub_post('isoimages',_uuid,{"object_uuid":_isoimage_uuid},_callback);
     }
 
@@ -216,7 +216,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    detachIsoimage(_uuid,_isoimage_uuid,_callback?){
+    removeIsoimage(_uuid,_isoimage_uuid,_callback?){
         return this._sub_remove('isoimages',_uuid,_isoimage_uuid,_callback);
     }
 
@@ -279,7 +279,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    relateNetwork(_uuid,_network_uuid,_callback?){
+    addNetwork(_uuid,_network_uuid,_callback?){
         return this._sub_post('networks',_uuid,{"object_uuid":_network_uuid},_callback);
     }
 
@@ -293,7 +293,7 @@ export class Server extends Gridscale.GridscaleObjects {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    detachNetwork(_uuid,_network_uuid, _callback?){
+    removeNetwork(_uuid,_network_uuid, _callback?){
         return this._sub_remove('networks', _uuid, _network_uuid, _callback);
     }
 

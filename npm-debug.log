@@ -2,15 +2,21 @@
 1 verbose cli [ '/usr/local/bin/node',
 1 verbose cli   '/usr/local/bin/npm',
 1 verbose cli   'version',
-1 verbose cli   'patch',
-1 verbose cli   '-m',
-1 verbose cli   'Add ObjectStorage' ]
+1 verbose cli   'patch' ]
 2 info using npm@4.0.5
 3 info using node@v7.3.0
 4 info git [ 'status', '--porcelain' ]
 5 verbose stack Error: Git working directory not clean.
+5 verbose stack A  .idea/gs_api_node.iml
+5 verbose stack A  .idea/misc.xml
+5 verbose stack A  .idea/modules.xml
+5 verbose stack A  .idea/vcs.xml
+5 verbose stack AM .idea/workspace.xml
 5 verbose stack M README.md
-5 verbose stack M lib/src/client.ts
+5 verbose stack M lib/src/Objects/IP.ts
+5 verbose stack M lib/src/Objects/ObjectStorage.ts
+5 verbose stack M lib/src/Objects/Server.ts
+5 verbose stack D npm-debug.log
 5 verbose stack     at /usr/local/lib/node_modules/npm/lib/version.js:247:19
 5 verbose stack     at /usr/local/lib/node_modules/npm/lib/utils/no-progress-while-running.js:21:8
 5 verbose stack     at ChildProcess.exithandler (child_process.js:202:7)
@@ -21,14 +27,22 @@
 5 verbose stack     at emitOne (events.js:96:13)
 5 verbose stack     at Socket.emit (events.js:188:7)
 5 verbose stack     at Pipe._handle.close [as _onclose] (net.js:501:12)
-6 verbose cwd /Users/marcdittmann/WebstormProjects/gs-panel-expert/gs_api_node
-7 error Darwin 16.3.0
-8 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "version" "patch" "-m" "Add ObjectStorage"
+6 verbose cwd /Users/marcdittmann/Workspace/WebStorm/gs-panel-expert/gs_api_node/gs_api_node
+7 error Darwin 16.4.0
+8 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "version" "patch"
 9 error node v7.3.0
 10 error npm  v4.0.5
 11 error Git working directory not clean.
+11 error A  .idea/gs_api_node.iml
+11 error A  .idea/misc.xml
+11 error A  .idea/modules.xml
+11 error A  .idea/vcs.xml
+11 error AM .idea/workspace.xml
 11 error M README.md
-11 error M lib/src/client.ts
+11 error M lib/src/Objects/IP.ts
+11 error M lib/src/Objects/ObjectStorage.ts
+11 error M lib/src/Objects/Server.ts
+11 error D npm-debug.log
 12 error If you need help, you may report this error at:
 12 error     <https://github.com/npm/npm/issues>
 13 verbose exit [ 1, true ]

@@ -4,7 +4,6 @@ export class ObjectStorage {
 
     // Naming
     public _api;
-    public _defaults;
 
 
     /**
@@ -17,47 +16,9 @@ export class ObjectStorage {
     constructor(_api){
         this._api = _api;
 
-        this._defaults = {
-            "page": 0,
-            "limit" : 25
-        }
+        
 
     }
-
-    /**
-     * Overwrite Default Settings for this Type
-     *
-     * @param _options
-     */
-    public setDefaults( _options ) {
-
-        _.assignIn( this._defaults , _options );
-    }
-
-
-
-    /**
-     * Add Local Options with Defaults
-     *
-     *
-     * @param _options
-     * @returns {any}
-     * @private
-     */
-    _buildRequestOptions (_options?) {
-
-        // Clone Defaults
-        var defaults = _.assignIn({},this._defaults);
-
-        // Add Options
-        if ( !_.isUndefined( _options ) && !_.isFunction( _options ) ) {
-            _.assignIn(defaults,_options);
-        }
-
-        // Return Default Values
-        return defaults;
-    }
-
 
     /**
      * List Access Keys
@@ -67,17 +28,9 @@ export class ObjectStorage {
      * @param _callback
      * @returns {any}
      */
-    accessKeys(_options?,_callback?){
+    accessKeys(_callback?){
 
-        // Get Defaults
-        var requestOptions = this._buildRequestOptions(_options);
-
-        // Set Callback
-        if ( _.isFunction( _options ) && _.isUndefined( _callback ) ) {
-            _callback = _options
-        }
-
-        return this._api.get( '/objectstorages/access_keys' , requestOptions ,_callback)
+        return this._api.get( '/objectstorages/access_keys',_callback)
 
     }
 
@@ -124,17 +77,8 @@ export class ObjectStorage {
      * @param _callback
      * @returns {any}
      */
-    buckets(_options?,_callback?){
-
-        // Get Defaults
-        var requestOptions = this._buildRequestOptions(_options);
-
-        // Set Callback
-        if ( _.isFunction( _options ) && _.isUndefined( _callback ) ) {
-            _callback = _options
-        }
-
-        return this._api.get( '/objectstorages/buckets' , requestOptions ,_callback)
+    buckets(_callback?){       
+        return this._api.get( '/objectstorages/buckets' ,_callback)
 
     }
 
