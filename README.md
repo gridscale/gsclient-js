@@ -8,9 +8,9 @@ General Description how this all works
 ### Install
 
 To install the Package, just type the following command
-
-    npm install @gridscale/api --save
-
+```js
+npm install @gridscale/api --save
+```
 ### Usage
 To work with the gridscale API you need an API-Token and User-UUID you can create and find in the API Section of the gridscale Interface.
  
