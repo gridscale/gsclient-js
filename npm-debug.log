@@ -1,124 +1,32 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'version',
+1 verbose cli   'patch',
+1 verbose cli   '-m',
+1 verbose cli   'Rename Endpoints' ]
 2 info using npm@4.0.5
 3 info using node@v7.3.0
-4 verbose publish [ '.' ]
-5 silly cache add args [ '.', null ]
-6 verbose cache add spec .
-7 silly cache add parsed spec Result {
-7 silly cache add   raw: '.',
-7 silly cache add   scope: null,
-7 silly cache add   escapedName: null,
-7 silly cache add   name: null,
-7 silly cache add   rawSpec: '.',
-7 silly cache add   spec: '/Users/marcdittmann/Workspace/WebStorm/gs-panel-expert/gs_api_node/gs_api_node',
-7 silly cache add   type: 'directory' }
-8 verbose addLocalDirectory /Users/marcdittmann/.npm/@gridscale/api/0.0.9/package.tgz not in flight; packing
-9 verbose correctMkdir /Users/marcdittmann/.npm correctMkdir not in flight; initializing
-10 info lifecycle @gridscale/api@0.0.9~prepublish: @gridscale/api@0.0.9
-11 silly lifecycle @gridscale/api@0.0.9~prepublish: no script for prepublish, continuing
-12 info lifecycle @gridscale/api@0.0.9~prepare: @gridscale/api@0.0.9
-13 silly lifecycle @gridscale/api@0.0.9~prepare: no script for prepare, continuing
-14 verbose tar pack [ '/Users/marcdittmann/.npm/@gridscale/api/0.0.9/package.tgz',
-14 verbose tar pack   '/Users/marcdittmann/Workspace/WebStorm/gs-panel-expert/gs_api_node/gs_api_node' ]
-15 verbose tarball /Users/marcdittmann/.npm/@gridscale/api/0.0.9/package.tgz
-16 verbose folder /Users/marcdittmann/Workspace/WebStorm/gs-panel-expert/gs_api_node/gs_api_node
-17 verbose addLocalTarball adding from inside cache /Users/marcdittmann/.npm/@gridscale/api/0.0.9/package.tgz
-18 verbose correctMkdir /Users/marcdittmann/.npm correctMkdir not in flight; initializing
-19 silly cache afterAdd @gridscale/api@0.0.9
-20 verbose afterAdd /Users/marcdittmann/.npm/@gridscale/api/0.0.9/package/package.json not in flight; writing
-21 verbose correctMkdir /Users/marcdittmann/.npm correctMkdir not in flight; initializing
-22 verbose afterAdd /Users/marcdittmann/.npm/@gridscale/api/0.0.9/package/package.json written
-23 silly publish { name: '@gridscale/api',
-23 silly publish   version: '0.0.9',
-23 silly publish   description: 'gridscale API Wrapper',
-23 silly publish   main: './lib/gridscale.js',
-23 silly publish   scripts:
-23 silly publish    { test: 'echo "Error: no test specified" && exit 1',
-23 silly publish      build: 'browserify lib/gridscale.ts -p [ tsify --noImplicitAny ] > dist/gridscale.js' },
-23 silly publish   author:
-23 silly publish    { name: 'Marc Dittmann',
-23 silly publish      email: 'marc@gridscale.io',
-23 silly publish      url: 'https://gridscale.io/' },
-23 silly publish   keywords: [ 'gridscale', 'api', 'cloud', 'server' ],
-23 silly publish   homepage: 'https://gridscale.io',
-23 silly publish   license: 'ISC',
-23 silly publish   dependencies: { bluebird: '^3.5.0', lodash: '^4.17.4', request: '^2.81.0' },
-23 silly publish   devDependencies:
-23 silly publish    { bluebird: '^3.5.0',
-23 silly publish      browserify: '^14.1.0',
-23 silly publish      grunt: '^1.0.1',
-23 silly publish      'grunt-browserify': '^5.0.0',
-23 silly publish      'grunt-contrib-clean': '^1.0.0',
-23 silly publish      'grunt-contrib-copy': '^1.0.0',
-23 silly publish      'grunt-contrib-watch': '^1.0.0',
-23 silly publish      tsify: '^3.0.1',
-23 silly publish      typescript: '^2.2.2' },
-23 silly publish   readme: '# Welcome to the gridscale API wrapper #\n\nGeneral Description how this all works\n\n\n## Getting Started\n\ninstall\n\nauth\n\ndefault options\n\nexamples\n\njump to\n\n\n\n\n## Options\nFor all List request you can assign different request options for Pagination and Filtering:\n\n    requestoptions = {\n        "page"  : 0,    // Index of Page\n        "limit" : 25,   // Number of Objects per page \n        "offset": 0     // Offset to start,\n        \n        "sort"  : [-name,+object_uuid], // Sort by fileds\n        \n        "fields" : [name,object_uuid,...], // Fields that should get included into the Response\n        \n        "filter" : [name=toller_name,capacity<=30,label=adsf]\n    }\n\n### Availible Filter Options: \n"=" String or Value comparison: exact match  \n"<>" String or Value comparison: does not match  \n"<" Value less than  \n">" Value greater than  \n"<=" Value less or equal  \n">=" Value greater or equal  \n\n\n## Function\nAll Functions will return a Promise\n\n### Server\nclient.Server.list( [ requestoptions , callback ] )  \nclient.Server.get( uuid [, callback ] )  \nclient.Server.remove( uuid [, callback ] )  \nclient.Server.create( attribute [, callback ] )  \nclient.Server.patch( uuid , attribute [, callback ] ) \nclient.Server.power( uuid , powerstate [, callback ] )   \nclient.Server.events( uuid [, requestoptions , callback ] )  \nclient.Server.ips( uuid , [, requestoptions , callback ] )  \nclient.Server.ip( uuid , ip_uuid  [, callback ] )  \nclient.Server.addIp( uuid , ip_uuid  [, callback ] )  \nclient.Server.removeIp( uuid , ip_uuid  [, callback ] )    \nclient.Server.networks( uuid , [, requestoptions , callback ] )  \nclient.Server.network( uuid , network_uuid [, callback ] )  \nclient.Server.patchNetwork( uuid , network_uuid, attribute [, callback ] )  \nclient.Server.addNetwork( uuid , network_uuid [, callback ] )  \nclient.Server.removeNetwork( uuid , network_uuid [, callback ] )  \nclient.Server.storages( uuid , [, requestoptions , callback ] )  \nclient.Server.storage( uuid , storage_uuid  [, callback ] )  \nclient.Server.patchStorage( uuid , storage_uuid, attribute  [, callback ] )  \nclient.Server.addStorage( uuid , storage_uuid [, callback ] )  \nclient.Server.removeStorage( uuid , storage_uuid [, callback ] )  \nclient.Server.isoimages( uuid , [, requestoptions , callback ] )  \nclient.Server.isoimage( uuid , isoimage_uuid  [, callback ] )  \nclient.Server.patchIsoimage( uuid , isoimage_uuid, attribute  [, callback ] )  \nclient.Server.addIsoimage( uuid , isoimage_uuid [, callback ] )  \nclient.Server.removeIsoimage( uuid , isoimage_uuid [, callback ] )\n\n## Storage\nclient.Storage.list( [ requestoptions , callback ] )  \nclient.Storage.get( uuid [, callback ] )  \nclient.Storage.remove( uuid [, callback ] )  \nclient.Storage.create( attribute [, callback ] )  \nclient.Storage.patch( uuid , attribute [, callback ] )   \nclient.Storage.events( uuid [, requestoptions , callback ] ) \nclient.Storage.snapshots( uuid , [, requestoptions , callback ] )  \nclient.Storage.snapshot( uuid , snapshot_uuid  [, callback ] )  \nclient.Storage.patchSnapshot( uuid , snapshot_uuid, attribute  [, callback ] )  \nclient.Storage.rollbackSnapshot( uuid , snapshot_uuid [, callback ] )  \nclient.Storage.createSnapshot( uuid , snapshot_uuid [, callback ] )  \nclient.Storage.removeSnapshot( uuid , snapshot_uuid [, callback ] ) \nclient.Storage.snapshotSchedulers( uuid , [, requestoptions , callback ] )  \nclient.Storage.snapshotScheduler( uuid , snapshot_scheduler_uuid  [, callback ] )  \nclient.Storage.patchSnapshotScheduler( uuid , snapshot_scheduler_uuid, attribute  [, callback ] )  \nclient.Storage.createSnapshotScheduler( uuid , snapshot_scheduler_uuid [, callback ] )  \nclient.Storage.removeSnapshotScheduler( uuid , snapshot_scheduler_uuid [, callback ] )\n\n## Network\nclient.Network.list( [ requestoptions , callback ] )  \nclient.Network.get( uuid [, callback ] )  \nclient.Network.remove( uuid [, callback ] )  \nclient.Network.create( attribute [, callback ] )  \nclient.Network.patch( uuid , attribute [, callback ] )   \nclient.Network.events( uuid [, requestoptions , callback ] ) \n\n## Location\nclient.Location.list( [ requestoptions , callback ] )  \nclient.Location.get( uuid [, callback ] )  \n\n## IP\nclient.IP.list( [ callback ] )  \nclient.IP.get( uuid [, callback ] )  \nclient.IP.remove( uuid [, callback ] )  \nclient.IP.create( attribute [, callback ] )  \nclient.IP.patch( uuid , attribute [, callback ] )   \nclient.IP.events( uuid [requestoptions , callback ] ) \n\n## ISOImage\nclient.ISOImage.list( [ requestoptions , callback ] )  \nclient.ISOImage.get( uuid [, callback ] )  \nclient.ISOImage.remove( uuid [, callback ] )  \nclient.ISOImage.create( attribute [, callback ] )  \nclient.IsoImage.patch( uuid , attribute [, callback ] )   \nclient.ISOImage.events( uuid [, requestoptions , callback ] ) \n\n## Template\nclient.Template.list( [ requestoptions , callback ] )  \nclient.Template.get( uuid [, callback ] )  \nclient.Template.remove( uuid [, callback ] )  \nclient.Template.create( attribute [, callback ] )  \nclient.Template.patch( uuid , attribute [, callback ] )   \nclient.Template.events( uuid [, requestoptions , callback ] ) \n\n## SSHKey\nclient.SSHKey.list( [ requestoptions , callback ] )  \nclient.SSHKey.get( uuid [, callback ] )  \nclient.SSHKey.remove( uuid [, callback ] )  \nclient.SSHKey.create( attribute [, callback ] )  \nclient.SSHKey.patch( uuid , attribute [, callback ] )   \nclient.SSHKey.events( uuid [, requestoptions , callback ] ) \n\n## ObjectStorage\nclient.ObjectStorage.accessKeys( [ callback ] )  \nclient.ObjectStorage.accessKey( access_key [, callback ] )  \nclient.ObjectStorage.createAccessKey([ callback ] )  \nclient.ObjectStorage.removeAccessKey( access [, callback ] )  \nclient.ObjectStorage.buckets( [ callback ] )   \nclient.ObjectStorage.bucket( bucket_name [ , callback ] ) \n\n\n## Examples\n\n*List Server*\n\n    // Request Objects\n    client.Server.list().then(function( result:Object ){\n        result.sucess      = Boolean Value. False = there was an Error\n        result.result      = JS Object of Repsonse\n        result.response    = Full Repsonse \n        result.links       = Links for current Request. You can directly call them with an optional callback. (first,last,next,prev,self)\n    });\n      \n    // Limit Result Object\n    client.Server.list({\n        page: x, // Index of Page \n        page-size|limit : x, // Elements per Page\n        offset: x, // Number of Items that will be Skipped,\n        \n        sort: ["xxx","xxx"], // one or multiple sort rules example: -name,memory,\n        \n        fields: ["xx"...] // filds that shoud get included into call\n        \n        filter: ["capacity>15","label<>adsf"]\n    }).then(_callback);\n      \n    // Set Defaults\n    client.Server.defaults({\n        page-size|limit : x, // Elements per Page\n    \n        sort: ["xxx","xxx"], // one or multiple sort rules example: -name,memory,\n        \n        fields: ["xx"...] // filds that shoud get included into call\n            \n        filter: ["capacity>15","label<>adsf"]\n    });\n\n\n\n',
-23 silly publish   readmeFilename: 'README.md',
-23 silly publish   gitHead: 'c1e421538f42cce20657709eee9baa6b634044ad',
-23 silly publish   _id: '@gridscale/api@0.0.9',
-23 silly publish   _shasum: '038d623d7e413bc6ed60b55e04082d1cc4a9f978',
-23 silly publish   _from: '.' }
-24 info lifecycle @gridscale/api@0.0.9~prepublishOnly: @gridscale/api@0.0.9
-25 silly lifecycle @gridscale/api@0.0.9~prepublishOnly: no script for prepublishOnly, continuing
-26 verbose getPublishConfig undefined
-27 silly mapToRegistry name @gridscale/api
-28 silly mapToRegistry scope (from package name) @gridscale
-29 verbose mapToRegistry no registry URL found in name for scope @gridscale
-30 silly mapToRegistry using default registry
-31 silly mapToRegistry registry https://registry.npmjs.org/
-32 silly mapToRegistry data Result {
-32 silly mapToRegistry   raw: '@gridscale/api',
-32 silly mapToRegistry   scope: '@gridscale',
-32 silly mapToRegistry   escapedName: '@gridscale%2fapi',
-32 silly mapToRegistry   name: '@gridscale/api',
-32 silly mapToRegistry   rawSpec: '',
-32 silly mapToRegistry   spec: 'latest',
-32 silly mapToRegistry   type: 'tag' }
-33 silly mapToRegistry uri https://registry.npmjs.org/@gridscale%2fapi
-34 verbose publish registryBase https://registry.npmjs.org/
-35 silly publish uploading /Users/marcdittmann/.npm/@gridscale/api/0.0.9/package.tgz
-36 verbose request uri https://registry.npmjs.org/@gridscale%2fapi
-37 verbose request sending authorization for write operation
-38 info attempt registry request try #1 at 10:46:59 AM
-39 verbose request using bearer token for auth
-40 verbose request id f634eed2cdee97a2
-41 http request PUT https://registry.npmjs.org/@gridscale%2fapi
-42 http 403 https://registry.npmjs.org/@gridscale%2fapi
-43 verbose headers { 'content-type': 'application/json',
-43 verbose headers   'cache-control': 'max-age=0',
-43 verbose headers   'content-length': '95',
-43 verbose headers   'accept-ranges': 'bytes',
-43 verbose headers   date: 'Fri, 31 Mar 2017 08:47:11 GMT',
-43 verbose headers   via: '1.1 varnish',
-43 verbose headers   connection: 'keep-alive',
-43 verbose headers   'x-served-by': 'cache-hhn1525-HHN',
-43 verbose headers   'x-cache': 'MISS',
-43 verbose headers   'x-cache-hits': '0',
-43 verbose headers   'x-timer': 'S1490950019.590527,VS0,VE11966' }
-44 verbose request invalidating /Users/marcdittmann/.npm/registry.npmjs.org/_40gridscale_252fapi on PUT
-45 error publish Failed PUT 403
-46 verbose stack Error: "You cannot publish over the previously published version 0.0.9." : @gridscale/api
-46 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:302:12)
-46 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:290:14)
-46 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:210:14)
-46 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:186:22)
-46 verbose stack     at emitTwo (events.js:106:13)
-46 verbose stack     at Request.emit (events.js:191:7)
-46 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1081:10)
-46 verbose stack     at emitOne (events.js:96:13)
-46 verbose stack     at Request.emit (events.js:188:7)
-46 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1001:12)
-47 verbose statusCode 403
-48 verbose pkgid @gridscale/api
-49 verbose cwd /Users/marcdittmann/Workspace/WebStorm/gs-panel-expert/gs_api_node/gs_api_node
-50 error Darwin 16.4.0
-51 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
-52 error node v7.3.0
-53 error npm  v4.0.5
-54 error code E403
-55 error "You cannot publish over the previously published version 0.0.9." : @gridscale/api
-56 error If you need help, you may report this error at:
-56 error     <https://github.com/npm/npm/issues>
-57 verbose exit [ 1, true ]
+4 info git [ 'status', '--porcelain' ]
+5 verbose stack Error: Git working directory not clean.
+5 verbose stack D npm-debug.log
+5 verbose stack     at /usr/local/lib/node_modules/npm/lib/version.js:247:19
+5 verbose stack     at /usr/local/lib/node_modules/npm/lib/utils/no-progress-while-running.js:21:8
+5 verbose stack     at ChildProcess.exithandler (child_process.js:202:7)
+5 verbose stack     at emitTwo (events.js:106:13)
+5 verbose stack     at ChildProcess.emit (events.js:191:7)
+5 verbose stack     at maybeClose (internal/child_process.js:885:16)
+5 verbose stack     at Socket.<anonymous> (internal/child_process.js:334:11)
+5 verbose stack     at emitOne (events.js:96:13)
+5 verbose stack     at Socket.emit (events.js:188:7)
+5 verbose stack     at Pipe._handle.close [as _onclose] (net.js:501:12)
+6 verbose cwd /Users/marcdittmann/Workspace/WebStorm/gs-panel-expert/gs_api_node/gs_api_node
+7 error Darwin 16.4.0
+8 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "version" "patch" "-m" "Rename Endpoints"
+9 error node v7.3.0
+10 error npm  v4.0.5
+11 error Git working directory not clean.
+11 error D npm-debug.log
+12 error If you need help, you may report this error at:
+12 error     <https://github.com/npm/npm/issues>
+13 verbose exit [ 1, true ]
