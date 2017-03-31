@@ -75,14 +75,15 @@ Here you find an overview of the Filter Options you have when using the Filter.
 
 #### Callback Function and Promises
 All Requests and Actions for the Objects return a Promise. You are also to use a Callback Style for each Action as Listed below. Both Promise and Callback use the same Result Object that get passed to the Function
-
-    client.Server.list().then(function( result:Object ){
-        result.success     = Boolean Value. False = there was an Error
-        result.result      = JS Object of Repsonse. If you use the Pagination ther will be a _meta and a _links Object included
-        result.response    = Full Repsonse Object including Headers
-        result.links       = Links for current Request. You can directly call them with an optional callback. (first,last,next,prev,self)
-        result.watch       = Function that returns a Promise for the current Job. 
-    });
+```js
+client.Server.list().then(function( result ){
+    result.success;     // Boolean Value. False = there was an Error
+    result.result;      // JS Object of Repsonse. If you use the Pagination ther will be a _meta and a _links Object included
+    result.response;    // Full Repsonse Object including Headers
+    result.links;       // Links for current Request. You can directly call them with an optional callback. (first,last,next,prev,self)
+    result.watch;       // Function that returns a Promise for the current Job. 
+});
+```
 The Links are only given in Responses where a List is Returned.  
 The watch Function is also only available on PATCH, POST or DELETE Calls. So when you are creating or changing an Object.
  
