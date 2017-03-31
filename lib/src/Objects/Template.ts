@@ -1,13 +1,15 @@
 
 
-import Gridscale = require('./GridscaleObjects');
+import {GridscaleObjects} from './GridscaleObjects';
 
 
-export class Template extends Gridscale.GridscaleObjects {
+class Template extends GridscaleObjects {
 
     constructor(_api) { super(_api,'/objects/templates'); }
 
 }
 
+
+export { Template }
    
 

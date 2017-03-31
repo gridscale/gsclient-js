@@ -1,6 +1,6 @@
 var _ = require( 'lodash' );
 
-export class Location {
+class Location {
 
     // Naming
     public _api;
@@ -98,3 +98,5 @@ export class Location {
     }
 
 }
+
+export { Location }

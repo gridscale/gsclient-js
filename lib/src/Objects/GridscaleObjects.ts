@@ -1,6 +1,6 @@
 var _ = require( 'lodash' );
 
-export class GridscaleObjects {
+class GridscaleObjects {
 
     // Naming
     public _api;
@@ -229,10 +229,6 @@ export class GridscaleObjects {
     events(_uuid,_options?,_callback?){
         return this._sub('events',_uuid,_options,_callback);
     }
-
-    
-    
-    
-    
-
 }
+
+export {GridscaleObjects}

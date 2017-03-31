@@ -1,6 +1,6 @@
 var _ = require( 'lodash' );
 
-export class ObjectStorage {
+class ObjectStorage {
 
     // Naming
     public _api;
@@ -95,3 +95,5 @@ export class ObjectStorage {
     }
 
 }
+
+export { ObjectStorage }

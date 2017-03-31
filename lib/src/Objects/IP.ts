@@ -1,9 +1,9 @@
 
 
-import Gridscale = require('./GridscaleObjects');
+import {GridscaleObjects} from './GridscaleObjects';
 
 
-export class IP extends Gridscale.GridscaleObjects {
+class IP extends GridscaleObjects {
 
     constructor(_api) { super(_api,'/objects/ips'); }
 
@@ -21,6 +21,8 @@ export class IP extends Gridscale.GridscaleObjects {
     }
 
 }
+
+export {IP}
 
    
 

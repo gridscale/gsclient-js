@@ -1,9 +1,9 @@
 
 
-import Gridscale = require('./GridscaleObjects');
+import {GridscaleObjects} from './GridscaleObjects';
 
 
-export class Server extends Gridscale.GridscaleObjects {
+class Server extends GridscaleObjects {
 
     constructor(_api) { super(_api,'/objects/servers'); }
 
@@ -298,6 +298,9 @@ export class Server extends Gridscale.GridscaleObjects {
     }
 
 }
+
+
+export { Server };
 
    
 
