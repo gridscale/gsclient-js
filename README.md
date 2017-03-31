@@ -13,49 +13,50 @@ npm install @gridscale/api --save
 ```
 ### Usage
 To work with the gridscale API you need an API-Token and User-UUID you can create and find in the API Section of the gridscale Interface.
- 
-    var gridscale = require('@gridscale/api').Client;
-    var client = new gridscale.Client(TOKEN,User-UUID);
- 
+ ```js
+var gridscale = require('@gridscale/api').Client;
+var client = new gridscale.Client(TOKEN,User-UUID);
+```
  
 
 #### Options
 You can set new Default Settings for every Object type when creating the Client. The third parameter of the Constructor can be used for Options
 
-   
-    var client = new gridscale.Client(TOKEN,User-UUID, {
-            limit:25, // Default Page-Size for List Response
-            watchdelay: 100  // Delay between the single Requests when watching a Job(RequestID)
-        });
-
+```js
+var client = new gridscale.Client(TOKEN,User-UUID, {
+        limit:25, // Default Page-Size for List Response
+        watchdelay: 100  // Delay between the single Requests when watching a Job(RequestID)
+    });
+```
 
 For all single Object Types you can adjust different default Values for Pagination, Filtering, Sorting and what Fields should get included into List requests.  
 You can set the Options by calling the *setDefaults* Function for a Object
 
-
-    var requestoptions = {
-        page  : 0,    // Index of Page
-        limit : 25,   // Number of Objects per page 
-        offset: 0     // Offset to start,
-        
-        sort  : [-name,+object_uuid], // Sort by fileds
-        
-        fields : [name,object_uuid,...], // Fields that should get included into the Response
-        
-        filter : [name=toller_name,capacity<=30,label=adsf]
-    }
-            
-    client.Server.setDefaults( requestoptions );
+```js
+var requestoptions = {
+    page  : 0,    // Index of Page
+    limit : 25,   // Number of Objects per page 
+    offset: 0     // Offset to start,
     
+    sort  : [-name,+object_uuid], // Sort by fileds
+    
+    fields : [name,object_uuid,...], // Fields that should get included into the Response
+    
+    filter : [name=toller_name,capacity<=30,label=adsf]
+}
+        
+client.Server.setDefaults( requestoptions );
+```
 You can also Use the Options in a Single request to Filter you Objects    
-    
-    client.Server.list({
-        page: 0,
-        limit : 10,        
-        sort: "name",         
-        fields: ["name","object_uuid"]        
-        filter: ["memory>16"]
-    }).then(_callback);
+ ```js   
+client.Server.list({
+    page: 0,
+    limit : 10,        
+    sort: "name",         
+    fields: ["name","object_uuid"]        
+    filter: ["memory>16"]
+}).then(_callback);
+```
 In this Example the Result will be the first 10 Servers with more then 16GB of Memory. Sorted by name and only returning the Name and the Object_uuid.
 
 
@@ -87,17 +88,18 @@ The watch Function is also only available on PATCH, POST or DELETE Calls. So whe
  
 ##### Watching a Job
 The Watch-Function will start watching the Job your request just started. So if you created a large Storage. The Promise that get returns by the Watch-Function will get resolved if the Storage is ready to work with.
-
-    // Creating a new Storage with 1TB Size
-    client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-3873-4b2f-915b-4c86c28344e5"}).then(function(_result){
-        console.log('Storage with UUID: '+ _result.result.object_uuid +' is created');
-        
-        // Watching the Storage until it is ready to work with
-        _result.watch().then(function(){
-            console.log('Storage is ready to use!');
-        });
-        
+```js
+// Creating a new Storage with 1TB Size
+client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-3873-4b2f-915b-4c86c28344e5"}).then(function(_result){
+    console.log('Storage with UUID: '+ _result.result.object_uuid +' is created');
+    
+    // Watching the Storage until it is ready to work with
+    _result.watch().then(function(){
+        console.log('Storage is ready to use!');
     });
+    
+});
+```
 
 
 ## All Ressources and Functions  
