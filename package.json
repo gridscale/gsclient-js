@@ -2,7 +2,7 @@
   "name": "@gridscale/api",
   "version": "0.0.17",
   "description": "gridscale API Wrapper",
-  "main": "./lib/gridscale.js",
+  "main": "./dist/dev/gridscale.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify lib/gridscale.ts -p [ tsify --noImplicitAny ] > dist/gridscale.js"
