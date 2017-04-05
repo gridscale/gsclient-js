@@ -1,12 +1,14 @@
 {
   "name": "@gridscale/api",
-  "version": "0.0.21",
+  "version": "0.0.27",
   "description": "gridscale API Wrapper",
-  "main": "./dist/prod/gridscale.js",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify lib/gridscale.ts -p [ tsify --noImplicitAny ] > dist/gridscale.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://gridscale.io",
+  "repository": "https://bitbucket.org/gridscale/gs_api_node",
   "author": "Marc Dittmann <marc@gridscale.io> (https://gridscale.io/)",
   "keywords": [
     "gridscale",
@@ -14,23 +16,26 @@
     "cloud",
     "server"
   ],
-  "homepage": "https://gridscale.io",
-  "repository": "https://bitbucket.org/gridscale/gs_api_node",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.61",
     "bluebird": "^3.5.0",
     "lodash": "^4.17.4",
     "request": "^2.81.0"
   },
   "devDependencies": {
-    "bluebird": "^3.5.0",
-    "browserify": "^14.1.0",
-    "grunt": "^1.0.1",
-    "grunt-browserify": "^5.0.0",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "tsify": "^3.0.1",
-    "typescript": "^2.2.2"
+    "chai": "^3.5.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^3.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-shell": "^0.5.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^6.1.1",
+    "gulp-typescript": "^2.13.6",
+    "merge2": "^1.0.2",
+    "tslint": "^3.15.1",
+    "tslint-microsoft-contrib": "^2.0.10",
+    "typescript": "^1.8.10"
   }
 }
