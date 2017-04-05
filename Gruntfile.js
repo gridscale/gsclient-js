@@ -15,7 +15,8 @@ module.exports = function (grunt) {
                 },
                 options: {
                     browserifyOptions: {
-                        debug: true
+                        debug: true,
+                        standalone: 'gridscale'
                     },
                     plugin : ['tsify']
                 }
@@ -27,7 +28,8 @@ module.exports = function (grunt) {
                 },
                 options: {
                     browserifyOptions: {
-                        debug: false
+                        debug: false,
+                        standalone: 'gridscale'
                     },
                     plugin : ['tsify']
                 }
