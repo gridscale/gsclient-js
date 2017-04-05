@@ -1,8 +1,9 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.gridscale = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /// <reference path="../typings/index.d.ts" />
-module.exports = {
-    Client: require('./src/client')
-};
+"use strict";
+exports.__esModule = true;
+var client_1 = require("./src/client");
+exports.Client = client_1.Client;
 
 },{"./src/client":13}],2:[function(require,module,exports){
 "use strict";
@@ -30,7 +31,6 @@ var GridscaleObjects = (function () {
      * @param _options
      */
     GridscaleObjects.prototype.setDefaults = function (_options) {
-        console.log('Update Defaults', _options);
         _.assignIn(this._defaults, _options);
     };
     /**
@@ -199,14 +199,25 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var Gridscale = require("./GridscaleObjects");
+var GridscaleObjects_1 = require("./GridscaleObjects");
 var IP = (function (_super) {
     __extends(IP, _super);
     function IP(_api) {
         return _super.call(this, _api, '/objects/ips') || this;
     }
+    /**
+     * List Objects
+     *
+     *
+     * @param _options
+     * @param _callback
+     * @returns {any}
+     */
+    IP.prototype.list = function (_callback) {
+        return this._api.get(this._basepath, _callback);
+    };
     return IP;
-}(Gridscale.GridscaleObjects));
+}(GridscaleObjects_1.GridscaleObjects));
 exports.IP = IP;
 
 },{"./GridscaleObjects":2}],4:[function(require,module,exports){
@@ -222,14 +233,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var Gridscale = require("./GridscaleObjects");
+var GridscaleObjects_1 = require("./GridscaleObjects");
 var ISOImage = (function (_super) {
     __extends(ISOImage, _super);
     function ISOImage(_api) {
         return _super.call(this, _api, '/objects/isoimages') || this;
     }
     return ISOImage;
-}(Gridscale.GridscaleObjects));
+}(GridscaleObjects_1.GridscaleObjects));
 exports.ISOImage = ISOImage;
 
 },{"./GridscaleObjects":2}],5:[function(require,module,exports){
@@ -322,14 +333,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var Gridscale = require("./GridscaleObjects");
+var GridscaleObjects_1 = require("./GridscaleObjects");
 var Network = (function (_super) {
     __extends(Network, _super);
     function Network(_api) {
         return _super.call(this, _api, '/objects/networks') || this;
     }
     return Network;
-}(Gridscale.GridscaleObjects));
+}(GridscaleObjects_1.GridscaleObjects));
 exports.Network = Network;
 
 },{"./GridscaleObjects":2}],7:[function(require,module,exports){
@@ -346,37 +357,7 @@ var ObjectStorage = (function () {
      */
     function ObjectStorage(_api) {
         this._api = _api;
-        this._defaults = {
-            "page": 0,
-            "limit": 25
-        };
     }
-    /**
-     * Overwrite Default Settings for this Type
-     *
-     * @param _options
-     */
-    ObjectStorage.prototype.setDefaults = function (_options) {
-        _.assignIn(this._defaults, _options);
-    };
-    /**
-     * Add Local Options with Defaults
-     *
-     *
-     * @param _options
-     * @returns {any}
-     * @private
-     */
-    ObjectStorage.prototype._buildRequestOptions = function (_options) {
-        // Clone Defaults
-        var defaults = _.assignIn({}, this._defaults);
-        // Add Options
-        if (!_.isUndefined(_options) && !_.isFunction(_options)) {
-            _.assignIn(defaults, _options);
-        }
-        // Return Default Values
-        return defaults;
-    };
     /**
      * List Access Keys
      *
@@ -385,14 +366,8 @@ var ObjectStorage = (function () {
      * @param _callback
      * @returns {any}
      */
-    ObjectStorage.prototype.accessKeys = function (_options, _callback) {
-        // Get Defaults
-        var requestOptions = this._buildRequestOptions(_options);
-        // Set Callback
-        if (_.isFunction(_options) && _.isUndefined(_callback)) {
-            _callback = _options;
-        }
-        return this._api.get('/objectstorages/access_keys', requestOptions, _callback);
+    ObjectStorage.prototype.accessKeys = function (_callback) {
+        return this._api.get('/objectstorages/access_keys', _callback);
     };
     /**
      * Get Single Object by UUID
@@ -429,14 +404,8 @@ var ObjectStorage = (function () {
      * @param _callback
      * @returns {any}
      */
-    ObjectStorage.prototype.buckets = function (_options, _callback) {
-        // Get Defaults
-        var requestOptions = this._buildRequestOptions(_options);
-        // Set Callback
-        if (_.isFunction(_options) && _.isUndefined(_callback)) {
-            _callback = _options;
-        }
-        return this._api.get('/objectstorages/buckets', requestOptions, _callback);
+    ObjectStorage.prototype.buckets = function (_callback) {
+        return this._api.get('/objectstorages/buckets', _callback);
     };
     /**
      * Get Single Object by UUID
@@ -464,14 +433,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var Gridscale = require("./GridscaleObjects");
+var GridscaleObjects_1 = require("./GridscaleObjects");
 var SSHKey = (function (_super) {
     __extends(SSHKey, _super);
     function SSHKey(_api) {
         return _super.call(this, _api, '/objects/sshkeys') || this;
     }
     return SSHKey;
-}(Gridscale.GridscaleObjects));
+}(GridscaleObjects_1.GridscaleObjects));
 exports.SSHKey = SSHKey;
 
 },{"./GridscaleObjects":2}],9:[function(require,module,exports){
@@ -487,7 +456,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var Gridscale = require("./GridscaleObjects");
+var GridscaleObjects_1 = require("./GridscaleObjects");
 var Server = (function (_super) {
     __extends(Server, _super);
     function Server(_api) {
@@ -536,7 +505,7 @@ var Server = (function (_super) {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    Server.prototype.relateIp = function (_uuid, _ip_uuid, _callback) {
+    Server.prototype.addIp = function (_uuid, _ip_uuid, _callback) {
         return this._sub_post('ips', _uuid, { "object_uuid": _ip_uuid }, _callback);
     };
     /**
@@ -548,7 +517,7 @@ var Server = (function (_super) {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    Server.prototype.detachIp = function (_uuid, _ip_uuid, _callback) {
+    Server.prototype.removeIp = function (_uuid, _ip_uuid, _callback) {
         return this._sub_remove('ips', _uuid, _ip_uuid, _callback);
     };
     /**
@@ -596,7 +565,7 @@ var Server = (function (_super) {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    Server.prototype.relateStorage = function (_uuid, _storage_uuid, _callback) {
+    Server.prototype.addStorage = function (_uuid, _storage_uuid, _callback) {
         return this._sub_post('storages', _uuid, { "object_uuid": _storage_uuid }, _callback);
     };
     /**
@@ -608,7 +577,7 @@ var Server = (function (_super) {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    Server.prototype.detachStorage = function (_uuid, _storage_uuid, _callback) {
+    Server.prototype.removeStorage = function (_uuid, _storage_uuid, _callback) {
         return this._sub_remove('storages', _uuid, _storage_uuid, _callback);
     };
     /**
@@ -656,7 +625,7 @@ var Server = (function (_super) {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    Server.prototype.relateIsoimage = function (_uuid, _isoimage_uuid, _callback) {
+    Server.prototype.addISOmage = function (_uuid, _isoimage_uuid, _callback) {
         return this._sub_post('isoimages', _uuid, { "object_uuid": _isoimage_uuid }, _callback);
     };
     /**
@@ -668,7 +637,7 @@ var Server = (function (_super) {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    Server.prototype.detachIsoimage = function (_uuid, _isoimage_uuid, _callback) {
+    Server.prototype.removeIsoimage = function (_uuid, _isoimage_uuid, _callback) {
         return this._sub_remove('isoimages', _uuid, _isoimage_uuid, _callback);
     };
     /**
@@ -721,7 +690,7 @@ var Server = (function (_super) {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    Server.prototype.relateNetwork = function (_uuid, _network_uuid, _callback) {
+    Server.prototype.addNetwork = function (_uuid, _network_uuid, _callback) {
         return this._sub_post('networks', _uuid, { "object_uuid": _network_uuid }, _callback);
     };
     /**
@@ -733,11 +702,11 @@ var Server = (function (_super) {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    Server.prototype.detachNetwork = function (_uuid, _network_uuid, _callback) {
+    Server.prototype.removeNetwork = function (_uuid, _network_uuid, _callback) {
         return this._sub_remove('networks', _uuid, _network_uuid, _callback);
     };
     return Server;
-}(Gridscale.GridscaleObjects));
+}(GridscaleObjects_1.GridscaleObjects));
 exports.Server = Server;
 
 },{"./GridscaleObjects":2}],10:[function(require,module,exports){
@@ -753,7 +722,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var Gridscale = require("./GridscaleObjects");
+var GridscaleObjects_1 = require("./GridscaleObjects");
 var Storage = (function (_super) {
     __extends(Storage, _super);
     function Storage(_api) {
@@ -899,7 +868,7 @@ var Storage = (function (_super) {
         return this._sub_remove('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
     };
     return Storage;
-}(Gridscale.GridscaleObjects));
+}(GridscaleObjects_1.GridscaleObjects));
 exports.Storage = Storage;
 
 },{"./GridscaleObjects":2}],11:[function(require,module,exports){
@@ -915,14 +884,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var Gridscale = require("./GridscaleObjects");
+var GridscaleObjects_1 = require("./GridscaleObjects");
 var Template = (function (_super) {
     __extends(Template, _super);
     function Template(_api) {
         return _super.call(this, _api, '/objects/templates') || this;
     }
     return Template;
-}(Gridscale.GridscaleObjects));
+}(GridscaleObjects_1.GridscaleObjects));
 exports.Template = Template;
 
 },{"./GridscaleObjects":2}],12:[function(require,module,exports){
@@ -957,7 +926,9 @@ var GSError = (function (_super) {
     var settings = {
         endpoint: 'https://apidev.gridscale.io',
         token: '',
-        userId: ''
+        userId: '',
+        limit: 50,
+        watchdelay: 50
     };
     /**
      * Store Token for Current Session
@@ -1037,6 +1008,12 @@ var GSError = (function (_super) {
                         links[linkname] = link(parsedResult._links[linkname]);
                     }
                     result.links = links;
+                }
+                /**
+                 * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
+                 */
+                if (result.response.request['method'] == 'POST' || result.response.request['method'] == 'PATCH' || result.response.request['method'] == 'DELETE') {
+                    result.watch = function () { return watchRequest(result.response.headers['x-request-id']); };
                 }
                 _resolve(result);
             }
@@ -1157,7 +1134,9 @@ var GSError = (function (_super) {
         requestpooling(_requestid).then(function (_result) {
             // Check Request Status to Decide if we start again
             if (_result.response.statusCode == 202) {
-                buildAndStartRequestCallback(_requestid, _resolve, _reject);
+                setTimeout(function () {
+                    buildAndStartRequestCallback(_requestid, _resolve, _reject);
+                }, settings.watchdelay);
             }
             else if (_result.response.statusCode == 200) {
                 // Job done
@@ -1203,55 +1182,52 @@ var GSError = (function (_super) {
 }).call(this);
 
 },{"bluebird":82,"lodash":222,"request":274}],13:[function(require,module,exports){
-(function () {
-    var api = require('./api');
-    var Server = require('./Objects/Server').Server;
-    var Storage = require('./Objects/Storage').Storage;
-    var Network = require('./Objects/Network').Network;
-    var IP = require('./Objects/IP').IP;
-    var ISOImage = require('./Objects/ISOImage').ISOImage;
-    var SSHKey = require('./Objects/SSHKey').SSHKey;
-    var Template = require('./Objects/Template').Template;
-    var Location = require('./Objects/Location').Location;
-    var ObjectStorage = require('./Objects/ObjectStorage').Location;
+"use strict";
+exports.__esModule = true;
+var api = require('./api');
+var Server_1 = require("./Objects/Server");
+var Storage_1 = require("./Objects/Storage");
+var Network_1 = require("./Objects/Network");
+var IP_1 = require("./Objects/IP");
+var ISOImage_1 = require("./Objects/ISOImage");
+var SSHKey_1 = require("./Objects/SSHKey");
+var Template_1 = require("./Objects/Template");
+var Location_1 = require("./Objects/Location");
+var ObjectStorage_1 = require("./Objects/ObjectStorage");
+/**
+ * generate Client Class for all Connections
+ */
+var GridscaleClient = (function () {
     /**
-     * generate Client Class for all Connections
+     * Init Client with Default Values
+     *
+     *
+     * @param _token Security Token
+     * @param _userId UUID of User
+     * @param _options
      */
-    var Client = (function () {
-        /**
-         * Init Client with Default Values
-         *
-         *
-         * @param _token Security Token
-         * @param _userId UUID of User
-         * @param _options
-         */
-        function Client(_token, _userId, _options) {
-            //TODO: Validate Token and UUID
-            if (_options === void 0) { _options = {}; }
-            // Store Security Tokens
-            api.storeToken(_token, _userId);
-            // Store advanced Options
-            api.setOptions(_options);
-            // Call Subtypes
-            this.Server = new Server(api);
-            this.Storage = new Storage(api);
-            this.Network = new Network(api);
-            this.IP = new IP(api);
-            this.ISOImage = new ISOImage(api);
-            this.SSHKey = new SSHKey(api);
-            this.Template = new Template(api);
-            this.Location = new Location(api);
-            this.ObjectStorage = new ObjectStorage(api);
-            this.watchRequest = api.watchRequest;
-        }
-        return Client;
-    }());
-    // Export Instance of Class (Singleton)
-    module.exports = function (_token, _userId, _options) {
-        return new Client(_token, _userId, _options);
-    };
-}).call(this);
+    function GridscaleClient(_token, _userId, _options) {
+        //TODO: Validate Token and UUID
+        if (_options === void 0) { _options = {}; }
+        // Store Security Tokens
+        api.storeToken(_token, _userId);
+        // Store advanced Options
+        api.setOptions(_options);
+        // Call Subtypes
+        this.Server = new Server_1.Server(api);
+        this.Storage = new Storage_1.Storage(api);
+        this.Network = new Network_1.Network(api);
+        this.IP = new IP_1.IP(api);
+        this.ISOImage = new ISOImage_1.ISOImage(api);
+        this.SSHKey = new SSHKey_1.SSHKey(api);
+        this.Template = new Template_1.Template(api);
+        this.Location = new Location_1.Location(api);
+        this.ObjectStorage = new ObjectStorage_1.ObjectStorage(api);
+        this.watchRequest = api.watchRequest;
+    }
+    return GridscaleClient;
+}());
+exports.Client = GridscaleClient;
 
 },{"./Objects/IP":3,"./Objects/ISOImage":4,"./Objects/Location":5,"./Objects/Network":6,"./Objects/ObjectStorage":7,"./Objects/SSHKey":8,"./Objects/Server":9,"./Objects/Storage":10,"./Objects/Template":11,"./api":12}],14:[function(require,module,exports){
 'use strict';

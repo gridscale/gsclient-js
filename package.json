@@ -1,8 +1,8 @@
 {
   "name": "@gridscale/api",
-  "version": "0.0.11",
+  "version": "0.0.18",
   "description": "gridscale API Wrapper",
-  "main": "./lib/gridscale.js",
+  "main": "./lib/gridscale",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify lib/gridscale.ts -p [ tsify --noImplicitAny ] > dist/gridscale.js"
@@ -15,6 +15,7 @@
     "server"
   ],
   "homepage": "https://gridscale.io",
+  "repository": "https://bitbucket.org/gridscale/gs_api_node",
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.0",

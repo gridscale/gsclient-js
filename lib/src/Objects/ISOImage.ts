@@ -1,13 +1,11 @@
 
 
-import Gridscale = require('./GridscaleObjects');
+import {GridscaleObjects} from './GridscaleObjects';
 
 
-export class ISOImage extends Gridscale.GridscaleObjects {
-
+class ISOImage extends GridscaleObjects {
     constructor(_api) { super(_api,'/objects/isoimages'); }
-
 }
 
-   
+ export { ISOImage }  
 

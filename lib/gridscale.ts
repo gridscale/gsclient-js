@@ -1,5 +1,3 @@
 /// <reference path="../typings/index.d.ts" />
 
-module.exports = {
-    Client: require('./src/client')
-};
+export { Client } from "./src/client"

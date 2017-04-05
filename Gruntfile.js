@@ -2,7 +2,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
 
         clean: {
-
             dev: ['dist/dev/'],
             prod: ['dist/prod']
         },

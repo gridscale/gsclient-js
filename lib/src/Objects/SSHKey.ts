@@ -1,13 +1,14 @@
 
 
-import Gridscale = require('./GridscaleObjects');
+import {GridscaleObjects} from './GridscaleObjects';
 
 
-export class SSHKey extends Gridscale.GridscaleObjects {
+class SSHKey extends GridscaleObjects {
 
     constructor(_api) { super(_api,'/objects/sshkeys'); }
 
 }
 
+export { SSHKey }
    
 
