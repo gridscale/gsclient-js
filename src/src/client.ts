@@ -5,12 +5,12 @@ var api = require('./api');
 import { Server } from './Objects/Server';
 import { Storage } from './Objects/Storage';
 import { Network } from './Objects/Network';
-import { IP } from './Objects/IP';    
-import { ISOImage } from './Objects/ISOImage';    
-import { SSHKey } from './Objects/SSHKey';    
-import { Template } from './Objects/Template';    
-import { Location } from './Objects/Location';    
-import { ObjectStorage } from './Objects/ObjectStorage';    
+import { IP } from './Objects/IP';
+import { ISOImage } from './Objects/ISOImage';
+import { SSHKey } from './Objects/SSHKey';
+import { Template } from './Objects/Template';
+import { Location } from './Objects/Location';
+import { ObjectStorage } from './Objects/ObjectStorage';
 
 /**
  * generate Client Class for all Connections
@@ -39,7 +39,6 @@ class GridscaleClient {
      * @param _options
      */
     constructor(_token, _userId, _options = {}) {
-        //TODO: Validate Token and UUID
 
         // Store Security Tokens
         api.storeToken(_token, _userId);
@@ -62,7 +61,10 @@ class GridscaleClient {
 
     }
 
-}
+    public setToken (_token, _userId) {
+      api.storeToken(_token, _userId);
+    }
 
+}
 
 export { GridscaleClient as Client }
