@@ -10,8 +10,8 @@ class Location {
 
     /**
      * Create Object Endpoint
-     * 
-     * 
+     *
+     *
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
@@ -22,26 +22,26 @@ class Location {
             "page": 0,
             "limit" : 25
         }
-        this._basepath = 'locations';
+        this._basepath = '/objects/locations';
 
     }
 
     /**
      * Overwrite Default Settings for this Type
-     * 
+     *
      * @param _options
      */
     public setDefaults( _options ) {
-        
+
         _.assignIn( this._defaults , _options );
     }
-    
-    
+
+
 
     /**
      * Add Local Options with Defaults
-     * 
-     * 
+     *
+     *
      * @param _options
      * @returns {any}
      * @private
@@ -63,8 +63,8 @@ class Location {
 
     /**
      * List Objects
-     * 
-     * 
+     *
+     *
      * @param _options
      * @param _callback
      * @returns {any}
@@ -84,8 +84,8 @@ class Location {
         return req
 
     }
-    
-    
+
+
 
     /**
      * Get Single Object by UUID
