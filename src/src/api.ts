@@ -144,6 +144,12 @@ class GSError extends Error {
                     response: _response
                 };
 
+                log({
+                  result: result,
+                  error: _error ,
+                  response:_response
+                });
+
                 _reject( new GSError('Request Error',result) );
 
             }
