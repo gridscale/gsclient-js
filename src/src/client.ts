@@ -65,6 +65,10 @@ class GridscaleClient {
       api.storeToken(_token, _userId);
     }
 
+    public addLogger ( _callback ) {
+      api.addLogger( _callback );
+    }
+
 }
 
 export { GridscaleClient as Client }

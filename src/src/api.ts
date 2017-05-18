@@ -82,6 +82,9 @@ class GSError extends Error {
         } );
 
 
+        // Catch all Errors and
+
+
         // Return DEF
         return def;
 
@@ -310,22 +313,24 @@ class GSError extends Error {
      */
     var watchRequest = ( _requestid ) => {
 
-        // var start = Date.now();
 
-        // console.log('Start Watching Request: ' + _requestid);
         // Setup DEF
         var def = new Promise( ( _resolve, _reject ) => buildAndStartRequestCallback(_requestid , _resolve, _reject) );
 
-        def.then((e)=>{
-
-        //     // console.log('Request Done: ' + _requestid );
-        //     // console.log('Request Duration: ' + ( Date.now() - start ) + 'ms');
-        },(e)=>{
-        //     // console.log('Request Failed: ' + _requestid , e );
-        });
-
         // Return DEF
         return def;
+    }
+
+
+    var callbacks = [];
+    var addLogger = (_callback) => {
+      callbacks.push(_callback);
+    }
+
+    var log = (_error) => {
+      for (var i = 0; i < callbacks.length; i++) {
+        callbacks[i](_error);
+      }
     }
 
 
@@ -338,7 +343,8 @@ class GSError extends Error {
         post:           post,
         patch:          patch,
         requestpooling: requestpooling,
-        watchRequest: watchRequest
+        watchRequest: watchRequest,
+        addLogger: addLogger
     }
 
 }).call(this);
