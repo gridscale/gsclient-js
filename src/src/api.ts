@@ -142,13 +142,14 @@ class GSError extends Error {
                 result = {
                     success: false,
                     response: _response,
-                    id: _.uniqueId('contact_' + (new Date()).getTime() +'_')
+                    id: _.uniqueId('contact_' + (new Date()).getTime() +'_');
                 };
 
                 log({
                   result: result,
                   error: _error ,
-                  response:_response
+                  response:_response,
+                  id: result.id
                 });
 
                 _reject( new GSError('Request Error',result) );
