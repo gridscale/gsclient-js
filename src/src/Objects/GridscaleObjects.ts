@@ -10,7 +10,7 @@ class GridscaleObjects {
 
     /**
      * Create Object Endpoint
-     * 
+     *
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
@@ -27,20 +27,20 @@ class GridscaleObjects {
 
     /**
      * Overwrite Default Settings for this Type
-     * 
+     *
      * @param _options
      */
     public setDefaults( _options ) {
-        
+
          _.assignIn( this._defaults , _options );
     }
-    
-    
+
+
 
     /**
      * Add Local Options with Defaults
-     * 
-     * 
+     *
+     *
      * @param _options
      * @returns {any}
      * @private
@@ -62,8 +62,8 @@ class GridscaleObjects {
 
     /**
      * List Objects
-     * 
-     * 
+     *
+     *
      * @param _options
      * @param _callback
      * @returns {any}
@@ -83,8 +83,8 @@ class GridscaleObjects {
         return req
 
     }
-    
-    
+
+
 
     /**
      * Get Single Object by UUID
@@ -95,10 +95,10 @@ class GridscaleObjects {
     get(_uuid,_callback?) {
         return this._api.get( this._basepath +'/' + _uuid,_callback);
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Get Single Object by UUID
      *
@@ -108,8 +108,8 @@ class GridscaleObjects {
     remove(_uuid,_callback?) {
         return this._api.remove( this._basepath +'/' + _uuid,_callback);
     }
-    
-    
+
+
 
     /**
      * Create object
@@ -120,8 +120,8 @@ class GridscaleObjects {
     create(_attributes,_callback?) {
         return this._api.post(  this._basepath , _attributes ,_callback);
     }
-    
-    
+
+
 
     /**
      * Patch object
@@ -135,7 +135,7 @@ class GridscaleObjects {
 
 
     /**
-     * Wrapper for Subtypes to save some lines of code 
+     * Wrapper for Subtypes to save some lines of code
      *
      * @param _uuid Object UUID
      * @param _callback Callback Function
@@ -152,13 +152,13 @@ class GridscaleObjects {
 
         return this._api.get( this._basepath +'/' + _uuid +'/' + _type , requestOptions ,_callback);
     }
-    
-    
-    
+
+
+
 
     /**
      * Get Single Sub Object by UUID
-     * 
+     *
      * @param _type
      * @param _uuid
      * @param _sub_uuid
@@ -168,13 +168,13 @@ class GridscaleObjects {
     _sub_get(_type,_uuid,_sub_uuid,_callback?) {
         return this._api.get( this._basepath +'/' + _uuid +'/' + _type + '/' + _sub_uuid ,_callback);
     }
-    
-    
-    
+
+
+
 
     /**
      * Post to Subtype ob Object
-     * 
+     *
      * @param _type
      * @param _uuid
      * @param _attributes
@@ -189,7 +189,7 @@ class GridscaleObjects {
 
     /**
      * Patch Subobject
-     * 
+     *
      * @param _type
      * @param _uuid
      * @param _sub_uuid
@@ -205,8 +205,8 @@ class GridscaleObjects {
 
     /**
      * Remove Sub Type from Object
-     * 
-     * 
+     *
+     *
      * @param _type
      * @param _uuid
      * @param _sub_uuid
@@ -218,10 +218,10 @@ class GridscaleObjects {
         return this._api.remove( this._basepath +'/' + _uuid +'/' + _type + '/' + _sub_uuid, _callback);
     }
 
-    
+
     /**
      *  Get Events for this Object
-     * 
+     *
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */

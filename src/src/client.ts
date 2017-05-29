@@ -11,7 +11,8 @@ import { SSHKey } from './Objects/SSHKey';
 import { Template } from './Objects/Template';
 import { Location } from './Objects/Location';
 import { ObjectStorage } from './Objects/ObjectStorage';
-import { Labels } from './Objects/Labels';
+import { Label } from './Objects/Label';
+import { Price } from './Objects/Price';
 
 /**
  * generate Client Class for all Connections
@@ -28,7 +29,8 @@ class GridscaleClient {
     public Template: any;
     public Location: any;
     public ObjectStorage: any;
-    public Labels: any;
+    public Label: any;
+    public Price: any;
 
     public watchRequest: Function;
 
@@ -58,7 +60,8 @@ class GridscaleClient {
         this.Template = new Template(api);
         this.Location = new Location(api);
         this.ObjectStorage = new ObjectStorage(api);
-        this.Labels = new Labels(api);
+        this.Label = new Label(api);
+        this.Price = new Price(api);
 
         this.watchRequest = api.watchRequest;
 

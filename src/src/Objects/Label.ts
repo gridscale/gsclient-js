@@ -3,11 +3,11 @@
 import {GridscaleObjects} from './GridscaleObjects';
 
 
-class Labels extends GridscaleObjects {
+class Label extends GridscaleObjects {
 
     constructor(_api) { super(_api,'/objects/labels'); }
 
 }
 
 
-export { Labels }
+export { Label }
