@@ -6,7 +6,6 @@ class GSError extends Error {
         super();
         this.name = 'GridscaleError';
         this.message = message || 'Default Message';
-        this.stack = (new Error()).stack;
         this.result = result;
     }
 }
