@@ -5,8 +5,7 @@ import {GridscaleObjects} from './GridscaleObjects';
 
 class Price extends GridscaleObjects {
 
-    constructor(_api) { super(_api,'/objects/ips'); }
-
+    constructor(_api) { super(_api,'/prices'); }
 
     /**
      * List Objects
