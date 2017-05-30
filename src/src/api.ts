@@ -110,7 +110,7 @@ class GSError extends Error {
             if (!_error && _response.statusCode < 400) {
 
                 // Parse JSON if need
-                var parsedResult =  _.isUndefined(_body) ? false : _.isObject(_body) ? _body : ( _body.length > 0 ? JSON.parse(_body) : '' );
+                var parsedResult =  _.isUndefined(_body) ||  _.isNull(_body) ? false : _.isObject(_body) ? _body : ( _body.length > 0 ? JSON.parse(_body) : '' );
 
                 result = {
                     success     : true,
