@@ -1,5 +1,3 @@
-
-
 import {GridscaleObjects} from './GridscaleObjects';
 
 
