@@ -10,9 +10,9 @@ class Server extends GridscaleObjects {
 
     /**
      * Start/Stop Server
-     * 
+     *
      * @param _uuid
-     * @param _power 
+     * @param _power
      * @param _callback
      * @returns {any|TRequest}
      */
@@ -24,7 +24,7 @@ class Server extends GridscaleObjects {
      *  IP Adress Handling
      *
      */
-    
+
 
     /**
      *  Get IPs for this Object
@@ -38,7 +38,7 @@ class Server extends GridscaleObjects {
 
     /**
      * Get IP that is in Relation with Server
-     * 
+     *
      * @param _uuid
      * @param _ip_uuid
      * @param _callback
@@ -51,7 +51,7 @@ class Server extends GridscaleObjects {
 
     /**
      * Relate an IP with the Server
-     * 
+     *
      * @param _uuid Server UUID
      * @param _ip_uuid IP UUID
      * @param _callback  Callback Function
@@ -64,8 +64,8 @@ class Server extends GridscaleObjects {
 
     /**
      * Remove IP-Adress from Server
-     * 
-     * 
+     *
+     *
      * @param _uuid Server UUID
      * @param _ip_uuid IP UUID
      * @param _callback
@@ -77,8 +77,8 @@ class Server extends GridscaleObjects {
 
 
     /**
-     *  Storages    
-     * 
+     *  Storages
+     *
      */
 
 
@@ -92,10 +92,10 @@ class Server extends GridscaleObjects {
         return this._sub('storages',_uuid,_options,_callback);
     }
 
-    
+
     /**
      * Get single Storage <=> Server Relation
-     * 
+     *
      * @param _uuid
      * @param _storage_uuid
      * @param _callback
@@ -108,8 +108,8 @@ class Server extends GridscaleObjects {
 
     /**
      * Patch Storage that is related to a Server i flag it as Bootdevice
-     * 
-     * 
+     *
+     *
      * @param _uuid
      * @param _storage_uuid
      * @param _attribute
@@ -150,8 +150,8 @@ class Server extends GridscaleObjects {
 
 
     /**
-     *  Isoimages    
-     * 
+     *  Isoimages
+     *
      */
 
 
@@ -165,10 +165,10 @@ class Server extends GridscaleObjects {
         return this._sub('isoimages',_uuid,_options,_callback);
     }
 
-    
+
     /**
      * Get single Storage <=> Server Relation
-     * 
+     *
      * @param _uuid
      * @param _isoimage_uuid
      * @param _callback
@@ -181,8 +181,8 @@ class Server extends GridscaleObjects {
 
     /**
      * Patch Storage that is related to a Server i flag it as Bootdevice
-     * 
-     * 
+     *
+     *
      * @param _uuid
      * @param _isoimage_uuid
      * @param _attribute
@@ -202,7 +202,7 @@ class Server extends GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {TRequest|any}
      */
-    addISOmage(_uuid,_isoimage_uuid,_callback?){
+    addIsoimage(_uuid,_isoimage_uuid,_callback?){
         return this._sub_post('isoimages',_uuid,{"object_uuid":_isoimage_uuid},_callback);
     }
 
@@ -222,8 +222,8 @@ class Server extends GridscaleObjects {
 
 
     /**
-     *  Networks    
-     * 
+     *  Networks
+     *
      */
 
 
@@ -237,10 +237,10 @@ class Server extends GridscaleObjects {
         return this._sub('networks',_uuid,_options,_callback);
     }
 
-    
+
     /**
      * Get single NEtwork <=> Server Relation
-     * 
+     *
      * @param _uuid
      * @param _network_uuid Network UUID
      * @param _callback
@@ -252,14 +252,14 @@ class Server extends GridscaleObjects {
 
 
     /**
-     * Patch Network that is related to a Server 
-     * 
-     * Attributes: 
+     * Patch Network that is related to a Server
+     *
+     * Attributes:
      *   bootdevice
      *   l3security
      *   ordering
-     * 
-     * 
+     *
+     *
      * @param _uuid
      * @param _network_uuid Network UUID
      * @param _attribute
@@ -301,6 +301,3 @@ class Server extends GridscaleObjects {
 
 
 export { Server };
-
-   
-
