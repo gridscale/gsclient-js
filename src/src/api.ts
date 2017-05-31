@@ -146,7 +146,7 @@ class GSError extends Error {
 
                 log({
                   result: result,
-                  error: _error ,
+                  error: _error,
                   response:_response,
                   id: result.id
                 });
