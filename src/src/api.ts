@@ -141,7 +141,7 @@ class GSError extends Error {
                 result = {
                     success: false,
                     response: _response,
-                    id: _.uniqueId('apierror_' + (new Date()).getTime() +'_');
+                    id: _.uniqueId('apierror_' + (new Date()).getTime() +'_')
                 };
 
                 log({
