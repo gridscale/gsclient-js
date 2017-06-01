@@ -131,7 +131,9 @@ class GSError extends Error {
                  * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
                  */
                 if ( result.response.request['method'] == 'POST' || result.response.request['method'] == 'PATCH' || result.response.request['method'] == 'DELETE' ) {
-                   result.watch = () => watchRequest( result.response.headers['x-request-id'] );
+                  if ( result.response.headers['x-request-id'] ){
+                    result.watch = () => watchRequest( result.response.headers['x-request-id'] );
+                  }
                 }
 
                 _resolve( result );
