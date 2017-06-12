@@ -293,8 +293,11 @@ class GSError extends Error {
          */
         requestpooling(_requestid).then((_result)=>{
 
+
+          console.log( _result.result[ _requestid ].status );
+
             // Check Request Status to Decide if we start again
-            if (_result.response.statusCode == 202) {
+            if (_result.result[ _requestid ].status == 'pending') {
 
                 setTimeout(()=>{
                     buildAndStartRequestCallback(_requestid , _resolve, _reject);
