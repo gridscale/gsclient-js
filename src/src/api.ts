@@ -293,9 +293,6 @@ class GSError extends Error {
          */
         requestpooling(_requestid).then((_result)=>{
 
-
-          console.log( _result.result[ _requestid ].status );
-
             // Check Request Status to Decide if we start again
             if (_result.result[ _requestid ].status == 'pending') {
 
