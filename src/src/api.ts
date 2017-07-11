@@ -72,6 +72,7 @@ class GSError extends Error {
         options.headers = options.headers ? options.headers : {};
         options.headers["X-Auth-UserId"] = settings.userId;
         options.headers["X-Auth-Token"] = settings.token;
+        options.headers["X-Api-Client"] = "expert";
 
 
         // Setup DEF
