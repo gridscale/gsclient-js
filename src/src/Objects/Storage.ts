@@ -73,6 +73,24 @@ class Storage extends GridscaleObjects {
     }
 
 
+
+    /**
+     * Rollback Storage to this Snapshot
+     *
+     * Attribures
+     *  - name
+     *  - labels
+     *
+     * @param _uuid
+     * @param _storage_uuid
+     * @param _callback
+     * @returns {any|TRequest}
+     */
+    exportSnapshot(_uuid, _snapshot_uuid,_data, _callback?) {
+      return this._api.patch( '/objects/storages/' + _snapshot_uuid +'/snapshots/' + _snapshot_uuid + '/export_to_s3' , _data ,_callback);
+    }
+
+
     /**
      * Create a Snapshot of this Storage
      *
@@ -174,5 +192,3 @@ class Storage extends GridscaleObjects {
 
 }
 export { Storage }
-   
-
