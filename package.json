@@ -1,6 +1,6 @@
 {
   "name": "@gridscale/api",
-  "version": "0.0.49",
+  "version": "0.0.50",
   "description": "gridscale API Wrapper",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
