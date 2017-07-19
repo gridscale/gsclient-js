@@ -16,7 +16,7 @@ class ObjectStorage {
     constructor(_api){
         this._api = _api;
 
-        
+
 
     }
 
@@ -30,7 +30,7 @@ class ObjectStorage {
      */
     accessKeys(_callback?){
 
-        return this._api.get( '/objectstorages/access_keys',_callback)
+        return this._api.get( '/objects/objectstorages/access_keys',_callback)
 
     }
 
@@ -43,7 +43,7 @@ class ObjectStorage {
      * @param _callback
      */
     accessKey(_access_key,_callback?) {
-        return this._api.get( '/objectstorages/access_keys/' + _access_key,_callback);
+        return this._api.get( '/objects/objectstorages/access_keys/' + _access_key,_callback);
     }
 
     /**
@@ -53,18 +53,18 @@ class ObjectStorage {
      * @param _callback
      */
     removeAccessKey(_access_key,_callback?) {
-        return this._api.remove( '/objectstorages/access_keys/' + _access_key,_callback);
+        return this._api.remove( '/objects/objectstorages/access_keys/' + _access_key,_callback);
     }
 
-    
+
     /**
      * Creates new Access Key
-     * 
+     *
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
     createAccessKey(_callback?) {
-        return this._api.post( '/objectstorages/access_keys'  ,_callback);
+        return this._api.post( '/objects/objectstorages/access_keys'  ,_callback);
     }
 
 
@@ -77,8 +77,8 @@ class ObjectStorage {
      * @param _callback
      * @returns {any}
      */
-    buckets(_callback?){       
-        return this._api.get( '/objectstorages/buckets' ,_callback)
+    buckets(_callback?){
+        return this._api.get( '/objects/objectstorages/buckets' ,_callback)
 
     }
 
@@ -91,7 +91,7 @@ class ObjectStorage {
      * @param _callback
      */
     bucket(_bucket_name,_callback?) {
-        return this._api.get( '/objectstorages/buckets/' + _bucket_name,_callback);
+        return this._api.get( '/objects/objectstorages/buckets/' + _bucket_name,_callback);
     }
 
 }
