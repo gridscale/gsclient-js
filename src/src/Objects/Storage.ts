@@ -87,7 +87,7 @@ class Storage extends GridscaleObjects {
      * @returns {any|TRequest}
      */
     exportSnapshot(_uuid, _snapshot_uuid,_data, _callback?) {
-      return this._api.patch( '/objects/storages/' + _snapshot_uuid +'/snapshots/' + _snapshot_uuid + '/export_to_s3' , _data ,_callback);
+      return this._api.patch( '/objects/storages/' + _uuid +'/snapshots/' + _snapshot_uuid + '/export_to_s3' , _data ,_callback);
     }
 
 
