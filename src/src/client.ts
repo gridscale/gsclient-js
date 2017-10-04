@@ -14,6 +14,7 @@ import { ObjectStorage } from './Objects/ObjectStorage';
 import { Label } from './Objects/Label';
 import { Price } from './Objects/Price';
 import { Loadbalancer } from './Objects/Loadbalancer';
+import { Events } from './Objects/Events';
 
 /**
  * generate Client Class for all Connections
@@ -33,6 +34,7 @@ class GridscaleClient {
     public Label: any;
     public Price: any;
     public Loadbalancer: any;
+    public Events: any;
 
     public watchRequest: Function;
 
@@ -65,6 +67,7 @@ class GridscaleClient {
         this.Label = new Label(api);
         this.Price = new Price(api);
         this.Loadbalancer = new Loadbalancer(api);
+        this.Events = new Events(api);
 
         this.watchRequest = api.watchRequest;
 
