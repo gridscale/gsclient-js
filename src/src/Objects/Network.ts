@@ -11,5 +11,3 @@ class Network extends GridscaleObjects {
 
 
 export { Network }
-   
-
