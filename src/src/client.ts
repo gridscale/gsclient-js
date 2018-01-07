@@ -16,6 +16,7 @@ import { Price } from './Objects/Price';
 import { Loadbalancer } from './Objects/Loadbalancer';
 import { Events } from './Objects/Events';
 import { Firewall } from './Objects/Firewall';
+import { CAS } from './Objects/cas';
 
 /**
  * generate Client Class for all Connections
@@ -37,6 +38,7 @@ class GridscaleClient {
     public Loadbalancer: any;
     public Events: any;
     public Firewall: any;
+    public CAS: any;
 
     public watchRequest: Function;
 
@@ -71,6 +73,7 @@ class GridscaleClient {
         this.Loadbalancer = new Loadbalancer(api);
         this.Events = new Events(api);
         this.Firewall = new Firewall(api);
+        this.CAS = new CAS(api);
 
         this.watchRequest = api.watchRequest;
 
