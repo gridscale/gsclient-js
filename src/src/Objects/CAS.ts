@@ -27,7 +27,7 @@ class CAS {
      * @param _callback
      * @returns {any}
      */
-    taks(_callback?){
+    tasks(_callback?){
 
         return this._api.get( '/objects/cas/tasks',_callback)
 
