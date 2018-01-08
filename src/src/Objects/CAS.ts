@@ -51,7 +51,7 @@ class CAS {
      * @param _uuid
      * @param _callback
      */
-    removeTask(_access_key,_callback?) {
+    remove(_access_key,_callback?) {
         return this._api.remove( '/objects/cas/tasks/' + _access_key,_callback);
     }
 
@@ -62,7 +62,7 @@ class CAS {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    createTask(_callback?) {
+    create(_callback?) {
         return this._api.post( '/objects/cas/tasks'  ,_callback);
     }
 
