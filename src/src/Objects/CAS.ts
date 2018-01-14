@@ -66,6 +66,16 @@ class CAS {
         return this._api.post( '/objects/cas/tasks'  ,_callback);
     }
 
+    /**
+     * Patch object
+     * @param _attributes
+     * @param _callback
+     * @returns {any|TRequest|LineCollection}
+     */
+    patch(_uuid,_attributes,_callback?) {
+        return this._api.patch(  '/objects/cas/tasks/' + _uuid , _attributes ,_callback);
+    }
+
 
 
     /**
