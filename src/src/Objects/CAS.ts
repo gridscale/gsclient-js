@@ -41,8 +41,8 @@ class CAS {
      * @param _uuid
      * @param _callback
      */
-    task(_access_key,_callback?) {
-        return this._api.get( '/objects/cas/tasks/' + _access_key,_callback);
+    task(_uuid,_callback?) {
+        return this._api.get( '/objects/cas/tasks/' + _uuid,_callback);
     }
 
     /**
@@ -51,8 +51,18 @@ class CAS {
      * @param _uuid
      * @param _callback
      */
-    remove(_access_key,_callback?) {
-        return this._api.remove( '/objects/cas/tasks/' + _access_key,_callback);
+    remove(_uuid,_callback?) {
+        return this._api.remove( '/objects/cas/tasks/' + _uuid,_callback);
+    }
+
+    /**
+     * Get Single Object by UUID
+     *
+     * @param _uuid
+     * @param _callback
+     */
+    taskEvents(_uuid,_callback?) {
+        return this._api.get( '/objects/cas/tasks/' + _uuid + '/events',_callback);
     }
 
 
