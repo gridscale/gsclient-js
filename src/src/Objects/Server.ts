@@ -21,6 +21,17 @@ class Server extends GridscaleObjects {
     }
 
     /**
+     * Send ACPI-Shutdown to User
+     *
+     * @param _uuid
+     * @param _callback
+     * @returns {any|TRequest}
+     */
+    shutdown( _uuid:String, _callback?:Function ) {
+        return this._api.patch(  this._basepath +'/' + _uuid + '/shutdown' , {} , _callback );
+    }
+
+    /**
      *  IP Adress Handling
      *
      */
