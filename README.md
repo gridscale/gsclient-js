@@ -103,6 +103,10 @@ client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-387
 });
 ```
 
+::: warning
+*This document is still under development and is constantly being expanded and optimized*
+:::
+
 
 ## All Ressources and Functions  
 Here you find a list of all available Functions. We will add some more soon to make you life easier!
@@ -112,7 +116,7 @@ client.Server.list( [ requestoptions , callback ] )
 client.Server.get( uuid [, callback ] )  
 client.Server.remove( uuid [, callback ] )  
 client.Server.create( attribute [, callback ] )  
-client.Server.patch( uuid , attribute [, callback ] )
+client.Server.patch( uuid , attribute [, callback ] )  
 client.Server.power( uuid , powerstate [, callback ] )   
 client.Server.shutdown( uuid [, callback ] )   
 client.Server.events( uuid [, requestoptions , callback ] )  
@@ -223,16 +227,17 @@ client.SSHKey.list( [ callback ] )
 client.Events.list( [ callback ] )  
 
 ### Cloud Automation Service
-client.CAS.tasks( [ callback ] )
-client.CAS.task( _uuid [, callback ] )
-client.CAS.remove( _uuid [, callback ] )
-client.CAS.create( _data [, callback ] )
-client.CAS.patch( _uuid, _data [, callback ] )
-client.CAS.taskEvents( _uuid [, callback ] )
-client.CAS.events( [callback ] )
-client.CAS.event( _uuid [, callback ] )
-client.CAS.actions( [callback ] )
-client.CAS.action( _uuid [, callback ] )
+client.CAS.tasks( [ callback ] )  
+client.CAS.task( _uuid [, callback ] )  
+client.CAS.remove( _uuid [, callback ] )  
+client.CAS.create( _data [, callback ] )  
+client.CAS.patch( _uuid, _data [, callback ] )  
+client.CAS.taskEvents( _uuid [, callback ] )    
+client.CAS.events( [callback ] )    
+client.CAS.event( _uuid [, callback ] )  
+client.CAS.actions( [callback ] )  
+client.CAS.action( _uuid [, callback ] )  
 
 ### Helper
+
 client.watchRequest( x-request-uuid )
