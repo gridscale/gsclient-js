@@ -14,7 +14,10 @@
     "gridscale",
     "api",
     "cloud",
-    "server"
+    "server",
+    "firewall",
+    "automation",
+    "load balancer"
   ],
   "license": "ISC",
   "dependencies": {
