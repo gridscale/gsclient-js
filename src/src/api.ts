@@ -21,7 +21,7 @@ class GSError extends Error {
 
     // Local Settings
     var settings = {
-        endpoint: 'https://apidev.gridscale.io',
+        endpoint: 'https://api.gridscale.io',
         token: '',
         userId: '',
         limit: 50,

@@ -12,13 +12,6 @@ var tslint = require("gulp-tslint");
 var merge = require('merge2');
 var shell = require('gulp-shell');
 
-// gulp.task('ts-lint', ['clean-ts'], function () {
-//     return gulp.src(['!./**/*.ts', '!typings/**/*.ts', '!node_modules/**/*.ts']).pipe(tslint({
-//     formatter: "prose"
-// }))
-// .pipe(tslint.report());
-// });
-
 /**
  * Compile TypeScript and include references to library and app .d.ts files.
  */
@@ -42,8 +35,8 @@ gulp.task('compile-ts', [], function () {
 gulp.task('copy-json', ['compile-ts'], function () {
     var sourceJsonFiles = [
                             './src/*.json',                //path to typescript files
-                            ]; 
-                        
+                            ];
+
  return gulp.src(sourceJsonFiles).pipe(gulp.dest('dist/src/'));
 
 });
@@ -56,10 +49,10 @@ gulp.task('clean-ts', function (cb) {
   // delete the files
   return del(typeScriptGenFiles, cb);
 });
- 
+
 gulp.task('test', ['copy-json'], function () {
 	return gulp.src('dist/test/**/*.spec.js', {read: false})
-		// gulp-mocha needs filepaths so you can't have any plugins before it 
+		// gulp-mocha needs filepaths so you can't have any plugins before it
 		.pipe(mocha({reporter: 'spec', timeout: '360000'})).once('error', () => {
             process.exit(1);
         });
@@ -70,4 +63,4 @@ gulp.task('pack', ['test'], shell.task([
     ])
 );
 
-gulp.task('default', ['clean-ts', /*'ts-lint',*/ 'compile-ts', 'copy-json', 'test']);
+gulp.task('default', ['clean-ts', 'compile-ts', 'copy-json', 'test']);

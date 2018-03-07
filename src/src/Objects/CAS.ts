@@ -72,8 +72,8 @@ class CAS {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    create(_callback?) {
-        return this._api.post( '/objects/cas/tasks'  ,_callback);
+    create(_data, _callback?) {
+        return this._api.post( '/objects/cas/tasks', _data ,_callback);
     }
 
     /**

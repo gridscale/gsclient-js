@@ -17,7 +17,7 @@ To work with the gridscale API you need an API-Token and User-UUID you can creat
 var gridscale = require('@gridscale/api').Client;
 var client = new gridscale.Client(TOKEN,User-UUID);
 ```
- 
+
 
 #### Options
 You can set new Default Settings for every Object type when creating the Client. The third parameter of the Constructor can be used for Options
@@ -35,13 +35,13 @@ You can set the Options by calling the *setDefaults* Function for a Object
 ```js
 var requestoptions = {
     page  : 0,    // Index of Page
-    limit : 25,   // Number of Objects per page 
+    limit : 25,   // Number of Objects per page
     offset: 0     // Offset to start,
-    
+
     sort  : [-name,+object_uuid], // Sort by fileds
-    
+
     fields : [name,object_uuid,...], // Fields that should get included into the Response
-    
+
     filter : [name=toller_name,capacity<=30,label=adsf]
 }
 
@@ -82,38 +82,39 @@ client.Server.list().then(function( result ){
     result.result;      // JS Object of Repsonse. If you use the Pagination ther will be a _meta and a _links Object included
     result.response;    // Full Repsonse Object including Headers
     result.links;       // Links for current Request. You can directly call them with an optional callback. (first,last,next,prev,self)
-    result.watch;       // Function that returns a Promise for the current Job. 
+    result.watch;       // Function that returns a Promise for the current Job.
 });
 ```
 The Links are only given in Responses where a List is Returned.  
 The watch Function is also only available on PATCH, POST or DELETE Calls. So when you are creating or changing an Object.
- 
+
 ##### Watching a Job
 The Watch-Function will start watching the Job your request just started. So if you created a large Storage. The Promise that get returns by the Watch-Function will get resolved if the Storage is ready to work with.
 ```js
 // Creating a new Storage with 1TB Size
 client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-3873-4b2f-915b-4c86c28344e5"}).then(function(_result){
     console.log('Storage with UUID: '+ _result.result.object_uuid +' is created');
-    
+
     // Watching the Storage until it is ready to work with
     _result.watch().then(function(){
         console.log('Storage is ready to use!');
     });
-    
+
 });
 ```
 
 
 ## All Ressources and Functions  
-Here you find a list of all availible Functions. We will add some more soon to make you life easier! 
+Here you find a list of all available Functions. We will add some more soon to make you life easier!
 
 #### Server
 client.Server.list( [ requestoptions , callback ] )  
 client.Server.get( uuid [, callback ] )  
 client.Server.remove( uuid [, callback ] )  
 client.Server.create( attribute [, callback ] )  
-client.Server.patch( uuid , attribute [, callback ] ) 
+client.Server.patch( uuid , attribute [, callback ] )
 client.Server.power( uuid , powerstate [, callback ] )   
+client.Server.shutdown( uuid [, callback ] )   
 client.Server.events( uuid [, requestoptions , callback ] )  
 client.Server.ips( uuid , [, requestoptions , callback ] )  
 client.Server.ip( uuid , ip_uuid  [, callback ] )  
@@ -141,14 +142,15 @@ client.Storage.get( uuid [, callback ] )
 client.Storage.remove( uuid [, callback ] )  
 client.Storage.create( attribute [, callback ] )  
 client.Storage.patch( uuid , attribute [, callback ] )   
-client.Storage.events( uuid [, requestoptions , callback ] ) 
+client.Storage.events( uuid [, requestoptions , callback ] )
 client.Storage.snapshots( uuid , [, requestoptions , callback ] )  
 client.Storage.snapshot( uuid , snapshot_uuid  [, callback ] )  
 client.Storage.patchSnapshot( uuid , snapshot_uuid, attribute  [, callback ] )  
-client.Storage.rollbackSnapshot( uuid , snapshot_uuid [, callback ] )  
+client.Storage.rollbackSnapshot( uuid , snapshot_uuid [, callback ] )
+client.Storage.exportSnapshot( uuid , snapshot_uuid, _data [, callback ] )
 client.Storage.createSnapshot( uuid , snapshot_uuid [, callback ] )  
-client.Storage.removeSnapshot( uuid , snapshot_uuid [, callback ] ) 
-client.Storage.snapshotSchedulers( uuid , [, requestoptions , callback ] )  
+client.Storage.removeSnapshot( uuid , snapshot_uuid [, callback ] )
+client.Storage.snapshotSchedulers( uuid [, requestoptions , callback ] )  
 client.Storage.snapshotScheduler( uuid , snapshot_scheduler_uuid  [, callback ] )  
 client.Storage.patchSnapshotScheduler( uuid , snapshot_scheduler_uuid, attribute  [, callback ] )  
 client.Storage.createSnapshotScheduler( uuid , snapshot_scheduler_uuid [, callback ] )  
@@ -160,7 +162,7 @@ client.Network.get( uuid [, callback ] )
 client.Network.remove( uuid [, callback ] )  
 client.Network.create( attribute [, callback ] )  
 client.Network.patch( uuid , attribute [, callback ] )   
-client.Network.events( uuid [, requestoptions , callback ] ) 
+client.Network.events( uuid [, requestoptions , callback ] )
 
 ### Location
 client.Location.list( [ requestoptions , callback ] )  
@@ -172,7 +174,7 @@ client.IP.get( uuid [, callback ] )
 client.IP.remove( uuid [, callback ] )  
 client.IP.create( attribute [, callback ] )  
 client.IP.patch( uuid , attribute [, callback ] )   
-client.IP.events( uuid [requestoptions , callback ] ) 
+client.IP.events( uuid [requestoptions , callback ] )
 
 ### ISOImage
 client.ISOImage.list( [ requestoptions , callback ] )  
@@ -180,7 +182,7 @@ client.ISOImage.get( uuid [, callback ] )
 client.ISOImage.remove( uuid [, callback ] )  
 client.ISOImage.create( attribute [, callback ] )  
 client.IsoImage.patch( uuid , attribute [, callback ] )   
-client.ISOImage.events( uuid [, requestoptions , callback ] ) 
+client.ISOImage.events( uuid [, requestoptions , callback ] )
 
 ### Template
 client.Template.list( [ requestoptions , callback ] )  
@@ -188,7 +190,7 @@ client.Template.get( uuid [, callback ] )
 client.Template.remove( uuid [, callback ] )  
 client.Template.create( attribute [, callback ] )  
 client.Template.patch( uuid , attribute [, callback ] )   
-client.Template.events( uuid [, requestoptions , callback ] ) 
+client.Template.events( uuid [, requestoptions , callback ] )
 
 ### SSHKey
 client.SSHKey.list( [ requestoptions , callback ] )  
@@ -196,7 +198,15 @@ client.SSHKey.get( uuid [, callback ] )
 client.SSHKey.remove( uuid [, callback ] )  
 client.SSHKey.create( attribute [, callback ] )  
 client.SSHKey.patch( uuid , attribute [, callback ] )   
-client.SSHKey.events( uuid [, requestoptions , callback ] ) 
+client.SSHKey.events( uuid [, requestoptions , callback ] )
+
+### Firewall
+client.Firewall.list( [ requestoptions , callback ] )  
+client.Firewall.get( uuid [, callback ] )  
+client.Firewall.remove( uuid [, callback ] )  
+client.Firewall.create( attribute [, callback ] )  
+client.Firewall.patch( uuid , attribute [, callback ] )   
+client.Firewall.events( uuid [, requestoptions , callback ] )
 
 ### ObjectStorage
 client.ObjectStorage.accessKeys( [ callback ] )  
@@ -204,7 +214,25 @@ client.ObjectStorage.accessKey( access_key [, callback ] )
 client.ObjectStorage.createAccessKey([ callback ] )  
 client.ObjectStorage.removeAccessKey( access [, callback ] )  
 client.ObjectStorage.buckets( [ callback ] )   
-client.ObjectStorage.bucket( bucket_name [ , callback ] ) 
+client.ObjectStorage.bucket( bucket_name [ , callback ] )
+
+### Price
+client.SSHKey.list( [ callback ] )  
+
+### Events
+client.Events.list( [ callback ] )  
+
+### Cloud Automation Service
+client.CAS.tasks( [ callback ] )
+client.CAS.task( _uuid [, callback ] )
+client.CAS.remove( _uuid [, callback ] )
+client.CAS.create( _data [, callback ] )
+client.CAS.patch( _uuid, _data [, callback ] )
+client.CAS.taskEvents( _uuid [, callback ] )
+client.CAS.events( [callback ] )
+client.CAS.event( _uuid [, callback ] )
+client.CAS.actions( [callback ] )
+client.CAS.action( _uuid [, callback ] )
 
 ### Helper
 client.watchRequest( x-request-uuid )
