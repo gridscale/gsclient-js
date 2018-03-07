@@ -16,7 +16,7 @@ npm install @gridscale/api --save
 ### Usage
 To work with the gridscale API you need an API-Token and User-UUID you can create and find in the API Section of the gridscale Interface.
  ```js
-var gridscale = require('@gridscale/api').Client;
+var gridscale = require('@gridscale/api').gridscale;
 var client = new gridscale.Client(TOKEN,User-UUID);
 ```
 
