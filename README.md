@@ -1,6 +1,8 @@
 # Welcome to the gridscale API wrapper #
 
-General Description how this all works
+Here you find our gridscale js Libary. We developed this Package for our own Expert Panel and want to share it with you.  
+
+**This document is still under development and is constantly being expanded and optimized**
 
 
 ## Getting Started
@@ -103,9 +105,6 @@ client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-387
 });
 ```
 
-::: warning
-*This document is still under development and is constantly being expanded and optimized*
-:::
 
 
 ## All Ressources and Functions  
