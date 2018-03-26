@@ -56,7 +56,7 @@ client.Server.list({
     page: 0,
     limit : 10,        
     sort: "name",         
-    fields: ["name","object_uuid"]        
+    fields: ["name","object_uuid"],        
     filter: ["memory>16"]
 }).then(_callback);
 ```
