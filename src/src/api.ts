@@ -174,8 +174,6 @@ class GSError extends Error {
      */
     var buildRequestURL = (_options) => {
 
-      console.log('Build URL With Options' , _options );
-
         // Push Valued
         var url = [];
 
