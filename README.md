@@ -220,7 +220,7 @@ client.ObjectStorage.buckets( [ callback ] )
 client.ObjectStorage.bucket( bucket_name [ , callback ] )
 
 ### Price
-client.SSHKey.list( [ callback ] )  
+client.Price.list( [ callback ] )  
 
 ### Events
 client.Events.list( [ callback ] )  
@@ -240,6 +240,7 @@ client.CAS.action( _uuid [, callback ] )
 ### PAAS
 client.PAAS.services.list( [ requestoptions , callback ] )  
 client.PAAS.services.get( uuid [, callback ] )  
+client.PAAS.services.events( uuid [, callback ] )  
 client.PAAS.services.remove( uuid [, callback ] )  
 client.PAAS.services.create( attribute [, callback ] )  
 client.PAAS.services.patch( uuid , attribute [, callback ] )  
