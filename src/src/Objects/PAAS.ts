@@ -14,14 +14,11 @@ class PAAS {
      */
     constructor(_api){
         this._api = _api;
-
-
-
     }
 
     serviceTemplates = {
-      list : (_callback?) =>{
-          return this._api.get( '/objects/paas/service_templates',_callback)
+      list : (_options = {},_callback?) =>{
+          return this._api.get( '/objects/paas/service_templates',_options,_callback)
       },
       get: (_uuid,_callback?) =>{
           return this._api.get( '/objects/paas/service_templates/' + _uuid,_callback);
@@ -30,8 +27,8 @@ class PAAS {
 
 
     securityZones = {
-      list : (_callback?) =>{
-          return this._api.get( '/objects/paas/security_zones',_callback)
+      list : (_options = {},_callback?) =>{
+          return this._api.get( '/objects/paas/security_zones',_options,_callback)
       },
       get: (_uuid,_callback?) =>{
           return this._api.get( '/objects/paas/security_zones/' + _uuid,_callback);
@@ -49,8 +46,8 @@ class PAAS {
 
 
     services = {
-      list : (_callback?) =>{
-          return this._api.get( '/objects/paas/services',_callback)
+      list : (_options = {},_callback?) =>{
+          return this._api.get( '/objects/paas/services',_options,_callback)
       },
       get: (_uuid,_callback?) =>{
           return this._api.get( '/objects/paas/services/' + _uuid,_callback);
