@@ -61,6 +61,9 @@ class PAAS {
       patch: (_uuid,_attributes,_callback?) => {
           return this._api.patch(  '/objects/paas/services/' + _uuid , _attributes ,_callback);
       },
+      events:(_uuid,_callback?) =>{
+          return this._api.get( '/objects/paas/services/' + _uuid + '/events',_callback);
+      },
     }
 
 }
