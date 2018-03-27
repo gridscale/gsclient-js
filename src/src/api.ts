@@ -73,7 +73,7 @@ class GSError extends Error {
         options.headers["X-Auth-UserId"] = settings.userId;
         options.headers["X-Auth-Token"] = settings.token;
         options.headers["X-Api-Client"] = "expert";
-
+        options.withCredentials = false;
 
         // Setup DEF
         var def = new Promise( ( _resolve, _reject ) => {
