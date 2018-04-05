@@ -170,6 +170,13 @@ client.Network.events( uuid [, requestoptions , callback ] )
 ### Location
 client.Location.list( [ requestoptions , callback ] )  
 client.Location.get( uuid [, callback ] )  
+client.Location.getLocationIPs( uuid [, callback ] )  
+client.Location.getLocationISOImages( uuid [, callback ] )  
+client.Location.getLocationNetworks( uuid [, callback ] )  
+client.Location.getLocationServers( uuid [, callback ] )  
+client.Location.getLocationSnapshots( uuid [, callback ] )  
+client.Location.getLocationStorages( uuid [, callback ] )  
+client.Location.getLocationTemplates( uuid [, callback ] )  
 
 ### IP
 client.IP.list( [ callback ] )  

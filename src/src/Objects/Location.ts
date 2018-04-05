@@ -104,6 +104,49 @@ class Location {
         return this._api.get( this._basepath +'/' + _uuid + '/ips',_callback);
     }
 
+    /**
+    Return all isoimages for this location
+    */
+    getLocationISOImages(_uuid,_callback?) {
+        return this._api.get( this._basepath +'/' + _uuid + '/isoimages',_callback);
+    }
+
+    /**
+    Return all networks for this location
+    */
+    getLocationNetworks(_uuid,_callback?) {
+        return this._api.get( this._basepath +'/' + _uuid + '/networks',_callback);
+    }
+
+    /**
+    Return all servers for this location
+    */
+    getLocationServers(_uuid,_callback?) {
+        return this._api.get( this._basepath +'/' + _uuid + '/servers',_callback);
+
+    }
+
+    /**
+    Return all snapshots for this location
+    */
+    getLocationSnapshots(_uuid,_callback?) {
+        return this._api.get( this._basepath +'/' + _uuid + '/snapshots',_callback);
+    }
+
+    /**
+    Return all storages for this location
+    */
+    getLocationStorages(_uuid,_callback?) {
+        return this._api.get( this._basepath +'/' + _uuid + '/storages',_callback);
+    }
+
+    /**
+    Return all storages for this location
+    */
+    getLocationTemplates(_uuid,_callback?) {
+        return this._api.get( this._basepath +'/' + _uuid + '/templates',_callback);
+    }
+
 }
 
 export { Location }
