@@ -97,6 +97,13 @@ class Location {
         return this._api.get( this._basepath +'/' + _uuid,_callback);
     }
 
+    /**
+    Return all IP Adresses for this locations
+    */
+    getLocationIPs(_uuid,_callback?) {
+        return this._api.get( this._basepath +'/' + _uuid + '/ips',_callback);
+    }
+
 }
 
 export { Location }

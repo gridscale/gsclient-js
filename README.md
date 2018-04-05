@@ -237,22 +237,6 @@ client.CAS.event( _uuid [, callback ] )
 client.CAS.actions( [callback ] )  
 client.CAS.action( _uuid [, callback ] )  
 
-### PAAS
-client.PAAS.services.list( [ requestoptions , callback ] )  
-client.PAAS.services.get( uuid [, callback ] )  
-client.PAAS.services.events( uuid [, callback ] )  
-client.PAAS.services.remove( uuid [, callback ] )  
-client.PAAS.services.create( attribute [, callback ] )  
-client.PAAS.services.patch( uuid , attribute [, callback ] )  
-client.PAAS.securityZones.list( [ requestoptions , callback ] )  
-client.PAAS.securityZones.get( uuid [, callback ] )  
-client.PAAS.securityZones.remove( uuid [, callback ] )  
-client.PAAS.securityZones.create( attribute [, callback ] )  
-client.PAAS.securityZones.patch( uuid , attribute [, callback ] )   
-client.PAAS.serviceTemplates.list( [ requestoptions , callback ] )  
-client.PAAS.serviceTemplates.get( uuid [, callback ] )  
-
-
 ### Helper
 
 client.watchRequest( x-request-uuid )
