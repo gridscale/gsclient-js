@@ -70,6 +70,8 @@ class GridscaleObjects {
      */
     list(_options?,_callback?){
 
+        console.log(this)
+
         // Get Defaults
         var requestOptions = this._buildRequestOptions(_options);
 

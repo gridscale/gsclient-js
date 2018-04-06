@@ -14,9 +14,6 @@ class CAS {
      */
     constructor(_api){
         this._api = _api;
-
-
-
     }
 
 
