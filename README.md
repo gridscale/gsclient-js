@@ -244,7 +244,7 @@ client.CAS.events.get( uuid [, callback ] )
 client.CAS.actions.list( [ requestoptions , callback ] )  
 client.CAS.actions.get( uuid [, callback ] )  
 
-### Deleted 
+### Deleted
 client.Deleted.servers( [ requestoptions , callback ] )  
 client.Deleted.storages( [ requestoptions , callback ] )  
 client.Deleted.networks( [ requestoptions , callback ] )  

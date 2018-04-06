@@ -61,7 +61,6 @@ class Deleted {
       return this._deleted('ips',_options,_callback);
     }
 
-
     isoimages( _options?,_callback? ) {
       return this._deleted('isoimages',_options,_callback);
     }
