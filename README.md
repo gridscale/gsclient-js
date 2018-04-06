@@ -44,7 +44,7 @@ var requestoptions = {
 
     fields : [name,object_uuid,...], // Fields that should get included into the Response
 
-    filter : [name=toller_name,capacity<=30,label=adsf]
+    filter : [name='name',capacity<=30]
 }
 
 client.Server.setDefaults( requestoptions );
