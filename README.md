@@ -244,6 +244,15 @@ client.CAS.events.get( uuid [, callback ] )
 client.CAS.actions.list( [ requestoptions , callback ] )  
 client.CAS.actions.get( uuid [, callback ] )  
 
+### Deleted 
+client.Deleted.servers( [ requestoptions , callback ] )  
+client.Deleted.storages( [ requestoptions , callback ] )  
+client.Deleted.networks( [ requestoptions , callback ] )  
+client.Deleted.ips( [ requestoptions , callback ] )  
+client.Deleted.isoimages( [ requestoptions , callback ] )  
+client.Deleted.snapshots( [ requestoptions , callback ] )  
+client.Deleted.templates( [ requestoptions , callback ] )  
+
 ### Helper
 
 client.watchRequest( x-request-uuid )
