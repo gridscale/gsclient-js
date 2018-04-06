@@ -233,16 +233,16 @@ client.Price.list( [ callback ] )
 client.Events.list( [ callback ] )  
 
 ### Cloud Automation Service
-client.CAS.tasks( [ callback ] )  
-client.CAS.task( _uuid [, callback ] )  
-client.CAS.remove( _uuid [, callback ] )  
-client.CAS.create( _data [, callback ] )  
-client.CAS.patch( _uuid, _data [, callback ] )  
-client.CAS.taskEvents( _uuid [, callback ] )    
-client.CAS.events( [callback ] )    
-client.CAS.event( _uuid [, callback ] )  
-client.CAS.actions( [callback ] )  
-client.CAS.action( _uuid [, callback ] )  
+client.CAS.tasks.list( [ requestoptions , callback ] )  
+client.CAS.tasks.get( uuid [, callback ] )  
+client.CAS.tasks.remove( uuid [, callback ] )  
+client.CAS.tasks.create( attribute [, callback ] )  
+client.CAS.tasks.patch( uuid , attribute [, callback ] )   
+client.CAS.tasks.events( uuid [, requestoptions , callback ] )   
+client.CAS.events.list( [ requestoptions , callback ] )  
+client.CAS.events.get( uuid [, callback ] )  
+client.CAS.actions.list( [ requestoptions , callback ] )  
+client.CAS.actions.get( uuid [, callback ] )  
 
 ### Helper
 
