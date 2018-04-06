@@ -18,6 +18,7 @@ import { Events } from './Objects/Events';
 import { Firewall } from './Objects/Firewall';
 import { CAS } from './Objects/CAS';
 import { PAAS } from './Objects/PAAS';
+import { Deleted } from './Objects/Deleted';
 
 /**
  * generate Client Class for all Connections
@@ -41,6 +42,7 @@ class GridscaleClient {
     public Firewall: any;
     public CAS: any;
     public PAAS: any;
+    public Deleted: any;
 
     public watchRequest: Function;
 
@@ -77,6 +79,7 @@ class GridscaleClient {
         this.Firewall = new Firewall(api);
         this.CAS = new CAS(api);
         this.PAAS = new PAAS(api);
+        this.Deleted = new Deleted(api);
 
         this.watchRequest = api.watchRequest;
 
