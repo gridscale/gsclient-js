@@ -21,125 +21,164 @@ class CAS {
 
 
 
-
-    /**
-     * List Access Keys
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     */
-    tasks(_callback?){
-
-        return this._api.get( '/objects/cas/tasks',_callback)
-
-    }
-
-
-
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     */
-    task(_uuid,_callback?) {
-        return this._api.get( '/objects/cas/tasks/' + _uuid,_callback);
-    }
-
-    /**
-     * Remove Access Key
-     *
-     * @param _uuid
-     * @param _callback
-     */
-    remove(_uuid,_callback?) {
-        return this._api.remove( '/objects/cas/tasks/' + _uuid,_callback);
-    }
-
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     */
-    taskEvents(_uuid,_callback?) {
+    tasks = {
+      list : (_options = {},_callback?) =>{
+          return this._api.get( '/objects/cas/tasks',_options,_callback)
+      },
+      get: (_uuid,_callback?) =>{
+          return this._api.get( '/objects/cas/tasks/' + _uuid,_callback);
+      },
+      remove: (_uuid,_callback?) => {
+          return this._api.remove( '/objects/cas/tasks/' + _uuid,_callback);
+      },
+      create: (_data, _callback?) => {
+          return this._api.post( '/objects/cas/tasks', _data ,_callback);
+      },
+      patch: (_uuid,_attributes,_callback?) => {
+          return this._api.patch(  '/objects/cas/tasks/' + _uuid , _attributes ,_callback);
+      },
+      events: (_uuid,_callback?) => {
         return this._api.get( '/objects/cas/tasks/' + _uuid + '/events',_callback);
+      }
     }
 
 
-    /**
-     * Creates new Access Key
-     *
-     * @param _callback
-     * @returns {any|TRequest|LineCollection}
-     */
-    create(_data, _callback?) {
-        return this._api.post( '/objects/cas/tasks', _data ,_callback);
+    // /**
+    //  * List Access Keys
+    //  *
+    //  *
+    //  * @param _options
+    //  * @param _callback
+    //  * @returns {any}
+    //  */
+    // tasks(_callback?){
+    //
+    //     return this._api.get( '/objects/cas/tasks',_callback)
+    //
+    // }
+    //
+    //
+    //
+    // /**
+    //  * Get Single Object by UUID
+    //  *
+    //  * @param _uuid
+    //  * @param _callback
+    //  */
+    // task(_uuid,_callback?) {
+    //     return this._api.get( '/objects/cas/tasks/' + _uuid,_callback);
+    // }
+
+    // /**
+    //  * Remove Access Key
+    //  *
+    //  * @param _uuid
+    //  * @param _callback
+    //  */
+    // remove(_uuid,_callback?) {
+    //     return this._api.remove( '/objects/cas/tasks/' + _uuid,_callback);
+    // }
+    //
+    // /**
+    //  * Get Single Object by UUID
+    //  *
+    //  * @param _uuid
+    //  * @param _callback
+    //  */
+    // taskEvents(_uuid,_callback?) {
+    //     return this._api.get( '/objects/cas/tasks/' + _uuid + '/events',_callback);
+    // }
+    //
+    //
+    // /**
+    //  * Creates new Access Key
+    //  *
+    //  * @param _callback
+    //  * @returns {any|TRequest|LineCollection}
+    //  */
+    // create(_data, _callback?) {
+    //     return this._api.post( '/objects/cas/tasks', _data ,_callback);
+    // }
+    //
+    // /**
+    //  * Patch object
+    //  * @param _attributes
+    //  * @param _callback
+    //  * @returns {any|TRequest|LineCollection}
+    //  */
+    // patch(_uuid,_attributes,_callback?) {
+    //     return this._api.patch(  '/objects/cas/tasks/' + _uuid , _attributes ,_callback);
+    // }
+
+
+    events = {
+      list : (_options = {},_callback?) =>{
+          return this._api.get( '/objects/cas/events',_options,_callback)
+      },
+      get: (_uuid,_callback?) =>{
+          return this._api.get( '/objects/cas/events/' + _uuid,_callback);
+      }
+    }
+    //
+    // /**
+    //  * List Access Keys
+    //  *
+    //  *
+    //  * @param _options
+    //  * @param _callback
+    //  * @returns {any}
+    //  */
+    // events(_callback?){
+    //     return this._api.get( '/objects/cas/events' ,_callback)
+    //
+    // }
+    //
+    //
+    //
+    // /**
+    //  * Get Single Object by UUID
+    //  *
+    //  * @param _uuid
+    //  * @param _callback
+    //  */
+    // event(_uuid,_callback?) {
+    //     return this._api.get( '/objects/cas/events/' + _uuid,_callback);
+    // }
+    //
+    //
+    actions = {
+      list : (_options = {},_callback?) =>{
+          return this._api.get( '/objects/cas/actions',_options,_callback)
+      },
+      get: (_uuid,_callback?) =>{
+          return this._api.get( '/objects/cas/actions/' + _uuid,_callback);
+      }
     }
 
-    /**
-     * Patch object
-     * @param _attributes
-     * @param _callback
-     * @returns {any|TRequest|LineCollection}
-     */
-    patch(_uuid,_attributes,_callback?) {
-        return this._api.patch(  '/objects/cas/tasks/' + _uuid , _attributes ,_callback);
-    }
-
-
-
-    /**
-     * List Access Keys
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     */
-    events(_callback?){
-        return this._api.get( '/objects/cas/events' ,_callback)
-
-    }
-
-
-
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     */
-    event(_uuid,_callback?) {
-        return this._api.get( '/objects/cas/events/' + _uuid,_callback);
-    }
-
-    /**
-     * List Access Keys
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     */
-    actions(_callback?){
-        return this._api.get( '/objects/cas/actions' ,_callback)
-
-    }
-
-
-
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     */
-    action(_uuid,_callback?) {
-        return this._api.get( '/objects/cas/action/' + _uuid,_callback);
-    }
+    // /**
+    //  * List Access Keys
+    //  *
+    //  *
+    //  * @param _options
+    //  * @param _callback
+    //  * @returns {any}
+    //  */
+    // actions(_callback?){
+    //     return this._api.get( '/objects/cas/actions' ,_callback)
+    //
+    // }
+    //
+    //
+    //
+    // /**
+    //  * Get Single Object by UUID
+    //  *
+    //  * @param _uuid
+    //  * @param _callback
+    //  */
+    // action(_uuid,_callback?) {
+    //     return this._api.get( '/objects/cas/action/' + _uuid,_callback);
+    // }
 
 }
 
