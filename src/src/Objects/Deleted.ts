@@ -85,6 +85,10 @@ class Deleted {
       return this._deleted('templates',_options,_callback);
     }
 
+    paasServices( _options?,_callback? ) {
+      return this._deleted('paas_services',_options,_callback);
+    }
+
 
 }
 
