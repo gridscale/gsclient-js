@@ -1,6 +1,6 @@
 # Welcome to the gridscale API wrapper #
 
-Here you find our gridscale js Libary. We developed this Package for our own Expert Panel and want to share it with you.  
+Here is our JavaScript Libary. We have developed this Package for our own Expert Panel and want to share it with you.  
 
 **This document is still under development and is constantly being expanded and optimized**
 
@@ -32,19 +32,19 @@ var client = new gridscale.Client(TOKEN,User-UUID, {
 ```
 
 For all single Object Types you can adjust different default Values for Pagination, Filtering, Sorting and what Fields should get included into List requests.  
-You can set the Options by calling the *setDefaults* Function for a Object
+You can set the Options by calling the *setDefaults* Function for an Object
 
 ```js
 var requestoptions = {
     page  : 0,    // Index of Page
     limit : 25,   // Number of Objects per page
-    offset: 0     // Offset to start,
+    offset: 0,    // Offset from start,
 
     sort  : [-name,+object_uuid], // Sort by fileds
 
     fields : [name,object_uuid,...], // Fields that should get included into the Response
 
-    filter : [name='name',capacity<=30]
+    filter : [name='name',capacity<=30] //  Only return data that matches the filter
 }
 
 client.Server.setDefaults( requestoptions );
@@ -60,7 +60,7 @@ client.Server.list({
     filter: ["memory>16"]
 }).then(_callback);
 ```
-In this Example the Result will be the first 10 Servers with more then 16GB of Memory. Sorted by name and only returning the Name and the Object_uuid.
+In this rxample the result will be the first 10 Servers with more then 16GB of Memory. Sorted by name and only returning the Name and the Object_uuid.
 
 
 
@@ -76,7 +76,7 @@ Here you find an overview of the Filter Options you have when using the Filter.
 
 
 
-#### Callback Function and Promises
+#### Callback Functions and Promises
 All Requests and Actions for the Objects return a Promise. You are also to use a Callback Style for each Action as Listed below. Both Promise and Callback use the same Result Object that get passed to the Function
 ```js
 client.Server.list().then(function( result ){
