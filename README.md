@@ -191,7 +191,7 @@ client.ISOImage.list( [ requestoptions , callback ] )
 client.ISOImage.get( uuid [, callback ] )  
 client.ISOImage.remove( uuid [, callback ] )  
 client.ISOImage.create( attribute [, callback ] )  
-client.IsoImage.patch( uuid , attribute [, callback ] )   
+client.ISOImage.patch( uuid , attribute [, callback ] )   
 client.ISOImage.events( uuid [, requestoptions , callback ] )
 
 ### Template
