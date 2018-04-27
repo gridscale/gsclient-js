@@ -7,6 +7,8 @@ Here is our JavaScript Libary. We have developed this Package for our own Expert
 
 ## Getting Started
 
+You can get started with the API here - https://gridscale.io/en/api-documentation/index.html
+
 ### Install
 
 To install the Package, just type the following command
