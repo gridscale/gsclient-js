@@ -60,7 +60,7 @@ client.Server.list({
     filter: ["memory>16"]
 }).then(_callback);
 ```
-In this rxample the result will be the first 10 Servers with more then 16GB of Memory. Sorted by name and only returning the Name and the Object_uuid.
+In this example the result will be the first 10 Servers with more then 16GB of Memory. Sorted by name and only returning the Name and the Object_uuid.
 
 
 
