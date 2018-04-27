@@ -108,7 +108,7 @@ client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-387
 
 
 ## All Ressources and Functions  
-Here you find a list of all available Functions. We will add some more soon to make you life easier!
+Here you find a list of all available Functions. We will add some more soon to make your life easier!
 
 #### Server
 client.Server.list( [ requestoptions , callback ] )  
