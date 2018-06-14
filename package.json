@@ -1,6 +1,6 @@
 {
   "name": "@gridscale/api",
-  "version": "0.1.18",
+  "version": "0.1.20",
   "description": "gridscale API Wrapper",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
@@ -24,7 +24,7 @@
     "@types/lodash": "^4.14.61",
     "bluebird": "^3.5.0",
     "lodash": "^4.17.4",
-    "request": "^2.81.0"
+    "request": "2.85.0"
   },
   "devDependencies": {
     "@types/node": "^8.0.14",

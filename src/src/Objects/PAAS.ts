@@ -52,6 +52,9 @@ class PAAS {
       get: (_uuid,_callback?) =>{
           return this._api.get( '/objects/paas/services/' + _uuid,_callback);
       },
+      listMetrics : (_uuid,_callback?) => {
+          return this._api.get( '/objects/paas/services/' + _uuid + '/metrics',_callback);
+      },
       remove: (_uuid,_callback?) => {
           return this._api.remove( '/objects/paas/services/' + _uuid,_callback);
       },
@@ -65,7 +68,6 @@ class PAAS {
           return this._api.get( '/objects/paas/services/' + _uuid + '/events',_callback);
       },
     }
-
 }
 
 export { PAAS }
