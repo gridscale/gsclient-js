@@ -105,6 +105,16 @@ class Server extends GridscaleObjects {
 
 
     /**
+     *  Get Metrics for this Object
+     *
+     * @param _uuid Object UUID
+     * @param _callback Callback Function
+     */
+    metrics(_uuid,_options?,_callback?){
+        return this._sub('metrics',_uuid,_options,_callback);
+    }
+
+    /**
      * Get single Storage <=> Server Relation
      *
      * @param _uuid
