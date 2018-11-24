@@ -22,6 +22,7 @@ import { Deleted } from './Objects/Deleted';
 
 /**
  * generate Client Class for all Connections
+ * test
  */
 class GridscaleClient {
 
