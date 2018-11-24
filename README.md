@@ -256,6 +256,8 @@ client.Deleted.isoimages( [ requestoptions , callback ] )
 client.Deleted.snapshots( [ requestoptions , callback ] )  
 client.Deleted.templates( [ requestoptions , callback ] )  
 
-### Helper
+
+
+### Helper Lobs
 
 client.watchRequest( x-request-uuid )
