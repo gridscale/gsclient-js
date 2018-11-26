@@ -9,7 +9,13 @@
         "experimentalDecorators": true,
         "outDir": "dist",
         "noImplicitAny": false,
-        "rootDir": "."
+        "rootDir": ".",
+        "types": [
+            "node"
+         ],
+         "typeRoots": [
+           "node_modules/@types"
+        ]
     },
     "exclude": [
         "node_modules",

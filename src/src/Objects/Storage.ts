@@ -69,7 +69,7 @@ class Storage extends GridscaleObjects {
      * @returns {any|TRequest}
      */
     rollbackSnapshot(_uuid, _snapshot_uuid, _callback?) {
-        return this._sub_patch('snapshots', _uuid, _snapshot_uuid, {rollback: true}, _callback);
+        return this._api.patch( '/objects/storages/' + _uuid +'/snapshots/' + _snapshot_uuid + '/rollback' , {rollback: true} ,_callback);
     }
 
 

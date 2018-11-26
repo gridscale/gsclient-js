@@ -18,7 +18,8 @@ var shell = require('gulp-shell');
 gulp.task('compile-ts', [], function () {
     var tsResult = tsProject.src()
     .pipe(sourcemaps.init())
-    .pipe(tsc(tsProject));
+    // .pipe(tsc())
+    .pipe(tsProject());
     return merge([
         tsResult.dts.pipe(gulp.dest('dist')),
         tsResult.js.pipe(sourcemaps.write('.', {
