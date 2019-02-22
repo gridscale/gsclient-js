@@ -33,6 +33,9 @@ class PAAS {
       get: (_uuid,_callback?) =>{
           return this._api.get( '/objects/paas/security_zones/' + _uuid,_callback);
       },
+      events: (_uuid,_callback?) =>{
+          return this._api.get( '/objects/paas/security_zones/' + _uuid + '/events',_callback);
+      },
       remove: (_uuid,_callback?) => {
           return this._api.remove( '/objects/paas/security_zones/' + _uuid,_callback);
       },
