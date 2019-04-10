@@ -23,15 +23,15 @@
   "dependencies": {
     "@types/lodash": "^4.14.61",
     "bluebird": "^3.5.0",
-    "lodash": "^4.17.4",
-    "request": "2.85.0"
+    "lodash": "^4.17.11",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "@types/node": "^8.10.38",
     "chai": "^3.5.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
-    "gulp-mocha": "^3.0.1",
+    "gulp-mocha": "^6.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-shell": "^0.5.2",
     "gulp-sourcemaps": "^1.6.0",
