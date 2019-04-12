@@ -21,12 +21,12 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "@types/lodash": "^4.14.61",
-    "bluebird": "^3.5.0",
-    "lodash": "^4.17.11",
-    "request": "^2.88.0"
+    "lodash-es": "^4.17.11",
+    "tslib": "^1.9.3",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.3",
     "@types/node": "^8.10.38",
     "chai": "^3.5.0",
     "del": "^2.2.2",

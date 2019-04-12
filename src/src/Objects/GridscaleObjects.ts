@@ -1,4 +1,6 @@
-import * as _ from "lodash";
+import assignIn from 'lodash-es/assignIn';
+import isFunction from 'lodash-es/isFunction';
+import isUndefined from 'lodash-es/isUndefined';
 
 class GridscaleObjects {
 
@@ -32,7 +34,7 @@ class GridscaleObjects {
      */
     public setDefaults( _options ) {
 
-         _.assignIn( this._defaults , _options );
+         assignIn( this._defaults , _options );
     }
 
 
@@ -48,11 +50,11 @@ class GridscaleObjects {
     _buildRequestOptions (_options?) {
 
         // Clone Defaults
-        var defaults = _.assignIn({},this._defaults);
+        var defaults = assignIn({},this._defaults);
 
         // Add Options
-        if ( !_.isUndefined( _options ) && !_.isFunction( _options ) ) {
-            _.assignIn(defaults,_options);
+        if ( !isUndefined( _options ) && !isFunction( _options ) ) {
+            assignIn(defaults,_options);
         }
 
         // Return Default Values
@@ -70,12 +72,12 @@ class GridscaleObjects {
      */
     list(_options?,_callback?){
 
-      
+
         // Get Defaults
         var requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
-        if ( _.isFunction( _options ) && _.isUndefined( _callback ) ) {
+        if ( isFunction( _options ) && isUndefined( _callback ) ) {
             _callback = _options
         }
 
@@ -147,7 +149,7 @@ class GridscaleObjects {
         var requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
-        if ( _.isFunction( _options ) && _.isUndefined( _callback ) ) {
+        if ( isFunction( _options ) && isUndefined( _callback ) ) {
             _callback = _options
         }
 
