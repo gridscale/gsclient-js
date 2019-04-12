@@ -78,42 +78,56 @@ class GSError extends Error {
         var def = new Promise( ( _resolve, _reject ) => {
             // Fire Request
             var onSuccess = (_response: Response) => {
+              _response['statusCode'] = _response.status;
               setTimeout(()=>_callback( _response ));
-              _response.json()
-                .then((json) => {
-                  var result = {
-                    success: true,
-                    result: json,
-                    response: _response,
-                    links: {},
-                    watch: null
-                  };
+              if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type') == 'application/json') {
+                _response.json()
+                  .then((json) => {
+                    var result = {
+                      success: true,
+                      result: json,
+                      response: _response,
+                      links: {},
+                      watch: null
+                    };
 
-                  // Check for Links and generate them as Functions
-                  if ( json && json._links ) {
-                      var links = {};
-                      for( var linkname in json._links ) {
-                          links[linkname] = link( json._links[linkname] );
-                      }
-                      result.links = links;
-                  }
-
-                  /**
-                   * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
-                   */
-                  if ( options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE' ) {
-                    if ( result.response.headers['x-request-id'] ){
-                      result.watch = () => watchRequest( result.response.headers['x-request-id'] );
+                    // Check for Links and generate them as Functions
+                    if ( json && json._links ) {
+                        var links = {};
+                        for( var linkname in json._links ) {
+                            links[linkname] = link( json._links[linkname] );
+                        }
+                        result.links = links;
                     }
-                  }
 
-                  _resolve(result);
-                })
-                .catch(() => {
-                  onFail(_response);
-                });
+                    /**
+                     * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
+                     */
+                    if ( options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE' ) {
+                      if ( result.response.headers.has('x-request-id') ){
+                        result.watch = () => watchRequest( result.response.headers.get('x-request-id') );
+                      }
+                    }
+
+                    _resolve(result);
+                  })
+                  .catch(() => {
+                    onFail(_response);
+                  });
+                } else {
+                  _response.body.getReader().read().then((_body) => {
+                    var result = {
+                      success: true,
+                      result: _body.value,
+                      response: _response
+                    };
+                    _resolve(result);
+                  });
+
+                }
             };
             var onFail = (_response: Response) => {
+              _response['statusCode'] = _response.status;
               setTimeout(()=>_callback( _response ));
               var result = {
                 success: false,
@@ -226,7 +240,7 @@ class GSError extends Error {
      * @returns {any}
      */
     var post = (_path , _attributes , _callback?) => {
-        return makeRequest(_path,{ method : 'POST', body  : _attributes, json: true } ,_callback );
+        return makeRequest(_path,{ method : 'POST', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
     }
 
 /**
@@ -238,7 +252,7 @@ class GSError extends Error {
      * @returns {any}
      */
     var patch = (_path , _attributes , _callback?) => {
-        return makeRequest(_path,{ method : 'PATCH', body  : _attributes, json: true } ,_callback );
+        return makeRequest(_path,{ method : 'PATCH', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
     }
 
 
@@ -288,7 +302,6 @@ class GSError extends Error {
          * Start new Request
          */
         requestpooling(_requestid).then((_result: any)=>{
-
             // Check Request Status to Decide if we start again
             if (_result.result[ _requestid ].status == 'pending') {
 
@@ -296,7 +309,7 @@ class GSError extends Error {
                     buildAndStartRequestCallback(_requestid , _resolve, _reject);
                 }, settings.watchdelay );
 
-            } else if ( _result.response.statusCode == 200 ) {
+            } else if ( _result.response.status == 200 ) {
 
                 // Job done
                 _resolve(_result);
