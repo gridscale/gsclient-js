@@ -236,16 +236,6 @@ client.Price.list( [ callback ] )
 client.Events.list( [ callback ] )  
 
 ### Cloud Automation Service
-client.CAS.tasks.list( [ requestoptions , callback ] )  
-client.CAS.tasks.get( uuid [, callback ] )  
-client.CAS.tasks.remove( uuid [, callback ] )  
-client.CAS.tasks.create( attribute [, callback ] )  
-client.CAS.tasks.patch( uuid , attribute [, callback ] )   
-client.CAS.tasks.events( uuid [, requestoptions , callback ] )   
-client.CAS.events.list( [ requestoptions , callback ] )  
-client.CAS.events.get( uuid [, callback ] )  
-client.CAS.actions.list( [ requestoptions , callback ] )  
-client.CAS.actions.get( uuid [, callback ] )  
 
 ### Deleted
 client.Deleted.servers( [ requestoptions , callback ] )  

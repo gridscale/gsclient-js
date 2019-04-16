@@ -16,7 +16,6 @@ import { Price } from './Objects/Price';
 import { Loadbalancer } from './Objects/Loadbalancer';
 import { Events } from './Objects/Events';
 import { Firewall } from './Objects/Firewall';
-import { CAS } from './Objects/CAS';
 import { PAAS } from './Objects/PAAS';
 import { Deleted } from './Objects/Deleted';
 
@@ -41,7 +40,6 @@ class GridscaleClient {
     public Loadbalancer: any;
     public Events: any;
     public Firewall: any;
-    public CAS: any;
     public PAAS: any;
     public Deleted: any;
 
@@ -78,7 +76,6 @@ class GridscaleClient {
         this.Loadbalancer = new Loadbalancer(api);
         this.Events = new Events(api);
         this.Firewall = new Firewall(api);
-        this.CAS = new CAS(api);
         this.PAAS = new PAAS(api);
         this.Deleted = new Deleted(api);
 

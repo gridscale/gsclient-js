@@ -1,9 +1,4 @@
-import assignIn from 'lodash-es/assignIn';
-import isArray from 'lodash-es/isArray';
-import isFunction from 'lodash-es/isFunction';
-import isObject from 'lodash-es/isObject';
-import isUndefined from 'lodash-es/isUndefined';
-import uniqueId from 'lodash-es/uniqueId';
+import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId } from 'lodash';
 
 require('whatwg-fetch');
 

@@ -1,6 +1,4 @@
-import assignIn from 'lodash-es/assignIn';
-import isFunction from 'lodash-es/isFunction';
-import isUndefined from 'lodash-es/isUndefined';
+import { assignIn, isFunction, isUndefined } from 'lodash';
 
 class GridscaleObjects {
 
