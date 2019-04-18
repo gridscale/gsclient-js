@@ -1,3 +1,4 @@
+import { Marketplace } from './Objects/Marketplace';
 
 
 var api = require('./api');
@@ -44,6 +45,7 @@ class GridscaleClient {
     public CAS: any;
     public PAAS: any;
     public Deleted: any;
+    public Marketplace: any;
 
     public watchRequest: Function;
 
@@ -81,6 +83,7 @@ class GridscaleClient {
         this.CAS = new CAS(api);
         this.PAAS = new PAAS(api);
         this.Deleted = new Deleted(api);
+        this.Marketplace = new Marketplace(api);
 
         this.watchRequest = api.watchRequest;
 
