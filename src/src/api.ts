@@ -1,4 +1,6 @@
+import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId } from 'lodash';
 
+require('whatwg-fetch');
 
 class GSError extends Error {
     result:Object;
@@ -12,13 +14,6 @@ class GSError extends Error {
 
 
 (function() {
-
-    // Dependecy
-    var request = require('request');
-    var _ = require('lodash');
-    var Promise = require("bluebird");
-
-
     // Local Settings
     var settings = {
         endpoint: 'https://api.gridscale.io',
@@ -46,7 +41,7 @@ class GSError extends Error {
     var setOptions = (_option) => {
 
         // Assign new Values
-        _.assignIn(settings, _option);
+        assignIn(settings, _option);
     };
 
 
@@ -59,26 +54,109 @@ class GSError extends Error {
      * @param _callback
      * @returns {any}
      */
-    var makeRequest = ( _path:String = '', _options:Object , _callback:Function= () => {} ) => {
+    var makeRequest = ( _path:string = '', _options:Object , _callback:Function= () => {} ) => {
 
         /**
          * Build Request Object
          * @type {{url: string; headers: {X-Auth-UserId: string; X-Auth-Token: string}}}
          */
-        var options = !_.isObject(_options) ? {} :_.assignIn( {}, _options );
+        var options: any = !isObject(_options) ? {} :assignIn( {}, _options );
 
         // Build Options
-        options.url = _path.search('https://') == 0 ? _path :  settings.endpoint + _path; // on Links there is already
+        var url: string = _path.search('https://') == 0 ? _path :  settings.endpoint + _path; // on Links there is already
         options.headers = options.headers ? options.headers : {};
         options.headers["X-Auth-UserId"] = settings.userId;
         options.headers["X-Auth-Token"] = settings.token;
         options.headers["X-Api-Client"] = "expert";
-        options.withCredentials = false;
 
         // Setup DEF
         var def = new Promise( ( _resolve, _reject ) => {
             // Fire Request
-            request(options,requestCallback(_resolve, _reject,_callback));
+            var onSuccess = (_response: Response) => {
+              _response['statusCode'] = _response.status;
+              setTimeout(()=>_callback( _response ));
+              if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type') == 'application/json') {
+                _response.json()
+                  .then((json) => {
+                    var result = {
+                      success: true,
+                      result: json,
+                      response: _response,
+                      links: {},
+                      watch: null
+                    };
+
+                    // Check for Links and generate them as Functions
+                    if ( json && json._links ) {
+                        var links = {};
+                        for( var linkname in json._links ) {
+                            links[linkname] = link( json._links[linkname] );
+                        }
+                        result.links = links;
+                    }
+
+                    /**
+                     * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
+                     */
+                    if ( options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE' ) {
+                      if ( result.response.headers.has('x-request-id') ){
+                        result.watch = () => watchRequest( result.response.headers.get('x-request-id') );
+                      }
+                    }
+
+                    _resolve(result);
+                  })
+                  .catch(() => {
+                    onFail(_response);
+                  });
+                } else {
+                  _response.body.getReader().read().then((_body) => {
+                    var result = {
+                      success: true,
+                      result: _body.value,
+                      response: _response
+                    };
+                    _resolve(result);
+                  });
+
+                }
+            };
+            var onFail = (_response: Response) => {
+              _response['statusCode'] = _response.status;
+              setTimeout(()=>_callback( _response ));
+              var result = {
+                success: false,
+                result: null,
+                response: _response,
+                id: uniqueId('apierror_' + (new Date()).getTime() +'_')
+              };
+
+              log({
+                result: result,
+                response: _response,
+                id: result.id
+              });
+
+              _reject( new GSError('Request Error',result) );
+            }
+
+            var req = window['fetch'](url , options);
+            req
+              .then((_response) => {
+                if (_response.ok) {
+                  // The promise does not reject on HTTP errors
+                  onSuccess(_response);
+
+                } else {
+                  onFail(_response);
+                }
+              })
+              .catch((_response) => {
+                onFail(_response);
+              });
+
+            // Return promise
+            return req;
         } );
 
 
@@ -91,80 +169,6 @@ class GSError extends Error {
     };
 
 
-    /**
-     * Building Callback for REQUEST
-     *
-     *
-     * @param _resolve
-     * @param _reject
-     * @param _callback
-     * @returns {(error:any, response:any, body:any)=>undefined}
-     */
-    var requestCallback = ( _resolve , _reject , _callback:Function = () => {} ) => {
-
-        // Returning a new Function
-        return ( _error , _response , _body ) => {
-
-            // Build Result Object
-            var result;
-
-            if (!_error && _response.statusCode < 400) {
-
-                // Parse JSON if need
-                var parsedResult =  (_.isUndefined(_body) ||  _.isNull(_body) ) ? false : _.isObject(_body) ? _body : ( _body.length > 0 ? JSON.parse(_body) : '' );
-
-                result = {
-                    success     : true,
-                    result      : parsedResult,
-                    response    : _response.toJSON()
-                };
-
-                // Check for Links and generate them as Functions
-                if ( parsedResult && parsedResult._links ) {
-                    var links = {};
-                    for( var linkname in parsedResult._links ) {
-                        links[linkname] = link( parsedResult._links[linkname] );
-                    }
-                    result.links = links;
-                }
-
-                /**
-                 * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
-                 */
-                if ( result.response.request['method'] == 'POST' || result.response.request['method'] == 'PATCH' || result.response.request['method'] == 'DELETE' ) {
-                  if ( result.response.headers['x-request-id'] ){
-                    result.watch = () => watchRequest( result.response.headers['x-request-id'] );
-                  }
-                }
-
-                _resolve( result );
-
-            } else {
-
-                result = {
-                    success: false,
-                    response: _response,
-                    id: _.uniqueId('apierror_' + (new Date()).getTime() +'_')
-                };
-
-                log({
-                  result: result,
-                  error: _error,
-                  response:_response,
-                  id: result.id
-                });
-
-                _reject( new GSError('Request Error',result) );
-
-            }
-
-            setTimeout(()=>{
-
-                _callback( result );
-
-            });
-        }
-    };
 
 
     /**
@@ -179,7 +183,7 @@ class GSError extends Error {
 
         // Add Options to URL
         for (var key in _options) {
-            if ( _.isArray(_options[key]) ){
+            if ( isArray(_options[key]) ){
                 url.push(key +'=' +_options[key].join(',') );
             } else {
                 url.push(key +'=' +_options[key] );
@@ -200,12 +204,12 @@ class GSError extends Error {
      */
     var get = (_path , _options? , _callback?) => {
 
-        if ( _.isObject( _options ) ) {
+        if ( isObject( _options ) ) {
             _path += buildRequestURL( _options );
         }
 
         // If No Options but Callback is given
-        if ( _.isUndefined( _callback ) && _.isFunction( _options ) ) {
+        if ( isUndefined( _callback ) && isFunction( _options ) ) {
             _callback = _options;
         }
 
@@ -231,7 +235,7 @@ class GSError extends Error {
      * @returns {any}
      */
     var post = (_path , _attributes , _callback?) => {
-        return makeRequest(_path,{ method : 'POST', body  : _attributes, json: true } ,_callback );
+        return makeRequest(_path,{ method : 'POST', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
     }
 
 /**
@@ -243,7 +247,7 @@ class GSError extends Error {
      * @returns {any}
      */
     var patch = (_path , _attributes , _callback?) => {
-        return makeRequest(_path,{ method : 'PATCH', body  : _attributes, json: true } ,_callback );
+        return makeRequest(_path,{ method : 'PATCH', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
     }
 
 
@@ -292,8 +296,7 @@ class GSError extends Error {
         /**
          * Start new Request
          */
-        requestpooling(_requestid).then((_result)=>{
-
+        requestpooling(_requestid).then((_result: any)=>{
             // Check Request Status to Decide if we start again
             if (_result.result[ _requestid ].status == 'pending') {
 
@@ -301,7 +304,7 @@ class GSError extends Error {
                     buildAndStartRequestCallback(_requestid , _resolve, _reject);
                 }, settings.watchdelay );
 
-            } else if ( _result.response.statusCode == 200 ) {
+            } else if ( _result.response.status == 200 ) {
 
                 // Job done
                 _resolve(_result);

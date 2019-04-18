@@ -1,4 +1,4 @@
-var _ = require( 'lodash' );
+import { assignIn, isFunction, isUndefined } from 'lodash';
 
 class Location {
 
@@ -33,7 +33,7 @@ class Location {
      */
     public setDefaults( _options ) {
 
-        _.assignIn( this._defaults , _options );
+        assignIn( this._defaults , _options );
     }
 
 
@@ -49,11 +49,11 @@ class Location {
     _buildRequestOptions (_options?) {
 
         // Clone Defaults
-        var defaults = _.assignIn({},this._defaults);
+        var defaults = assignIn({},this._defaults);
 
         // Add Options
-        if ( !_.isUndefined( _options ) && !_.isFunction( _options ) ) {
-            _.assignIn(defaults,_options);
+        if ( !isUndefined( _options ) && !isFunction( _options ) ) {
+            assignIn(defaults,_options);
         }
 
         // Return Default Values
@@ -75,7 +75,7 @@ class Location {
         var requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
-        if ( _.isFunction( _options ) && _.isUndefined( _callback ) ) {
+        if ( isFunction( _options ) && isUndefined( _callback ) ) {
             _callback = _options
         }
 
