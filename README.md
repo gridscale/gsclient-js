@@ -118,7 +118,7 @@ client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-387
 ## All Ressources and Functions  
 Here you find a list of all available Functions. We will add some more soon to make your life easier!
 
-#### Server
+### Server
 client.Server.list( [ requestoptions , callback ] )  
 client.Server.get( uuid [, callback ] )  
 client.Server.remove( uuid [, callback ] )  
@@ -227,6 +227,14 @@ client.Firewall.create( attribute [, callback ] )
 client.Firewall.patch( uuid , attribute [, callback ] )   
 client.Firewall.events( uuid [, requestoptions , callback ] )
 
+### Loadbalancer
+client.Loadbalancer.list( [ requestoptions , callback ] )  
+client.Loadbalancer.get( uuid [, callback ] )  
+client.Loadbalancer.remove( uuid [, callback ] )  
+client.Loadbalancer.create( attribute [, callback ] )  
+client.Loadbalancer.patch( uuid , attribute [, callback ] )   
+client.Loadbalancer.events( uuid [, requestoptions , callback ] )
+
 ### ObjectStorage
 client.ObjectStorage.accessKeys( [ callback ] )  
 client.ObjectStorage.accessKey( access_key [, callback ] )  
@@ -251,6 +259,21 @@ client.PAAS.services.listMetrics( UUID [, callback ] )
 client.PAAS.services.remove( UUID [, callback ] )
 client.PAAS.services.create( data [, callback ] )
 client.PAAS.services.patch( UUID, data [, callback ] )
+
+### Marketplace
+client.Marketplace.list( [ requestoptions , callback ] )  
+client.Marketplace.get( uuid [, callback ] )  
+client.Marketplace.remove( uuid [, callback ] )  
+client.Marketplace.create( attribute [, callback ] )  
+client.Marketplace.patch( uuid , attribute [, callback ] )   
+client.Marketplace.events( uuid [, requestoptions , callback ] )
+
+### Label
+client.Label.list( [ requestoptions , callback ] )  
+client.Label.get( uuid [, callback ] )  
+client.Label.remove( uuid [, callback ] )  
+client.Label.create( attribute [, callback ] )  
+
 
 
 ### Price
