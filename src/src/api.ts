@@ -1,6 +1,6 @@
 import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId } from 'lodash';
 
-require('whatwg-fetch');
+import 'whatwg-fetch';
 
 class GSError extends Error {
     result:Object;
@@ -13,9 +13,9 @@ class GSError extends Error {
 }
 
 
-(function() {
+class APIClass {
     // Local Settings
-    var settings = {
+    private settings = {
         endpoint: 'https://api.gridscale.io',
         token: '',
         userId: '',
@@ -27,10 +27,10 @@ class GSError extends Error {
      * Store Token for Current Session
      * @param _token Secret Token
      */
-    var storeToken = (_token,_userId) => {
+    public storeToken(_token,_userId) {
         // Store Token
-        settings.token = _token;
-        settings.userId = _userId;
+        this.settings.token = _token;
+        this.settings.userId = _userId;
     };
 
     /**
@@ -38,12 +38,16 @@ class GSError extends Error {
      *
      * @param _option
      */
-    var setOptions = (_option) => {
+    public setOptions = (_option) => {
 
         // Assign new Values
-        assignIn(settings, _option);
+        assignIn(this.settings, _option);
     };
 
+
+    public request(_path:string = '', _options:Object , _callback:Function= () => {}) {
+      return this.makeRequest(_path, _options, _callback);
+    }
 
     /**
      * Start the API Request
@@ -54,7 +58,7 @@ class GSError extends Error {
      * @param _callback
      * @returns {any}
      */
-    var makeRequest = ( _path:string = '', _options:Object , _callback:Function= () => {} ) => {
+    private makeRequest( _path:string = '', _options:Object , _callback:Function= () => {} ) {
 
         /**
          * Build Request Object
@@ -63,10 +67,10 @@ class GSError extends Error {
         var options: any = !isObject(_options) ? {} :assignIn( {}, _options );
 
         // Build Options
-        var url: string = _path.search('https://') == 0 ? _path :  settings.endpoint + _path; // on Links there is already
+        var url: string = _path.search('https://') == 0 ? _path :  this.settings.endpoint + _path; // on Links there is already
         options.headers = options.headers ? options.headers : {};
-        options.headers["X-Auth-UserId"] = settings.userId;
-        options.headers["X-Auth-Token"] = settings.token;
+        options.headers["X-Auth-UserId"] = this.settings.userId;
+        options.headers["X-Auth-Token"] = this.settings.token;
         options.headers["X-Api-Client"] = "expert";
 
         // Setup DEF
@@ -90,7 +94,7 @@ class GSError extends Error {
                     if ( json && json._links ) {
                         var links = {};
                         for( var linkname in json._links ) {
-                            links[linkname] = link( json._links[linkname] );
+                            links[linkname] = this.link( json._links[linkname] );
                         }
                         result.links = links;
                     }
@@ -100,7 +104,7 @@ class GSError extends Error {
                      */
                     if ( options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE' ) {
                       if ( result.response.headers.has('x-request-id') ){
-                        result.watch = () => watchRequest( result.response.headers.get('x-request-id') );
+                        result.watch = () => this.watchRequest( result.response.headers.get('x-request-id') );
                       }
                     }
 
@@ -131,7 +135,7 @@ class GSError extends Error {
                 id: uniqueId('apierror_' + (new Date()).getTime() +'_')
               };
 
-              log({
+              this.log({
                 result: result,
                 response: _response,
                 id: result.id
@@ -176,7 +180,7 @@ class GSError extends Error {
      * @param _options
      * @returns {string}
      */
-    var buildRequestURL = (_options) => {
+    private buildRequestURL(_options) {
 
         // Push Valued
         var url = [];
@@ -202,10 +206,10 @@ class GSError extends Error {
      * @param _path
      * @param _callback
      */
-    var get = (_path , _options? , _callback?) => {
+    public get(_path , _options? , _callback?) {
 
         if ( isObject( _options ) ) {
-            _path += buildRequestURL( _options );
+            _path += this.buildRequestURL( _options );
         }
 
         // If No Options but Callback is given
@@ -213,7 +217,7 @@ class GSError extends Error {
             _callback = _options;
         }
 
-        return makeRequest(_path,{method:'GET'} ,_callback );
+        return this.makeRequest(_path,{method:'GET'} ,_callback );
     };
 
     /**
@@ -221,8 +225,8 @@ class GSError extends Error {
      * @param _path
      * @param _callback
      */
-    var remove = (_path , _callback?) => {
-        return makeRequest(_path,{method:'DELETE'} ,_callback );
+    public remove(_path , _callback?) {
+        return this.makeRequest(_path,{method:'DELETE'} ,_callback );
     };
 
 
@@ -234,8 +238,8 @@ class GSError extends Error {
      * @param _callback Optional Callback
      * @returns {any}
      */
-    var post = (_path , _attributes , _callback?) => {
-        return makeRequest(_path,{ method : 'POST', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
+    public post(_path , _attributes , _callback?) {
+        return this.makeRequest(_path,{ method : 'POST', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
     }
 
 /**
@@ -246,8 +250,8 @@ class GSError extends Error {
      * @param _callback Optional Callback
      * @returns {any}
      */
-    var patch = (_path , _attributes , _callback?) => {
-        return makeRequest(_path,{ method : 'PATCH', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
+    public patch(_path , _attributes , _callback?) {
+        return this.makeRequest(_path,{ method : 'PATCH', body  : JSON.stringify(_attributes), headers: {'Content-Type': 'application/json' } } ,_callback );
     }
 
 
@@ -258,13 +262,13 @@ class GSError extends Error {
      * @param _callback
      * @returns {any}
      */
-    var link = ( _link ) => {
+    private link( _link ) {
 
         /**
          * generate Function that has an Optional Callback
          */
         return function (  _callback? ){
-            return makeRequest(_link.href,{method:'GET'} ,_callback );
+            return this.makeRequest(_link.href,{method:'GET'} ,_callback );
         };
 
     }
@@ -278,8 +282,8 @@ class GSError extends Error {
      * @param _callback
      * @returns {any}
      */
-    var requestpooling = ( _requestid , _callback?) => {
-        return makeRequest('/requests/' + _requestid,{method:'GET'} ,_callback );
+    public requestpooling ( _requestid , _callback?) {
+        return this.makeRequest('/requests/' + _requestid,{method:'GET'} ,_callback );
     };
 
 
@@ -291,18 +295,18 @@ class GSError extends Error {
      * @param _resolve
      * @param _reject
      */
-    var buildAndStartRequestCallback = ( _requestid , _resolve, _reject) => {
+    private buildAndStartRequestCallback( _requestid , _resolve, _reject) {
 
         /**
          * Start new Request
          */
-        requestpooling(_requestid).then((_result: any)=>{
+        this.requestpooling(_requestid).then((_result: any)=>{
             // Check Request Status to Decide if we start again
             if (_result.result[ _requestid ].status == 'pending') {
 
                 setTimeout(()=>{
-                    buildAndStartRequestCallback(_requestid , _resolve, _reject);
-                }, settings.watchdelay );
+                    this.buildAndStartRequestCallback(_requestid , _resolve, _reject);
+                }, this.settings.watchdelay );
 
             } else if ( _result.response.status == 200 ) {
 
@@ -324,40 +328,31 @@ class GSError extends Error {
      * @param _requestid
      * @param _callback
      */
-    var watchRequest = ( _requestid ) => {
+    public watchRequest( _requestid ) {
 
 
         // Setup DEF
-        var def = new Promise( ( _resolve, _reject ) => buildAndStartRequestCallback(_requestid , _resolve, _reject) );
+        var def = new Promise( ( _resolve, _reject ) => this.buildAndStartRequestCallback(_requestid , _resolve, _reject) );
 
         // Return DEF
         return def;
     }
 
 
-    var callbacks = [];
-    var addLogger = (_callback) => {
-      callbacks.push(_callback);
+    private callbacks = [];
+    public addLogger = (_callback) => {
+      this.callbacks.push(_callback);
     }
 
-    var log = (_error) => {
-      for (var i = 0; i < callbacks.length; i++) {
-        callbacks[i](_error);
+    private log = (_error) => {
+      for (var i = 0; i < this.callbacks.length; i++) {
+        this.callbacks[i](_error);
       }
     }
 
 
-    module.exports = {
-        request :       makeRequest,
-        storeToken:     storeToken,
-        setOptions:     setOptions,
-        get :           get,
-        remove :        remove,
-        post:           post,
-        patch:          patch,
-        requestpooling: requestpooling,
-        watchRequest: watchRequest,
-        addLogger: addLogger
-    }
 
-}).call(this);
+
+}
+
+export const api = new APIClass();

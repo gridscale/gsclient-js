@@ -1,6 +1,6 @@
 
 
-var api = require('./api');
+import { api } from './api';
 
 import { Server } from './Objects/Server';
 import { Storage } from './Objects/Storage';
