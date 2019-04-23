@@ -16,15 +16,21 @@ To install the Package, just type the following command
 npm install @gridscale/api --save
 ```
 ### Usage
-To work with the gridscale API you need an API-Token and User-UUID you can create and find in the API Section of the gridscale Interface.
+To work with the gridscale API you need an **API-Token** and **User-UUID** - you can create and find it in the API Section of the gridscale Interface (https://my.gridscale.io).
  ```js
 var gridscale = require('@gridscale/api').gridscale;
 var client = new gridscale.Client(TOKEN,User-UUID);
 ```
 
+you can also use ECMAScript 6 Syntax
+```js
+import { gridscale } from '@gridscale/api';
+```
+
+
 
 #### Options
-You can set new Default Settings for every Object type when creating the Client. The third parameter of the Constructor can be used for Options
+You can set new default settings for every Object type when creating the client. The third parameter of the constructor can be used for options
 
 ```js
 var client = new gridscale.Client(TOKEN,User-UUID, {
@@ -33,8 +39,8 @@ var client = new gridscale.Client(TOKEN,User-UUID, {
     });
 ```
 
-For all single Object Types you can adjust different default Values for Pagination, Filtering, Sorting and what Fields should get included into List requests.  
-You can set the Options by calling the *setDefaults* Function for an Object
+For all single Object Types you can adjust different default values for pagination, filtering, sorting and what fields should get included into list requests.  
+You can set the options by calling the *setDefaults* function for an object
 
 ```js
 var requestoptions = {
@@ -51,7 +57,7 @@ var requestoptions = {
 
 client.Server.setDefaults( requestoptions );
 ```
-You can also Use the Options in a Single request to Filter you Objects    
+You can also use the options in a single request to filter your objects    
 
 ```js
 client.Server.list({
@@ -62,15 +68,15 @@ client.Server.list({
     filter: ["memory>16"]
 }).then(_callback);
 ```
-In this example the result will be the first 10 Servers with more then 16GB of Memory. Sorted by name and only returning the Name and the Object_uuid.
+In this example the result will be the first 10 servers with more then 16GB of memory. Sorted by name and only returning the `name` and the `object_uuid`.
 
 
 
-##### Availible Filter Options:  
-Here you find an overview of the Filter Options you have when using the Filter.
+##### Available Filter Options:  
+Here you find an overview of the filter options you have when using the filter.
 
-"=" String or Value comparison: exact match  
-"<>" String or Value comparison: does not match  
+"=" String or value comparison: exact match  
+"<>" String or value comparison: does not match  
 "<" Value less than  
 ">" Value greater than  
 "<=" Value less or equal  
@@ -79,7 +85,7 @@ Here you find an overview of the Filter Options you have when using the Filter.
 
 
 #### Callback Functions and Promises
-All Requests and Actions for the Objects return a Promise. You are also to use a Callback Style for each Action as Listed below. Both Promise and Callback use the same Result Object that get passed to the Function
+All requests and actions for the objects return a `Promise`. You are also free to use a callback style for each action as listed below. Both Promise and Callback use the same result object that gets passed to the function
 ```js
 client.Server.list().then(function( result ){
     result.success;     // Boolean Value. False = there was an Error
@@ -89,11 +95,11 @@ client.Server.list().then(function( result ){
     result.watch;       // Function that returns a Promise for the current Job.
 });
 ```
-The Links are only given in Responses where a List is Returned.  
-The watch Function is also only available on PATCH, POST or DELETE Calls. So when you are creating or changing an Object.
+The `links` are only given in **list** responses.  
+The `watch` function is only available on PATCH, POST or DELETE Calls.
 
 ##### Watching a Job
-The Watch-Function will start watching the Job your request just started. So if you created a large Storage. The Promise that get returns by the Watch-Function will get resolved if the Storage is ready to work with.
+The `watch`-function returned in each response object will start watching the job your request just started (for example creating a large storage). The Promise that is returned by the `watch`-function will get resolved when the storage is ready to work with.
 ```js
 // Creating a new Storage with 1TB Size
 client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-3873-4b2f-915b-4c86c28344e5"}).then(function(_result){
@@ -229,13 +235,30 @@ client.ObjectStorage.removeAccessKey( access [, callback ] )
 client.ObjectStorage.buckets( [ callback ] )   
 client.ObjectStorage.bucket( bucket_name [ , callback ] )
 
+### Paas
+client.PAAS.serviceTemplates.get( UUID [, callback ] )
+client.PAAS.serviceTemplates.list( [ requestoptions, callback ] )
+client.PAAS.securityZones.list( [ requestoptions, callback ] )
+client.PAAS.securityZones.get( UUID [, callback ] )
+client.PAAS.securityZones.events( UUID [, callback ] )
+client.PAAS.securityZones.remove( UUID [, callback ] )
+client.PAAS.securityZones.create( data [, callback ] )
+client.PAAS.securityZones.patch( UUID, data [, callback ] )
+client.PAAS.services.list( [ requestoptions, callback ] )
+client.PAAS.services.get( UUID [, callback ] )
+client.PAAS.services.events( UUID [, callback ] )
+client.PAAS.services.listMetrics( UUID [, callback ] )
+client.PAAS.services.remove( UUID [, callback ] )
+client.PAAS.services.create( data [, callback ] )
+client.PAAS.services.patch( UUID, data [, callback ] )
+
+
 ### Price
 client.Price.list( [ callback ] )  
 
 ### Events
 client.Events.list( [ callback ] )  
 
-### Cloud Automation Service
 
 ### Deleted
 client.Deleted.servers( [ requestoptions , callback ] )  
