@@ -118,8 +118,19 @@ class APIClass {
                     var result = {
                       success: true,
                       result: _body.value,
-                      response: _response
+                      response: _response,
+                      watch: null
                     };
+
+                    /**
+                     * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
+                     */
+                    if ( options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE' ) {
+                      if ( result.response.headers.has('x-request-id') ){
+                        result.watch = () => this.watchRequest( result.response.headers.get('x-request-id') );
+                      }
+                    }
+
                     _resolve(result);
                   });
 
