@@ -306,7 +306,7 @@ class APIClass {
      * @param _resolve
      * @param _reject
      */
-    private buildAndStartRequestCallback( _requestid , _resolve, _reject) {
+    public buildAndStartRequestCallback( _requestid , _resolve, _reject) {
 
         /**
          * Start new Request
@@ -340,10 +340,10 @@ class APIClass {
      * @param _callback
      */
     public watchRequest( _requestid ) {
-
-
         // Setup DEF
-        var def = new Promise( ( _resolve, _reject ) => this.buildAndStartRequestCallback(_requestid , _resolve, _reject) );
+        var def = new Promise( ( _resolve, _reject ) => {
+          api.buildAndStartRequestCallback(_requestid , _resolve, _reject);
+        });
 
         // Return DEF
         return def;
