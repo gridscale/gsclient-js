@@ -4,6 +4,8 @@ Here is our JavaScript Libary. We have developed this Package for our own Expert
 
 **This document is still under development and is constantly being expanded and optimized**
 
+[Demo](https://gridscale.github.io/gs_api_node/example/index.html)
+
 
 ## Getting Started
 
