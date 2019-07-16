@@ -117,6 +117,7 @@ client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-387
 
 ## All Ressources and Functions  
 Here you find a list of all available Functions. We will add some more soon to make your life easier!
+**Note:** This is only a dump of available functions. Please find a detailed API Documentation here: https://gridscale.io/en/api-documentation/index.html
 
 ### Server
 client.Server.list( [ requestoptions , callback ] )  
@@ -297,3 +298,6 @@ client.Deleted.templates( [ requestoptions , callback ] )
 ### Helper Lobs
 
 client.watchRequest( x-request-uuid )
+
+## Making changes to the API client
+To compile the typescript code to javascript please run `gulp` command.
