@@ -21,7 +21,9 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.11",
+    "es6-promise": "^4.2.8",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.14",
     "tslib": "^1.9.3",
     "whatwg-fetch": "^3.0.0"
   },
@@ -30,9 +32,8 @@
     "@types/node": "^8.10.38",
     "chai": "^3.5.0",
     "del": "^2.2.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-mocha": "^6.0.0",
-    "gulp-rename": "^1.2.2",
     "gulp-shell": "^0.5.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^6.1.1",

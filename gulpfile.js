@@ -5,17 +5,15 @@ var gulp = require('gulp'),
     del = require('del'),
     tsProject = tsc.createProject('tsconfig.json'),
     mocha = require('gulp-mocha'),
-    path = require('path'),
-    rename = require('gulp-rename');
+    path = require('path');
 // or requiring in ES5
-var tslint = require("gulp-tslint");
 var merge = require('merge2');
 var shell = require('gulp-shell');
 
 /**
  * Compile TypeScript and include references to library and app .d.ts files.
  */
-gulp.task('compile-ts', [], function () {
+function compileTs() {
     var tsResult = tsProject.src()
     .pipe(sourcemaps.init())
     // .pipe(tsc())
@@ -31,37 +29,36 @@ gulp.task('compile-ts', [], function () {
             }
         })).pipe(gulp.dest('dist'))
     ]);
-});
+};
 
-gulp.task('copy-json', ['compile-ts'], function () {
+function copyJson () {
     var sourceJsonFiles = [
                             './src/*.json',                //path to typescript files
                             ];
 
  return gulp.src(sourceJsonFiles).pipe(gulp.dest('dist/src/'));
 
-});
+}
 
-gulp.task('clean-ts', function (cb) {
+function cleanTs(cb) {
   var typeScriptGenFiles = [
                               './dist/**/*.*'    // path to all JS files auto gen'd by editor
                            ];
 
   // delete the files
   return del(typeScriptGenFiles, cb);
-});
+}
 
-gulp.task('test', ['copy-json'], function () {
+function testFn() {
 	return gulp.src('dist/test/**/*.spec.js', {read: false})
 		// gulp-mocha needs filepaths so you can't have any plugins before it
 		.pipe(mocha({reporter: 'spec', timeout: '360000'})).once('error', () => {
             process.exit(1);
         });
-});
+}
 
-gulp.task('pack', ['test'], shell.task([
-        'npm pack'
-    ])
-);
 
-gulp.task('default', ['clean-ts', 'compile-ts', 'copy-json', 'test']);
+//gulp.task('default', gulp.series(['clean-ts', 'compile-ts', 'copy-json', 'test']));
+var build = gulp.series(cleanTs, compileTs, copyJson, testFn);
+
+exports.default = build;
