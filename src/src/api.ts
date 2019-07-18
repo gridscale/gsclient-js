@@ -1,6 +1,7 @@
 import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId } from 'lodash';
 
-import 'whatwg-fetch';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 class GSError extends Error {
     result:Object;
@@ -155,7 +156,7 @@ class APIClass {
               _reject( new GSError('Request Error',result) );
             }
 
-            var req = window['fetch'](url , options);
+            var req = fetch(url , options);
             req
               .then((_response) => {
                 if (_response.ok) {
