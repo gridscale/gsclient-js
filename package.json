@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "https://gridscale.io",
-  "repository": "https://bitbucket.org/gridscale/gs_api_node",
+  "repository": "https://github.com/gridscale/gs_api_node",
   "author": "Marc Dittmann <marc@gridscale.io> (https://gridscale.io/)",
   "keywords": [
     "gridscale",
