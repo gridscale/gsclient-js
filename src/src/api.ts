@@ -115,10 +115,11 @@ class APIClass {
                     onFail(_response);
                   });
                 } else {
-                  _response.body.getReader().read().then((_body) => {
+                  _response.text()
+                  .then((_text) => {
                     var result = {
                       success: true,
-                      result: _body.value,
+                      result: _text,
                       response: _response,
                       watch: null
                     };
