@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/%40gridscale%2Fapi.svg)](https://badge.fury.io/js/%40gridscale%2Fapi)
+
 # Welcome to the gridscale API wrapper #
 
 Here is our JavaScript Libary. We have developed this Package for our own Expert Panel and want to share it with you.  
