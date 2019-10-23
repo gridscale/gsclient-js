@@ -86,9 +86,14 @@ class GridscaleClient {
 
     }
 
-    public setToken (_token, _userId) {
+    public setToken (_token: string, _userId: string) {
       api.storeToken(_token, _userId);
     }
+
+    public setEndpoint(_endpoint: string) {
+      api.setOptions({ endpoint: _endpoint });
+    }
+
 
     public addLogger ( _callback ) {
       api.addLogger( _callback );
