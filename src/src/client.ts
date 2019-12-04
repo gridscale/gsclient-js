@@ -22,6 +22,7 @@ import { Deleted } from './Objects/Deleted';
 import { PAASServiceTemplate } from './Objects/PAASServiceTemplate';
 import { PAASService } from './Objects/PAASService';
 import { PAASSecurityZone } from './Objects/PAASSecurityZone';
+import { PAASServiceMetrics } from './Objects/PAASServiceMetrics';
 
 /**
  * generate Client Class for all Connections
@@ -90,7 +91,6 @@ class GridscaleClient {
         this.PAASSecurityZone = new PAASSecurityZone(api);
         this.Deleted = new Deleted(api);
         this.Marketplace = new Marketplace(api);
-
         this.watchRequest = api.watchRequest;
 
     }
@@ -106,6 +106,10 @@ class GridscaleClient {
 
     public addLogger ( _callback ) {
       api.addLogger( _callback );
+    }
+
+    public PAASServiceMetrics(_serviceUUID) {
+      return new PAASServiceMetrics(api, _serviceUUID);
     }
 
 }
