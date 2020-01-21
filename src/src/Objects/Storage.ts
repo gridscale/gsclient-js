@@ -9,6 +9,17 @@ class Storage extends GridscaleObjects {
 
 
     /**
+     *  Clone a Storage
+     *
+     * @param _uuid Object UUID to Clone
+     * @param _callback Callback Function
+     */
+    clone(_uuid, _callback?) {
+      return this._api.post(  this._basepath +'/'+ _uuid + '/clone' ,_callback);
+    }
+
+
+    /**
      *  Snapshots
      *
      */
