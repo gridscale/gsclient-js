@@ -79,7 +79,6 @@ class APIClass {
             // Fire Request
           var onSuccess = (_response: Response, _requestInit: RequestInit) => {
               _response['statusCode'] = _response.status;
-              setTimeout(()=>_callback( _response ));
               if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type') == 'application/json') {
                 _response.json()
                   .then((json) => {
@@ -88,7 +87,9 @@ class APIClass {
                       result: json,
                       response: _response,
                       links: {},
-                      watch: null
+                      watch: null,
+                      id: null,
+                      requestInit: _requestInit
                     };
 
                     // Check for Links and generate them as Functions
@@ -110,6 +111,7 @@ class APIClass {
                     }
 
                     _resolve(result);
+                    setTimeout(() => _callback(_response, result));
                   })
                   .catch(() => {
                     onFail(_response, _requestInit);
@@ -124,6 +126,7 @@ class APIClass {
                       watch: null
                     };
 
+                    
                     /**
                      * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
                      */
@@ -134,28 +137,34 @@ class APIClass {
                     }
 
                     _resolve(result);
+                    setTimeout(() => _callback(_response, result));
                   });
 
                 }
             };
           var onFail = (_response: Response, _requestInit: RequestInit) => {
               _response['statusCode'] = _response.status;
-              setTimeout(()=>_callback( _response ));
               var result = {
                 success: false,
                 result: null,
                 response: _response,
-                id: uniqueId('apierror_' + (new Date()).getTime() +'_')
+                links: {},
+                watch: null,
+                id: uniqueId('apierror_' + (new Date()).getTime() +'_'),
+                requestInit: _requestInit
               };
+
+  
 
               this.log({
                 result: result,
                 response: _response,
                 id: result.id,
-                requestInit: _requestInit
+                requestInit: result.requestInit
               });
 
               _reject( new GSError('Request Error',result) );
+              setTimeout(() => _callback(_response, result));
             }
 
             var req = fetch(url , options);
