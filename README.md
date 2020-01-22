@@ -2,50 +2,50 @@
 
 # Welcome to the gridscale API wrapper #
 
-Here is our JavaScript Libary. We have developed this Package for our own Expert Panel and want to share it with you.  
-
-**This document is still under development and is constantly being expanded and optimized**
+This is our JavaScript Library. We developed this package for our [Expert Panel](https://my.gridscale.io/Expert) and want to share it with you.  
 
 [Demo](https://gridscale.github.io/gs_api_node/example/index.html)
+
+For details to all API endpoints and their methods, you should refer to the **official API documentation** here - https://gridscale.io/en/api-documentation/index.html
 
 
 ## Getting Started
 
-You can get started with the API here - https://gridscale.io/en/api-documentation/index.html
-
-### Install
+### Installation
 
 To install the Package, just type the following command
 ```js
 npm install @gridscale/api --save
 ```
 ### Usage
-To work with the gridscale API you need an **API-Token** and **User-UUID** - you can create and find it in the API Section of the gridscale Interface (https://my.gridscale.io).
+To work with the gridscale API you need an **API-Token** and **User-UUID** - you can create and find it in the API Section of the gridscale Interface (https://my.gridscale.io/Expert/APIKey).
  ```js
 var gridscale = require('@gridscale/api').gridscale;
-var client = new gridscale.Client(TOKEN,User-UUID);
+var client = new gridscale.Client(API-Token, User-UUID);
 ```
 
 you can also use ECMAScript 6 Syntax
 ```js
 import { gridscale } from '@gridscale/api';
+var client = new gridscale.Client(API-Token, User-UUID);
 ```
 
 
 
 #### Options
-You can set new default settings for every Object type when creating the client. The third parameter of the constructor can be used for options
+You can set global options, which apply on every object type when creating the client. The third parameter of the constructor can be used for options
 
+**Example**
 ```js
-var client = new gridscale.Client(TOKEN,User-UUID, {
-        limit:25, // Default Page-Size for List Response
-        watchdelay: 100  // Delay between the single Requests when watching a Job(RequestID)
-    });
+var client = new gridscale.Client(API-Token, User-UUID, {
+    limit:25, // Default page-size for list response
+    watchdelay: 100  // Delay between the single requests when watching a job (RequestID)
+});
 ```
 
-For all single Object Types you can adjust different default values for pagination, filtering, sorting and what fields should get included into list requests.  
-You can set the options by calling the *setDefaults* function for an object
+You can also set the options only for specific object types by using the `setDefaults` function for an object. This will override the global settings
 
+**Example**
 ```js
 var requestoptions = {
     page  : 0,    // Index of Page
@@ -61,8 +61,10 @@ var requestoptions = {
 
 client.Server.setDefaults( requestoptions );
 ```
-You can also use the options in a single request to filter your objects    
 
+You can also set the options for a single request to filter your objects. This will override global and per-object-type settings    
+
+**Example**
 ```js
 client.Server.list({
     page: 0,
@@ -74,10 +76,19 @@ client.Server.list({
 ```
 In this example the result will be the first 10 servers with more then 16GB of memory. Sorted by name and only returning the `name` and the `object_uuid`.
 
+##### Available options
+| option     | type   | default | description |
+|------------|--------|--------:|---|
+| page       | number |  0      | Page for pagination, starting with 0 (only available when using `limit` option)  |
+| limit      | number | 50      | Maximum items per page (pagination)  |
+| offset     | number |  0      | For pagination, alternative to `page` (only valid together with `limit`) |
+| sort       | string | -       | Order the items in the response by a specific field (if not set, response is ordered by best effort, in most cased by `name` field)  |
+| fields     | array  | -       | Only include specific fields in the response. The available fields are dependent on the object type. If empty, all fields were included in the response |
+| filter     | array  | -       | Filter the response by the values of a specific field. Example "memory>16". See *available filter operators* below  |
+| watchdelay | number | 52      | The interval for which the status of not-finished requests should be polled. In milliseconds (see *Watching a job* below)  |
 
-
-##### Available Filter Options:  
-Here you find an overview of the filter options you have when using the filter.
+##### Available filter operators:  
+Here you find an overview of the filter operators available when using the `filter` option.
 
 "=" String or value comparison: exact match  
 "<>" String or value comparison: does not match  
@@ -89,21 +100,53 @@ Here you find an overview of the filter options you have when using the filter.
 
 
 #### Callback Functions and Promises
-All requests and actions for the objects return a `Promise`. You are also free to use a callback style for each action as listed below. Both Promise and Callback use the same result object that gets passed to the function
+All requests and actions for the objects return a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). You are also free to use a callback style for each action. The last parameter of each method accepts a callback function. Both, Promise and callback receive the same result object that gets passed to the function
+
+**Example with Promise**
 ```js
 client.Server.list().then(function( result ){
-    result.success;     // Boolean Value. False = there was an Error
-    result.result;      // JS Object of Repsonse. If you use the Pagination ther will be a _meta and a _links Object included
-    result.response;    // Full Repsonse Object including Headers
-    result.links;       // Links for current Request. You can directly call them with an optional callback. (first,last,next,prev,self)
-    result.watch;       // Function that returns a Promise for the current Job.
+   // do something when the request succeeded. result is the result object described below
+   console.log(result);
+
+}, ( error ) => {
+   // handle when the request is failed, error.result contains the result object described below
+   console.error(error.result);
 });
 ```
-The `links` are only given in **list** responses.  
-The `watch` function is only available on PATCH, POST or DELETE Calls.
 
-##### Watching a Job
-The `watch`-function returned in each response object will start watching the job your request just started (for example creating a large storage). The Promise that is returned by the `watch`-function will get resolved when the storage is ready to work with.
+**Example with callback**
+```js
+client.Server.list({}, (response, result) => {
+    // for historical reasons, the callbacks first parameter is the raw Response from Javascript fetch(), second parameter is the result object described below
+
+    if (result.success) {
+        // do something when the request succeeded. result is the result object described below
+        console.log(result);
+    } else {
+        // handle when the request is failed, error.result contains the result object described below
+        console.error(result);
+    }
+});
+```
+
+##### Result object
+|property|type|description|
+|--------|----|-----------|
+|success | boolean  | Indicates if the request was successful. Used for callback style, promise will get rejected on failure.|
+|result  | object   | The response from the API. This will include a `_meta` and a `_links` property when using pagination. On failure result is always `null` |
+|response | [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) | The raw response from the Javascript fetch(), including headers. |
+|links   | object | An object which properties for fetching further results when using pagination. Only available on `list()` response. Each property (first, last, next, prev, self)of this object contains a callable function for fetching further results, returning a Promise and accepting a callback function as only parameter. Example: `result.links.next().then((_res) => { /*/* do stuff with results for next page /* })`|
+|watch   | function | Only available for PATCH, POST or DELETE when a not immediately finished request is made. This function returns a promise, which is resolved when the job, triggered by a request is really finished (e.g. a server or a storage is ready provisioned). For details see *Watching a request* below|
+|requestInit | RequestInit | Init object of the request, containing all the options for the failed request|
+|id      | string   | Only available on failure. Contains the unique error id|
+
+
+
+
+##### Watching a request
+The `watch`-function returned in response object will start watching the job your request just started (for example creating a large storage). The Promise that is returned by the `watch`-function will get resolved when the storage is ready to work with.
+
+**Example**
 ```js
 // Creating a new Storage with 1TB Size
 client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-3873-4b2f-915b-4c86c28344e5"}).then(function(_result){
@@ -117,11 +160,34 @@ client.Storage.create({name:"Storage1",capacity:1024,location_uuid:"39a7d783-387
 });
 ```
 
+## Global error handling
+While you can handle errors per request by handling rejected promises or checking the `success` property of the result in callbacks, you can also set a global error handler for the API.
+
+To do that you register a handler function with the `addLogger` method of the API client. You can also register more handlers by multiple calling `addLogger`. All your error handlers will get executed on each error.
+
+**Example**
+```js
+var client = new gridscale.Client(API-Token, User-UUID);
+
+client.addLogger((error) => {
+    // error object described below
+    console.error('API ERROR OCCURED', error.id, error.result);
+});
+```
+
+### error object
+|property|type|description|
+|--------|----|-----------|
+|result  |object| the result object for the request, described above |
+|response|[Response](https://developer.mozilla.org/en-US/docs/Web/API/Response)|Raw response object of the Javascript fetch() |
+|id      |string  | Unique error id |
+|requestInit|RequestInit| Init object of the request, containing all the options for the failed request|
 
 
-## All Ressources and Functions  
-Here you find a list of all available Functions. We will add some more soon to make your life easier!
-**Note:** This is only a dump of available functions. Please find a detailed API Documentation here: https://gridscale.io/en/api-documentation/index.html
+
+## All Object Types
+Here you find a list of all available object types. We will add some more soon to make your life easier!
+**Note:** This is only a dump of available types. Please find a detailed API Documentation here: https://gridscale.io/en/api-documentation/index.html
 
 ### Server
 client.Server.list( [ requestoptions , callback ] )  

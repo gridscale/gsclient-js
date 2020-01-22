@@ -59,13 +59,13 @@ class APIClass {
      * @param _callback
      * @returns {any}
      */
-    private makeRequest( _path:string = '', _options:Object , _callback:Function= () => {} ) {
+    private makeRequest( _path:string = '', _options:RequestInit , _callback:Function= () => {} ) {
 
         /**
          * Build Request Object
          * @type {{url: string; headers: {X-Auth-UserId: string; X-Auth-Token: string}}}
          */
-        var options: any = !isObject(_options) ? {} :assignIn( {}, _options );
+      var options: RequestInit = !isObject(_options) ? {} :assignIn( {}, _options );
 
         // Build Options
         var url: string = _path.search('https://') == 0 ? _path :  this.settings.endpoint + _path; // on Links there is already
@@ -77,7 +77,7 @@ class APIClass {
         // Setup DEF
         var def = new Promise( ( _resolve, _reject ) => {
             // Fire Request
-            var onSuccess = (_response: Response) => {
+          var onSuccess = (_response: Response, _requestInit: RequestInit) => {
               _response['statusCode'] = _response.status;
               setTimeout(()=>_callback( _response ));
               if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type') == 'application/json') {
@@ -112,7 +112,7 @@ class APIClass {
                     _resolve(result);
                   })
                   .catch(() => {
-                    onFail(_response);
+                    onFail(_response, _requestInit);
                   });
                 } else {
                   _response.text()
@@ -138,7 +138,7 @@ class APIClass {
 
                 }
             };
-            var onFail = (_response: Response) => {
+          var onFail = (_response: Response, _requestInit: RequestInit) => {
               _response['statusCode'] = _response.status;
               setTimeout(()=>_callback( _response ));
               var result = {
@@ -151,7 +151,8 @@ class APIClass {
               this.log({
                 result: result,
                 response: _response,
-                id: result.id
+                id: result.id,
+                requestInit: _requestInit
               });
 
               _reject( new GSError('Request Error',result) );
@@ -162,14 +163,14 @@ class APIClass {
               .then((_response) => {
                 if (_response.ok) {
                   // The promise does not reject on HTTP errors
-                  onSuccess(_response);
+                  onSuccess(_response, options);
 
                 } else {
-                  onFail(_response);
+                  onFail(_response, options);
                 }
               })
               .catch((_response) => {
-                onFail(_response);
+                onFail(_response, options);
               });
 
             // Return promise
