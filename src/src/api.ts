@@ -1,4 +1,4 @@
-import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId } from 'lodash';
+import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId, assign } from 'lodash';
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -7,11 +7,11 @@ class GSError extends Error {
     result:Object;
     constructor(message,result){
         super();
-        this.name = 'gridscale public API error';
+        this.name = 'GridscaleError';
 
         // try to assemble message with more details from result
-        if (result.response && result.response.request && result.response.request.method && typeof (result.response.statusCode) !== 'undefined' && result.response.request.href) {
-          this.message = 'Error : ' + result.response.request.method + ' | ' + result.response.statusCode + ' | ' + result.response.request.href.split('?')[0];
+        if (result.response && result.response.request && result.response.request.method && typeof (result.response.statusCode) !== 'undefined' && result.response.request.url) {
+          this.message = 'Error : ' + result.response.request.method + ' | ' + result.response.statusCode + ' | ' + result.response.request.url.split('?')[0];
         } else {
           this.message = message || 'Default Message';
         }
@@ -85,9 +85,10 @@ class APIClass {
         // Setup DEF
         var def = new Promise( ( _resolve, _reject ) => {
             // Fire Request
-          var onSuccess = (_response: Response, _requestInit: RequestInit) => {
+          var onSuccess = (_response: Response, _request: Request, _requestInit: RequestInit) => {
               _response['statusCode'] = _response.status;
-              if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type') == 'application/json') {
+
+              if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
                 _response.json()
                   .then((json) => {
                     var result = {
@@ -122,7 +123,7 @@ class APIClass {
                     setTimeout(() => _callback(_response, result));
                   })
                   .catch(() => {
-                    onFail(_response, _requestInit);
+                    onFail(_response, _request, _requestInit, 'json');
                   });
                 } else {
                   _response.text()
@@ -150,16 +151,17 @@ class APIClass {
 
                 }
             };
-          var onFail = (_response: Response, _requestInit: RequestInit) => {
+          var onFail = (_response: Response, _request: Request, _requestInit: RequestInit, _failType="request") => {
               _response['statusCode'] = _response.status;
               var result = {
                 success: false,
                 result: null,
-                response: _response,
+                response: assign(_response, { request: _request }),
                 links: {},
                 watch: null,
                 id: uniqueId('apierror_' + (new Date()).getTime() +'_'),
-                requestInit: _requestInit
+                requestInit: _requestInit,
+                failureType: _failType
               };
 
   
@@ -175,23 +177,25 @@ class APIClass {
               setTimeout(() => _callback(_response, result));
             }
 
-            var req = fetch(url , options);
-            req
+
+            var request = new Request(url, options);
+            var promise = fetch(request);
+            promise
               .then((_response) => {
                 if (_response.ok) {
                   // The promise does not reject on HTTP errors
-                  onSuccess(_response, options);
+                  onSuccess(_response, request, options);
 
                 } else {
-                  onFail(_response, options);
+                  onFail(_response, request, options);
                 }
               })
               .catch((_response) => {
-                onFail(_response, options);
+                onFail(_response, request, options);
               });
 
             // Return promise
-            return req;
+            return promise;
         } );
 
 
