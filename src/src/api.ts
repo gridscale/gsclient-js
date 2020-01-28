@@ -7,8 +7,16 @@ class GSError extends Error {
     result:Object;
     constructor(message,result){
         super();
-        this.name = 'GridscaleError';
-        this.message = message || 'Default Message';
+        this.name = 'gridscale public API error';
+
+        // try to assemble message with more details from result
+        if (result.response && result.response.request && result.response.request.method && typeof (result.response.statusCode) !== 'undefined' && result.response.request.href) {
+          this.message = 'Error : ' + result.response.request.method + ' | ' + result.response.statusCode + ' | ' + result.response.request.href.split('?')[0];
+        } else {
+          this.message = message || 'Default Message';
+        }
+
+        
         this.result = result;
     }
 }
