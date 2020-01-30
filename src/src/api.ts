@@ -82,100 +82,100 @@ class APIClass {
         options.headers["X-Auth-Token"] = this.settings.token;
         options.headers["X-Api-Client"] = "expert";
 
+        // return results as object or text
+        var getResult = (_response: Response, _rejectOnJsonFailure = true): Promise<any> => {
+          return new Promise((_resolve, _reject) => {
+            if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
+              _response.json()
+                .then(json => _resolve(json))
+                .catch(() => {
+                  if (_rejectOnJsonFailure) {
+                    _reject();
+
+                  } else {
+                    // try text
+                    _response.text().then(text => _resolve(text))
+                                    .catch(e => _resolve(null));
+                  }  
+                }
+              );
+            } else {
+              _response.text().then(text => _resolve(text))
+                              .catch(e => _resolve(null));
+            } 
+          });
+        }
+
         // Setup DEF
         var def = new Promise( ( _resolve, _reject ) => {
             // Fire Request
           var onSuccess = (_response: Response, _request: Request, _requestInit: RequestInit) => {
               _response['statusCode'] = _response.status;
+              getResult(_response).then((_result) => {
+                var result = {
+                  success: true,
+                  result: _result,
+                  response: _response,
+                  links: {},
+                  watch: null,
+                  id: null,
+                  requestInit: _requestInit
+                };
 
-              if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
-                _response.json()
-                  .then((json) => {
-                    var result = {
-                      success: true,
-                      result: json,
-                      response: _response,
-                      links: {},
-                      watch: null,
-                      id: null,
-                      requestInit: _requestInit
-                    };
-
-                    // Check for Links and generate them as Functions
-                    if ( json && json._links ) {
-                        var links = {};
-                        for( var linkname in json._links ) {
-                            links[linkname] = this.link( json._links[linkname] );
-                        }
-                        result.links = links;
-                    }
-
-                    /**
-                     * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
-                     */
-                    if ( options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE' ) {
-                      if ( result.response.headers.has('x-request-id') ){
-                        result.watch = () => this.watchRequest( result.response.headers.get('x-request-id') );
-                      }
-                    }
-
-                    _resolve(result);
-                    setTimeout(() => _callback(_response, result));
-                  })
-                  .catch(() => {
-                    onFail(_response, _request, _requestInit, 'json');
-                  });
-                } else {
-                  _response.text()
-                  .then((_text) => {
-                    var result = {
-                      success: true,
-                      result: _text,
-                      response: _response,
-                      watch: null
-                    };
-
-                    
-                    /**
-                     * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
-                     */
-                    if ( options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE' ) {
-                      if ( result.response.headers.has('x-request-id') ){
-                        result.watch = () => this.watchRequest( result.response.headers.get('x-request-id') );
-                      }
-                    }
-
-                    _resolve(result);
-                    setTimeout(() => _callback(_response, result));
-                  });
-
+                // Check for Links and generate them as Functions
+                if (_result && _result._links) {
+                  var links = {};
+                  for (var linkname in _result._links) {
+                    links[linkname] = this.link(_result._links[linkname]);
+                  }
+                  result.links = links;
                 }
-            };
+
+                /**
+                 * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
+                 */
+                if (options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE') {
+                  if (result.response.headers.has('x-request-id')) {
+                    result.watch = () => this.watchRequest(result.response.headers.get('x-request-id'));
+                  }
+                }
+
+                _resolve(result);
+                setTimeout(() => _callback(_response, result));
+              })
+              .catch(() => {
+                onFail(_response, _request, _requestInit, 'json');
+              });
+          }
           var onFail = (_response: Response, _request: Request, _requestInit: RequestInit, _failType="request") => {
               _response['statusCode'] = _response.status;
-              var result = {
-                success: false,
-                result: null,
-                response: assign(_response, { request: _request }),
-                links: {},
-                watch: null,
-                id: uniqueId('apierror_' + (new Date()).getTime() +'_'),
-                requestInit: _requestInit,
-                failureType: _failType
-              };
+              
+              getResult(_response, false).then((_result) => {
 
-  
+                var result = {
+                  success: false,
+                  result: _result,
+                  response: assign(_response, { request: _request }),
+                  links: {},
+                  watch: null,
+                  id: uniqueId('apierror_' + (new Date()).getTime() +'_'),
+                  requestInit: _requestInit,
+                  failureType: _failType
+                };
 
-              this.log({
-                result: result,
-                response: _response,
-                id: result.id,
-                requestInit: result.requestInit
+    
+
+                this.log({
+                  result: result,
+                  response: _response,
+                  id: result.id,
+                  requestInit: result.requestInit
+                });
+
+                _reject( new GSError('Request Error',result) );
+                setTimeout(() => _callback(_response, result));
               });
-
-              _reject( new GSError('Request Error',result) );
-              setTimeout(() => _callback(_response, result));
-            }
+            };
 
 
             var request = new Request(url, options);
