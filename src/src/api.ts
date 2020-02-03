@@ -191,7 +191,7 @@ class APIClass {
                 }
               })
               .catch((_response) => {
-                onFail(_response, request, options);
+                _reject(new GSError('Network failure', _response));
               });
 
             // Return promise
