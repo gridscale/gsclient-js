@@ -10,8 +10,8 @@ class GSError extends Error {
         this.name = 'GridscaleError';
 
         // try to assemble message with more details from result
-        if (result.response && result.response.request && result.response.request.method && typeof (result.response.statusCode) !== 'undefined' && result.response.request.url) {
-          this.message = 'Error : ' + result.response.request.method + ' | ' + result.response.statusCode + ' | ' + result.response.request.url.split('?')[0];
+        if (result.response && result.response.request && result.response.request.method && typeof (result.response.status) !== 'undefined' && result.response.request.url) {
+          this.message = 'Error : ' + result.response.request.method + ' | ' + result.response.status + ' | ' + result.response.request.url.split('?')[0];
         } else {
           this.message = message || 'Default Message';
         }
@@ -110,12 +110,11 @@ class APIClass {
         var def = new Promise( ( _resolve, _reject ) => {
             // Fire Request
           var onSuccess = (_response: Response, _request: Request, _requestInit: RequestInit) => {
-              _response['statusCode'] = _response.status;
-              getResult(_response).then((_result) => {
+              getResult(_response.clone()).then((_result) => {
                 var result = {
                   success: true,
                   result: _result,
-                  response: _response,
+                  response: _response.clone(),
                   links: {},
                   watch: null,
                   id: null,
@@ -141,21 +140,19 @@ class APIClass {
                 }
 
                 _resolve(result);
-                setTimeout(() => _callback(_response, result));
+                setTimeout(() => _callback(_response.clone(), result));
               })
               .catch(() => {
                 onFail(_response, _request, _requestInit, 'json');
               });
           }
-          var onFail = (_response: Response, _request: Request, _requestInit: RequestInit, _failType="request") => {
-              _response['statusCode'] = _response.status;
-              
-              getResult(_response, false).then((_result) => {
+          var onFail = (_response: Response, _request: Request, _requestInit: RequestInit, _failType="request") => {            
+              getResult(_response.clone(), false).then((_result) => {
 
                 var result = {
                   success: false,
                   result: _result,
-                  response: assign(_response, { request: _request }),
+                  response: assign(_response.clone(), { request: _request }),
                   links: {},
                   watch: null,
                   id: uniqueId('apierror_' + (new Date()).getTime() +'_'),
@@ -167,13 +164,13 @@ class APIClass {
 
                 this.log({
                   result: result,
-                  response: _response,
+                  response: _response.clone(),
                   id: result.id,
                   requestInit: result.requestInit
                 });
 
                 _reject( new GSError('Request Error',result) );
-                setTimeout(() => _callback(_response, result));
+                setTimeout(() => _callback(_response.clone(), result));
               });
             };
 
