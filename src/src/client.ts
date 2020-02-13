@@ -112,6 +112,27 @@ class GridscaleClient {
       return new PAASServiceMetrics(api, _serviceUUID);
     }
 
+    public stringifyResponseRequest(object: Response | Request): any {
+      var tmp = {};
+      for (var x in object) {
+        if (object[x] instanceof Headers) {
+          tmp[x] = {};
+
+          object[x].forEach((_h, _k) => {
+            tmp[x][_k] = _h;
+          });
+
+        } else if (object[x] instanceof Request) {
+          tmp[x] = this.stringifyResponseRequest(object[x]); 
+
+        } else if (['string', 'number', 'object', 'boolean'].indexOf(typeof (object[x])) >= 0) {
+          tmp[x] = object[x];
+        }
+      }
+
+      return tmp;
+    }
+
 }
 
 export { GridscaleClient as Client }
