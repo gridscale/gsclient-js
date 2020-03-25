@@ -80,7 +80,7 @@ class APIClass {
         options.headers = options.headers ? options.headers : {};
         options.headers["X-Auth-UserId"] = this.settings.userId;
         options.headers["X-Auth-Token"] = this.settings.token;
-        options.headers["X-Api-Client"] = "expert";
+        options.headers["X-Api-Client"] = "panel";
 
         // return results as object or text
         var getResult = (_response: Response, _rejectOnJsonFailure = true): Promise<any> => {
