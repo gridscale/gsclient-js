@@ -29,7 +29,16 @@ class APIClass {
         token: '',
         userId: '',
         limit: 50,
-        watchdelay: 51
+        watchdelay: 51,
+        apiClient: "gs_api_node"
+    };
+
+    /**
+     * Store api client in current session
+     * @param _client  String
+     */
+    public storeClient(_client) {
+        this.settings.apiClient = _client;
     };
 
     /**
@@ -80,7 +89,7 @@ class APIClass {
         options.headers = options.headers ? options.headers : {};
         options.headers["X-Auth-UserId"] = this.settings.userId;
         options.headers["X-Auth-Token"] = this.settings.token;
-        options.headers["X-Api-Client"] = "panel";
+        options.headers["X-Api-Client"] = this.settings.apiClient;
 
         // return results as object or text
         var getResult = (_response: Response, _rejectOnJsonFailure = true): Promise<any> => {

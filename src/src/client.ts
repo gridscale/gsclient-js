@@ -95,6 +95,10 @@ class GridscaleClient {
 
     }
 
+    public setApiClient(_client: string) {
+      api.storeClient(_client);
+    }
+
     public setToken (_token: string, _userId: string) {
       api.storeToken(_token, _userId);
     }
