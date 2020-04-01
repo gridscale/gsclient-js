@@ -28,7 +28,7 @@ class APIClass {
         endpoint: 'https://api.gridscale.io',
         token: '',
         userId: '',
-        limit: 50,
+        limit: 25,
         watchdelay: 51,
         apiClient: "gs_api_node"
     };

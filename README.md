@@ -80,7 +80,7 @@ In this example the result will be the first 10 servers with more then 16GB of m
 | option     | type   | default | description |
 |------------|--------|--------:|---|
 | page       | number |  0      | Page for pagination, starting with 0 (only available when using `limit` option)  |
-| limit      | number | 50      | Maximum items per page (pagination)  |
+| limit      | number | 25      | Maximum items per page (pagination)  |
 | offset     | number |  0      | For pagination, alternative to `page` (only valid together with `limit`) |
 | sort       | string | -       | Order the items in the response by a specific field (if not set, response is ordered by best effort, in most cased by `name` field)  |
 | fields     | array  | -       | Only include specific fields in the response. The available fields are dependent on the object type. If empty, all fields were included in the response |
