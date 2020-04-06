@@ -343,12 +343,9 @@ client.Marketplace.events( uuid [, requestoptions , callback ] )
 ### Label
 client.Label.list( [ requestoptions , callback ] )  
 client.Label.get( uuid [, callback ] )  
-client.Label.remove( uuid [, callback ] )   **[Deprecated]**  
-client.Label.create( attribute [, callback ] )   **[Deprecated]**
 
 ```
-Label create and remove are deprecated
-Endpoints will get removed soon. Please use the PATCH/POST on the objects to add/remove labels.
+(!) Label create() and remove() operations were deleted with version 0.3.0 on 6th April 2020
 ```
 
 
