@@ -1,5 +1,35 @@
-import {GridscaleObjects} from './GridscaleObjects';
+import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
 
+interface StorageBackupSchedule {
+    /**
+     * The human-readable name of the object. It supports the full UTF-8 charset, with a maximum of 64 characters
+     */
+    name: string, 
+    type: string,
+    /**
+     * The interval at which the schedule will run (in minutes). will be set from project default if not set
+     * minimum: 1
+     */
+    run_interval: number, 
+    /**
+     * The amount of backups to keep before overwriting the last created backup., will be set from project default if not set
+     * minimum: 60
+     */
+    keep_backups: number,
+    /**
+     * The date and time that the backup schedule will be run. will be set from project default if not set
+     * format: date-time
+     */
+    next_runtime: string
+    /**
+     * The status of the schedule active or not. will be set true if not set
+     */
+    active: boolean
+    /**
+     * List of labels.
+     */
+    labels: string[]
+}
 
 class Storage extends GridscaleObjects {
 
@@ -119,7 +149,7 @@ class Storage extends GridscaleObjects {
      * Remove Snapshot
      *
      *
-     * @param _uuid Server UUID
+     * @param _uuid Storage UUID
      * @param _snapshot_uuid IP UUID
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
@@ -191,13 +221,104 @@ class Storage extends GridscaleObjects {
      * Remove Snapshot Schedler
      *
      *
-     * @param _uuid Server UUID
+     * @param _uuid Storage UUID
      * @param _snapshot_scheduler_uuid IP UUID
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
     removeSnapshotScheduler(_uuid, _snapshot_scheduler_uuid, _callback?) {
         return this._sub_remove('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
+    }
+
+    /**
+     * List all backup schedules for the storage
+     * 
+     * @param _uuid Storage UUID
+     * @param _options requestOptions
+     * @param _callback 
+     * @returns {TRequest|any}
+     */
+    backupSchedules(_uuid: string, _options?: RequestOptions, _callback?: Function) {
+        return this._sub('backup_schedules', _uuid, _options, _callback);
+    }
+
+    /**
+     * Fetches one backup schedule
+     * 
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid Backup-Schedule UUID
+     * @param _callback 
+     */
+    backupSchedule(_uuid: string, _backup_schedule_uuid: string, _callback?: Function) {
+        return this._sub_get('backup_schedules', _uuid, _backup_schedule_uuid, _callback);
+    }
+
+    /**
+     * Creates a new backup schedule
+     * 
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_options 
+     * @param _callback 
+     */
+    createBackupSchedule(_uuid: string, _backup_schedule_options: StorageBackupSchedule, _callback?: Function) {
+        return this._sub_post('backup_schedules', _uuid, _backup_schedule_options, _callback);
+    }
+
+    /**
+     * Modifies existing backup schedule
+     * 
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid  Backup-Schedule UUID
+     * @param backup_schedule_options 
+     * @param callback 
+     */
+    patchBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _backup_schedule_options: StorageBackupSchedule, _callback: Function) {
+        return this._sub_patch('backup_schedules', _uuid, _backup_schedule_uuid, _backup_schedule_options, _callback);
+    }
+
+    /**
+     * Remove existing backup schedule
+     * 
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid Backup-Schedule UUID
+     * @param callback 
+     */
+    removeBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _callback?: Function) {
+        return this._sub_remove('backup_schedules', _uuid, _backup_schedule_uuid, _callback);
+    }
+
+    /**
+     * List all backups of the storage
+     * 
+     * @param _uuid Storage UUID
+     * @param _callback 
+     */
+    backups(_uuid: string, _options?: RequestOptions, _callback?: Function) {
+        return this._sub('backups', _uuid, _options, _callback);
+    }
+
+    /**
+     * Remove existing backup
+     * 
+     * @param _uuid Storage UUID
+     * @param _backup_uuid 
+     * @param _callback 
+     */
+    removeBackup(_uuid: string, _backup_uuid: string, _callback?: Function) {
+        return this._sub_remove('backups', _uuid, _backup_uuid, _callback);
+    }
+
+    /**
+     * Creates a new storage from an existing backup
+     * @param _name Name of the new storage
+     * @param _backup_uuid Backup-UUID to restore from
+     * @param _callback 
+     */
+    createFromBackup(_name: string, _backup_uuid: string, _callback?: Function) {
+        return this._api.post(this._basepath + '/import/', {
+            name: _name,
+            backup_uuid: _backup_uuid
+        }, _callback);
     }
 
 

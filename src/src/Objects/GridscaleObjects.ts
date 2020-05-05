@@ -1,5 +1,10 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
 
+export interface RequestOptions {
+    page: number,
+    limit: number
+}
+
 class GridscaleObjects {
 
     // Naming
