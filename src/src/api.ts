@@ -1,4 +1,4 @@
-import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId, assign } from 'lodash';
+import { assignIn,isArray, isFunction, isObject, isUndefined, uniqueId, assign, forEach } from 'lodash';
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -26,6 +26,7 @@ class APIClass {
     // Local Settings
     private settings = {
         endpoint: 'https://api.gridscale.io',
+        endpointOverrides: {}, // override endpoint for specific paths, format "path:endpoint", path can be regex (string start and end with '/')
         token: '',
         userId: '',
         limit: 25,
@@ -84,8 +85,28 @@ class APIClass {
          */
       var options: RequestInit = !isObject(_options) ? {} :assignIn( {}, _options );
 
+        // check if we should use another endpoint for this path (mocking)
+        var endpoint = this.settings.endpoint;
+        if (this.settings.endpointOverrides && typeof(this.settings.endpointOverrides) === 'object') {
+          forEach(this.settings.endpointOverrides, (_overrideEndpoint, _overridePath) => {
+            if (_overridePath.match(/^\/(.*)\/$/) && _path.split('?')[0].match(new RegExp(RegExp.$1))) {
+              endpoint = _overrideEndpoint;
+
+            } else if (_path.split('?')[0] == _overridePath) {
+              endpoint = _overrideEndpoint;
+
+            } else {
+              return true;
+            }
+
+            return false;
+          });
+        }
+
+
+
         // Build Options
-        var url: string = _path.search('https://') == 0 ? _path :  this.settings.endpoint + _path; // on Links there is already
+        var url: string = _path.search('https://') == 0 ? _path :  endpoint + _path; // on Links there is already
         options.headers = options.headers ? options.headers : {};
         options.headers["X-Auth-UserId"] = this.settings.userId;
         options.headers["X-Auth-Token"] = this.settings.token;
