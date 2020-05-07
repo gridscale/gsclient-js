@@ -322,8 +322,8 @@ client.ObjectStorage.accessKeys( [ callback ] )
 client.ObjectStorage.accessKey( access_key [, callback ] )  
 client.ObjectStorage.createAccessKey([ callback ] )  
 client.ObjectStorage.removeAccessKey( access [, callback ] )  
-client.ObjectStorage.buckets( [ callback ] )   
-client.ObjectStorage.bucket( bucket_name [ , callback ] )
+client.ObjectStorage.buckets( [ callback ] )  `(!) DEPRECATED! Will be removed in future versions`
+client.ObjectStorage.bucket( bucket_name [ , callback ] ) `(!) DEPRECATED! Will be removed in future versions`
 
 ### Paas
 client.PAAS.serviceTemplates.get( UUID [, callback ] )
