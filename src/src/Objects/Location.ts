@@ -1,11 +1,13 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
+import { APIClass, ApiResult, GSError } from '../api';
+import { RequestOptions } from './GridscaleObjects';
 
 class Location {
 
     // Naming
-    public _api;
-    public _defaults;
-    public _basepath:String;
+    public _api: APIClass;
+    public _defaults: RequestOptions;
+    public _basepath: string;
 
 
     /**
@@ -15,13 +17,13 @@ class Location {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    constructor(_api){
+    constructor(_api: APIClass) {
         this._api = _api;
 
         this._defaults = {
-            "page": 0,
-            "limit" : 25
-        }
+            'page': 0,
+            'limit' : 25
+        };
         this._basepath = '/objects/locations';
 
     }
@@ -31,7 +33,7 @@ class Location {
      *
      * @param _options
      */
-    public setDefaults( _options ) {
+    public setDefaults( _options: RequestOptions ) {
 
         assignIn( this._defaults , _options );
     }
@@ -46,14 +48,14 @@ class Location {
      * @returns {any}
      * @private
      */
-    _buildRequestOptions (_options?) {
+    _buildRequestOptions (_options?: RequestOptions) {
 
         // Clone Defaults
-        var defaults = assignIn({},this._defaults);
+        const defaults = assignIn({}, this._defaults);
 
         // Add Options
         if ( !isUndefined( _options ) && !isFunction( _options ) ) {
-            assignIn(defaults,_options);
+            assignIn(defaults, _options);
         }
 
         // Return Default Values
@@ -69,20 +71,17 @@ class Location {
      * @param _callback
      * @returns {any}
      */
-    list(_options?,_callback?){
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult> {
 
         // Get Defaults
-        var requestOptions = this._buildRequestOptions(_options);
+        const requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
         if ( isFunction( _options ) && isUndefined( _callback ) ) {
-            _callback = _options
+            _callback = _options;
         }
 
-        var req = this._api.get( this._basepath , requestOptions ,_callback);
-
-        return req
-
+        return this._api.get( this._basepath , requestOptions , _callback);
     }
 
 
@@ -93,60 +92,60 @@ class Location {
      * @param _uuid
      * @param _callback
      */
-    get(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid,_callback);
+    get(_uuid: string, _callback?: Function): Promise<ApiResult> {
+        return this._api.get( this._basepath + '/' + _uuid, _callback);
     }
 
     /**
     Return all IP Adresses for this locations
     */
-    getLocationIPs(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid + '/ips',_callback);
+    getLocationIPs(_uuid: string, _callback?: Function): Promise<ApiResult> {
+        return this._api.get( this._basepath + '/' + _uuid + '/ips', _callback);
     }
 
     /**
     Return all isoimages for this location
     */
-    getLocationISOImages(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid + '/isoimages',_callback);
+    getLocationISOImages(_uuid: string, _callback?: Function): Promise<ApiResult>  {
+        return this._api.get( this._basepath + '/' + _uuid + '/isoimages', _callback);
     }
 
     /**
     Return all networks for this location
     */
-    getLocationNetworks(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid + '/networks',_callback);
+    getLocationNetworks(_uuid: string, _callback?: Function): Promise<ApiResult> {
+        return this._api.get( this._basepath + '/' + _uuid + '/networks', _callback);
     }
 
     /**
     Return all servers for this location
     */
-    getLocationServers(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid + '/servers',_callback);
+    getLocationServers(_uuid: string, _callback?: Function): Promise<ApiResult> {
+        return this._api.get( this._basepath + '/' + _uuid + '/servers', _callback);
 
     }
 
     /**
     Return all snapshots for this location
     */
-    getLocationSnapshots(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid + '/snapshots',_callback);
+    getLocationSnapshots(_uuid: string, _callback?: Function): Promise<ApiResult> {
+        return this._api.get( this._basepath + '/' + _uuid + '/snapshots', _callback);
     }
 
     /**
     Return all storages for this location
     */
-    getLocationStorages(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid + '/storages',_callback);
+    getLocationStorages(_uuid: string, _callback?: Function): Promise<ApiResult> {
+        return this._api.get( this._basepath + '/' + _uuid + '/storages', _callback);
     }
 
     /**
     Return all storages for this location
     */
-    getLocationTemplates(_uuid,_callback?) {
-        return this._api.get( this._basepath +'/' + _uuid + '/templates',_callback);
+    getLocationTemplates(_uuid: string, _callback?: Function): Promise<ApiResult> {
+        return this._api.get( this._basepath + '/' + _uuid + '/templates', _callback);
     }
 
 }
 
-export { Location }
+export { Location };

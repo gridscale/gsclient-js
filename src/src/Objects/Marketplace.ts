@@ -1,11 +1,12 @@
 import {GridscaleObjects} from './GridscaleObjects';
+import { APIClass } from '../api';
 
 
 class Marketplace extends GridscaleObjects {
 
-    constructor(_api) { super(_api,'/objects/marketplace/templates'); }
+    constructor(_api: APIClass) { super(_api, '/objects/marketplace/templates'); }
 
 }
 
 
-export { Marketplace }
+export { Marketplace };

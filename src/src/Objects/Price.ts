@@ -1,11 +1,12 @@
 
 
-import {GridscaleObjects} from './GridscaleObjects';
+import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
+import { APIClass, ApiResult, GSError } from '../api';
 
 
 class Price extends GridscaleObjects {
 
-    constructor(_api) { super(_api,'/prices'); }
+    constructor(_api: APIClass) { super(_api, '/prices'); }
 
     /**
      * List Objects
@@ -15,10 +16,10 @@ class Price extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    list(_callback?){
-        return this._api.get( this._basepath ,_callback);
+    list(_options: RequestOptions, _callback?: Function): Promise<ApiResult> {
+        return this._api.get(this._basepath, _options, _callback);
     }
 
 }
 
-export {Price}
+export {Price};
