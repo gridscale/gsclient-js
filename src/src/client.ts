@@ -1,7 +1,4 @@
-import { Marketplace } from './Objects/Marketplace';
-
-
-import { api } from './api';
+import { api, ApiSettings } from './api';
 
 import { Server } from './Objects/Server';
 import { Storage } from './Objects/Storage';
@@ -23,6 +20,8 @@ import { PAASServiceTemplate } from './Objects/PAASServiceTemplate';
 import { PAASService } from './Objects/PAASService';
 import { PAASSecurityZone } from './Objects/PAASSecurityZone';
 import { PAASServiceMetrics } from './Objects/PAASServiceMetrics';
+import { Marketplace } from './Objects/Marketplace';
+import { forEach } from 'lodash';
 
 /**
  * generate Client Class for all Connections
@@ -31,26 +30,26 @@ import { PAASServiceMetrics } from './Objects/PAASServiceMetrics';
 class GridscaleClient {
 
     // Types
-    public Server: any;
-    public Storage: any;
-    public Network: any;
-    public IP: any;
-    public ISOImage: any;
-    public SSHKey: any;
-    public Template: any;
-    public Location: any;
-    public ObjectStorage: any;
-    public Label: any;
-    public Price: any;
-    public Loadbalancer: any;
-    public Events: any;
-    public Firewall: any;
-    public PAAS: any;
-    public PAASService: any;
-    public PAASServiceTemplate: any;
-    public PAASSecurityZone: any;
-    public Deleted: any;
-    public Marketplace: any;
+    public Server: Server;
+    public Storage: Storage;
+    public Network: Network;
+    public IP: IP;
+    public ISOImage: ISOImage;
+    public SSHKey: SSHKey;
+    public Template: Template;
+    public Location: Location;
+    public ObjectStorage: ObjectStorage;
+    public Label: Label;
+    public Price: Price;
+    public Loadbalancer: Loadbalancer;
+    public Events: Events;
+    public Firewall: Firewall;
+    public PAAS: PAAS;
+    public PAASService: PAASService;
+    public PAASServiceTemplate: PAASServiceTemplate;
+    public PAASSecurityZone: PAASSecurityZone;
+    public Deleted: Deleted;
+    public Marketplace: Marketplace;
 
     public watchRequest: Function;
 
@@ -62,7 +61,7 @@ class GridscaleClient {
      * @param _userId UUID of User
      * @param _options
      */
-    constructor(_token, _userId, _options = {}) {
+    constructor(_token: string, _userId: string, _options: ApiSettings = {}) {
 
         // Store Security Tokens
         api.storeToken(_token, _userId);
@@ -108,35 +107,37 @@ class GridscaleClient {
     }
 
 
-    public addLogger ( _callback ) {
+    public addLogger ( _callback: Function ) {
       api.addLogger( _callback );
     }
 
-    public PAASServiceMetrics(_serviceUUID) {
+    public PAASServiceMetrics(_serviceUUID: string) {
       return new PAASServiceMetrics(api, _serviceUUID);
     }
 
-    public stringifyResponseRequest(object: Response | Request): any {
-      var tmp = {};
-      for (var x in object) {
-        if (object[x] instanceof Headers) {
-          tmp[x] = {};
+    // tslint:disable-next-line: no-any
+    public stringifyResponseRequest<T>(object: any): T {
+      // tslint:disable-next-line: no-any
+      const tmp: any = {};
+      forEach(object, (_val, _key) => {
+        if (_val instanceof Headers) {
+          tmp[_key] = {};
 
-          object[x].forEach((_h, _k) => {
-            tmp[x][_k] = _h;
+          _val.forEach((_h, _k) => {
+            tmp[_key][_k] = _h;
           });
 
-        } else if (object[x] instanceof Request) {
-          tmp[x] = this.stringifyResponseRequest(object[x]); 
+        } else if (_val instanceof Request) {
+          tmp[_key] = this.stringifyResponseRequest(_val);
 
-        } else if (['string', 'number', 'object', 'boolean'].indexOf(typeof (object[x])) >= 0) {
-          tmp[x] = object[x];
+        } else if (['string', 'number', 'object', 'boolean'].indexOf(typeof (_val)) >= 0) {
+          tmp[_key] = _val;
         }
-      }
+      });
 
       return tmp;
     }
 
 }
 
-export { GridscaleClient as Client }
+export { GridscaleClient as Client };
