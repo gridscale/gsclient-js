@@ -1,5 +1,5 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
-import { APIClass, ApiResult, GSError } from '../api';
+import { APIClass, ApiResult, GenericApiResult } from '../api';
 
 export interface RequestOptions {
     page?: number;
@@ -76,7 +76,7 @@ class GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult> {
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         // Get Defaults
         const requestOptions = this._buildRequestOptions(_options);
 
@@ -96,7 +96,7 @@ class GridscaleObjects {
      * @param _uuid
      * @param _callback
      */
-    get(_uuid: string, _callback?: Function): Promise<ApiResult> {
+    get(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.get( this._basepath + '/' + _uuid, {}, _callback);
     }
 
@@ -109,7 +109,7 @@ class GridscaleObjects {
      * @param _uuid
      * @param _callback
      */
-    remove(_uuid: string, _callback?: Function): Promise<ApiResult> {
+    remove(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.remove( this._basepath + '/' + _uuid, _callback);
     }
 
@@ -121,8 +121,7 @@ class GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    // tslint:disable-next-line: no-any
-    create(_attributes: any, _callback?: Function): Promise<ApiResult> {
+    create(_attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.post(  this._basepath , _attributes , _callback);
     }
 
@@ -134,8 +133,7 @@ class GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    // tslint:disable-next-line: no-any
-    patch(_uuid: string, _attributes: any, _callback?: Function): Promise<ApiResult> {
+    patch(_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.patch(  this._basepath + '/' + _uuid , _attributes , _callback);
     }
 
@@ -146,7 +144,7 @@ class GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    _sub(_type: string, _uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult> {
+    _sub(_type: string, _uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
 
         // Get Defaults
         const requestOptions = this._buildRequestOptions(_options);
@@ -171,7 +169,7 @@ class GridscaleObjects {
      * @param _callback
      * @private
      */
-    _sub_get(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult> {
+    _sub_get(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.get( this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid , {}, _callback);
     }
 
@@ -188,10 +186,10 @@ class GridscaleObjects {
      * @returns {TRequest|any}
      * @private
      */
-    // tslint:disable-next-line: no-any
-    _sub_post(_type: string, _uuid: string, _attributes: any, _callback?: Function): Promise<ApiResult> {
+    _sub_post(_type: string, _uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.post( this._basepath + '/' + _uuid + '/' + _type , _attributes , _callback);
     }
+    
 
 
     /**
@@ -205,8 +203,7 @@ class GridscaleObjects {
      * @returns {any|TRequest}
      * @private
      */
-    // tslint:disable-next-line: no-any
-    _sub_patch(_type: string, _uuid: string, _sub_uuid: string, _attributes: any, _callback?: Function): Promise<ApiResult> {
+    _sub_patch(_type: string, _uuid: string, _sub_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.patch( this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid , _attributes , _callback);
     }
 
@@ -222,8 +219,19 @@ class GridscaleObjects {
      * @returns {any|void|PromiseLike<void>}
      * @private
      */
-    _sub_remove(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult> {
+    _sub_remove(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.remove( this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid, _callback);
+    }
+
+    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>> {
+        return new Promise((_resolve, _reject) => {
+            _originalPromise.then((_originalResult) => {
+                if (typeof (_originalResult.result[_key]) !== 'undefined') {
+                    _originalResult.result = _originalResult.result[_key];
+                }
+                _resolve(_originalResult);
+            }, (_e) => _reject(_e));
+        });
     }
 
 
@@ -233,7 +241,7 @@ class GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    events(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult> {
+    events(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub('events', _uuid, _options, _callback);
     }
 }

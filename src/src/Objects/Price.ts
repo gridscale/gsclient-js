@@ -1,7 +1,7 @@
 
 
 import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
-import { APIClass, ApiResult, GSError } from '../api';
+import { APIClass, ApiResult, GSError, GenericApiResult } from '../api';
 
 
 class Price extends GridscaleObjects {
@@ -16,7 +16,7 @@ class Price extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    list(_options: RequestOptions, _callback?: Function): Promise<ApiResult> {
+    list(_options: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.get(this._basepath, _options, _callback);
     }
 

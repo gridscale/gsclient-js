@@ -1,4 +1,4 @@
-import { assignIn, isArray, isFunction, isObject, isUndefined, uniqueId, assign, forEach } from 'lodash';
+import { assignIn, isArray, isFunction, isObject, isUndefined, uniqueId, assign, forEach, isPlainObject } from 'lodash';
 import { RequestOptions } from './Objects/GridscaleObjects';
 
 require('es6-promise').polyfill();
@@ -17,11 +17,12 @@ export interface Links {
 }
 
 // tslint:disable-next-line: no-any
-type ApiRequestResult = any;
+export type GenericApiResult = any;
+export type VoidApiResult = void;
 
-export interface ApiResult {
+export interface ApiResult<T> {
   success: boolean;
-  result: ApiRequestResult;
+  result: T;
   response?: Response;
   requestInit?: RequestInit;
   links?: Links;
@@ -29,6 +30,7 @@ export interface ApiResult {
   id?: string | null;
   failureType?: string | null;
 }
+
 
 export interface ApiSettings {
   endpoint?: string;
@@ -40,8 +42,19 @@ export interface ApiSettings {
   apiClient?: string;
 }
 
+export interface RequestPollResult {
+  message: string;
+  status: string;
+  create_time: string;
+}
+
+export interface CreateResult {
+  requestUuid: string;
+  objectUuid: string;
+}
+
 export class GSError extends Error {
-  result: ApiRequestResult;
+  result: GenericApiResult;
   success = false;
   response: Response;
 
@@ -110,7 +123,7 @@ export class APIClass {
     }
 
 
-  public request(_path: string = '', _options: RequestInit, _callback: Function = () => { }): Promise<ApiResult> {
+    public request(_path: string = '', _options: RequestInit, _callback: Function = () => { }): Promise<ApiResult<GenericApiResult>> {
       return this.makeRequest(_path, _options, _callback);
     }
 
@@ -123,7 +136,7 @@ export class APIClass {
      * @param _callback
      * @returns {Promise}
      */
-    private makeRequest( _path: string = '', _options: RequestInit , _callback: Function= () => {} ): Promise<ApiResult> {
+    private makeRequest( _path: string = '', _options: RequestInit , _callback: Function= () => {} ): Promise<ApiResult<GenericApiResult>> {
       /**
        * Build Request Object
        * @type {{url: string; headers: {X-Auth-UserId: string; X-Auth-Token: string}}}
@@ -158,11 +171,20 @@ export class APIClass {
       options.headers['X-Api-Client'] = this.settings.apiClient;
 
       // return results as object or text
-      const getResult = (_response: Response, _rejectOnJsonFailure = true): Promise<ApiRequestResult> => {
+      const getResult = (_response: Response, _rejectOnJsonFailure = true): Promise<GenericApiResult> => {
         return new Promise((_resolve, _reject) => {
           if (_response.status !== 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
             _response.json()
-              .then(json => _resolve(json))
+              .then(json => {
+                // TODO camelify for all, once we have new version with interfaces
+
+                if (_path.match(/^\/objects\/storages\/[a-z0-9-]+\/backup(.*)/)) {
+                  _resolve(this.camelify(json));
+
+                } else {
+                  _resolve(json);
+                }
+              })
               .catch(() => {
                 if (_rejectOnJsonFailure) {
                   _reject();
@@ -182,11 +204,11 @@ export class APIClass {
       };
 
       // Setup DEF
-      const def: Promise<ApiResult> = new Promise( ( _resolve, _reject ) => {
+      const def: Promise<ApiResult<GenericApiResult>> = new Promise( ( _resolve, _reject ) => {
         // Fire Request
         const onSuccess = (_response: Response, _request: Request, _requestInit: RequestInit) => {
           getResult(_response.clone()).then((_result) => {
-            const result: ApiResult = {
+            const result: ApiResult<GenericApiResult> = {
               success: true,
               result: _result,
               response: _response.clone(),
@@ -224,7 +246,7 @@ export class APIClass {
         };
         const onFail = (_response: Response, _request: Request, _requestInit: RequestInit, _failType = 'request') => {
           getResult(_response.clone(), false).then((_result) => {
-            const result: ApiResult = {
+            const result: ApiResult<GenericApiResult> = {
               success: false,
               result: _result,
               response: assign(_response.clone(), { request: _request }),
@@ -306,7 +328,7 @@ export class APIClass {
      * @param _path
      * @param _callback
      */
-    public get(_path: string, _options?: RequestOptions | Function, _callback?: Function): Promise<ApiResult> {
+    public get(_path: string, _options?: RequestOptions | Function, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
       if ( isObject( _options ) ) {
           _path += this.buildRequestURL( _options );
       }
@@ -324,7 +346,7 @@ export class APIClass {
      * @param _path
      * @param _callback
      */
-    public remove(_path: string, _callback?: Function): Promise<ApiResult> {
+    public remove(_path: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
       return this.makeRequest(_path, {method: 'DELETE'}, _callback );
     }
 
@@ -337,7 +359,7 @@ export class APIClass {
      * @param _callback Optional Callback
      * @returns {Promise}
      */
-    public post(_path: string, _attributes: Object, _callback?: Function): Promise<ApiResult> {
+    public post(_path: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
       return this.makeRequest(_path, { method : 'POST', body  : JSON.stringify(this.lodashify(_attributes)), headers: {'Content-Type': 'application/json' } }, _callback );
     }
 
@@ -349,7 +371,7 @@ export class APIClass {
      * @param _callback Optional Callback
      * @returns {Promise}
      */
-    public patch(_path: string, _attributes: Object, _callback?: Function): Promise<ApiResult> {
+    public patch(_path: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
       return this.makeRequest(_path, { method : 'PATCH', body  : JSON.stringify(this.lodashify(_attributes)), headers: {'Content-Type': 'application/json' } }, _callback );
     }
 
@@ -365,7 +387,7 @@ export class APIClass {
       /**
        * generate Function that has an Optional Callback
        */
-      return function (_callback?): Promise<ApiResult> {
+      return function (_callback?): Promise<ApiResult<GenericApiResult>> {
         return this.makeRequest(_link.href, {method: 'GET'}, _callback );
       };
     }
@@ -379,7 +401,7 @@ export class APIClass {
      * @param _callback
      * @returns {Promise}
      */
-    public requestpooling(_requestid: string, _callback?: Function): Promise<ApiResult> {
+  public requestpooling(_requestid: string, _callback?: Function): Promise<ApiResult<{ [uuid: string]: RequestPollResult }>> {
       return this.makeRequest('/requests/' + _requestid, {method: 'GET'}, _callback );
     }
 
@@ -396,8 +418,10 @@ export class APIClass {
       /**
        * Start new Request
        */
-      this.requestpooling(_requestid).then((_result: ApiResult) => {
+      this.requestpooling(_requestid).then((_result) => {
         // Check Request Status to Decide if we start again
+
+
         if (_result.result[ _requestid ].status === 'pending') {
 
           setTimeout(() => {
@@ -424,7 +448,7 @@ export class APIClass {
      * @param _requestid
      * @param _callback
      */
-    public watchRequest(_requestid: string): Promise<ApiResult> {
+    public watchRequest(_requestid: string): Promise<ApiResult<RequestPollResult>> {
       return new Promise( ( _resolve, _reject ) => {
         this.buildAndStartRequestCallback(_requestid , _resolve, _reject);
       });
@@ -450,7 +474,31 @@ export class APIClass {
       const tmp: Object = {};
 
       forEach(_attributes, (_val, _key) => {
-        tmp[_key.replace(/([a-z]+)([A-Z])/g, '$1_$2').toLowerCase()] = _val;
+        if (isPlainObject(_val)) {
+          tmp[_key.replace(/([a-z0-9]+)([A-Z0-9])/g, '$1_$2').toLowerCase()] = this.lodashify(_val);
+
+        } else {
+          tmp[_key.replace(/([a-z0-9]+)([A-Z0-9])/g, '$1_$2').toLowerCase()] = _val;
+        }
+      });
+
+      return tmp;
+    }
+
+    /**
+     * transform lodashed attribute names to camel case names
+     * @param _attributes 
+     */
+    private camelify(_attributes: Object): Object {
+      const tmp: Object = {};
+
+      forEach(_attributes, (_val, _key) => {
+        if (isPlainObject(_val)) {
+          tmp[_key.replace(/_([a-z0-9])/g, (all, letter) => letter.toUpperCase())] = this.camelify(_val);
+
+        } else {
+          tmp[_key.replace(/_([a-z0-9])/g, (all, letter) => letter.toUpperCase())] = _val;
+        }
       });
 
       return tmp;
