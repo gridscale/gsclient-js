@@ -26,10 +26,6 @@ export interface StorageBackupSchedule {
      */
     keepBackups?: number;
     /**
-     * List of labels.
-     */
-    labels?: Array<string>;
-    /**
      * The human-readable name of the object. It supports the full UTF-8 charset, with a maximum of 64 characters.
      */
     name?: string;

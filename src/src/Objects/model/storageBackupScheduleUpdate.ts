@@ -15,7 +15,7 @@ export interface StorageBackupScheduleUpdate {
     /**
      * The human-readable name of the object. It supports the full UTF-8 charset, with a maximum of 64 characters.
      */
-    name: string;
+    name?: string;
     /**
      * The interval at which the schedule will run (in minutes). will be set from project default if not set
      */
@@ -32,8 +32,4 @@ export interface StorageBackupScheduleUpdate {
      * The status of the schedule active or not. will be set true if not set
      */
     active?: boolean;
-    /**
-     * List of labels.
-     */
-    labels?: Array<string>;
 }

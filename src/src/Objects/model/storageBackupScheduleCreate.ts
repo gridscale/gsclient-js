@@ -19,21 +19,17 @@ export interface StorageBackupScheduleCreate {
     /**
      * The interval at which the schedule will run (in minutes). will be set from project default if not set
      */
-    runInterval?: number;
+    runInterval: number;
     /**
      * The amount of backups to keep before overwriting the last created backup., will be set from project default if not set
      */
-    keepBackups?: number;
+    keepBackups: number;
     /**
      * The date and time that the backup schedule will be run. will be set from project default if not set
      */
-    nextRuntime?: Date;
+    nextRuntime: Date;
     /**
      * The status of the schedule active or not. will be set true if not set
      */
-    active?: boolean;
-    /**
-     * List of labels.
-     */
-    labels?: Array<string>;
+    active: boolean;
 }

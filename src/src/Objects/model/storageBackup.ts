@@ -27,5 +27,5 @@ export interface StorageBackup {
     /**
      * The size of a backup in GB.
      */
-    size?: number;
+    capacity?: number;
 }
