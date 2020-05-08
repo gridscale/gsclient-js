@@ -189,7 +189,7 @@ class GridscaleObjects {
     _sub_post(_type: string, _uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._api.post( this._basepath + '/' + _uuid + '/' + _type , _attributes , _callback);
     }
-    
+
 
 
     /**

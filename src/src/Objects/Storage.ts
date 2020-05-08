@@ -1,6 +1,6 @@
 import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
 import { APIClass, ApiResult, GenericApiResult, VoidApiResult, CreateResult } from '../api';
-import { StorageBackupScheduleCreate, StorageBackupScheduleUpdate, StorageBackupSchedule, StorageBackup, StorageBackupIndex, StorageBackupScheduleIndex } from './model/models';
+import { StorageBackupScheduleCreate, StorageBackupScheduleUpdate, StorageBackupSchedule, StorageBackup, StorageBackupIndex, StorageBackupScheduleIndex, StorageRollback } from './model/models';
 
 
 
@@ -287,6 +287,10 @@ class Storage extends GridscaleObjects {
      */
     deleteStorageBackup(_uuid: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_remove('backups', _uuid, _backup_uuid, _callback);
+    }
+
+    rollbackStorageBackup(_uuid: string, _backup_uuid: string, _attributes: StorageRollback, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+        return this._sub_patch('backups', _uuid, _backup_uuid + '/rollback', _attributes, _callback);
     }
 
     /**
