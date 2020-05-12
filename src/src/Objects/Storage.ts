@@ -275,7 +275,10 @@ class Storage extends GridscaleObjects {
      * @param _callback
      */
     backups(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<StorageBackupIndex>> {
-        return this._sub('backups', _uuid, _options, _callback);
+        return this._pipe_result(
+            this._sub('backups', _uuid, _options, _callback),
+            'backups'
+        );
     }
 
     /**
