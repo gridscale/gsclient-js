@@ -3,12 +3,19 @@
 import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
 import { APIClass, ApiResult, GSError, GenericApiResult } from '../api';
 import { assignIn } from 'lodash';
+import { ServerIndex } from './model/models';
 
 
 class Server extends GridscaleObjects {
 
     constructor(_api: APIClass) { super(_api, '/objects/servers'); }
 
+    list2(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<ServerIndex>> {
+        return this._pipe_result(
+            super.list(_options, _callback),
+            'servers'
+        );
+    }
 
     /**
      * Start/Stop Server

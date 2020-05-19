@@ -16,6 +16,14 @@ export interface Links {
   last?: Link;
 }
 
+export interface Meta {
+  count: number;
+  total: number;
+  limit: number;
+  offset: number;
+  page: number;
+}
+
 // tslint:disable-next-line: no-any
 export type GenericApiResult = any;
 export type VoidApiResult = void;
@@ -26,6 +34,7 @@ export interface ApiResult<T> {
   response?: Response;
   requestInit?: RequestInit;
   links?: Links;
+  meta?: Meta;
   watch?: Function | null;
   id?: string | null;
   failureType?: string | null;
@@ -212,8 +221,6 @@ export class APIClass {
               success: true,
               result: _result,
               response: _response.clone(),
-              links: {},
-              watch: null,
               id: null,
               requestInit: _requestInit
             };
@@ -225,6 +232,10 @@ export class APIClass {
                 links[linkname] = this.link(_result._links[linkname]);
               });
               result.links = links;
+            }
+
+            if (_result && _result._meta) {
+              result.meta = _result._meta;
             }
 
             /**
