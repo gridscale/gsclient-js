@@ -1,5 +1,5 @@
-import { GridscaleObjects, RequestOptions } from './GridscaleObjects';
-import { APIClass, ApiResult, GenericApiResult } from '../api';
+import { GridscaleObjects } from './GridscaleObjects';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 import { ServerIndex } from './model/models';
 declare class Server extends GridscaleObjects {
     constructor(_api: APIClass);

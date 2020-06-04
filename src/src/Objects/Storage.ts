@@ -1,5 +1,5 @@
-import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
-import { APIClass, ApiResult, GenericApiResult, VoidApiResult, CreateResult } from '../api';
+import {GridscaleObjects, } from './GridscaleObjects';
+import { APIClass, ApiResult, GenericApiResult, VoidApiResult, CreateResult, RequestOptions } from '../api';
 import { StorageBackupScheduleCreate, StorageBackupScheduleUpdate, StorageBackupSchedule, StorageBackup, StorageBackupIndex, StorageBackupScheduleIndex, StorageRollback } from './model/models';
 
 

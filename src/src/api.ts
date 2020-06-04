@@ -1,5 +1,4 @@
 import { assignIn, isArray, isFunction, isObject, isUndefined, uniqueId, assign, forEach, isPlainObject } from 'lodash';
-import { RequestOptions } from './Objects/GridscaleObjects';
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -49,6 +48,14 @@ export interface ApiSettings {
   limit?: number;
   watchdelay?: number;
   apiClient?: string;
+}
+
+export interface RequestOptions {
+  page?: number;
+  limit?: number;
+  fields?: string[];
+  filter?: string[];
+  sort?: string | string[];
 }
 
 export interface RequestPollResult {

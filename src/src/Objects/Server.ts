@@ -1,7 +1,7 @@
 
 
-import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
-import { APIClass, ApiResult, GSError, GenericApiResult } from '../api';
+import { GridscaleObjects } from './GridscaleObjects';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 import { assignIn } from 'lodash';
 import { ServerIndex } from './model/models';
 

@@ -1,5 +1,4 @@
-import { APIClass, ApiResult, GenericApiResult } from '../api';
-import { RequestOptions } from './GridscaleObjects';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 declare class Location {
     _api: APIClass;
     _defaults: RequestOptions;

@@ -2,8 +2,7 @@
  * Export all publicly accessible modules
  */
 import * as gridscale from './src/client';
-import { RequestOptions } from './src/Objects/GridscaleObjects';
 
-export {gridscale};
-export {RequestOptions};
+export { ApiResult, ApiSettings, CreateResult, GenericApiResult, Link, Links, Meta, RequestOptions, RequestPollResult, VoidApiResult } from './src/api';
+export { gridscale };
 export * from './src/Objects/model/models';

@@ -1,5 +1,5 @@
-import { GridscaleObjects, RequestOptions } from './GridscaleObjects';
-import { APIClass, ApiResult, GenericApiResult } from '../api';
+import { GridscaleObjects } from './GridscaleObjects';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 declare class IP extends GridscaleObjects {
     constructor(_api: APIClass);
     /**

@@ -1,13 +1,7 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
-import { APIClass, ApiResult, GenericApiResult } from '../api';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 
-export interface RequestOptions {
-    page?: number;
-    limit?: number;
-    fields?: string[];
-    filter?: string[];
-    sort?: string | string[];
-}
+
 
 class GridscaleObjects {
 

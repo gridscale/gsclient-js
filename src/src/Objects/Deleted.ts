@@ -1,6 +1,5 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
-import { APIClass } from '../api';
-import { RequestOptions } from './GridscaleObjects';
+import { APIClass, RequestOptions } from '../api';
 
 class Deleted {
 

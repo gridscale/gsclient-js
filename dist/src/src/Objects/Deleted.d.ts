@@ -1,5 +1,4 @@
-import { APIClass } from '../api';
-import { RequestOptions } from './GridscaleObjects';
+import { APIClass, RequestOptions } from '../api';
 declare class Deleted {
     _api: APIClass;
     _defaults: RequestOptions;

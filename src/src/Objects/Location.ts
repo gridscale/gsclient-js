@@ -1,6 +1,5 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
-import { APIClass, ApiResult, GSError, GenericApiResult } from '../api';
-import { RequestOptions } from './GridscaleObjects';
+import { APIClass, ApiResult, GSError, GenericApiResult, RequestOptions } from '../api';
 
 class Location {
 

@@ -1,11 +1,4 @@
-import { APIClass, ApiResult, GenericApiResult } from '../api';
-export interface RequestOptions {
-    page?: number;
-    limit?: number;
-    fields?: string[];
-    filter?: string[];
-    sort?: string | string[];
-}
+import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 declare class GridscaleObjects {
     _api: APIClass;
     _defaults: RequestOptions;

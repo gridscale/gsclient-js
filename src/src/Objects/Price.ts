@@ -1,7 +1,7 @@
 
 
-import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
-import { APIClass, ApiResult, GSError, GenericApiResult } from '../api';
+import { GridscaleObjects } from './GridscaleObjects';
+import { APIClass, ApiResult, GSError, GenericApiResult, RequestOptions } from '../api';
 
 
 class Price extends GridscaleObjects {

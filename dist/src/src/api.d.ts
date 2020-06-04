@@ -1,4 +1,3 @@
-import { RequestOptions } from './Objects/GridscaleObjects';
 export interface Link {
     rel: string;
     href: string;
@@ -39,6 +38,13 @@ export interface ApiSettings {
     limit?: number;
     watchdelay?: number;
     apiClient?: string;
+}
+export interface RequestOptions {
+    page?: number;
+    limit?: number;
+    fields?: string[];
+    filter?: string[];
+    sort?: string | string[];
 }
 export interface RequestPollResult {
     message: string;
