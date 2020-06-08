@@ -141,13 +141,7 @@ var APIClass = /** @class */ (function () {
                 if (_response.status !== 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
                     _response.json()
                         .then(function (json) {
-                        // TODO camelify for all, once we have new version with interfaces
-                        if (_path.match(/^\/objects\/storages\/[a-z0-9-]+\/backup(.*)/)) {
-                            _resolve(_this.camelify(json));
-                        }
-                        else {
-                            _resolve(json);
-                        }
+                        _resolve(_this.camelify(json));
                     })
                         .catch(function () {
                         if (_rejectOnJsonFailure) {
@@ -407,6 +401,10 @@ var APIClass = /** @class */ (function () {
         var _this = this;
         var tmp = {};
         lodash_1.forEach(_attributes, function (_val, _key) {
+            if (_key.indexOf('_') === 0) {
+                tmp[_key] = _val;
+                return true;
+            }
             if (lodash_1.isPlainObject(_val)) {
                 tmp[_key.replace(/_([a-z0-9])/g, function (all, letter) { return letter.toUpperCase(); })] = _this.camelify(_val);
             }

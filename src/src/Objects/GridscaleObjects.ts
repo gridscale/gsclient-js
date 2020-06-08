@@ -17,7 +17,7 @@ class GridscaleObjects {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    constructor(_api: APIClass, _path: string) {
+    constructor(_api: APIClass, _path: string, public _listKey?: string) {
         this._api = _api;
 
         this._defaults = {
@@ -77,6 +77,13 @@ class GridscaleObjects {
         // Set Callback
         if ( isFunction( _options ) && isUndefined( _callback ) ) {
             _callback = _options;
+        }
+
+        if (this._listKey) {
+            return this._pipe_result(
+                this._api.get(this._basepath, requestOptions, _callback),
+                this._listKey
+            );
         }
 
         return this._api.get( this._basepath , requestOptions , _callback);
@@ -220,6 +227,7 @@ class GridscaleObjects {
     _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>> {
         return new Promise((_resolve, _reject) => {
             _originalPromise.then((_originalResult) => {
+
                 if (typeof (_originalResult.result[_key]) !== 'undefined') {
                     _originalResult.result = _originalResult.result[_key];
                 }

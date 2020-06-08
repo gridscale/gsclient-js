@@ -1,9 +1,7 @@
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
-import { ServerIndex } from './model/models';
 declare class Server extends GridscaleObjects {
     constructor(_api: APIClass);
-    list2(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<ServerIndex>>;
     /**
      * Start/Stop Server
      *

@@ -192,14 +192,7 @@ export class APIClass {
           if (_response.status !== 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
             _response.json()
               .then(json => {
-                // TODO camelify for all, once we have new version with interfaces
-
-                if (_path.match(/^\/objects\/storages\/[a-z0-9-]+\/backup(.*)/)) {
-                  _resolve(this.camelify(json));
-
-                } else {
-                  _resolve(json);
-                }
+                _resolve(this.camelify(json));
               })
               .catch(() => {
                 if (_rejectOnJsonFailure) {
@@ -511,6 +504,11 @@ export class APIClass {
       const tmp: Object = {};
 
       forEach(_attributes, (_val, _key) => {
+        if (_key.indexOf('_') === 0) {
+          tmp[_key] = _val;
+          return true;
+        }
+
         if (isPlainObject(_val)) {
           tmp[_key.replace(/_([a-z0-9])/g, (all, letter) => letter.toUpperCase())] = this.camelify(_val);
 

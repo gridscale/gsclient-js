@@ -18,11 +18,8 @@ var lodash_1 = require("lodash");
 var Server = /** @class */ (function (_super) {
     __extends(Server, _super);
     function Server(_api) {
-        return _super.call(this, _api, '/objects/servers') || this;
+        return _super.call(this, _api, '/objects/servers', 'servers') || this;
     }
-    Server.prototype.list2 = function (_options, _callback) {
-        return this._pipe_result(_super.prototype.list.call(this, _options, _callback), 'servers');
-    };
     /**
      * Start/Stop Server
      *

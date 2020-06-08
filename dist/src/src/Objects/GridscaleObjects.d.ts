@@ -1,5 +1,6 @@
 import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 declare class GridscaleObjects {
+    _listKey?: string;
     _api: APIClass;
     _defaults: RequestOptions;
     _basepath: string;
@@ -9,7 +10,7 @@ declare class GridscaleObjects {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    constructor(_api: APIClass, _path: string);
+    constructor(_api: APIClass, _path: string, _listKey?: string);
     /**
      * Overwrite Default Settings for this Type
      *

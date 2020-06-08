@@ -8,7 +8,8 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    function GridscaleObjects(_api, _path) {
+    function GridscaleObjects(_api, _path, _listKey) {
+        this._listKey = _listKey;
         this._api = _api;
         this._defaults = {
             'page': 0,
@@ -56,6 +57,9 @@ var GridscaleObjects = /** @class */ (function () {
         // Set Callback
         if (lodash_1.isFunction(_options) && lodash_1.isUndefined(_callback)) {
             _callback = _options;
+        }
+        if (this._listKey) {
+            return this._pipe_result(this._api.get(this._basepath, requestOptions, _callback), this._listKey);
         }
         return this._api.get(this._basepath, requestOptions, _callback);
     };
