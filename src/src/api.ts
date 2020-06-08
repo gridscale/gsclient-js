@@ -3,16 +3,12 @@ import { assignIn, isArray, isFunction, isObject, isUndefined, uniqueId, assign,
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-export interface Link {
-  rel: string;
-  href: string;
-}
 
 export interface Links {
-  self?: Link;
-  first?: Link;
-  next?: Link;
-  last?: Link;
+  self?(): Promise<ApiResult<GenericApiResult>>;
+  first?(): Promise<ApiResult<GenericApiResult>>;
+  next?(): Promise<ApiResult<GenericApiResult>>;
+  last?(): Promise<ApiResult<GenericApiResult>>;
 }
 
 export interface Meta {
@@ -394,11 +390,11 @@ export class APIClass {
      * @param _callback
      * @returns {Function}
      */
-    private link( _link: Link ): Function {
+    private link( _link ): Function {
       /**
        * generate Function that has an Optional Callback
        */
-      return function (_callback?): Promise<ApiResult<GenericApiResult>> {
+      return (_callback?): Promise<ApiResult<GenericApiResult>> => {
         return this.makeRequest(_link.href, {method: 'GET'}, _callback );
       };
     }
@@ -412,7 +408,7 @@ export class APIClass {
      * @param _callback
      * @returns {Promise}
      */
-  public requestpooling(_requestid: string, _callback?: Function): Promise<ApiResult<{ [uuid: string]: RequestPollResult }>> {
+    public requestpooling(_requestid: string, _callback?: Function): Promise<ApiResult<{ [uuid: string]: RequestPollResult }>> {
       return this.makeRequest('/requests/' + _requestid, {method: 'GET'}, _callback );
     }
 

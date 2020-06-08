@@ -1,12 +1,8 @@
-export interface Link {
-    rel: string;
-    href: string;
-}
 export interface Links {
-    self?: Link;
-    first?: Link;
-    next?: Link;
-    last?: Link;
+    self?(): Promise<ApiResult<GenericApiResult>>;
+    first?(): Promise<ApiResult<GenericApiResult>>;
+    next?(): Promise<ApiResult<GenericApiResult>>;
+    last?(): Promise<ApiResult<GenericApiResult>>;
 }
 export interface Meta {
     count: number;

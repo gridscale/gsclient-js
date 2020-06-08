@@ -59,6 +59,7 @@ var GridscaleObjects = /** @class */ (function () {
             _callback = _options;
         }
         if (this._listKey) {
+            // TODO: auch noch für sub lists..
             return this._pipe_result(this._api.get(this._basepath, requestOptions, _callback), this._listKey);
         }
         return this._api.get(this._basepath, requestOptions, _callback);
@@ -168,10 +169,21 @@ var GridscaleObjects = /** @class */ (function () {
         return this._api.remove(this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid, _callback);
     };
     GridscaleObjects.prototype._pipe_result = function (_originalPromise, _key) {
+        var _this = this;
         return new Promise(function (_resolve, _reject) {
             _originalPromise.then(function (_originalResult) {
                 if (typeof (_originalResult.result[_key]) !== 'undefined') {
                     _originalResult.result = _originalResult.result[_key];
+                }
+                // modify links...
+                if (_originalResult.links) {
+                    var newLinks_1 = {};
+                    lodash_1.forEach(_originalResult.links, function (_link, _key) {
+                        newLinks_1[_key] = function () {
+                            return _this._pipe_result(_link(), _this._listKey);
+                        };
+                    });
+                    _originalResult.links = newLinks_1;
                 }
                 _resolve(_originalResult);
             }, function (_e) { return _reject(_e); });

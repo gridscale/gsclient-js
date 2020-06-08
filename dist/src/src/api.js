@@ -316,11 +316,12 @@ var APIClass = /** @class */ (function () {
      * @returns {Function}
      */
     APIClass.prototype.link = function (_link) {
+        var _this = this;
         /**
          * generate Function that has an Optional Callback
          */
         return function (_callback) {
-            return this.makeRequest(_link.href, { method: 'GET' }, _callback);
+            return _this.makeRequest(_link.href, { method: 'GET' }, _callback);
         };
     };
     /**

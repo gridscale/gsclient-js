@@ -1,4 +1,4 @@
-import { assignIn, isFunction, isUndefined } from 'lodash';
+import { assignIn, isFunction, isUndefined, forEach } from 'lodash';
 import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
 
 
@@ -80,6 +80,7 @@ class GridscaleObjects {
         }
 
         if (this._listKey) {
+            // TODO: auch noch für sub lists..
             return this._pipe_result(
                 this._api.get(this._basepath, requestOptions, _callback),
                 this._listKey
@@ -231,6 +232,18 @@ class GridscaleObjects {
                 if (typeof (_originalResult.result[_key]) !== 'undefined') {
                     _originalResult.result = _originalResult.result[_key];
                 }
+
+                // modify links...
+                if (_originalResult.links) {
+                    let newLinks = {};
+                    forEach(_originalResult.links, (_link, _key) => {
+                        newLinks[_key] = () => {
+                            return this._pipe_result(_link(), this._listKey);
+                        };
+                    });
+                    _originalResult.links = newLinks;
+                }
+
                 _resolve(_originalResult);
             }, (_e) => _reject(_e));
         });
