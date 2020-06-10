@@ -8,6 +8,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var gridscale = require("./src/client");
 exports.gridscale = gridscale;
+var api_1 = require("./src/api");
+exports.GSError = api_1.GSError;
 __export(require("./src/Objects/model/models"));
 
 //# sourceMappingURL=index.js.map
