@@ -63,7 +63,7 @@ var GridscaleClient = /** @class */ (function () {
         this.PAASSecurityZone = new PAASSecurityZone_1.PAASSecurityZone(api_1.api);
         this.Deleted = new Deleted_1.Deleted(api_1.api);
         this.Marketplace = new Marketplace_1.Marketplace(api_1.api);
-        this.watchRequest = api_1.api.watchRequest;
+        this.watchRequest = api_1.api.watchRequest.bind(api_1.api);
     }
     GridscaleClient.prototype.setApiClient = function (_client) {
         api_1.api.storeClient(_client);

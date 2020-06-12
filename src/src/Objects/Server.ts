@@ -8,7 +8,7 @@ import { ServerIndex } from './model/models';
 
 class Server extends GridscaleObjects {
 
-    constructor(_api: APIClass) { super(_api, '/objects/servers', 'servers'); }
+    constructor(_api: APIClass) { super(_api, '/objects/servers', 'servers', 'server'); }
 
 
     /**

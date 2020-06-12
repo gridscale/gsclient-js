@@ -8,8 +8,9 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    function GridscaleObjects(_api, _path, _listKey) {
+    function GridscaleObjects(_api, _path, _listKey, _getKey) {
         this._listKey = _listKey;
+        this._getKey = _getKey;
         this._api = _api;
         this._defaults = {
             'page': 0,
@@ -71,6 +72,9 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _callback
      */
     GridscaleObjects.prototype.get = function (_uuid, _callback) {
+        if (this._getKey) {
+            return this._pipe_result(this._api.get(this._basepath + '/' + _uuid, {}, _callback), this._getKey);
+        }
         return this._api.get(this._basepath + '/' + _uuid, {}, _callback);
     };
     /**

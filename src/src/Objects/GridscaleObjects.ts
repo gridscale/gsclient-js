@@ -17,7 +17,7 @@ class GridscaleObjects {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    constructor(_api: APIClass, _path: string, public _listKey?: string) {
+    constructor(_api: APIClass, _path: string, public _listKey?: string, public _getKey?: string) {
         this._api = _api;
 
         this._defaults = {
@@ -99,7 +99,13 @@ class GridscaleObjects {
      * @param _callback
      */
     get(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
-        return this._api.get( this._basepath + '/' + _uuid, {}, _callback);
+        if (this._getKey) {
+            return this._pipe_result(
+                this._api.get( this._basepath + '/' + _uuid, {}, _callback),
+                this._getKey
+            );
+        }
+        return this._api.get(this._basepath + '/' + _uuid, {}, _callback);
     }
 
 
