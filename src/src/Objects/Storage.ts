@@ -306,7 +306,6 @@ class Storage extends GridscaleObjects {
         return this._api.post(this._basepath + '/import', {
             name: _name,
             backup_uuid: _backup_uuid,
-            s3_object: ""
         }, _callback);
     }
 
