@@ -303,7 +303,7 @@ class Storage extends GridscaleObjects {
      * @param _callback
      */
     createFromBackup(_name: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
-        return this._api.post(this._basepath + '/import/', {
+        return this._api.post(this._basepath + '/import', {
             name: _name,
             backup_uuid: _backup_uuid
         }, _callback);
