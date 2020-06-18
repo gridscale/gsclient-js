@@ -305,7 +305,8 @@ class Storage extends GridscaleObjects {
     createFromBackup(_name: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._api.post(this._basepath + '/import', {
             name: _name,
-            backup_uuid: _backup_uuid
+            backup_uuid: _backup_uuid,
+            s3_object: ""
         }, _callback);
     }
 

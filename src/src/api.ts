@@ -482,10 +482,10 @@ export class APIClass {
 
       forEach(_attributes, (_val, _key) => {
         if (isPlainObject(_val)) {
-          tmp[_key.replace(/([a-z0-9]+)([A-Z0-9])/g, '$1_$2').toLowerCase()] = this.lodashify(_val);
+          tmp[_key.replace(/([a-z0-9]+)([A-Z])/g, '$1_$2').toLowerCase()] = this.lodashify(_val);
 
         } else {
-          tmp[_key.replace(/([a-z0-9]+)([A-Z0-9])/g, '$1_$2').toLowerCase()] = _val;
+          tmp[_key.replace(/([a-z0-9]+)([A-Z])/g, '$1_$2').toLowerCase()] = _val;
         }
       });
 
