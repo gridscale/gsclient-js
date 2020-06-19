@@ -178,7 +178,7 @@ export class APIClass {
               .then(json => {
                 // TODO camelify for all, once we have new version with interfaces
 
-                if (_path.match(/^\/objects\/storages\/[a-z0-9-]+\/backup(.*)/)) {
+                if (_path.match(/^\/objects\/storages\/[a-z0-9-]+\/backup(.*)/) || _path.match(/^\/objects\/storages\/import(.*)/)) {
                   _resolve(this.camelify(json));
 
                 } else {

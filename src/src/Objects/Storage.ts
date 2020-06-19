@@ -1,6 +1,6 @@
 import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
 import { APIClass, ApiResult, GenericApiResult, VoidApiResult, CreateResult } from '../api';
-import { StorageBackupScheduleCreate, StorageBackupScheduleUpdate, StorageBackupSchedule, StorageBackup, StorageBackupIndex, StorageBackupScheduleIndex, StorageRollback } from './model/models';
+import { StorageBackupScheduleCreate, StorageBackupScheduleUpdate, StorageBackupSchedule, StorageBackup, StorageBackupIndex, StorageBackupScheduleIndex, StorageRollback, CreateResponse } from './model/models';
 
 
 
@@ -302,7 +302,7 @@ class Storage extends GridscaleObjects {
      * @param _backup_uuid Backup-UUID to restore from
      * @param _callback
      */
-    createFromBackup(_name: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+    createFromBackup(_name: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<CreateResponse>> {
         return this._api.post(this._basepath + '/import', { backup: {
             name: _name,
             backup_uuid: _backup_uuid,
