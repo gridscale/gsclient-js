@@ -1,13 +1,14 @@
 
 
 import {GridscaleObjects} from './GridscaleObjects';
+import { APIClass } from '../api';
 
 
 class Firewall extends GridscaleObjects {
 
-    constructor(_api) { super(_api,'/objects/firewalls'); }
+    constructor(_api: APIClass) { super(_api, '/objects/firewalls'); }
 
 }
 
 
-export { Firewall }
+export { Firewall };

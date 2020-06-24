@@ -1,11 +1,12 @@
 
 
-import {GridscaleObjects} from './GridscaleObjects';
+import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
+import { APIClass, ApiResult, GSError, GenericApiResult } from '../api';
 
 
 class IP extends GridscaleObjects {
 
-    constructor(_api) { super(_api,'/objects/ips'); }
+    constructor(_api: APIClass) { super(_api, '/objects/ips'); }
 
 
     /**
@@ -16,13 +17,11 @@ class IP extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    list(_callback?){        
-        return this._api.get( this._basepath ,_callback);
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+        return this._api.get( this._basepath , _options, _callback);
     }
 
 }
 
-export {IP}
-
-   
+export {IP};
 

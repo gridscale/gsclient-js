@@ -1,9 +1,13 @@
-import {GridscaleObjects} from './GridscaleObjects';
+import {GridscaleObjects, RequestOptions} from './GridscaleObjects';
+import { APIClass, ApiResult, GenericApiResult, VoidApiResult, CreateResult } from '../api';
+import { StorageBackupScheduleCreate, StorageBackupScheduleUpdate, StorageBackupSchedule, StorageBackup, StorageBackupIndex, StorageBackupScheduleIndex, StorageRollback, CreateResponse } from './model/models';
+
+
 
 
 class Storage extends GridscaleObjects {
 
-    constructor(_api) {
+    constructor(_api: APIClass) {
         super(_api, '/objects/storages');
     }
 
@@ -14,8 +18,8 @@ class Storage extends GridscaleObjects {
      * @param _uuid Object UUID to Clone
      * @param _callback Callback Function
      */
-    clone(_uuid, _callback?) {
-      return this._api.post(  this._basepath +'/'+ _uuid + '/clone' ,_callback);
+    clone(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+      return this._api.post(  this._basepath + '/' + _uuid + '/clone', _callback);
     }
 
 
@@ -31,7 +35,7 @@ class Storage extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    snapshots(_uuid, _options?, _callback?) {
+    snapshots(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub('snapshots', _uuid, _options, _callback);
     }
 
@@ -44,7 +48,7 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    snapshot(_uuid, _snapshot_uuid, _callback?) {
+    snapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_get('snapshots', _uuid, _snapshot_uuid, _callback);
     }
 
@@ -63,7 +67,7 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    patchSnapshot(_uuid, _snapshot_uuid, _attribute, _callback?) {
+    patchSnapshot(_uuid: string, _snapshot_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_patch('snapshots', _uuid, _snapshot_uuid, _attribute, _callback);
     }
 
@@ -79,8 +83,8 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    rollbackSnapshot(_uuid, _snapshot_uuid, _callback?) {
-        return this._api.patch( '/objects/storages/' + _uuid +'/snapshots/' + _snapshot_uuid + '/rollback' , {rollback: true} ,_callback);
+    rollbackSnapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+        return this._api.patch( '/objects/storages/' + _uuid + '/snapshots/' + _snapshot_uuid + '/rollback' , {rollback: true}, _callback);
     }
 
 
@@ -97,8 +101,8 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    exportSnapshot(_uuid, _snapshot_uuid,_data, _callback?) {
-      return this._api.patch( '/objects/storages/' + _uuid +'/snapshots/' + _snapshot_uuid + '/export_to_s3' , _data ,_callback);
+    exportSnapshot(_uuid: string, _snapshot_uuid: string, _data: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+      return this._api.patch( '/objects/storages/' + _uuid + '/snapshots/' + _snapshot_uuid + '/export_to_s3' , _data, _callback);
     }
 
 
@@ -110,7 +114,7 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {TRequest|any}
      */
-    createSnapshot(_uuid, _attribute, _callback?) {
+    createSnapshot(_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_post('snapshots', _uuid, _attribute, _callback);
     }
 
@@ -119,12 +123,12 @@ class Storage extends GridscaleObjects {
      * Remove Snapshot
      *
      *
-     * @param _uuid Server UUID
+     * @param _uuid Storage UUID
      * @param _snapshot_uuid IP UUID
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    removeSnapshot(_uuid, _snapshot_uuid, _callback?) {
+    removeSnapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_remove('snapshots', _uuid, _snapshot_uuid, _callback);
     }
 
@@ -141,7 +145,7 @@ class Storage extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    snapshotSchedulers(_uuid, _options?, _callback?) {
+    snapshotSchedulers(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub('snapshot_schedules', _uuid, _options, _callback);
     }
 
@@ -154,7 +158,7 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    snapshotScheduler(_uuid, _snapshot_scheduler_uuid, _callback?) {
+    snapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_get('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
     }
 
@@ -169,7 +173,7 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    patchSnapshotScheduler(_uuid, _snapshot_scheduler_uuid, _attribute, _callback?) {
+    patchSnapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_patch('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _attribute, _callback);
     }
 
@@ -182,7 +186,7 @@ class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {TRequest|any}
      */
-    createSnapshotScheduler(_uuid, _attribute, _callback?) {
+    createSnapshotScheduler(_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_post('snapshot_schedules', _uuid, _attribute, _callback);
     }
 
@@ -191,15 +195,120 @@ class Storage extends GridscaleObjects {
      * Remove Snapshot Schedler
      *
      *
-     * @param _uuid Server UUID
+     * @param _uuid Storage UUID
      * @param _snapshot_scheduler_uuid IP UUID
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    removeSnapshotScheduler(_uuid, _snapshot_scheduler_uuid, _callback?) {
+    removeSnapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         return this._sub_remove('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
+    }
+
+    /**
+     * List all backup schedules for the storage
+     *
+     * @param _uuid Storage UUID
+     * @param _options requestOptions
+     * @param _callback
+     * @returns {TRequest|any}
+     */
+    backupSchedules(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<StorageBackupScheduleIndex>> {
+        return this._pipe_result(
+            this._sub('backup_schedules', _uuid, _options, _callback),
+            'scheduleStorageBackups'
+        );
+    }
+
+    /**
+     * Fetches one backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid Backup-Schedule UUID
+     * @param _callback
+     */
+    backupScheduler(_uuid: string, _backup_schedule_uuid: string, _callback?: Function): Promise<ApiResult<StorageBackupSchedule>> {
+        return this._pipe_result(
+            this._sub_get('backup_schedules', _uuid, _backup_schedule_uuid, _callback),
+            'scheduleStorageBackup'
+        );
+    }
+
+
+    /**
+     * Creates a new backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_options
+     * @param _callback
+     */
+    createBackupScheduler(_uuid: string, _backup_schedule_options: StorageBackupScheduleCreate, _callback?: Function): Promise<ApiResult<CreateResult>> {
+        return this._sub_post('backup_schedules', _uuid, _backup_schedule_options, _callback);
+    }
+
+    /**
+     * Modifies existing backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid  Backup-Schedule UUID
+     * @param backup_schedule_options
+     * @param callback
+     */
+    patchBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _backup_schedule_options: StorageBackupScheduleUpdate, _callback?: Function): Promise<ApiResult<StorageBackupScheduleUpdate>> {
+        return this._sub_patch('backup_schedules', _uuid, _backup_schedule_uuid, _backup_schedule_options, _callback);
+    }
+
+    /**
+     * Remove existing backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid Backup-Schedule UUID
+     * @param callback
+     */
+    removeStorageBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+        return this._sub_remove('backup_schedules', _uuid, _backup_schedule_uuid, _callback);
+    }
+
+    /**
+     * List all backups of the storage
+     *
+     * @param _uuid Storage UUID
+     * @param _callback
+     */
+    backups(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<StorageBackupIndex>> {
+        return this._pipe_result(
+            this._sub('backups', _uuid, _options, _callback),
+            'backups'
+        );
+    }
+
+    /**
+     * Remove existing backup
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_uuid
+     * @param _callback
+     */
+    deleteStorageBackup(_uuid: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+        return this._sub_remove('backups', _uuid, _backup_uuid, _callback);
+    }
+
+    rollbackStorageBackup(_uuid: string, _backup_uuid: string, _attributes: StorageRollback, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+        return this._sub_patch('backups', _uuid, _backup_uuid + '/rollback', _attributes, _callback);
+    }
+
+    /**
+     * Creates a new storage from an existing backup
+     * @param _name Name of the new storage
+     * @param _backup_uuid Backup-UUID to restore from
+     * @param _callback
+     */
+    createFromBackup(_name: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<CreateResponse>> {
+        return this._api.post(this._basepath + '/import', { backup: {
+            name: _name,
+            backup_uuid: _backup_uuid,
+        }}, _callback);
     }
 
 
 }
-export { Storage }
+export { Storage };

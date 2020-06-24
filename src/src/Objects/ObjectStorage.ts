@@ -1,7 +1,10 @@
+import { APIClass, ApiResult, GSError, GenericApiResult } from '../api';
+import { RequestOptions } from './GridscaleObjects';
+
 class ObjectStorage {
 
     // Naming
-    public _api;
+    public _api: APIClass;
 
 
     /**
@@ -11,7 +14,7 @@ class ObjectStorage {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    constructor(_api){
+    constructor(_api: APIClass) {
         this._api = _api;
 
 
@@ -26,9 +29,9 @@ class ObjectStorage {
      * @param _callback
      * @returns {any}
      */
-    accessKeys(_callback?){
+    accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
 
-        return this._api.get( '/objects/objectstorages/access_keys',_callback)
+        return this._api.get( '/objects/objectstorages/access_keys', _options, _callback);
 
     }
 
@@ -40,8 +43,8 @@ class ObjectStorage {
      * @param _uuid
      * @param _callback
      */
-    accessKey(_access_key,_callback?) {
-        return this._api.get( '/objects/objectstorages/access_keys/' + _access_key,_callback);
+    accessKey(_access_key: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+        return this._api.get( '/objects/objectstorages/access_keys/' + _access_key, _callback);
     }
 
     /**
@@ -50,8 +53,8 @@ class ObjectStorage {
      * @param _uuid
      * @param _callback
      */
-    removeAccessKey(_access_key,_callback?) {
-        return this._api.remove( '/objects/objectstorages/access_keys/' + _access_key,_callback);
+    removeAccessKey(_access_key: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+        return this._api.remove( '/objects/objectstorages/access_keys/' + _access_key, _callback);
     }
 
 
@@ -61,8 +64,8 @@ class ObjectStorage {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    createAccessKey(_callback?) {
-        return this._api.post( '/objects/objectstorages/access_keys'  ,_callback);
+    createAccessKey(_callback?: Function): Promise<ApiResult<GenericApiResult>> {
+        return this._api.post( '/objects/objectstorages/access_keys'  , _callback);
     }
 
 
@@ -74,9 +77,11 @@ class ObjectStorage {
      * @param _options
      * @param _callback
      * @returns {any}
+     *
+     * @deprecated
      */
-    buckets(_callback?){
-        return this._api.get( '/objects/objectstorages/buckets' ,_callback)
+    buckets(_options: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+        return this._api.get('/objects/objectstorages/buckets', _options, _callback);
 
     }
 
@@ -87,11 +92,13 @@ class ObjectStorage {
      *
      * @param _uuid
      * @param _callback
+     *
+     * @deprecated
      */
-    bucket(_bucket_name,_callback?) {
-        return this._api.get( '/objects/objectstorages/buckets/' + _bucket_name,_callback);
+    bucket(_bucket_name: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+        return this._api.get( '/objects/objectstorages/buckets/' + _bucket_name, _callback);
     }
 
 }
 
-export { ObjectStorage }
+export { ObjectStorage };

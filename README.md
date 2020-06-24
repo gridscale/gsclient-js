@@ -86,6 +86,8 @@ In this example the result will be the first 10 servers with more then 16GB of m
 | fields     | array  | -       | Only include specific fields in the response. The available fields are dependent on the object type. If empty, all fields were included in the response |
 | filter     | array  | -       | Filter the response by the values of a specific field. Example "memory>16". See *available filter operators* below  |
 | watchdelay | number | 52      | The interval for which the status of not-finished requests should be polled. In milliseconds (see *Watching a job* below)  |
+| endpoint   | string | https://api.gridscale.io      | The endpoint where the gridscale API is reachable. You should not have to change this  |
+| endpointOverrides   | object | {}      | Override the `endpoint` for specific API paths, for example if you use a mocked API for some API URLs. The object key is the path for which the endpoint should be overridden, the value is the endpoint to use. Path (the object key) is interpreted as regex when it starts and end with a slash. Example: `{ '/^objects\/storage/': 'http://myMockedBackend:8080' }`|
 
 ##### Available filter operators:  
 Here you find an overview of the filter operators available when using the `filter` option.
@@ -237,8 +239,16 @@ client.Storage.removeSnapshot( uuid , snapshot_uuid [, callback ] )
 client.Storage.snapshotSchedulers( uuid [, requestoptions , callback ] )  
 client.Storage.snapshotScheduler( uuid , snapshot_scheduler_uuid  [, callback ] )  
 client.Storage.patchSnapshotScheduler( uuid , snapshot_scheduler_uuid, attribute  [, callback ] )  
-client.Storage.createSnapshotScheduler( uuid , snapshot_scheduler_uuid [, callback ] )  
+client.Storage.createSnapshotScheduler( uuid , snapshot_scheduler_opeions [, callback ] )  
 client.Storage.removeSnapshotScheduler( uuid , snapshot_scheduler_uuid [, callback ] )
+client.Storage.backupSchedules( uuid [,requestoptions [, callback ]])
+client.Storage.backupSchedule( uuid , backup_schedule_uuid [, callback ])
+client.Storage.createBackupSchedule( uuid , backup_schedule_options [, callback ])
+client.Storage.patchBackupSchedule( uuid , backup_schedule_uuid, backup_schedule_options [, callback ])
+client.Storage.removeBackupSchedule( uuid , backup_schedule_uuid [, callback ])
+client.Storage.backups( uuid [, callback ])
+client.Storage.removeBackup( uuid , backup_uuid [, callback ])
+client.Storage.createFromBackup( name, backup_uuid [, callback ])
 
 ### Network
 client.Network.list( [ requestoptions , callback ] )  
@@ -312,8 +322,8 @@ client.ObjectStorage.accessKeys( [ callback ] )
 client.ObjectStorage.accessKey( access_key [, callback ] )  
 client.ObjectStorage.createAccessKey([ callback ] )  
 client.ObjectStorage.removeAccessKey( access [, callback ] )  
-client.ObjectStorage.buckets( [ callback ] )   
-client.ObjectStorage.bucket( bucket_name [ , callback ] )
+client.ObjectStorage.buckets( [ callback ] )  `(!) DEPRECATED! Will be removed in future versions`
+client.ObjectStorage.bucket( bucket_name [ , callback ] ) `(!) DEPRECATED! Will be removed in future versions`
 
 ### Paas
 client.PAAS.serviceTemplates.get( UUID [, callback ] )
