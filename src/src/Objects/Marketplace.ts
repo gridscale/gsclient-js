@@ -4,7 +4,8 @@ import { APIClass } from '../api';
 
 class Marketplace extends GridscaleObjects {
 
-    constructor(_api: APIClass) { super(_api, '/objects/marketplace/templates'); }
+    constructor(_api: APIClass) { super(_api, '/objects/marketplace/applications'); }
+
 
 }
 
