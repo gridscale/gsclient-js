@@ -1,4 +1,4 @@
-import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult, CreateResult } from '../api';
 declare class GridscaleObjects {
     _listKey?: string;
     _getKey?: string;
@@ -49,21 +49,21 @@ declare class GridscaleObjects {
      * @param _uuid
      * @param _callback
      */
-    remove(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    remove(_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Create object
      * @param _attributes
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    create(_attributes: Object, _callback?: Function): Promise<ApiResult<CreateResult>>;
     /**
      * Patch object
      * @param _attributes
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    patch(_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    patch(_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Wrapper for Subtypes to save some lines of code
      *

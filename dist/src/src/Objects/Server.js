@@ -20,6 +20,16 @@ var Server = /** @class */ (function (_super) {
     function Server(_api) {
         return _super.call(this, _api, '/objects/servers', 'servers', 'server') || this;
     }
+    // override some generic function to set explicit return type
+    Server.prototype.list = function (_options, _callback) {
+        return _super.prototype.list.call(this, _options, _callback);
+    };
+    Server.prototype.get = function (_uuid, _callback) {
+        return _super.prototype.get.call(this, _uuid, _callback);
+    };
+    Server.prototype.create = function (_attributes, _callback) {
+        return _super.prototype.create.call(this, _attributes, _callback);
+    };
     /**
      * Start/Stop Server
      *

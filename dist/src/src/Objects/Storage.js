@@ -263,9 +263,10 @@ var Storage = /** @class */ (function (_super) {
      * @param _callback
      */
     Storage.prototype.createFromBackup = function (_name, _backup_uuid, _callback) {
-        return this._api.post(this._basepath + '/import/', {
+        return this._api.post(this._basepath + '/import', {
             name: _name,
-            backup_uuid: _backup_uuid
+            backup_uuid: _backup_uuid,
+            s3_object: ""
         }, _callback);
     };
     return Storage;

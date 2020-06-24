@@ -1,4 +1,4 @@
-import { ApiSettings } from './api';
+import { api, ApiSettings } from './api';
 import { Server } from './Objects/Server';
 import { Storage } from './Objects/Storage';
 import { Network } from './Objects/Network';
@@ -45,7 +45,7 @@ declare class GridscaleClient {
     PAASSecurityZone: PAASSecurityZone;
     Deleted: Deleted;
     Marketplace: Marketplace;
-    watchRequest: Function;
+    watchRequest: ReturnType<typeof api.watchRequest>;
     /**
      * Init Client with Default Values
      *

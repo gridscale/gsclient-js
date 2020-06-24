@@ -61,8 +61,8 @@ export interface RequestPollResult {
 }
 
 export interface CreateResult {
-  requestUuid: string;
-  objectUuid: string;
+  requestUuid?: string;
+  objectUuid?: string;
 }
 
 export class GSError extends Error {

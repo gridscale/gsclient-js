@@ -173,7 +173,7 @@ declare class Storage extends GridscaleObjects {
      * @param backup_schedule_options
      * @param callback
      */
-    patchBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _backup_schedule_options: StorageBackupScheduleUpdate, _callback: Function): Promise<ApiResult<StorageBackupScheduleUpdate>>;
+    patchBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _backup_schedule_options: StorageBackupScheduleUpdate, _callback?: Function): Promise<ApiResult<StorageBackupScheduleUpdate>>;
     /**
      * Remove existing backup schedule
      *

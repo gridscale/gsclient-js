@@ -48,8 +48,8 @@ export interface RequestPollResult {
     create_time: string;
 }
 export interface CreateResult {
-    requestUuid: string;
-    objectUuid: string;
+    requestUuid?: string;
+    objectUuid?: string;
 }
 export declare class GSError extends Error {
     result: GenericApiResult;

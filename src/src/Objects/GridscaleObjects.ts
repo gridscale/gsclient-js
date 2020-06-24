@@ -1,5 +1,5 @@
 import { assignIn, isFunction, isUndefined, forEach } from 'lodash';
-import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult, CreateResult } from '../api';
 
 
 
@@ -117,7 +117,7 @@ class GridscaleObjects {
      * @param _uuid
      * @param _callback
      */
-    remove(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+    remove(_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._api.remove( this._basepath + '/' + _uuid, _callback);
     }
 
@@ -129,7 +129,7 @@ class GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+    create(_attributes: Object, _callback?: Function): Promise<ApiResult<CreateResult>> {
         return this._api.post(  this._basepath , _attributes , _callback);
     }
 
@@ -141,7 +141,7 @@ class GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    patch(_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+    patch(_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._api.patch(  this._basepath + '/' + _uuid , _attributes , _callback);
     }
 

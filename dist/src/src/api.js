@@ -386,10 +386,10 @@ var APIClass = /** @class */ (function () {
         var tmp = {};
         lodash_1.forEach(_attributes, function (_val, _key) {
             if (lodash_1.isPlainObject(_val)) {
-                tmp[_key.replace(/([a-z0-9]+)([A-Z0-9])/g, '$1_$2').toLowerCase()] = _this.lodashify(_val);
+                tmp[_key.replace(/([a-z0-9]+)([A-Z])/g, '$1_$2').toLowerCase()] = _this.lodashify(_val);
             }
             else {
-                tmp[_key.replace(/([a-z0-9]+)([A-Z0-9])/g, '$1_$2').toLowerCase()] = _val;
+                tmp[_key.replace(/([a-z0-9]+)([A-Z])/g, '$1_$2').toLowerCase()] = _val;
             }
         });
         return tmp;
