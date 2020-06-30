@@ -45,7 +45,7 @@ declare class GridscaleClient {
     PAASSecurityZone: PAASSecurityZone;
     Deleted: Deleted;
     Marketplace: Marketplace;
-    watchRequest: ReturnType<typeof api.watchRequest>;
+    watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
     /**
      * Init Client with Default Values
      *

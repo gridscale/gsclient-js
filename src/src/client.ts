@@ -51,7 +51,7 @@ class GridscaleClient {
     public Deleted: Deleted;
     public Marketplace: Marketplace;
 
-    public watchRequest: ReturnType<typeof api.watchRequest>;
+    public watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
 
     /**
      * Init Client with Default Values
