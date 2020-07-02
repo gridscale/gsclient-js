@@ -104,8 +104,7 @@ export class APIClass {
       userId: '',
       limit: 25,
       watchdelay: 51,
-      apiClient: 'gs_api_node',
-      fetch: fetch,
+      apiClient: 'gs_api_node'
     };
 
     /**
@@ -280,7 +279,7 @@ export class APIClass {
 
 
         const request = new Request(url, options);
-        const promise = this.settings.fetch(request);
+        const promise = (this.settings.fetch || fetch)(request);
         promise
           .then((_response) => {
             if (_response.ok) {

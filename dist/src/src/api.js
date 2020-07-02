@@ -52,8 +52,7 @@ var APIClass = /** @class */ (function () {
             userId: '',
             limit: 25,
             watchdelay: 51,
-            apiClient: 'gs_api_node',
-            fetch: fetch,
+            apiClient: 'gs_api_node'
         };
         /**
          * Update local Request Options
@@ -224,7 +223,7 @@ var APIClass = /** @class */ (function () {
                 });
             };
             var request = new Request(url, options);
-            var promise = _this.settings.fetch(request);
+            var promise = (_this.settings.fetch || fetch)(request);
             promise
                 .then(function (_response) {
                 if (_response.ok) {
