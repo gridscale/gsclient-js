@@ -58,6 +58,7 @@ declare class GridscaleClient {
     setApiClient(_client: string): void;
     setToken(_token: string, _userId: string): void;
     setEndpoint(_endpoint: string): void;
+    setFetch(_fetch: Function): void;
     addLogger(_callback: Function): void;
     PAASServiceMetrics(_serviceUUID: string): PAASServiceMetrics;
     stringifyResponseRequest<T>(object: any): T;

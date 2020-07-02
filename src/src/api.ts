@@ -44,6 +44,7 @@ export interface ApiSettings {
   limit?: number;
   watchdelay?: number;
   apiClient?: string;
+  fetch?: Function;
 }
 
 export interface RequestOptions {
@@ -103,7 +104,8 @@ export class APIClass {
       userId: '',
       limit: 25,
       watchdelay: 51,
-      apiClient: 'gs_api_node'
+      apiClient: 'gs_api_node',
+      fetch: fetch,
     };
 
     /**
@@ -278,7 +280,7 @@ export class APIClass {
 
 
         const request = new Request(url, options);
-        const promise = fetch(request);
+        const promise = this.settings.fetch(request);
         promise
           .then((_response) => {
             if (_response.ok) {

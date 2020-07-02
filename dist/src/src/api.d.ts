@@ -34,6 +34,7 @@ export interface ApiSettings {
     limit?: number;
     watchdelay?: number;
     apiClient?: string;
+    fetch?: Function;
 }
 export interface RequestOptions {
     page?: number;

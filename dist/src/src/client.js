@@ -74,6 +74,9 @@ var GridscaleClient = /** @class */ (function () {
     GridscaleClient.prototype.setEndpoint = function (_endpoint) {
         api_1.api.setOptions({ endpoint: _endpoint });
     };
+    GridscaleClient.prototype.setFetch = function (_fetch) {
+        api_1.api.setOptions({ fetch: fetch });
+    };
     GridscaleClient.prototype.addLogger = function (_callback) {
         api_1.api.addLogger(_callback);
     };

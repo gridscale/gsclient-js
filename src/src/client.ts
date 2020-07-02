@@ -106,6 +106,10 @@ class GridscaleClient {
       api.setOptions({ endpoint: _endpoint });
     }
 
+    public setFetch(_fetch: Function) {
+      api.setOptions({ fetch: fetch });
+    }
+
 
     public addLogger ( _callback: Function ) {
       api.addLogger( _callback );
