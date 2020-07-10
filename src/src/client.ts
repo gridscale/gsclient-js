@@ -90,7 +90,7 @@ class GridscaleClient {
         this.PAASSecurityZone = new PAASSecurityZone(api);
         this.Deleted = new Deleted(api);
         this.Marketplace = new Marketplace(api);
-        this.watchRequest = api.watchRequest;
+        this.watchRequest = api.watchRequest.bind(api);
 
     }
 
