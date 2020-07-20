@@ -1,4 +1,5 @@
-import { APIClass, ApiResult, GSError, GenericApiResult, RequestOptions } from '../api';
+import { APIClass, ApiResult, GSError, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
+import * as models from './model/models';
 
 class ObjectStorage {
 
@@ -20,6 +21,20 @@ class ObjectStorage {
 
     }
 
+    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>> {
+        return new Promise((_resolve, _reject) => {
+            _originalPromise.then((_originalResult) => {
+
+                if (typeof (_originalResult.result[_key]) !== 'undefined') {
+                    _originalResult.result = _originalResult.result[_key];
+                }
+
+
+                _resolve(_originalResult);
+            }, (_e) => _reject(_e));
+        });
+    }
+
     /**
      * List Access Keys
      *
@@ -28,9 +43,12 @@ class ObjectStorage {
      * @param _callback
      * @returns {any}
      */
-    accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+    accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<models.AccessKeysGetResponse>> {
 
-        return this._api.get( '/objects/objectstorages/access_keys', _options, _callback);
+        return this._pipe_result(
+            this._api.get( '/objects/objectstorages/access_keys', _options, _callback),
+            'access_keys'
+        );
 
     }
 
@@ -42,8 +60,11 @@ class ObjectStorage {
      * @param _uuid
      * @param _callback
      */
-    accessKey(_access_key: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
-        return this._api.get( '/objects/objectstorages/access_keys/' + _access_key, _callback);
+    accessKey(_access_key: string, _callback?: Function): Promise<ApiResult<models.AccessKeyGetResponse>> {
+        return this._pipe_result(
+            this._api.get( '/objects/objectstorages/access_keys/' + _access_key, _callback),
+            'access_key'
+        );
     }
 
     /**
@@ -52,7 +73,7 @@ class ObjectStorage {
      * @param _uuid
      * @param _callback
      */
-    removeAccessKey(_access_key: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+    removeAccessKey(_access_key: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._api.remove( '/objects/objectstorages/access_keys/' + _access_key, _callback);
     }
 
@@ -63,40 +84,13 @@ class ObjectStorage {
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    createAccessKey(_callback?: Function): Promise<ApiResult<GenericApiResult>> {
+    createAccessKey(_callback?: Function): Promise<ApiResult<models.AccessKeyCreateResponse>> {
         return this._api.post( '/objects/objectstorages/access_keys'  , _callback);
     }
 
 
 
-    /**
-     * List Access Keys
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     *
-     * @deprecated
-     */
-    buckets(_options: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
-        return this._api.get('/objects/objectstorages/buckets', _options, _callback);
-
-    }
-
-
-
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     *
-     * @deprecated
-     */
-    bucket(_bucket_name: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
-        return this._api.get( '/objects/objectstorages/buckets/' + _bucket_name, _callback);
-    }
+    
 
 }
 
