@@ -1,5 +1,6 @@
 import { assignIn, isFunction, isUndefined, forEach } from 'lodash';
 import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult, CreateResult } from '../api';
+import { EventResponse } from './model/models';
 
 
 
@@ -17,7 +18,7 @@ class GridscaleObjects {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    constructor(_api: APIClass, _path: string, public _listKey?: string, public _getKey?: string) {
+    constructor(_api: APIClass, _path: string) {
         this._api = _api;
 
         this._defaults = {
@@ -79,15 +80,7 @@ class GridscaleObjects {
             _callback = _options;
         }
 
-        if (this._listKey) {
-            // TODO: auch noch für sub lists..
-            return this._pipe_result(
-                this._api.get(this._basepath, requestOptions, _callback),
-                this._listKey
-            );
-        }
-
-        return this._api.get( this._basepath , requestOptions , _callback);
+        return this._api.get(this._basepath, requestOptions, _callback);
     }
 
 
@@ -99,12 +92,6 @@ class GridscaleObjects {
      * @param _callback
      */
     get(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
-        if (this._getKey) {
-            return this._pipe_result(
-                this._api.get( this._basepath + '/' + _uuid, {}, _callback),
-                this._getKey
-            );
-        }
         return this._api.get(this._basepath + '/' + _uuid, {}, _callback);
     }
 
@@ -241,10 +228,10 @@ class GridscaleObjects {
 
                 // modify links...
                 if (_originalResult.links) {
-                    let newLinks = {};
-                    forEach(_originalResult.links, (_link, _key) => {
-                        newLinks[_key] = () => {
-                            return this._pipe_result(_link(), this._listKey);
+                    const newLinks = {};
+                    forEach(_originalResult.links, (_link, _linkkey) => {
+                        newLinks[_linkkey] = () => {
+                            return this._pipe_result(_link(), _key);
                         };
                     });
                     _originalResult.links = newLinks;
@@ -262,7 +249,7 @@ class GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    events(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
+    events(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<EventResponse>> {
         return this._sub('events', _uuid, _options, _callback);
     }
 }
