@@ -10,7 +10,6 @@ import { Template } from './Objects/Template';
 import { Location } from './Objects/Location';
 import { ObjectStorage } from './Objects/ObjectStorage';
 import { Label } from './Objects/Label';
-import { Price } from './Objects/Price';
 import { Loadbalancer } from './Objects/Loadbalancer';
 import { Events } from './Objects/Events';
 import { Firewall } from './Objects/Firewall';
@@ -40,7 +39,6 @@ class GridscaleClient {
     public Location: Location;
     public ObjectStorage: ObjectStorage;
     public Label: Label;
-    public Price: Price;
     public Loadbalancer: Loadbalancer;
     public Events: Events;
     public Firewall: Firewall;
@@ -80,7 +78,6 @@ class GridscaleClient {
         this.Location = new Location(api);
         this.ObjectStorage = new ObjectStorage(api);
         this.Label = new Label(api);
-        this.Price = new Price(api);
         this.Loadbalancer = new Loadbalancer(api);
         this.Events = new Events(api);
         this.Firewall = new Firewall(api);
