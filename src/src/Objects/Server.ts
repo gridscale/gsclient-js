@@ -1,23 +1,29 @@
 
 
 import { GridscaleObjects } from './GridscaleObjects';
-import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
+import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
 import { assignIn } from 'lodash';
-import { ServerIndex, ServerGetResponse, ServerCreateResponse, LinkedIpsGetResponse, LinkedIpGetResponse, LinkedStoragesGetResponse, ServerMetricsGetResponse, LinkedStorageGetResponse, LinkedIsoimagesGetResponse, LinkedIsoimageGetResponse, LinkedNetworksGetResponse, LinkedNetworkGetResponse } from './model/models';
+import * as models from './model/models';
 
 
 class Server extends GridscaleObjects {
 
-    constructor(_api: APIClass) { super(_api, '/objects/servers', 'servers', 'server'); }
+    constructor(_api: APIClass) { super(_api, '/objects/servers'); }
 
     // override some generic function to set explicit return type
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<ServerIndex>> {
-        return super.list(_options, _callback);
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServerIndex>> {
+        return super._pipe_result(
+            super.list(_options, _callback),
+            'servers'
+        );
     }
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<ServerGetResponse>> {
-        return super.get(_uuid, _callback);
+    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServerGetResponse>> {
+        return super._pipe_result(
+            super.get(_uuid, _callback),
+            'server'
+        );
     }
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<ServerCreateResponse>> {
+    create(_attributes: Object, _callback?: Function): Promise<ApiResult<models.ServerCreateResponse>> {
         return super.create(_attributes, _callback);
     }
 
@@ -56,8 +62,11 @@ class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    ips(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedIpsGetResponse>> {
-        return this._sub('ips', _uuid, _options, _callback);
+    ips(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIpsGetResponse>> {
+        return this._pipe_result(
+            this._sub('ips', _uuid, _options, _callback),
+            'ip_relations'
+        );
     }
 
     /**
@@ -68,8 +77,11 @@ class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    ip(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<LinkedIpGetResponse>> {
-        return this._sub_get('ips', _uuid, _ip_uuid, _callback);
+    ip(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIpGetResponse>> {
+        return this._pipe_result(
+            this._sub_get('ips', _uuid, _ip_uuid, _callback),
+            'ip_relation'
+        );
     }
 
 
@@ -112,19 +124,11 @@ class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    storages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedStoragesGetResponse>> {
-        return this._sub('storages', _uuid, _options, _callback);
-    }
-
-
-    /**
-     *  Get Metrics for this Object
-     *
-     * @param _uuid Object UUID
-     * @param _callback Callback Function
-     */
-    metrics(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<ServerMetricsGetResponse>> {
-        return this._sub('metrics', _uuid, _options, _callback);
+    storages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedStoragesGetResponse>> {
+        return this._pipe_result(
+            this._sub('storages', _uuid, _options, _callback),
+            'storage_relations'
+        );
     }
 
     /**
@@ -135,10 +139,12 @@ class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    storage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<LinkedStorageGetResponse>> {
-        return this._sub_get('storages', _uuid, _storage_uuid, _callback);
+    storage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedStorageGetResponse>> {
+        return this._pipe_result(
+            this._sub_get('storages', _uuid, _storage_uuid, _callback),
+            'storage_relation'
+        );
     }
-
 
     /**
      * Patch Storage that is related to a Server i flag it as Bootdevice
@@ -154,7 +160,6 @@ class Server extends GridscaleObjects {
         return this._sub_patch('storages', _uuid, _storage_uuid, _attribute, _callback);
     }
 
-
     /**
      * Relate Storage with Server
      *
@@ -164,9 +169,8 @@ class Server extends GridscaleObjects {
      * @returns {TRequest|any}
      */
     addStorage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
-        return this._sub_post('storages', _uuid, {'object_uuid': _storage_uuid}, _callback);
+        return this._sub_post('storages', _uuid, { 'object_uuid': _storage_uuid }, _callback);
     }
-
 
     /**
      * Remove Storage from Server
@@ -181,7 +185,26 @@ class Server extends GridscaleObjects {
         return this._sub_remove('storages', _uuid, _storage_uuid, _callback);
     }
 
+    
+    /**
+     *  Metrics
+     *
+     */
 
+    /**
+     *  Get Metrics for this Object
+     *
+     * @param _uuid Object UUID
+     * @param _callback Callback Function
+     */
+    metrics(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServerMetricsGetResponse>> {
+        return this._pipe_result(
+            this._sub('metrics', _uuid, _options, _callback),
+            'server_metrics'
+        );
+    }
+
+ 
 
     /**
      *  Isoimages
@@ -195,8 +218,11 @@ class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    isoimages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedIsoimagesGetResponse>> {
-        return this._sub('isoimages', _uuid, _options, _callback);
+    isoimages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIsoimagesGetResponse>> {
+        return this._pipe_result(
+            this._sub('isoimages', _uuid, _options, _callback),
+            'isoimage_relations'
+        );
     }
 
 
@@ -208,8 +234,11 @@ class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    isoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<LinkedIsoimageGetResponse>> {
-        return this._sub_get('isoimages', _uuid, _isoimage_uuid, _callback);
+    isoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIsoimageGetResponse>> {
+        return this._pipe_result(
+            this._sub_get('isoimages', _uuid, _isoimage_uuid, _callback),
+            'isoimage_relation'
+        );
     }
 
 
@@ -267,8 +296,11 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _callback Callback Function
      */
-    networks(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedNetworksGetResponse>> {
-        return this._sub('networks', _uuid, _options, _callback);
+    networks(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedNetworksGetResponse>> {
+        return this._pipe_result(
+            this._sub('networks', _uuid, _options, _callback),
+            'network_relations'
+        );
     }
 
 
@@ -280,8 +312,11 @@ class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    network(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<LinkedNetworkGetResponse>> {
-        return this._sub_get('networks', _uuid, _network_uuid, _callback);
+    network(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedNetworkGetResponse>> {
+        return this._pipe_result(
+            this._sub_get('networks', _uuid, _network_uuid, _callback),
+            'network_relation'
+        );
     }
 
 
