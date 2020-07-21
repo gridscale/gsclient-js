@@ -14,11 +14,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var GridscaleObjects_1 = require("./GridscaleObjects");
+var PAASServiceMetrics_1 = require("./PAASServiceMetrics");
 var PAASService = /** @class */ (function (_super) {
     __extends(PAASService, _super);
     function PAASService(_api) {
-        return _super.call(this, _api, '/objects/paas/services') || this;
+        var _this = _super.call(this, _api, '/objects/paas/services') || this;
+        _this.api = _api;
+        return _this;
     }
+    PAASService.prototype.listMetrics = function (_uuid, _callback) {
+        return new PAASServiceMetrics_1.PAASServiceMetrics(this._api, _uuid).list({}, _callback);
+    };
     PAASService.prototype.renewCredentials = function (_serviceUUID) {
         return this._api.patch(this._basepath + '/' + _serviceUUID + '/renew_credentials', {});
     };

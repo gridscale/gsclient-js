@@ -29,7 +29,7 @@ var GridscaleObjects = /** @class */ (function () {
      *
      *
      * @param _options
-     * @returns {any}
+     * @returns {RequestOptions}
      * @private
      */
     GridscaleObjects.prototype._buildRequestOptions = function (_options) {
@@ -48,7 +48,7 @@ var GridscaleObjects = /** @class */ (function () {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      */
     GridscaleObjects.prototype.list = function (_options, _callback) {
         // Get Defaults
@@ -81,7 +81,7 @@ var GridscaleObjects = /** @class */ (function () {
      * Create object
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<CreateResult>>}
      */
     GridscaleObjects.prototype.create = function (_attributes, _callback) {
         return this._api.post(this._basepath, _attributes, _callback);
@@ -90,7 +90,7 @@ var GridscaleObjects = /** @class */ (function () {
      * Patch object
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     GridscaleObjects.prototype.patch = function (_uuid, _attributes, _callback) {
         return this._api.patch(this._basepath + '/' + _uuid, _attributes, _callback);
@@ -129,7 +129,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _uuid
      * @param _attributes
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     GridscaleObjects.prototype._sub_post = function (_type, _uuid, _attributes, _callback) {
@@ -143,7 +143,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _sub_uuid
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     GridscaleObjects.prototype._sub_patch = function (_type, _uuid, _sub_uuid, _attributes, _callback) {
@@ -157,7 +157,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _uuid
      * @param _sub_uuid
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     GridscaleObjects.prototype._sub_remove = function (_type, _uuid, _sub_uuid, _callback) {

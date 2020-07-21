@@ -47,7 +47,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _snapshot_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.SnapshotGetResponse>>}
      */
     Storage.prototype.snapshot = function (_uuid, _snapshot_uuid, _callback) {
         return this._sub_get('snapshots', _uuid, _snapshot_uuid, _callback);
@@ -64,7 +64,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _storage_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.patchSnapshot = function (_uuid, _snapshot_uuid, _attribute, _callback) {
         return this._sub_patch('snapshots', _uuid, _snapshot_uuid, _attribute, _callback);
@@ -79,7 +79,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _storage_uuid
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.rollbackSnapshot = function (_uuid, _snapshot_uuid, _callback) {
         return this._api.patch('/objects/storages/' + _uuid + '/snapshots/' + _snapshot_uuid + '/rollback', { rollback: true }, _callback);
@@ -94,7 +94,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _storage_uuid
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.exportSnapshot = function (_uuid, _snapshot_uuid, _data, _callback) {
         return this._api.patch('/objects/storages/' + _uuid + '/snapshots/' + _snapshot_uuid + '/export_to_s3', _data, _callback);
@@ -105,7 +105,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _attribute
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<CreateResponse>>}
      */
     Storage.prototype.createSnapshot = function (_uuid, _attribute, _callback) {
         return this._sub_post('snapshots', _uuid, _attribute, _callback);
@@ -117,7 +117,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid Storage UUID
      * @param _snapshot_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.removeSnapshot = function (_uuid, _snapshot_uuid, _callback) {
         return this._sub_remove('snapshots', _uuid, _snapshot_uuid, _callback);
@@ -141,7 +141,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _snapshot_scheduler_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.SnapshotScheduleGetResponse>>}
      */
     Storage.prototype.snapshotScheduler = function (_uuid, _snapshot_scheduler_uuid, _callback) {
         return this._sub_get('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
@@ -154,7 +154,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _snapshot_scheduler_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.patchSnapshotScheduler = function (_uuid, _snapshot_scheduler_uuid, _attribute, _callback) {
         return this._sub_patch('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _attribute, _callback);
@@ -165,7 +165,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _attribute
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<CreateResponse>>}
      */
     Storage.prototype.createSnapshotScheduler = function (_uuid, _attribute, _callback) {
         return this._sub_post('snapshot_schedules', _uuid, _attribute, _callback);
@@ -177,7 +177,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid Storage UUID
      * @param _snapshot_scheduler_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.removeSnapshotScheduler = function (_uuid, _snapshot_scheduler_uuid, _callback) {
         return this._sub_remove('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
@@ -188,7 +188,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid Storage UUID
      * @param _options requestOptions
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<models.StorageBackupSchedulesGetResponse>>}
      */
     Storage.prototype.backupSchedules = function (_uuid, _options, _callback) {
         return this._sub('backup_schedules', _uuid, _options, _callback);

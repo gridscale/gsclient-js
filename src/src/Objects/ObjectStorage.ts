@@ -1,4 +1,4 @@
-import { APIClass, ApiResult, GSError, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
+import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
 import * as models from './model/models';
 
 class ObjectStorage {
@@ -25,7 +25,7 @@ class ObjectStorage {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.AccessKeysGetResponse>>}
      */
     accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<models.AccessKeysGetResponse>> {
 
@@ -60,7 +60,7 @@ class ObjectStorage {
      * Creates new Access Key
      *
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<models.AccessKeyCreateResponse>>}
      */
     createAccessKey(_callback?: Function): Promise<ApiResult<models.AccessKeyCreateResponse>> {
         return this._api.post( '/objects/objectstorages/access_keys'  , _callback);

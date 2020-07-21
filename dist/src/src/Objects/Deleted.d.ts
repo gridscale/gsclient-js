@@ -19,7 +19,6 @@ declare class Deleted {
     setDefaults(_options: RequestOptions): void;
     _buildRequestOptions(_options?: RequestOptions): RequestOptions;
     _deleted(_key: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
-    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>>;
     ips(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedIpsGetResponse>>;
     isoimages(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedIsoimagesGetResponse>>;
     networks(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedNetworksGetResponse>>;

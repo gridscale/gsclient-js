@@ -1,5 +1,5 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
-import { APIClass, ApiResult, GSError, GenericApiResult, RequestOptions } from '../api';
+import { APIClass, ApiResult, RequestOptions } from '../api';
 import * as models from './model/models';
 
 class Location {
@@ -45,7 +45,7 @@ class Location {
      *
      *
      * @param _options
-     * @returns {any}
+     * @returns {RequestOptions}
      * @private
      */
     _buildRequestOptions (_options?: RequestOptions) {
@@ -70,7 +70,7 @@ class Location {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LocationsGetResponse>>}
      */
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LocationsGetResponse>> {
 

@@ -23,7 +23,7 @@ declare class Location {
      *
      *
      * @param _options
-     * @returns {any}
+     * @returns {RequestOptions}
      * @private
      */
     _buildRequestOptions(_options?: RequestOptions): RequestOptions;
@@ -33,7 +33,7 @@ declare class Location {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LocationsGetResponse>>}
      */
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LocationsGetResponse>>;
     /**

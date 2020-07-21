@@ -4,12 +4,14 @@ import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
 import { assignIn } from 'lodash';
 import * as models from './model/models';
+import { ServerCreate, ServerUpdate, LinkedStorageUpdate, LinkedIsoimageUpdate, LinkedNetworkUpdate, LinkNetwork } from './model/models';
 
 interface Server {
     // override some method signatures for more explicit interfaces
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServersGetResponse>>;
     get(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServerGetResponse>>;
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<models.ServerCreateResponse>>;
+    create(_attributes: ServerCreate, _callback?: Function): Promise<ApiResult<models.ServerCreateResponse>>;
+    patch(_uuid: string, _attributes: ServerUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
 }
 
 class Server extends GridscaleObjects {
@@ -23,7 +25,7 @@ class Server extends GridscaleObjects {
      * @param _uuid
      * @param _power
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     power(_uuid: string, _power: Boolean, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._api.patch(  this._basepath + '/' + _uuid + '/power' , { power : _power } , _callback );
@@ -34,7 +36,7 @@ class Server extends GridscaleObjects {
      *
      * @param _uuid
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     shutdown(_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._api.patch(  this._basepath + '/' + _uuid + '/shutdown' , {} , _callback );
@@ -62,7 +64,7 @@ class Server extends GridscaleObjects {
      * @param _uuid
      * @param _ip_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedIpGetResponse>>}
      */
     ip(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIpGetResponse>> {
         return this._sub_get('ips', _uuid, _ip_uuid, _callback);
@@ -75,7 +77,7 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _ip_uuid IP UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     addIp(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_post('ips', _uuid, {'object_uuid': _ip_uuid}, _callback);
@@ -89,7 +91,7 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _ip_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     removeIp(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_remove('ips', _uuid, _ip_uuid, _callback);
@@ -118,7 +120,7 @@ class Server extends GridscaleObjects {
      * @param _uuid
      * @param _storage_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedStorageGetResponse>>}
      */
     storage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedStorageGetResponse>> {
         return this._sub_get('storages', _uuid, _storage_uuid, _callback);
@@ -132,9 +134,9 @@ class Server extends GridscaleObjects {
      * @param _storage_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    patchStorage(_uuid: string, _storage_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+    patchStorage(_uuid: string, _storage_uuid: string, _attribute: LinkedStorageUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_patch('storages', _uuid, _storage_uuid, _attribute, _callback);
     }
 
@@ -144,7 +146,7 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _storage_uuid IP UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     addStorage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_post('storages', _uuid, { 'object_uuid': _storage_uuid }, _callback);
@@ -157,7 +159,7 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _storage_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     removeStorage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_remove('storages', _uuid, _storage_uuid, _callback);
@@ -204,7 +206,7 @@ class Server extends GridscaleObjects {
      * @param _uuid
      * @param _isoimage_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedIsoimageGetResponse>>}
      */
     isoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIsoimageGetResponse>> {
         return this._sub_get('isoimages', _uuid, _isoimage_uuid, _callback);
@@ -219,9 +221,9 @@ class Server extends GridscaleObjects {
      * @param _isoimage_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    patchIsoimage(_uuid: string, _isoimage_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+    patchIsoimage(_uuid: string, _isoimage_uuid: string, _attribute: LinkedIsoimageUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_patch('isoimages', _uuid, _isoimage_uuid, _attribute, _callback);
     }
 
@@ -232,7 +234,7 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _isoimage_uuid IP UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     addIsoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_post('isoimages', _uuid, {'object_uuid': _isoimage_uuid}, _callback);
@@ -246,7 +248,7 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _isoimage_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     removeIsoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_remove('isoimages', _uuid, _isoimage_uuid, _callback);
@@ -276,7 +278,7 @@ class Server extends GridscaleObjects {
      * @param _uuid
      * @param _network_uuid Network UUID
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedNetworkGetResponse>>}
      */
     network(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedNetworkGetResponse>> {
         return this._sub_get('networks', _uuid, _network_uuid, _callback);
@@ -296,9 +298,9 @@ class Server extends GridscaleObjects {
      * @param _network_uuid Network UUID
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    patchNetwork(_uuid: string, _network_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+    patchNetwork(_uuid: string, _network_uuid: string, _attribute: LinkedNetworkUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_patch('networks', _uuid, _network_uuid, _attribute, _callback);
     }
 
@@ -309,10 +311,10 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _network_uuid Network UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    addNetwork(_uuid: string, _network_uuid: string, _additionalOptions?: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
-        if (_additionalOptions === undefined) { _additionalOptions = {}; }
+    addNetwork(_uuid: string, _network_uuid: string, _additionalOptions?: LinkNetwork, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+        if (_additionalOptions === undefined) { _additionalOptions = { objectUuid: _network_uuid }; }
         const _options = assignIn({ 'object_uuid': _network_uuid }, _additionalOptions);
 
         return this._sub_post('networks', _uuid, _options, _callback);
@@ -326,7 +328,7 @@ class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _network_uuid Network UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     removeNetwork(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._sub_remove('networks', _uuid, _network_uuid, _callback);

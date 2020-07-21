@@ -60,82 +60,42 @@ class Deleted {
       return this._api.get( '/objects/deleted/' + _key, _options, _callback);
   }
 
-  _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>> {
-    return new Promise((_resolve, _reject) => {
-      _originalPromise.then((_originalResult) => {
-
-        if (typeof (_originalResult.result[_key]) !== 'undefined') {
-          _originalResult.result = _originalResult.result[_key];
-        }
-
-
-        _resolve(_originalResult);
-      }, (_e) => _reject(_e));
-    });
-  }
 
 
   ips(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedIpsGetResponse>> {
-    return this._pipe_result(
-      this._deleted('ips', _options, _callback),
-      'deleted_ips'
-    );
+    return this._deleted('ips', _options, _callback);
   }
 
   isoimages(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedIsoimagesGetResponse>> {
-    return this._pipe_result(
-      this._deleted('isoimages', _options, _callback),
-      'deleted_isoimages'
-    );
+    return this._deleted('isoimages', _options, _callback);
   }
 
   networks(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedNetworksGetResponse>> {
-    return this._pipe_result(
-      this._deleted('networks', _options, _callback),
-      'deleted_networks'
-    );
+    return this._deleted('networks', _options, _callback);
   }
 
   servers(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedServersGetResponse>> {
-    return this._pipe_result(
-      this._deleted('servers', _options, _callback),
-      'deleted_servers'
-    );
+    return this._deleted('servers', _options, _callback);
   }
 
   snapshots(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedSnapshotsGetResponse>> {
-    return this._pipe_result(
-      this._deleted('snapshots', _options, _callback),
-      'deleted_snapshots'
-    );
+    return this._deleted('snapshots', _options, _callback);
   }
 
   storages(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedStoragesGetResponse>> {
-    return this._pipe_result(
-      this._deleted('storages', _options, _callback),
-      'deleted_storages'
-    );
+    return this._deleted('storages', _options, _callback);
   }
 
   templates(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedTemplatesGetResponse>> {
-    return this._pipe_result(
-      this._deleted('templates', _options, _callback),
-      'deleted_templates'
-    );
+    return this._deleted('templates', _options, _callback);
   }
 
   loadbalancers(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedLoadbalancersGetResponse>> {
-    return this._pipe_result(
-      this._deleted('loadbalancers', _options, _callback),
-      'deleted_loadbalancers'
-    );
+    return this._deleted('loadbalancers', _options, _callback);
   }
 
   paasServices(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedPaasServicesGetResponse>> {
-    return this._pipe_result(
-      this._deleted('paas_services', _options, _callback),
-      'deleted_paas_services'
-    );
+    return this._deleted('paas_services', _options, _callback);
   }
 
 

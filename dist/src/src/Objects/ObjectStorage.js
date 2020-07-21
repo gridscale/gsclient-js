@@ -17,7 +17,7 @@ var ObjectStorage = /** @class */ (function () {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.AccessKeysGetResponse>>}
      */
     ObjectStorage.prototype.accessKeys = function (_options, _callback) {
         return this._api.get('/objects/objectstorages/access_keys', _options, _callback);
@@ -44,7 +44,7 @@ var ObjectStorage = /** @class */ (function () {
      * Creates new Access Key
      *
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<models.AccessKeyCreateResponse>>}
      */
     ObjectStorage.prototype.createAccessKey = function (_callback) {
         return this._api.post('/objects/objectstorages/access_keys', _callback);

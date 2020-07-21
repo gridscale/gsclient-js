@@ -1,4 +1,4 @@
-import { assignIn, isFunction, isUndefined, forEach } from 'lodash';
+import { assignIn, isFunction, isUndefined } from 'lodash';
 import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult, CreateResult } from '../api';
 import { EventResponse } from './model/models';
 
@@ -46,7 +46,7 @@ class GridscaleObjects {
      *
      *
      * @param _options
-     * @returns {any}
+     * @returns {RequestOptions}
      * @private
      */
     _buildRequestOptions (_options?: RequestOptions) {
@@ -69,7 +69,7 @@ class GridscaleObjects {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      */
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
         // Get Defaults
@@ -114,7 +114,7 @@ class GridscaleObjects {
      * Create object
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<CreateResult>>}
      */
     create(_attributes: Object, _callback?: Function): Promise<ApiResult<CreateResult>> {
         return this._api.post(  this._basepath , _attributes , _callback);
@@ -126,7 +126,7 @@ class GridscaleObjects {
      * Patch object
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     patch(_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
         return this._api.patch(  this._basepath + '/' + _uuid , _attributes , _callback);
@@ -178,7 +178,7 @@ class GridscaleObjects {
      * @param _uuid
      * @param _attributes
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     _sub_post(_type: string, _uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
@@ -195,7 +195,7 @@ class GridscaleObjects {
      * @param _sub_uuid
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     _sub_patch(_type: string, _uuid: string, _sub_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>> {
@@ -211,7 +211,7 @@ class GridscaleObjects {
      * @param _uuid
      * @param _sub_uuid
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     _sub_remove(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>> {

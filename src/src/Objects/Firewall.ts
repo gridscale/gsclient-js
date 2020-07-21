@@ -1,13 +1,15 @@
 
 
 import {GridscaleObjects} from './GridscaleObjects';
-import { APIClass, RequestOptions, ApiResult } from '../api';
+import { APIClass, RequestOptions, ApiResult, VoidApiResult } from '../api';
 import * as models from './model/models';
+import { FirewallCreate, FirewallUpdate } from './model/models';
 
 interface Firewall {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.FirewallsGetResponse>>;
     get(_uuid: string, _callback?: Function): Promise<ApiResult<models.FirewallGetResponse>>;
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<models.CreateResponse>>;
+    create(_attributes: FirewallCreate, _callback?: Function): Promise<ApiResult<models.CreateResponse>>;
+    patch(_uuid: string, _attributes: FirewallUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
 }
 
 class Firewall extends GridscaleObjects {

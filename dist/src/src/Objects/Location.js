@@ -30,7 +30,7 @@ var Location = /** @class */ (function () {
      *
      *
      * @param _options
-     * @returns {any}
+     * @returns {RequestOptions}
      * @private
      */
     Location.prototype._buildRequestOptions = function (_options) {
@@ -49,7 +49,7 @@ var Location = /** @class */ (function () {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LocationsGetResponse>>}
      */
     Location.prototype.list = function (_options, _callback) {
         // Get Defaults

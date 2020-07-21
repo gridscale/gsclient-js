@@ -16,7 +16,7 @@ declare class ObjectStorage {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.AccessKeysGetResponse>>}
      */
     accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<models.AccessKeysGetResponse>>;
     /**
@@ -37,7 +37,7 @@ declare class ObjectStorage {
      * Creates new Access Key
      *
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<models.AccessKeyCreateResponse>>}
      */
     createAccessKey(_callback?: Function): Promise<ApiResult<models.AccessKeyCreateResponse>>;
 }
