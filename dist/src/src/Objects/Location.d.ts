@@ -1,4 +1,5 @@
-import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
+import { APIClass, ApiResult, RequestOptions } from '../api';
+import * as models from './model/models';
 declare class Location {
     _api: APIClass;
     _defaults: RequestOptions;
@@ -34,41 +35,41 @@ declare class Location {
      * @param _callback
      * @returns {any}
      */
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LocationsGetResponse>>;
     /**
      * Get Single Object by UUID
      *
      * @param _uuid
      * @param _callback
      */
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.LocationGetResponse>>;
     /**
     Return all IP Adresses for this locations
     */
-    getLocationIPs(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    getLocationIPs(_uuid: string, _callback?: Function): Promise<ApiResult<models.IpsGetResponse>>;
     /**
     Return all isoimages for this location
     */
-    getLocationISOImages(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    getLocationISOImages(_uuid: string, _callback?: Function): Promise<ApiResult<models.IsoimagesGetResponse>>;
     /**
     Return all networks for this location
     */
-    getLocationNetworks(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    getLocationNetworks(_uuid: string, _callback?: Function): Promise<ApiResult<models.NetworksGetResponse>>;
     /**
     Return all servers for this location
     */
-    getLocationServers(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    getLocationServers(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServersGetResponse>>;
     /**
     Return all snapshots for this location
     */
-    getLocationSnapshots(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    getLocationSnapshots(_uuid: string, _callback?: Function): Promise<ApiResult<models.SnapshotGetResponse>>;
     /**
     Return all storages for this location
     */
-    getLocationStorages(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    getLocationStorages(_uuid: string, _callback?: Function): Promise<ApiResult<models.StoragesGetResponse>>;
     /**
     Return all storages for this location
     */
-    getLocationTemplates(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    getLocationTemplates(_uuid: string, _callback?: Function): Promise<ApiResult<models.TemplatesGetResponse>>;
 }
 export { Location };

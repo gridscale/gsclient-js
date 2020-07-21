@@ -19,17 +19,6 @@ var IP = /** @class */ (function (_super) {
     function IP(_api) {
         return _super.call(this, _api, '/objects/ips') || this;
     }
-    /**
-     * List Objects
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     */
-    IP.prototype.list = function (_options, _callback) {
-        return this._api.get(this._basepath, _options, _callback);
-    };
     return IP;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.IP = IP;

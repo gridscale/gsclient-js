@@ -16,24 +16,8 @@ class ObjectStorage {
      */
     constructor(_api: APIClass) {
         this._api = _api;
-
-
-
     }
 
-    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>> {
-        return new Promise((_resolve, _reject) => {
-            _originalPromise.then((_originalResult) => {
-
-                if (typeof (_originalResult.result[_key]) !== 'undefined') {
-                    _originalResult.result = _originalResult.result[_key];
-                }
-
-
-                _resolve(_originalResult);
-            }, (_e) => _reject(_e));
-        });
-    }
 
     /**
      * List Access Keys
@@ -45,10 +29,7 @@ class ObjectStorage {
      */
     accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<models.AccessKeysGetResponse>> {
 
-        return this._pipe_result(
-            this._api.get( '/objects/objectstorages/access_keys', _options, _callback),
-            'access_keys'
-        );
+        return this._api.get( '/objects/objectstorages/access_keys', _options, _callback);
 
     }
 
@@ -61,10 +42,7 @@ class ObjectStorage {
      * @param _callback
      */
     accessKey(_access_key: string, _callback?: Function): Promise<ApiResult<models.AccessKeyGetResponse>> {
-        return this._pipe_result(
-            this._api.get( '/objects/objectstorages/access_keys/' + _access_key, _callback),
-            'access_key'
-        );
+        return this._api.get( '/objects/objectstorages/access_keys/' + _access_key, _callback);
     }
 
     /**

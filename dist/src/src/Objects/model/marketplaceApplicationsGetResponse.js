@@ -1,4 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 
-//# sourceMappingURL=marketPlaceTemplatesGetResponse.js.map
+//# sourceMappingURL=marketplaceApplicationsGetResponse.js.map

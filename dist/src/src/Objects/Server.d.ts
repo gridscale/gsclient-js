@@ -1,11 +1,13 @@
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
-import { ServerIndex, ServerGetResponse, ServerCreateResponse, LinkedIpsGetResponse, LinkedIpGetResponse, LinkedStoragesGetResponse, ServerMetricsGetResponse, LinkedStorageGetResponse, LinkedIsoimagesGetResponse, LinkedIsoimageGetResponse, LinkedNetworksGetResponse, LinkedNetworkGetResponse } from './model/models';
+import * as models from './model/models';
+interface Server {
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServersGetResponse>>;
+    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServerGetResponse>>;
+    create(_attributes: Object, _callback?: Function): Promise<ApiResult<models.ServerCreateResponse>>;
+}
 declare class Server extends GridscaleObjects {
     constructor(_api: APIClass);
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<ServerIndex>>;
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<ServerGetResponse>>;
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<ServerCreateResponse>>;
     /**
      * Start/Stop Server
      *
@@ -33,7 +35,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    ips(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedIpsGetResponse>>;
+    ips(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIpsGetResponse>>;
     /**
      * Get IP that is in Relation with Server
      *
@@ -42,7 +44,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    ip(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<LinkedIpGetResponse>>;
+    ip(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIpGetResponse>>;
     /**
      * Relate an IP with the Server
      *
@@ -72,14 +74,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    storages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedStoragesGetResponse>>;
-    /**
-     *  Get Metrics for this Object
-     *
-     * @param _uuid Object UUID
-     * @param _callback Callback Function
-     */
-    metrics(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<ServerMetricsGetResponse>>;
+    storages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedStoragesGetResponse>>;
     /**
      * Get single Storage <=> Server Relation
      *
@@ -88,7 +83,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    storage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<LinkedStorageGetResponse>>;
+    storage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedStorageGetResponse>>;
     /**
      * Patch Storage that is related to a Server i flag it as Bootdevice
      *
@@ -120,6 +115,17 @@ declare class Server extends GridscaleObjects {
      */
     removeStorage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
+     *  Metrics
+     *
+     */
+    /**
+     *  Get Metrics for this Object
+     *
+     * @param _uuid Object UUID
+     * @param _callback Callback Function
+     */
+    metrics(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServerMetricsGetResponse>>;
+    /**
      *  Isoimages
      *
      */
@@ -129,7 +135,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    isoimages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedIsoimagesGetResponse>>;
+    isoimages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIsoimagesGetResponse>>;
     /**
      * Get single Storage <=> Server Relation
      *
@@ -138,7 +144,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    isoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<LinkedIsoimageGetResponse>>;
+    isoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIsoimageGetResponse>>;
     /**
      * Patch Storage that is related to a Server i flag it as Bootdevice
      *
@@ -179,7 +185,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _callback Callback Function
      */
-    networks(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<LinkedNetworksGetResponse>>;
+    networks(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedNetworksGetResponse>>;
     /**
      * Get single NEtwork <=> Server Relation
      *
@@ -188,7 +194,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    network(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<LinkedNetworkGetResponse>>;
+    network(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedNetworkGetResponse>>;
     /**
      * Patch Network that is related to a Server
      *

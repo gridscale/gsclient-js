@@ -49,30 +49,6 @@ var ObjectStorage = /** @class */ (function () {
     ObjectStorage.prototype.createAccessKey = function (_callback) {
         return this._api.post('/objects/objectstorages/access_keys', _callback);
     };
-    /**
-     * List Access Keys
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     *
-     * @deprecated
-     */
-    ObjectStorage.prototype.buckets = function (_options, _callback) {
-        return this._api.get('/objects/objectstorages/buckets', _options, _callback);
-    };
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     *
-     * @deprecated
-     */
-    ObjectStorage.prototype.bucket = function (_bucket_name, _callback) {
-        return this._api.get('/objects/objectstorages/buckets/' + _bucket_name, _callback);
-    };
     return ObjectStorage;
 }());
 exports.ObjectStorage = ObjectStorage;

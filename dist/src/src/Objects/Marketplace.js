@@ -17,7 +17,7 @@ var GridscaleObjects_1 = require("./GridscaleObjects");
 var Marketplace = /** @class */ (function (_super) {
     __extends(Marketplace, _super);
     function Marketplace(_api) {
-        return _super.call(this, _api, '/objects/marketplace/templates') || this;
+        return _super.call(this, _api, '/objects/marketplace/applications') || this;
     }
     return Marketplace;
 }(GridscaleObjects_1.GridscaleObjects));

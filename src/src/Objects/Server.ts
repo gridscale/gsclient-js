@@ -5,27 +5,17 @@ import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
 import { assignIn } from 'lodash';
 import * as models from './model/models';
 
+interface Server {
+    // override some method signatures for more explicit interfaces
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServersGetResponse>>;
+    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServerGetResponse>>;
+    create(_attributes: Object, _callback?: Function): Promise<ApiResult<models.ServerCreateResponse>>;
+}
 
 class Server extends GridscaleObjects {
 
     constructor(_api: APIClass) { super(_api, '/objects/servers'); }
 
-    // override some generic function to set explicit return type
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServerIndex>> {
-        return super._pipe_result(
-            super.list(_options, _callback),
-            'servers'
-        );
-    }
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServerGetResponse>> {
-        return super._pipe_result(
-            super.get(_uuid, _callback),
-            'server'
-        );
-    }
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<models.ServerCreateResponse>> {
-        return super.create(_attributes, _callback);
-    }
 
     /**
      * Start/Stop Server
@@ -63,10 +53,7 @@ class Server extends GridscaleObjects {
      * @param _callback Callback Function
      */
     ips(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIpsGetResponse>> {
-        return this._pipe_result(
-            this._sub('ips', _uuid, _options, _callback),
-            'ip_relations'
-        );
+        return this._sub('ips', _uuid, _options, _callback);
     }
 
     /**
@@ -78,10 +65,7 @@ class Server extends GridscaleObjects {
      * @returns {any}
      */
     ip(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIpGetResponse>> {
-        return this._pipe_result(
-            this._sub_get('ips', _uuid, _ip_uuid, _callback),
-            'ip_relation'
-        );
+        return this._sub_get('ips', _uuid, _ip_uuid, _callback);
     }
 
 
@@ -125,10 +109,7 @@ class Server extends GridscaleObjects {
      * @param _callback Callback Function
      */
     storages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedStoragesGetResponse>> {
-        return this._pipe_result(
-            this._sub('storages', _uuid, _options, _callback),
-            'storage_relations'
-        );
+        return this._sub('storages', _uuid, _options, _callback);
     }
 
     /**
@@ -140,10 +121,7 @@ class Server extends GridscaleObjects {
      * @returns {any}
      */
     storage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedStorageGetResponse>> {
-        return this._pipe_result(
-            this._sub_get('storages', _uuid, _storage_uuid, _callback),
-            'storage_relation'
-        );
+        return this._sub_get('storages', _uuid, _storage_uuid, _callback);
     }
 
     /**
@@ -198,10 +176,7 @@ class Server extends GridscaleObjects {
      * @param _callback Callback Function
      */
     metrics(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServerMetricsGetResponse>> {
-        return this._pipe_result(
-            this._sub('metrics', _uuid, _options, _callback),
-            'server_metrics'
-        );
+        return this._sub('metrics', _uuid, _options, _callback);
     }
 
  
@@ -219,10 +194,7 @@ class Server extends GridscaleObjects {
      * @param _callback Callback Function
      */
     isoimages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIsoimagesGetResponse>> {
-        return this._pipe_result(
-            this._sub('isoimages', _uuid, _options, _callback),
-            'isoimage_relations'
-        );
+        return this._sub('isoimages', _uuid, _options, _callback);
     }
 
 
@@ -235,10 +207,7 @@ class Server extends GridscaleObjects {
      * @returns {any}
      */
     isoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIsoimageGetResponse>> {
-        return this._pipe_result(
-            this._sub_get('isoimages', _uuid, _isoimage_uuid, _callback),
-            'isoimage_relation'
-        );
+        return this._sub_get('isoimages', _uuid, _isoimage_uuid, _callback);
     }
 
 
@@ -297,10 +266,7 @@ class Server extends GridscaleObjects {
      * @param _callback Callback Function
      */
     networks(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedNetworksGetResponse>> {
-        return this._pipe_result(
-            this._sub('networks', _uuid, _options, _callback),
-            'network_relations'
-        );
+        return this._sub('networks', _uuid, _options, _callback);
     }
 
 
@@ -313,10 +279,7 @@ class Server extends GridscaleObjects {
      * @returns {any}
      */
     network(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedNetworkGetResponse>> {
-        return this._pipe_result(
-            this._sub_get('networks', _uuid, _network_uuid, _callback),
-            'network_relation'
-        );
+        return this._sub_get('networks', _uuid, _network_uuid, _callback);
     }
 
 

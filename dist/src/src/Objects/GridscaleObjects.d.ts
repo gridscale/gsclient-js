@@ -1,7 +1,6 @@
 import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult, CreateResult } from '../api';
+import { EventResponse } from './model/models';
 declare class GridscaleObjects {
-    _listKey?: string;
-    _getKey?: string;
     _api: APIClass;
     _defaults: RequestOptions;
     _basepath: string;
@@ -11,7 +10,7 @@ declare class GridscaleObjects {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    constructor(_api: APIClass, _path: string, _listKey?: string, _getKey?: string);
+    constructor(_api: APIClass, _path: string);
     /**
      * Overwrite Default Settings for this Type
      *
@@ -116,13 +115,12 @@ declare class GridscaleObjects {
      * @private
      */
     _sub_remove(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
-    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>>;
     /**
      *  Get Events for this Object
      *
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    events(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    events(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<EventResponse>>;
 }
 export { GridscaleObjects };

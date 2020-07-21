@@ -62,19 +62,6 @@ class Location {
         return defaults;
     }
 
-    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>> {
-        return new Promise((_resolve, _reject) => {
-            _originalPromise.then((_originalResult) => {
-
-                if (typeof (_originalResult.result[_key]) !== 'undefined') {
-                    _originalResult.result = _originalResult.result[_key];
-                }
-
-
-                _resolve(_originalResult);
-            }, (_e) => _reject(_e));
-        });
-    }
 
 
     /**
@@ -95,10 +82,7 @@ class Location {
             _callback = _options;
         }
 
-        return this._pipe_result(
-            this._api.get( this._basepath , requestOptions , _callback),
-            'locations'
-        );
+        return this._api.get( this._basepath , requestOptions , _callback);
     }
 
 
@@ -110,50 +94,35 @@ class Location {
      * @param _callback
      */
     get(_uuid: string, _callback?: Function): Promise<ApiResult<models.LocationGetResponse>> {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid, _callback),
-            'location'
-        );
+        return this._api.get( this._basepath + '/' + _uuid, _callback);
     }
 
     /**
     Return all IP Adresses for this locations
     */
     getLocationIPs(_uuid: string, _callback?: Function): Promise<ApiResult<models.IpsGetResponse>> {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid + '/ips', _callback),
-            'ips'
-        );
+        return this._api.get( this._basepath + '/' + _uuid + '/ips', _callback);
     }
 
     /**
     Return all isoimages for this location
     */
     getLocationISOImages(_uuid: string, _callback?: Function): Promise<ApiResult<models.IsoimagesGetResponse>>  {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid + '/isoimages', _callback),
-            'isoimages'
-        );
+        return this._api.get( this._basepath + '/' + _uuid + '/isoimages', _callback);
     }
 
     /**
     Return all networks for this location
     */
     getLocationNetworks(_uuid: string, _callback?: Function): Promise<ApiResult<models.NetworksGetResponse>> {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid + '/networks', _callback),
-            'networks'
-        );
+        return this._api.get( this._basepath + '/' + _uuid + '/networks', _callback);
     }
 
     /**
     Return all servers for this location
     */
     getLocationServers(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServersGetResponse>> {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid + '/servers', _callback),
-            'servers'
-        );
+        return this._api.get( this._basepath + '/' + _uuid + '/servers', _callback);
 
     }
 
@@ -161,30 +130,21 @@ class Location {
     Return all snapshots for this location
     */
     getLocationSnapshots(_uuid: string, _callback?: Function): Promise<ApiResult<models.SnapshotGetResponse>> {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid + '/snapshots', _callback),
-            'snapshots'
-        );
+        return this._api.get( this._basepath + '/' + _uuid + '/snapshots', _callback);
     }
 
     /**
     Return all storages for this location
     */
     getLocationStorages(_uuid: string, _callback?: Function): Promise<ApiResult<models.StoragesGetResponse>> {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid + '/storages', _callback),
-            'storages'
-        );
+        return this._api.get( this._basepath + '/' + _uuid + '/storages', _callback);
     }
 
     /**
     Return all storages for this location
     */
     getLocationTemplates(_uuid: string, _callback?: Function): Promise<ApiResult<models.TemplatesGetResponse>> {
-        return this._pipe_result(
-            this._api.get( this._basepath + '/' + _uuid + '/templates', _callback),
-            'templates'
-        );
+        return this._api.get( this._basepath + '/' + _uuid + '/templates', _callback);
     }
 
 }

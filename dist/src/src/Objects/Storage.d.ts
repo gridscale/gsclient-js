@@ -1,6 +1,12 @@
 import { GridscaleObjects } from './GridscaleObjects';
-import { APIClass, ApiResult, GenericApiResult, VoidApiResult, CreateResult, RequestOptions } from '../api';
-import { StorageBackupScheduleCreate, StorageBackupScheduleUpdate, StorageBackupSchedule, StorageBackupIndex, StorageBackupScheduleIndex, StorageRollback } from './model/models';
+import { APIClass, ApiResult, VoidApiResult, CreateResult, RequestOptions } from '../api';
+import * as models from './model/models';
+import { CreateResponse } from './model/models';
+interface Storage {
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.StoragesGetResponse>>;
+    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.StorageGetResponse>>;
+    create(_attributes: Object, _callback?: Function): Promise<ApiResult<models.CreateResponse>>;
+}
 declare class Storage extends GridscaleObjects {
     constructor(_api: APIClass);
     /**
@@ -9,7 +15,7 @@ declare class Storage extends GridscaleObjects {
      * @param _uuid Object UUID to Clone
      * @param _callback Callback Function
      */
-    clone(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    clone(_uuid: string, _callback?: Function): Promise<ApiResult<CreateResponse>>;
     /**
      *  Snapshots
      *
@@ -20,7 +26,7 @@ declare class Storage extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    snapshots(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    snapshots(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.SnapshotsGetResponse>>;
     /**
      * Get Single Snapshot
      *
@@ -29,7 +35,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    snapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    snapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<models.SnapshotGetResponse>>;
     /**
      * Patch Snapshot
      *
@@ -44,7 +50,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    patchSnapshot(_uuid: string, _snapshot_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    patchSnapshot(_uuid: string, _snapshot_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Rollback Storage to this Snapshot
      *
@@ -57,7 +63,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    rollbackSnapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    rollbackSnapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Rollback Storage to this Snapshot
      *
@@ -70,7 +76,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    exportSnapshot(_uuid: string, _snapshot_uuid: string, _data: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    exportSnapshot(_uuid: string, _snapshot_uuid: string, _data: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Create a Snapshot of this Storage
      *
@@ -79,7 +85,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {TRequest|any}
      */
-    createSnapshot(_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    createSnapshot(_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<CreateResponse>>;
     /**
      * Remove Snapshot
      *
@@ -89,7 +95,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    removeSnapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    removeSnapshot(_uuid: string, _snapshot_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      *  Snapshots Scheduler
      *
@@ -100,7 +106,7 @@ declare class Storage extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    snapshotSchedulers(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    snapshotSchedulers(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.SnapshotSchedulesGetResponse>>;
     /**
      * Get Single Snapshot Schedler
      *
@@ -109,7 +115,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any}
      */
-    snapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    snapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _callback?: Function): Promise<ApiResult<models.SnapshotScheduleGetResponse>>;
     /**
      * Patch Snapshot Schedler
      *
@@ -120,7 +126,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|TRequest}
      */
-    patchSnapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    patchSnapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Create a Snapshot Schedler for this Storage
      *
@@ -129,7 +135,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {TRequest|any}
      */
-    createSnapshotScheduler(_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    createSnapshotScheduler(_uuid: string, _attribute: Object, _callback?: Function): Promise<ApiResult<CreateResponse>>;
     /**
      * Remove Snapshot Schedler
      *
@@ -139,7 +145,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {any|void|PromiseLike<void>}
      */
-    removeSnapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    removeSnapshotScheduler(_uuid: string, _snapshot_scheduler_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * List all backup schedules for the storage
      *
@@ -148,7 +154,7 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      * @returns {TRequest|any}
      */
-    backupSchedules(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<StorageBackupScheduleIndex>>;
+    backupSchedules(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.StorageBackupSchedulesGetResponse>>;
     /**
      * Fetches one backup schedule
      *
@@ -156,7 +162,7 @@ declare class Storage extends GridscaleObjects {
      * @param _backup_schedule_uuid Backup-Schedule UUID
      * @param _callback
      */
-    backupScheduler(_uuid: string, _backup_schedule_uuid: string, _callback?: Function): Promise<ApiResult<StorageBackupSchedule>>;
+    backupScheduler(_uuid: string, _backup_schedule_uuid: string, _callback?: Function): Promise<ApiResult<models.StorageBackupScheduleGetResponse>>;
     /**
      * Creates a new backup schedule
      *
@@ -164,7 +170,7 @@ declare class Storage extends GridscaleObjects {
      * @param _backup_schedule_options
      * @param _callback
      */
-    createBackupScheduler(_uuid: string, _backup_schedule_options: StorageBackupScheduleCreate, _callback?: Function): Promise<ApiResult<CreateResult>>;
+    createBackupScheduler(_uuid: string, _backup_schedule_options: models.StorageBackupScheduleCreate, _callback?: Function): Promise<ApiResult<CreateResult>>;
     /**
      * Modifies existing backup schedule
      *
@@ -173,7 +179,7 @@ declare class Storage extends GridscaleObjects {
      * @param backup_schedule_options
      * @param callback
      */
-    patchBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _backup_schedule_options: StorageBackupScheduleUpdate, _callback?: Function): Promise<ApiResult<StorageBackupScheduleUpdate>>;
+    patchBackupSchedule(_uuid: string, _backup_schedule_uuid: string, _backup_schedule_options: models.StorageBackupScheduleUpdate, _callback?: Function): Promise<ApiResult<models.StorageBackupScheduleUpdate>>;
     /**
      * Remove existing backup schedule
      *
@@ -188,7 +194,7 @@ declare class Storage extends GridscaleObjects {
      * @param _uuid Storage UUID
      * @param _callback
      */
-    backups(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<StorageBackupIndex>>;
+    backups(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.StorageBackupsGetResponse>>;
     /**
      * Remove existing backup
      *
@@ -197,13 +203,13 @@ declare class Storage extends GridscaleObjects {
      * @param _callback
      */
     deleteStorageBackup(_uuid: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
-    rollbackStorageBackup(_uuid: string, _backup_uuid: string, _attributes: StorageRollback, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    rollbackStorageBackup(_uuid: string, _backup_uuid: string, _attributes: models.StorageRollback, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Creates a new storage from an existing backup
      * @param _name Name of the new storage
      * @param _backup_uuid Backup-UUID to restore from
      * @param _callback
      */
-    createFromBackup(_name: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    createFromBackup(_name: string, _backup_uuid: string, _callback?: Function): Promise<ApiResult<CreateResponse>>;
 }
 export { Storage };

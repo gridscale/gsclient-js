@@ -4,11 +4,11 @@ require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 
-export interface Links {
-  self?(): Promise<ApiResult<GenericApiResult>>;
-  first?(): Promise<ApiResult<GenericApiResult>>;
-  next?(): Promise<ApiResult<GenericApiResult>>;
-  last?(): Promise<ApiResult<GenericApiResult>>;
+export interface Links<T> {
+  self?(): Promise<ApiResult<T>>;
+  first?(): Promise<ApiResult<T>>;
+  next?(): Promise<ApiResult<T>>;
+  last?(): Promise<ApiResult<T>>;
 }
 
 export interface Meta {
@@ -28,7 +28,7 @@ export interface ApiResult<T> {
   result: T;
   response?: Response;
   requestInit?: RequestInit;
-  links?: Links;
+  links?: Links<T>;
   meta?: Meta;
   watch?: Function | null;
   id?: string | null;

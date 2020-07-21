@@ -1,5 +1,9 @@
 import { GridscaleObjects } from './GridscaleObjects';
-import { APIClass } from '../api';
+import { APIClass, RequestOptions, ApiResult } from '../api';
+import { EventResponse } from './model/models';
+interface Events {
+    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<EventResponse>>;
+}
 declare class Events extends GridscaleObjects {
     constructor(_api: APIClass);
 }

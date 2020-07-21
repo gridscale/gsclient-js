@@ -191,7 +191,7 @@ var Storage = /** @class */ (function (_super) {
      * @returns {TRequest|any}
      */
     Storage.prototype.backupSchedules = function (_uuid, _options, _callback) {
-        return this._pipe_result(this._sub('backup_schedules', _uuid, _options, _callback), 'scheduleStorageBackups');
+        return this._sub('backup_schedules', _uuid, _options, _callback);
     };
     /**
      * Fetches one backup schedule
@@ -201,7 +201,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _callback
      */
     Storage.prototype.backupScheduler = function (_uuid, _backup_schedule_uuid, _callback) {
-        return this._pipe_result(this._sub_get('backup_schedules', _uuid, _backup_schedule_uuid, _callback), 'scheduleStorageBackup');
+        return this._sub_get('backup_schedules', _uuid, _backup_schedule_uuid, _callback);
     };
     /**
      * Creates a new backup schedule
@@ -241,7 +241,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _callback
      */
     Storage.prototype.backups = function (_uuid, _options, _callback) {
-        return this._pipe_result(this._sub('backups', _uuid, _options, _callback), 'backups');
+        return this._sub('backups', _uuid, _options, _callback);
     };
     /**
      * Remove existing backup
@@ -263,11 +263,10 @@ var Storage = /** @class */ (function (_super) {
      * @param _callback
      */
     Storage.prototype.createFromBackup = function (_name, _backup_uuid, _callback) {
-        return this._api.post(this._basepath + '/import', {
-            name: _name,
-            backup_uuid: _backup_uuid,
-            s3_object: ""
-        }, _callback);
+        return this._api.post(this._basepath + '/import', { backup: {
+                name: _name,
+                backup_uuid: _backup_uuid,
+            } }, _callback);
     };
     return Storage;
 }(GridscaleObjects_1.GridscaleObjects));

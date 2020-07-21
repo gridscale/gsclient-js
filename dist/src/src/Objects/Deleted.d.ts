@@ -1,4 +1,5 @@
-import { APIClass, RequestOptions } from '../api';
+import { APIClass, RequestOptions, ApiResult, GenericApiResult } from '../api';
+import * as models from './model/models';
 declare class Deleted {
     _api: APIClass;
     _defaults: RequestOptions;
@@ -17,14 +18,16 @@ declare class Deleted {
      */
     setDefaults(_options: RequestOptions): void;
     _buildRequestOptions(_options?: RequestOptions): RequestOptions;
-    _deleted(_key: string, _options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    ips(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    isoimages(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    networks(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    servers(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    snapshots(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    storages(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    templates(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
-    paasServices(_options?: RequestOptions, _callback?: Function): Promise<import("../api").ApiResult<any>>;
+    _deleted(_key: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>>;
+    ips(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedIpsGetResponse>>;
+    isoimages(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedIsoimagesGetResponse>>;
+    networks(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedNetworksGetResponse>>;
+    servers(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedServersGetResponse>>;
+    snapshots(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedSnapshotsGetResponse>>;
+    storages(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedStoragesGetResponse>>;
+    templates(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedTemplatesGetResponse>>;
+    loadbalancers(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedLoadbalancersGetResponse>>;
+    paasServices(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.DeletedPaasServicesGetResponse>>;
 }
 export { Deleted };

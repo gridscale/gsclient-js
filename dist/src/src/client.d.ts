@@ -9,7 +9,6 @@ import { Template } from './Objects/Template';
 import { Location } from './Objects/Location';
 import { ObjectStorage } from './Objects/ObjectStorage';
 import { Label } from './Objects/Label';
-import { Price } from './Objects/Price';
 import { Loadbalancer } from './Objects/Loadbalancer';
 import { Events } from './Objects/Events';
 import { Firewall } from './Objects/Firewall';
@@ -35,7 +34,6 @@ declare class GridscaleClient {
     Location: Location;
     ObjectStorage: ObjectStorage;
     Label: Label;
-    Price: Price;
     Loadbalancer: Loadbalancer;
     Events: Events;
     Firewall: Firewall;

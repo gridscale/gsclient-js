@@ -1,4 +1,5 @@
-import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
+import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
+import * as models from './model/models';
 declare class ObjectStorage {
     _api: APIClass;
     /**
@@ -17,47 +18,27 @@ declare class ObjectStorage {
      * @param _callback
      * @returns {any}
      */
-    accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<models.AccessKeysGetResponse>>;
     /**
      * Get Single Object by UUID
      *
      * @param _uuid
      * @param _callback
      */
-    accessKey(_access_key: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    accessKey(_access_key: string, _callback?: Function): Promise<ApiResult<models.AccessKeyGetResponse>>;
     /**
      * Remove Access Key
      *
      * @param _uuid
      * @param _callback
      */
-    removeAccessKey(_access_key: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    removeAccessKey(_access_key: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
     /**
      * Creates new Access Key
      *
      * @param _callback
      * @returns {any|TRequest|LineCollection}
      */
-    createAccessKey(_callback?: Function): Promise<ApiResult<GenericApiResult>>;
-    /**
-     * List Access Keys
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     *
-     * @deprecated
-     */
-    buckets(_options: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     *
-     * @deprecated
-     */
-    bucket(_bucket_name: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    createAccessKey(_callback?: Function): Promise<ApiResult<models.AccessKeyCreateResponse>>;
 }
 export { ObjectStorage };

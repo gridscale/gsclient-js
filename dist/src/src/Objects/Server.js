@@ -18,18 +18,8 @@ var lodash_1 = require("lodash");
 var Server = /** @class */ (function (_super) {
     __extends(Server, _super);
     function Server(_api) {
-        return _super.call(this, _api, '/objects/servers', 'servers', 'server') || this;
+        return _super.call(this, _api, '/objects/servers') || this;
     }
-    // override some generic function to set explicit return type
-    Server.prototype.list = function (_options, _callback) {
-        return _super.prototype.list.call(this, _options, _callback);
-    };
-    Server.prototype.get = function (_uuid, _callback) {
-        return _super.prototype.get.call(this, _uuid, _callback);
-    };
-    Server.prototype.create = function (_attributes, _callback) {
-        return _super.prototype.create.call(this, _attributes, _callback);
-    };
     /**
      * Start/Stop Server
      *
@@ -112,15 +102,6 @@ var Server = /** @class */ (function (_super) {
         return this._sub('storages', _uuid, _options, _callback);
     };
     /**
-     *  Get Metrics for this Object
-     *
-     * @param _uuid Object UUID
-     * @param _callback Callback Function
-     */
-    Server.prototype.metrics = function (_uuid, _options, _callback) {
-        return this._sub('metrics', _uuid, _options, _callback);
-    };
-    /**
      * Get single Storage <=> Server Relation
      *
      * @param _uuid
@@ -166,6 +147,19 @@ var Server = /** @class */ (function (_super) {
      */
     Server.prototype.removeStorage = function (_uuid, _storage_uuid, _callback) {
         return this._sub_remove('storages', _uuid, _storage_uuid, _callback);
+    };
+    /**
+     *  Metrics
+     *
+     */
+    /**
+     *  Get Metrics for this Object
+     *
+     * @param _uuid Object UUID
+     * @param _callback Callback Function
+     */
+    Server.prototype.metrics = function (_uuid, _options, _callback) {
+        return this._sub('metrics', _uuid, _options, _callback);
     };
     /**
      *  Isoimages

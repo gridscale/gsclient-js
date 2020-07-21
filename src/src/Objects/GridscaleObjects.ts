@@ -218,30 +218,6 @@ class GridscaleObjects {
         return this._api.remove( this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid, _callback);
     }
 
-    _pipe_result<T>(_originalPromise: Promise<ApiResult<T>>, _key: string): Promise<ApiResult<T>> {
-        return new Promise((_resolve, _reject) => {
-            _originalPromise.then((_originalResult) => {
-
-                if (typeof (_originalResult.result[_key]) !== 'undefined') {
-                    _originalResult.result = _originalResult.result[_key];
-                }
-
-                // modify links...
-                if (_originalResult.links) {
-                    const newLinks = {};
-                    forEach(_originalResult.links, (_link, _linkkey) => {
-                        newLinks[_linkkey] = () => {
-                            return this._pipe_result(_link(), _key);
-                        };
-                    });
-                    _originalResult.links = newLinks;
-                }
-
-                _resolve(_originalResult);
-            }, (_e) => _reject(_e));
-        });
-    }
-
 
     /**
      *  Get Events for this Object

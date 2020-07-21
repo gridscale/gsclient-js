@@ -8,9 +8,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _api API Class Instance
      * @param _path Path to the Object
      */
-    function GridscaleObjects(_api, _path, _listKey, _getKey) {
-        this._listKey = _listKey;
-        this._getKey = _getKey;
+    function GridscaleObjects(_api, _path) {
         this._api = _api;
         this._defaults = {
             'page': 0,
@@ -59,10 +57,6 @@ var GridscaleObjects = /** @class */ (function () {
         if (lodash_1.isFunction(_options) && lodash_1.isUndefined(_callback)) {
             _callback = _options;
         }
-        if (this._listKey) {
-            // TODO: auch noch für sub lists..
-            return this._pipe_result(this._api.get(this._basepath, requestOptions, _callback), this._listKey);
-        }
         return this._api.get(this._basepath, requestOptions, _callback);
     };
     /**
@@ -72,9 +66,6 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _callback
      */
     GridscaleObjects.prototype.get = function (_uuid, _callback) {
-        if (this._getKey) {
-            return this._pipe_result(this._api.get(this._basepath + '/' + _uuid, {}, _callback), this._getKey);
-        }
         return this._api.get(this._basepath + '/' + _uuid, {}, _callback);
     };
     /**
@@ -171,27 +162,6 @@ var GridscaleObjects = /** @class */ (function () {
      */
     GridscaleObjects.prototype._sub_remove = function (_type, _uuid, _sub_uuid, _callback) {
         return this._api.remove(this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid, _callback);
-    };
-    GridscaleObjects.prototype._pipe_result = function (_originalPromise, _key) {
-        var _this = this;
-        return new Promise(function (_resolve, _reject) {
-            _originalPromise.then(function (_originalResult) {
-                if (typeof (_originalResult.result[_key]) !== 'undefined') {
-                    _originalResult.result = _originalResult.result[_key];
-                }
-                // modify links...
-                if (_originalResult.links) {
-                    var newLinks_1 = {};
-                    lodash_1.forEach(_originalResult.links, function (_link, _key) {
-                        newLinks_1[_key] = function () {
-                            return _this._pipe_result(_link(), _this._listKey);
-                        };
-                    });
-                    _originalResult.links = newLinks_1;
-                }
-                _resolve(_originalResult);
-            }, function (_e) { return _reject(_e); });
-        });
     };
     /**
      *  Get Events for this Object
