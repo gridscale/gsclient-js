@@ -14,10 +14,10 @@ import { Events } from './Objects/Events';
 import { Firewall } from './Objects/Firewall';
 import { PAAS } from './Objects/PAAS';
 import { Deleted } from './Objects/Deleted';
-import { PAASServiceTemplate } from './Objects/PAASServiceTemplate';
-import { PAASService } from './Objects/PAASService';
-import { PAASSecurityZone } from './Objects/PAASSecurityZone';
-import { PAASServiceMetrics } from './Objects/PAASServiceMetrics';
+import { PaasServiceTemplate } from './Objects/PaasServiceTemplate';
+import { PaasService } from './Objects/PaasService';
+import { PaasSecurityZone } from './Objects/PaasSecurityZone';
+import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
 import { Marketplace } from './Objects/Marketplace';
 /**
  * generate Client Class for all Connections
@@ -38,9 +38,9 @@ declare class GridscaleClient {
     Events: Events;
     Firewall: Firewall;
     PAAS: PAAS;
-    PAASService: PAASService;
-    PAASServiceTemplate: PAASServiceTemplate;
-    PAASSecurityZone: PAASSecurityZone;
+    PaasService: PaasService;
+    PaasServiceTemplate: PaasServiceTemplate;
+    PaasSecurityZone: PaasSecurityZone;
     Deleted: Deleted;
     Marketplace: Marketplace;
     watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
@@ -58,7 +58,7 @@ declare class GridscaleClient {
     setEndpoint(_endpoint: string): void;
     setFetch(_fetch: Function): void;
     addLogger(_callback: Function): void;
-    PAASServiceMetrics(_serviceUUID: string): PAASServiceMetrics;
+    PaasServiceMetrics(_serviceUUID: string): PaasServiceMetrics;
     stringifyResponseRequest<T>(object: any): T;
 }
 export { GridscaleClient as Client };

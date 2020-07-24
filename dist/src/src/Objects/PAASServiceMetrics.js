@@ -14,15 +14,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var GridscaleObjects_1 = require("./GridscaleObjects");
-var PAASServiceMetrics = /** @class */ (function (_super) {
-    __extends(PAASServiceMetrics, _super);
-    function PAASServiceMetrics(_api, _serviceUUID) {
+var PaasServiceMetrics = /** @class */ (function (_super) {
+    __extends(PaasServiceMetrics, _super);
+    function PaasServiceMetrics(_api, _serviceUUID) {
         var _this = _super.call(this, _api, '/objects/paas/services/' + _serviceUUID + '/metrics') || this;
         _this._defaults = {};
         return _this;
     }
-    return PAASServiceMetrics;
+    return PaasServiceMetrics;
 }(GridscaleObjects_1.GridscaleObjects));
-exports.PAASServiceMetrics = PAASServiceMetrics;
+exports.PaasServiceMetrics = PaasServiceMetrics;
 
-//# sourceMappingURL=PAASServiceMetrics.js.map
+//# sourceMappingURL=PaasServiceMetrics.js.map

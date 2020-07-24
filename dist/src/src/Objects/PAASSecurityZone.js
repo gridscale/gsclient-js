@@ -14,13 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var GridscaleObjects_1 = require("./GridscaleObjects");
-var PAASSecurityZone = /** @class */ (function (_super) {
-    __extends(PAASSecurityZone, _super);
-    function PAASSecurityZone(_api) {
+var PaasSecurityZone = /** @class */ (function (_super) {
+    __extends(PaasSecurityZone, _super);
+    function PaasSecurityZone(_api) {
         return _super.call(this, _api, '/objects/paas/security_zones') || this;
     }
-    return PAASSecurityZone;
+    return PaasSecurityZone;
 }(GridscaleObjects_1.GridscaleObjects));
-exports.PAASSecurityZone = PAASSecurityZone;
+exports.PaasSecurityZone = PaasSecurityZone;
 
-//# sourceMappingURL=PAASSecurityZone.js.map
+//# sourceMappingURL=PaasSecurityZone.js.map

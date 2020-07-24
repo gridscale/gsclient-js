@@ -15,10 +15,10 @@ import { Events } from './Objects/Events';
 import { Firewall } from './Objects/Firewall';
 import { PAAS } from './Objects/PAAS';
 import { Deleted } from './Objects/Deleted';
-import { PAASServiceTemplate } from './Objects/PAASServiceTemplate';
-import { PAASService } from './Objects/PAASService';
-import { PAASSecurityZone } from './Objects/PAASSecurityZone';
-import { PAASServiceMetrics } from './Objects/PAASServiceMetrics';
+import { PaasServiceTemplate } from './Objects/PaasServiceTemplate';
+import { PaasService } from './Objects/PaasService';
+import { PaasSecurityZone } from './Objects/PaasSecurityZone';
+import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
 import { Marketplace } from './Objects/Marketplace';
 import { forEach } from 'lodash';
 
@@ -43,9 +43,9 @@ class GridscaleClient {
     public Events: Events;
     public Firewall: Firewall;
     public PAAS: PAAS;
-    public PAASService: PAASService;
-    public PAASServiceTemplate: PAASServiceTemplate;
-    public PAASSecurityZone: PAASSecurityZone;
+    public PaasService: PaasService;
+    public PaasServiceTemplate: PaasServiceTemplate;
+    public PaasSecurityZone: PaasSecurityZone;
     public Deleted: Deleted;
     public Marketplace: Marketplace;
 
@@ -82,9 +82,9 @@ class GridscaleClient {
         this.Events = new Events(api);
         this.Firewall = new Firewall(api);
         this.PAAS = new PAAS(api);
-        this.PAASServiceTemplate = new PAASServiceTemplate(api);
-        this.PAASService = new PAASService(api);
-        this.PAASSecurityZone = new PAASSecurityZone(api);
+        this.PaasServiceTemplate = new PaasServiceTemplate(api);
+        this.PaasService = new PaasService(api);
+        this.PaasSecurityZone = new PaasSecurityZone(api);
         this.Deleted = new Deleted(api);
         this.Marketplace = new Marketplace(api);
         this.watchRequest = api.watchRequest.bind(api);
@@ -112,8 +112,8 @@ class GridscaleClient {
       api.addLogger( _callback );
     }
 
-    public PAASServiceMetrics(_serviceUUID: string) {
-      return new PAASServiceMetrics(api, _serviceUUID);
+    public PaasServiceMetrics(_serviceUUID: string) {
+      return new PaasServiceMetrics(api, _serviceUUID);
     }
 
     // tslint:disable-next-line: no-any

@@ -1,17 +1,17 @@
-import { PAASServiceTemplate } from './PAASServiceTemplate';
-import { PAASSecurityZone } from './PAASSecurityZone';
-import { PAASService } from './PAASService';
+import { PaasServiceTemplate } from './PaasServiceTemplate';
+import { PaasSecurityZone } from './PaasSecurityZone';
+import { PaasService } from './PaasService';
 import { APIClass } from '../api';
 
 /**
- * this class is only a wrapper to the PAASService, PAASServiceTemplate and PAASSecurityZone classes, due to historical reasons...
+ * this class is only a wrapper to the PaasService, PaasServiceTemplate and PaasSecurityZone classes, due to historical reasons...
  */
 class PAAS {
     constructor(private _api: APIClass) { }
 
-    serviceTemplates = new PAASServiceTemplate(this._api);
-    securityZones = new PAASSecurityZone(this._api);
-    services = new PAASService(this._api);
+    serviceTemplates = new PaasServiceTemplate(this._api);
+    securityZones = new PaasSecurityZone(this._api);
+    services = new PaasService(this._api);
 
 }
 

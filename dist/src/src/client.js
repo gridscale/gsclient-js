@@ -16,10 +16,10 @@ var Events_1 = require("./Objects/Events");
 var Firewall_1 = require("./Objects/Firewall");
 var PAAS_1 = require("./Objects/PAAS");
 var Deleted_1 = require("./Objects/Deleted");
-var PAASServiceTemplate_1 = require("./Objects/PAASServiceTemplate");
-var PAASService_1 = require("./Objects/PAASService");
-var PAASSecurityZone_1 = require("./Objects/PAASSecurityZone");
-var PAASServiceMetrics_1 = require("./Objects/PAASServiceMetrics");
+var PaasServiceTemplate_1 = require("./Objects/PaasServiceTemplate");
+var PaasService_1 = require("./Objects/PaasService");
+var PaasSecurityZone_1 = require("./Objects/PaasSecurityZone");
+var PaasServiceMetrics_1 = require("./Objects/PaasServiceMetrics");
 var Marketplace_1 = require("./Objects/Marketplace");
 var lodash_1 = require("lodash");
 /**
@@ -56,9 +56,9 @@ var GridscaleClient = /** @class */ (function () {
         this.Events = new Events_1.Events(api_1.api);
         this.Firewall = new Firewall_1.Firewall(api_1.api);
         this.PAAS = new PAAS_1.PAAS(api_1.api);
-        this.PAASServiceTemplate = new PAASServiceTemplate_1.PAASServiceTemplate(api_1.api);
-        this.PAASService = new PAASService_1.PAASService(api_1.api);
-        this.PAASSecurityZone = new PAASSecurityZone_1.PAASSecurityZone(api_1.api);
+        this.PaasServiceTemplate = new PaasServiceTemplate_1.PaasServiceTemplate(api_1.api);
+        this.PaasService = new PaasService_1.PaasService(api_1.api);
+        this.PaasSecurityZone = new PaasSecurityZone_1.PaasSecurityZone(api_1.api);
         this.Deleted = new Deleted_1.Deleted(api_1.api);
         this.Marketplace = new Marketplace_1.Marketplace(api_1.api);
         this.watchRequest = api_1.api.watchRequest.bind(api_1.api);
@@ -78,8 +78,8 @@ var GridscaleClient = /** @class */ (function () {
     GridscaleClient.prototype.addLogger = function (_callback) {
         api_1.api.addLogger(_callback);
     };
-    GridscaleClient.prototype.PAASServiceMetrics = function (_serviceUUID) {
-        return new PAASServiceMetrics_1.PAASServiceMetrics(api_1.api, _serviceUUID);
+    GridscaleClient.prototype.PaasServiceMetrics = function (_serviceUUID) {
+        return new PaasServiceMetrics_1.PaasServiceMetrics(api_1.api, _serviceUUID);
     };
     // tslint:disable-next-line: no-any
     GridscaleClient.prototype.stringifyResponseRequest = function (object) {
