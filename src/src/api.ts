@@ -497,8 +497,8 @@ export class APIClass {
      * transform lodashed attribute names to camel case names
      * @param _attributes 
      */
-    private camelify(_attributes: Object): Object {
-      const tmp: Object = {};
+    private camelify(_attributes: object): object {
+      const tmp: object = {};
 
       forEach(_attributes, (_val, _key) => {
         if (_key.indexOf('_') === 0) {
