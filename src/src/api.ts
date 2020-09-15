@@ -321,7 +321,9 @@ export class APIClass {
       // Add Options to URL
       forEach(_options, (val, key) => {
           if ( isArray(_options[key]) ) {
+            if (_options[key].length > 0) {
               url.push(key + '=' + _options[key].join(',') );
+            }
           } else {
               url.push(key + '=' + _options[key] );
           }

@@ -255,7 +255,9 @@ var APIClass = /** @class */ (function () {
         // Add Options to URL
         lodash_1.forEach(_options, function (val, key) {
             if (lodash_1.isArray(_options[key])) {
-                url.push(key + '=' + _options[key].join(','));
+                if (_options[key].length > 0) {
+                    url.push(key + '=' + _options[key].join(','));
+                }
             }
             else {
                 url.push(key + '=' + _options[key]);
