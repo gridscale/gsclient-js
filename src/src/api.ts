@@ -66,6 +66,15 @@ export interface CreateResult {
   objectUuid?: string;
 }
 
+/**
+ * interface with basic properties each object (server, storage ...) should have
+ */
+export interface BaseObject {
+  objectUuid?: string;
+  status?: string;
+  name?: string;
+}
+
 export class GSError extends Error {
   result: GenericApiResult;
   success = false;
