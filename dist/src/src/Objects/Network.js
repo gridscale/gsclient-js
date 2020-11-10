@@ -22,5 +22,4 @@ var Network = /** @class */ (function (_super) {
     return Network;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Network = Network;
-
 //# sourceMappingURL=Network.js.map

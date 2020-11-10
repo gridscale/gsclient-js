@@ -22,5 +22,4 @@ var ISOImage = /** @class */ (function (_super) {
     return ISOImage;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.ISOImage = ISOImage;
-
 //# sourceMappingURL=ISOImage.js.map

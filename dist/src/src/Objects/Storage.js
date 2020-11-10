@@ -271,5 +271,4 @@ var Storage = /** @class */ (function (_super) {
     return Storage;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Storage = Storage;
-
 //# sourceMappingURL=Storage.js.map

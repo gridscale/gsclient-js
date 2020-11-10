@@ -52,5 +52,4 @@ var ObjectStorage = /** @class */ (function () {
     return ObjectStorage;
 }());
 exports.ObjectStorage = ObjectStorage;
-
 //# sourceMappingURL=ObjectStorage.js.map

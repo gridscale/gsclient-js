@@ -421,5 +421,4 @@ var APIClass = /** @class */ (function () {
 }());
 exports.APIClass = APIClass;
 exports.api = new APIClass();
-
 //# sourceMappingURL=api.js.map

@@ -11,5 +11,4 @@ var MarketplaceApplicationCreate;
         Archiving: 'Archiving'
     };
 })(MarketplaceApplicationCreate = exports.MarketplaceApplicationCreate || (exports.MarketplaceApplicationCreate = {}));
-
 //# sourceMappingURL=marketplaceApplicationCreate.js.map

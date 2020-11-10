@@ -22,5 +22,4 @@ var Loadbalancer = /** @class */ (function (_super) {
     return Loadbalancer;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Loadbalancer = Loadbalancer;
-
 //# sourceMappingURL=Loadbalancer.js.map

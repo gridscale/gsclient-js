@@ -22,5 +22,4 @@ var PaasServiceTemplate = /** @class */ (function (_super) {
     return PaasServiceTemplate;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.PaasServiceTemplate = PaasServiceTemplate;
-
 //# sourceMappingURL=PaasServiceTemplate.js.map

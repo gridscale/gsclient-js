@@ -17,5 +17,4 @@ var StorageImportFromS3Object;
         Gz: 'gz'
     };
 })(StorageImportFromS3Object = exports.StorageImportFromS3Object || (exports.StorageImportFromS3Object = {}));
-
 //# sourceMappingURL=storageImportFromS3Object.js.map
