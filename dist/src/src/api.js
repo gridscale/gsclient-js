@@ -402,17 +402,36 @@ var APIClass = /** @class */ (function () {
      */
     APIClass.prototype.camelify = function (_attributes) {
         var _this = this;
-        var tmp = {};
+        var tmp;
+        var arrayMode = false;
+        if (lodash_1.isArray(_attributes)) {
+            tmp = [];
+            arrayMode = true;
+        }
+        else {
+            tmp = {};
+        }
         lodash_1.forEach(_attributes, function (_val, _key) {
             if (_key.indexOf('_') === 0) {
                 tmp[_key] = _val;
                 return true;
             }
-            if (lodash_1.isPlainObject(_val)) {
-                tmp[_key.replace(/_([a-z0-9])/g, function (all, letter) { return letter.toUpperCase(); })] = _this.camelify(_val);
+            if (arrayMode) {
+                if (lodash_1.isPlainObject(_val) || lodash_1.isArray(_val)) {
+                    tmp.push(_this.camelify(_val));
+                }
+                else {
+                    tmp.push(_val);
+                }
             }
             else {
-                tmp[_key.replace(/_([a-z0-9])/g, function (all, letter) { return letter.toUpperCase(); })] = _val;
+                var newKey = String(_key).replace(/_([a-z0-9])/g, function (all, letter) { return letter.toUpperCase(); });
+                if (lodash_1.isPlainObject(_val) || lodash_1.isArray(_val)) {
+                    tmp[newKey] = _this.camelify(_val);
+                }
+                else {
+                    tmp[newKey] = _val;
+                }
             }
         });
         return tmp;

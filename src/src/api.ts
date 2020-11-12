@@ -509,7 +509,15 @@ export class APIClass {
      * @param _attributes 
      */
     private camelify(_attributes: object): object {
-      const tmp: object = {};
+      let tmp;
+      let arrayMode = false;
+      if (isArray(_attributes)) {
+        tmp = [];
+        arrayMode = true;
+
+      } else {
+        tmp = {};
+      }
 
       forEach(_attributes, (_val, _key) => {
         if (_key.indexOf('_') === 0) {
@@ -517,11 +525,22 @@ export class APIClass {
           return true;
         }
 
-        if (isPlainObject(_val)) {
-          tmp[_key.replace(/_([a-z0-9])/g, (all, letter) => letter.toUpperCase())] = this.camelify(_val);
+        if (arrayMode) {
+          if (isPlainObject(_val) || isArray(_val)) {
+            tmp.push(this.camelify(_val));
+
+          } else {
+            tmp.push(_val);
+          }
 
         } else {
-          tmp[_key.replace(/_([a-z0-9])/g, (all, letter) => letter.toUpperCase())] = _val;
+          const newKey = String(_key).replace(/_([a-z0-9])/g, (all, letter) => letter.toUpperCase());
+          if (isPlainObject(_val) || isArray(_val)) {
+            tmp[newKey] = this.camelify(_val);
+
+          } else {
+            tmp[newKey] = _val;
+          }
         }
       });
 
