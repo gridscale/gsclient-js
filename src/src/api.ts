@@ -528,11 +528,16 @@ export class APIClass {
         }
 
         if (arrayMode) {
+          console.log('val', _val);
           if (isPlainObject(_val) || isArray(_val)) {
+            console.log('1');
             tmp.push(this.camelify(_val));
+            console.log('1 done');
 
           } else {
+            console.log('2');
             tmp.push(_val);
+            console.log('2 done');
           }
 
         } else {
