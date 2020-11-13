@@ -175,4 +175,5 @@ var GridscaleObjects = /** @class */ (function () {
     return GridscaleObjects;
 }());
 exports.GridscaleObjects = GridscaleObjects;
+
 //# sourceMappingURL=GridscaleObjects.js.map

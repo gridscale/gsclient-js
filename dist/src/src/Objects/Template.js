@@ -22,4 +22,5 @@ var Template = /** @class */ (function (_super) {
     return Template;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Template = Template;
+
 //# sourceMappingURL=Template.js.map

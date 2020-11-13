@@ -8,4 +8,5 @@ var Storage;
         StorageInsane: 'storage_insane'
     };
 })(Storage = exports.Storage || (exports.Storage = {}));
+
 //# sourceMappingURL=storage.js.map

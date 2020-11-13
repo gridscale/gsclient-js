@@ -16,4 +16,5 @@ exports.StorageType = {
     StorageHigh: 'storage_high',
     StorageInsane: 'storage_insane'
 };
+
 //# sourceMappingURL=storageType.js.map
