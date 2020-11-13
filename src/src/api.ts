@@ -519,8 +519,6 @@ export class APIClass {
         tmp = {};
       }
 
-      console.log('here', _attributes, arrayMode);
-
       forEach(_attributes, (_val, _key) => {
         if (String(_key).indexOf('_') === 0) {
           tmp[_key] = _val;
@@ -528,16 +526,11 @@ export class APIClass {
         }
 
         if (arrayMode) {
-          console.log('val', _val);
           if (isPlainObject(_val) || isArray(_val)) {
-            console.log('1');
             tmp.push(this.camelify(_val));
-            console.log('1 done');
 
           } else {
-            console.log('2');
             tmp.push(_val);
-            console.log('2 done');
           }
 
         } else {
@@ -550,8 +543,6 @@ export class APIClass {
           }
         }
       });
-
-      console.log('done', tmp);
 
       return tmp;
     }

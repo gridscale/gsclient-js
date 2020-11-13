@@ -411,23 +411,17 @@ var APIClass = /** @class */ (function () {
         else {
             tmp = {};
         }
-        console.log('here', _attributes, arrayMode);
         lodash_1.forEach(_attributes, function (_val, _key) {
             if (String(_key).indexOf('_') === 0) {
                 tmp[_key] = _val;
                 return true;
             }
             if (arrayMode) {
-                console.log('val', _val);
                 if (lodash_1.isPlainObject(_val) || lodash_1.isArray(_val)) {
-                    console.log('1');
                     tmp.push(_this.camelify(_val));
-                    console.log('1 done');
                 }
                 else {
-                    console.log('2');
                     tmp.push(_val);
-                    console.log('2 done');
                 }
             }
             else {
@@ -440,7 +434,6 @@ var APIClass = /** @class */ (function () {
                 }
             }
         });
-        console.log('done', tmp);
         return tmp;
     };
     return APIClass;
