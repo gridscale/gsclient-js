@@ -522,7 +522,7 @@ export class APIClass {
       console.log('here', _attributes, arrayMode);
 
       forEach(_attributes, (_val, _key) => {
-        if (_key.indexOf('_') === 0) {
+        if (String(_key).indexOf('_') === 0) {
           tmp[_key] = _val;
           return true;
         }

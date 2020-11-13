@@ -413,7 +413,7 @@ var APIClass = /** @class */ (function () {
         }
         console.log('here', _attributes, arrayMode);
         lodash_1.forEach(_attributes, function (_val, _key) {
-            if (_key.indexOf('_') === 0) {
+            if (String(_key).indexOf('_') === 0) {
                 tmp[_key] = _val;
                 return true;
             }
