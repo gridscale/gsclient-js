@@ -519,6 +519,8 @@ export class APIClass {
         tmp = {};
       }
 
+      console.log('here');
+
       forEach(_attributes, (_val, _key) => {
         if (_key.indexOf('_') === 0) {
           tmp[_key] = _val;
@@ -543,6 +545,8 @@ export class APIClass {
           }
         }
       });
+
+      console.log('done', tmp);
 
       return tmp;
     }

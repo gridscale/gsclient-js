@@ -411,6 +411,7 @@ var APIClass = /** @class */ (function () {
         else {
             tmp = {};
         }
+        console.log('here');
         lodash_1.forEach(_attributes, function (_val, _key) {
             if (_key.indexOf('_') === 0) {
                 tmp[_key] = _val;
@@ -434,6 +435,7 @@ var APIClass = /** @class */ (function () {
                 }
             }
         });
+        console.log('done', tmp);
         return tmp;
     };
     return APIClass;
