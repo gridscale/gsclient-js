@@ -519,7 +519,7 @@ export class APIClass {
         tmp = {};
       }
 
-      console.log('here');
+      console.log('here', _attributes, arrayMode);
 
       forEach(_attributes, (_val, _key) => {
         if (_key.indexOf('_') === 0) {
