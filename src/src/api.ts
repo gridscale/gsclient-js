@@ -79,6 +79,7 @@ export interface BaseObject {
   objectUuid?: string;
   status?: string;
   name?: string;
+  labels?: string[];
   relations?: { [key: string]: BaseRelationObject[] };
 }
 
