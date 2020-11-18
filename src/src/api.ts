@@ -66,6 +66,12 @@ export interface CreateResult {
   objectUuid?: string;
 }
 
+
+export interface BaseRelationObject {
+  objectName?: string;
+  objectUuid?: string;
+}
+
 /**
  * interface with basic properties each object (server, storage ...) should have
  */
@@ -73,8 +79,7 @@ export interface BaseObject {
   objectUuid?: string;
   status?: string;
   name?: string;
-  objectName?: string;
-  relations?: { [key: string]: unknown[] };
+  relations?: { [key: string]: BaseRelationObject[] };
 }
 
 export class GSError extends Error {
