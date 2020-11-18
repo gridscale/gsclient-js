@@ -73,6 +73,8 @@ export interface BaseObject {
   objectUuid?: string;
   status?: string;
   name?: string;
+  objectName?: string;
+  relations?: { [key: string]: unknown[] };
 }
 
 export class GSError extends Error {
