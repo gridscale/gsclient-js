@@ -12,5 +12,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //         done();
 //     });
 // });
-
 //# sourceMappingURL=Gridscale.spec.js.map

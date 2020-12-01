@@ -18,5 +18,4 @@ var StorageClone;
         Crypt: 'crypt'
     };
 })(StorageClone = exports.StorageClone || (exports.StorageClone = {}));
-
 //# sourceMappingURL=storageClone.js.map

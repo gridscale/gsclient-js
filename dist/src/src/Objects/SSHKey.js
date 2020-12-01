@@ -22,5 +22,4 @@ var SSHKey = /** @class */ (function (_super) {
     return SSHKey;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.SSHKey = SSHKey;
-
 //# sourceMappingURL=SSHKey.js.map

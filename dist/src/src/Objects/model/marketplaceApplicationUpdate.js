@@ -11,5 +11,4 @@ var MarketplaceApplicationUpdate;
         Archiving: 'Archiving'
     };
 })(MarketplaceApplicationUpdate = exports.MarketplaceApplicationUpdate || (exports.MarketplaceApplicationUpdate = {}));
-
 //# sourceMappingURL=marketplaceApplicationUpdate.js.map

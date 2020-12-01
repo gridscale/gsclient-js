@@ -18,5 +18,4 @@ var StorageCreateTemplatePassword;
         Crypt: 'crypt'
     };
 })(StorageCreateTemplatePassword = exports.StorageCreateTemplatePassword || (exports.StorageCreateTemplatePassword = {}));
-
 //# sourceMappingURL=storageCreateTemplatePassword.js.map
