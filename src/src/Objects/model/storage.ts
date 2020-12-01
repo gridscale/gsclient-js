@@ -56,6 +56,10 @@ export interface Storage {
      */
     changeTime?: Date;
     /**
+     * (one of local or distributed).
+     */
+    storageVariant?: Storage.StorageVariantEnum;
+    /**
      * (one of storage, storage_high, storage_insane).
      */
     storageType?: Storage.StorageTypeEnum;
@@ -94,5 +98,11 @@ export namespace Storage {
         Storage: 'storage' as StorageTypeEnum,
         StorageHigh: 'storage_high' as StorageTypeEnum,
         StorageInsane: 'storage_insane' as StorageTypeEnum
+    };
+
+    export type StorageVariantEnum = 'local' | 'distributed';
+    export const StorageVariantEnum = {
+        Local: 'local' as StorageTypeEnum,
+        Distributed: 'distributed' as StorageTypeEnum,
     };
 }
