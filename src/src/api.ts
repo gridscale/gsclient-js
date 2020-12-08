@@ -80,6 +80,7 @@ export interface BaseObject {
   status?: string;
   name?: string;
   labels?: string[];
+  locationUuid?: string;
   relations?: { [key: string]: BaseRelationObject[] };
 }
 
