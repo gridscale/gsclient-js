@@ -19,7 +19,7 @@ import { PaasServiceTemplate } from './Objects/PaasServiceTemplate';
 import { PaasService } from './Objects/PaasService';
 import { PaasSecurityZone } from './Objects/PaasSecurityZone';
 import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
-import { Marketplace } from './Objects/Marketplace';
+import { MarketplaceApplication } from './Objects/Marketplace';
 import { forEach } from 'lodash';
 
 /**
@@ -47,7 +47,7 @@ class GridscaleClient {
     public PaasServiceTemplate: PaasServiceTemplate;
     public PaasSecurityZone: PaasSecurityZone;
     public Deleted: Deleted;
-    public Marketplace: Marketplace;
+    public MarketplaceApplication: MarketplaceApplication;
 
     public watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
 
@@ -86,7 +86,7 @@ class GridscaleClient {
         this.PaasService = new PaasService(api);
         this.PaasSecurityZone = new PaasSecurityZone(api);
         this.Deleted = new Deleted(api);
-        this.Marketplace = new Marketplace(api);
+        this.MarketplaceApplication = new MarketplaceApplication(api);
         this.watchRequest = api.watchRequest.bind(api);
 
     }
