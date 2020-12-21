@@ -22,4 +22,5 @@ var Label = /** @class */ (function (_super) {
     return Label;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Label = Label;
+
 //# sourceMappingURL=Label.js.map

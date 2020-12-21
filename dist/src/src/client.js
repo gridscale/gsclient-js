@@ -60,7 +60,7 @@ var GridscaleClient = /** @class */ (function () {
         this.PaasService = new PaasService_1.PaasService(api_1.api);
         this.PaasSecurityZone = new PaasSecurityZone_1.PaasSecurityZone(api_1.api);
         this.Deleted = new Deleted_1.Deleted(api_1.api);
-        this.Marketplace = new Marketplace_1.Marketplace(api_1.api);
+        this.MarketplaceApplication = new Marketplace_1.MarketplaceApplication(api_1.api);
         this.watchRequest = api_1.api.watchRequest.bind(api_1.api);
     }
     GridscaleClient.prototype.setApiClient = function (_client) {
@@ -105,4 +105,5 @@ var GridscaleClient = /** @class */ (function () {
     return GridscaleClient;
 }());
 exports.Client = GridscaleClient;
+
 //# sourceMappingURL=client.js.map

@@ -7,4 +7,5 @@ var IpBrief;
         _6: '6'
     };
 })(IpBrief = exports.IpBrief || (exports.IpBrief = {}));
+
 //# sourceMappingURL=ipBrief.js.map

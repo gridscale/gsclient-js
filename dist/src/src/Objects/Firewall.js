@@ -22,4 +22,5 @@ var Firewall = /** @class */ (function (_super) {
     return Firewall;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Firewall = Firewall;
+
 //# sourceMappingURL=Firewall.js.map

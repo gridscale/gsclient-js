@@ -18,7 +18,7 @@ import { PaasServiceTemplate } from './Objects/PaasServiceTemplate';
 import { PaasService } from './Objects/PaasService';
 import { PaasSecurityZone } from './Objects/PaasSecurityZone';
 import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
-import { Marketplace } from './Objects/Marketplace';
+import { MarketplaceApplication } from './Objects/Marketplace';
 /**
  * generate Client Class for all Connections
  * test
@@ -42,7 +42,7 @@ declare class GridscaleClient {
     PaasServiceTemplate: PaasServiceTemplate;
     PaasSecurityZone: PaasSecurityZone;
     Deleted: Deleted;
-    Marketplace: Marketplace;
+    MarketplaceApplication: MarketplaceApplication;
     watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
     /**
      * Init Client with Default Values

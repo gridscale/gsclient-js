@@ -14,12 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var GridscaleObjects_1 = require("./GridscaleObjects");
-var Marketplace = /** @class */ (function (_super) {
-    __extends(Marketplace, _super);
-    function Marketplace(_api) {
-        return _super.call(this, _api, '/objects/marketplace/applications') || this;
+var MarketplaceApplication = /** @class */ (function (_super) {
+    __extends(MarketplaceApplication, _super);
+    function MarketplaceApplication(_api) {
+        return _super.call(this, _api, "/objects/marketplace/applications") || this;
     }
-    return Marketplace;
+    return MarketplaceApplication;
 }(GridscaleObjects_1.GridscaleObjects));
-exports.Marketplace = Marketplace;
+exports.MarketplaceApplication = MarketplaceApplication;
+
 //# sourceMappingURL=Marketplace.js.map
