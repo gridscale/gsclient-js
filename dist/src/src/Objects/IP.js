@@ -22,5 +22,4 @@ var IP = /** @class */ (function (_super) {
     return IP;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.IP = IP;
-
 //# sourceMappingURL=IP.js.map

@@ -22,5 +22,4 @@ var MarketplaceApplication = /** @class */ (function (_super) {
     return MarketplaceApplication;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.MarketplaceApplication = MarketplaceApplication;
-
 //# sourceMappingURL=Marketplace.js.map

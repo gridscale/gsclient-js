@@ -105,5 +105,4 @@ var GridscaleClient = /** @class */ (function () {
     return GridscaleClient;
 }());
 exports.Client = GridscaleClient;
-
 //# sourceMappingURL=client.js.map

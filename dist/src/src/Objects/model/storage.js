@@ -12,5 +12,4 @@ var Storage;
         Distributed: 'distributed',
     };
 })(Storage = exports.Storage || (exports.Storage = {}));
-
 //# sourceMappingURL=storage.js.map

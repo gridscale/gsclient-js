@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/src/Objects/Label.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;AAAA,uDAAoD;AAQpD;IAAoB,yBAAgB;IAEhC,eAAY,IAAc;eAAI,kBAAM,IAAI,EAAE,iBAAiB,CAAC;IAAE,CAAC;IAGnE,YAAC;AAAD,CALA,AAKC,CALmB,mCAAgB,GAKnC;AAGQ,sBAAK","file":"Label.js","sourceRoot":"../../../../../../.."}
+{"version":3,"file":"Label.js","sourceRoot":"","sources":["../../../../src/src/Objects/Label.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;AAAA,uDAAoD;AAQpD;IAAoB,yBAAgB;IAEhC,eAAY,IAAc;eAAI,kBAAM,IAAI,EAAE,iBAAiB,CAAC;IAAE,CAAC;IAGnE,YAAC;AAAD,CAAC,AALD,CAAoB,mCAAgB,GAKnC;AAGQ,sBAAK"}

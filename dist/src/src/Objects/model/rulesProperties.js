@@ -22,5 +22,4 @@ var RulesProperties;
         Drop: 'drop'
     };
 })(RulesProperties = exports.RulesProperties || (exports.RulesProperties = {}));
-
 //# sourceMappingURL=rulesProperties.js.map

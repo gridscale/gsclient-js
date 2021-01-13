@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/src/Objects/model/snapshotExportToS3PayloadS3data.ts"],"names":[],"mappings":";AAAA;;;;;;;;;;GAUG","file":"snapshotExportToS3PayloadS3data.js","sourceRoot":"../../../../../../../../.."}
+{"version":3,"file":"snapshotExportToS3PayloadS3data.js","sourceRoot":"","sources":["../../../../../src/src/Objects/model/snapshotExportToS3PayloadS3data.ts"],"names":[],"mappings":";AAAA;;;;;;;;;;GAUG"}

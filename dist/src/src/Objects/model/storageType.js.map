@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/src/Objects/model/storageType.ts"],"names":[],"mappings":";AAAA;;;;;;;;;;GAUG;;AAQU,QAAA,WAAW,GAAG;IACvB,OAAO,EAAE,SAAwB;IACjC,WAAW,EAAE,cAA6B;IAC1C,aAAa,EAAE,gBAA+B;CACjD,CAAC","file":"storageType.js","sourceRoot":"../../../../../../../../.."}
+{"version":3,"file":"storageType.js","sourceRoot":"","sources":["../../../../../src/src/Objects/model/storageType.ts"],"names":[],"mappings":";AAAA;;;;;;;;;;GAUG;;AAQU,QAAA,WAAW,GAAG;IACvB,OAAO,EAAE,SAAwB;IACjC,WAAW,EAAE,cAA6B;IAC1C,aAAa,EAAE,gBAA+B;CACjD,CAAC"}

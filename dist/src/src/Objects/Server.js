@@ -293,5 +293,4 @@ var Server = /** @class */ (function (_super) {
     return Server;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Server = Server;
-
 //# sourceMappingURL=Server.js.map
