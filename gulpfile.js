@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
     tsc = require('gulp-typescript'),
-    tslint = require('gulp-tslint'),
     sourcemaps = require('gulp-sourcemaps'),
     del = require('del'),
     tsProject = tsc.createProject('tsconfig.json'),
@@ -8,7 +7,6 @@ var gulp = require('gulp'),
     path = require('path');
 // or requiring in ES5
 var merge = require('merge2');
-var shell = require('gulp-shell');
 
 /**
  * Compile TypeScript and include references to library and app .d.ts files.

@@ -2,7 +2,7 @@
  * This scripts generates and updates the Typescript models   *
  * from the current gridscale Open API specification          *
  *                                                            *
- * Usage: run it with node >=12 and it does everything        *
+ * Usage: run it with node >=14.14 and it does everything     *
  * for you!                                                   *
  * Find the result in src/src/Objects/model                   *
 \**************************************************************/
@@ -13,6 +13,7 @@ const OpenAPI = require('openapi-typescript-codegen');
 
 const specFile = __dirname + '/spec.yaml';
 const specUrl = "https://gridscale.io/en/api-documentation/spec.yaml";
+const distDir = __dirname + '/../src/Specs';
 
 // first download the current API Spec
 const file = fs.createWriteStream(specFile);
@@ -23,6 +24,10 @@ http.get(specUrl, function (response) {
         console.log('Download finished, generating ...');
         // cleanly close the file on finish...
         file.close(() => {
+            // clean the dist dir
+            fs.rmSync(distDir, { recursive: true });
+
+
             // ...then generate the types
             OpenAPI.generate({
                 exportModels: true,
@@ -30,7 +35,7 @@ http.get(specUrl, function (response) {
                 exportCore: false,
                 exportServices: false,
                 input: specFile,
-                output: __dirname + '/../src/src/Objects/model',
+                output: distDir,
             }).then(() => {
                 console.log('Done!');
             });
