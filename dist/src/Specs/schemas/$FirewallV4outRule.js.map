@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/Specs/schemas/$FirewallV4outRule.ts"],"names":[],"mappings":";;;AAAA,0BAA0B;AAC1B,oBAAoB;AACpB,oBAAoB;AACP,QAAA,kBAAkB,GAAG;IAC9B,IAAI,EAAE,OAAO;IACb,QAAQ,EAAE;QACN,IAAI,EAAE,iBAAiB;KAC1B;CACJ,CAAC","file":"$FirewallV4outRule.js","sourceRoot":"../../../../../../.."}

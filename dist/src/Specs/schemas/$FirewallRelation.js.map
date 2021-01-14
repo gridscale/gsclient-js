@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/Specs/schemas/$FirewallRelation.ts"],"names":[],"mappings":";;;AAAA,0BAA0B;AAC1B,oBAAoB;AACpB,oBAAoB;AACP,QAAA,iBAAiB,GAAG;IAC7B,UAAU,EAAE;QACR,QAAQ,EAAE;YACN,IAAI,EAAE,mBAAmB;SAC5B;KACJ;CACJ,CAAC","file":"$FirewallRelation.js","sourceRoot":"../../../../../../.."}

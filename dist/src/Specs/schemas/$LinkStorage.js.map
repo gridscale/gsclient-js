@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/Specs/schemas/$LinkStorage.ts"],"names":[],"mappings":";;;AAAA,0BAA0B;AAC1B,oBAAoB;AACpB,oBAAoB;AACP,QAAA,YAAY,GAAG;IACxB,UAAU,EAAE;QACR,WAAW,EAAE;YACT,IAAI,EAAE,QAAQ;YACd,UAAU,EAAE,IAAI;YAChB,MAAM,EAAE,MAAM;SACjB;QACD,UAAU,EAAE;YACR,IAAI,EAAE,SAAS;SAClB;KACJ;CACJ,CAAC","file":"$LinkStorage.js","sourceRoot":"../../../../../../.."}
