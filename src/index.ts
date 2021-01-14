@@ -1,8 +1,8 @@
 /**
  * Export all publicly accessible modules
  */
-import * as gridscale from './src/client';
+import * as gridscale from './client';
 
-export { ApiResult, ApiSettings, BaseObject, BaseRelationObject, CreateResult, GenericApiResult, GSError, Links, Meta, RequestOptions, RequestPollResult, VoidApiResult } from './src/api';
+export { ApiResult, ApiSettings, BaseObject, BaseRelationObject, GenericApiResult, GSError, Links, Meta, RequestOptions, RequestPollResult, VoidApiResult } from './api';
 export { gridscale };
-export * from './src/Objects/model/models';
+export * from './Specs/index';
