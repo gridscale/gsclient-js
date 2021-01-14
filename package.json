@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp",
     "updateFromSpec": "node ./scripts/types_from_apispec.js"
   },
   "homepage": "https://gridscale.io",
@@ -42,6 +42,6 @@
     "merge2": "^1.0.2",
     "openapi-typescript-codegen": "^0.7.2",
     "tslint": "^5.16.0",
-    "typescript": "3.5.3"
+    "typescript": "^3.9.7"
   }
 }
