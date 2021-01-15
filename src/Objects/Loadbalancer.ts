@@ -2,8 +2,8 @@
 
 import {GridscaleObjects} from './GridscaleObjects';
 import { APIClass, RequestOptions, ApiResult, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { LoadbalancerCreate, LoadbalancerUpdate } from './../Specs/index';
+import * as models from './../Specs';
+import { LoadbalancerCreate, LoadbalancerUpdate } from './../Specs';
 
 interface Loadbalancer {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LoadbalancersGetResponse>>;

@@ -1,5 +1,5 @@
-import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
+import * as models from './../Specs';
 
 class ObjectStorage {
 
@@ -27,7 +27,7 @@ class ObjectStorage {
      * @param _callback
      * @returns {Promise<ApiResult<models.AccessKeysGetResponse>>}
      */
-    accessKeys(_options: RequestOptions, _callback?: Function): Promise<ApiResult<models.AccessKeysGetResponse>> {
+    accessKeys(_options: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.AccessKeysGetResponse>> {
 
         return this._api.get( '/objects/objectstorages/access_keys', _options, _callback);
 
@@ -51,7 +51,7 @@ class ObjectStorage {
      * @param _uuid
      * @param _callback
      */
-    removeAccessKey(_access_key: string, _callback?: Function): Promise<ApiResult<VoidApiResult>> {
+    removeAccessKey(_access_key: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>> {
         return this._api.remove( '/objects/objectstorages/access_keys/' + _access_key, _callback);
     }
 
@@ -65,11 +65,6 @@ class ObjectStorage {
     createAccessKey(_callback?: Function): Promise<ApiResult<models.AccessKeyCreateResponse>> {
         return this._api.post( '/objects/objectstorages/access_keys'  , _callback);
     }
-
-
-
-    
-
 }
 
 export { ObjectStorage };

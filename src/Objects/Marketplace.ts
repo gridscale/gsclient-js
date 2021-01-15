@@ -1,10 +1,7 @@
-import { GridscaleObjects } from "./GridscaleObjects";
-import { APIClass, ApiResult, RequestOptions, VoidApiResult } from "../api";
-import * as models from "./../Specs/index";
-import {
-  MarketplaceApplicationCreate,
-  MarketplaceApplicationUpdate,
-} from "./../Specs/index";
+import { GridscaleObjects } from './GridscaleObjects';
+import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
+import * as models from './../Specs';
+
 
 interface MarketplaceApplication {
   list(
@@ -16,18 +13,18 @@ interface MarketplaceApplication {
     _callback?: Function
   ): Promise<ApiResult<models.MarketplaceApplicationGetResponse>>;
   create(
-    _attributes: MarketplaceApplicationCreate,
+    _attributes: models.MarketplaceApplicationCreate,
     _callback?: Function
   ): Promise<ApiResult<models.MarketplaceApplicationCreateResponse>>;
   patch(
     _uuid: string,
-    _attributes: MarketplaceApplicationUpdate,
+    _attributes: models.MarketplaceApplicationUpdate,
     _callback?: Function
   ): Promise<ApiResult<VoidApiResult>>;
 }
 class MarketplaceApplication extends GridscaleObjects {
   constructor(_api: APIClass) {
-    super(_api, "/objects/marketplace/applications");
+    super(_api, '/objects/marketplace/applications');
   }
 }
 

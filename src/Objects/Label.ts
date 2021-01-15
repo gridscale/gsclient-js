@@ -1,6 +1,6 @@
 import {GridscaleObjects} from './GridscaleObjects';
 import { APIClass, RequestOptions, ApiResult } from '../api';
-import * as models from './../Specs/index';
+import * as models from './../Specs';
 
 interface Label {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LabelsGetResponse>>;

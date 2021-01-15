@@ -2,8 +2,8 @@
 
 import {GridscaleObjects} from './GridscaleObjects';
 import { APIClass, RequestOptions, ApiResult, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { NetworkCreate, NetworkUpdate } from './../Specs/index';
+import * as models from './../Specs';
+import { NetworkCreate, NetworkUpdate } from './../Specs';
 
 interface Network {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.NetworksGetResponse>>;

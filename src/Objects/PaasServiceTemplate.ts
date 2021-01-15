@@ -2,7 +2,7 @@
 
 import {GridscaleObjects} from './GridscaleObjects';
 import { APIClass, ApiResult, RequestOptions } from '../api';
-import * as models from './../Specs/index';
+import * as models from './../Specs';
 
 interface PaasServiceTemplate {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.PaasServiceTemplatesGetResponse>>;

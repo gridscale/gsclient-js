@@ -2,8 +2,8 @@
 
 import {GridscaleObjects} from './GridscaleObjects';
 import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { PaasServiceCreate, PaasServiceUpdate } from './../Specs/index';
+import * as models from './../Specs';
+import { PaasServiceCreate, PaasServiceUpdate } from './../Specs';
 import { PaasServiceMetrics } from './PaasServiceMetrics';
 
 interface PaasService {
@@ -16,7 +16,7 @@ interface PaasService {
 class PaasService extends GridscaleObjects {
     api: APIClass;
 
-    constructor(_api: APIClass) { 
+    constructor(_api: APIClass) {
         super(_api, '/objects/paas/services');
 
         this.api = _api;

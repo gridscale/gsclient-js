@@ -2,8 +2,8 @@
 
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { IpCreate, IpUpdate } from './../Specs/index';
+import * as models from './../Specs';
+import { IpCreate, IpUpdate } from './../Specs';
 
 interface IP {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.IpsGetResponse>>;

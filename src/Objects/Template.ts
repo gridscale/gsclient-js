@@ -2,8 +2,8 @@
 
 import {GridscaleObjects} from './GridscaleObjects';
 import { APIClass, RequestOptions, ApiResult } from '../api';
-import * as models from './../Specs/index';
-import { StorageTemplateCreate } from './../Specs/index';
+import * as models from './../Specs';
+import { StorageTemplateCreate } from './../Specs';
 
 interface Template {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.StorageTemplatesGetResponse>>;

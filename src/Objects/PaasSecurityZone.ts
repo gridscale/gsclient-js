@@ -2,8 +2,8 @@
 
 import {GridscaleObjects} from './GridscaleObjects';
 import { APIClass, RequestOptions, ApiResult, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { PaasSecurityZoneCreate, PaasSecurityZoneUpdate } from './../Specs/index';
+import * as models from './../Specs';
+import { PaasSecurityZoneCreate, PaasSecurityZoneUpdate } from './../Specs';
 
 interface PaasSecurityZone {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.PaasSecurityZonesGetResponse>>;
