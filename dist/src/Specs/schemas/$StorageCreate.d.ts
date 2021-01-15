@@ -17,6 +17,9 @@ export declare const $StorageCreate: {
         storage_type: {
             type: string;
         };
+        storage_variant: {
+            type: string;
+        };
         template: {
             properties: {};
         };

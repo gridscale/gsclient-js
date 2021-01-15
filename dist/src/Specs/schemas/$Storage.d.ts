@@ -73,6 +73,9 @@ export declare const $Storage: {
         storage_type: {
             type: string;
         };
+        storage_variant: {
+            type: string;
+        };
         license_product_no: {
             type: string;
         };

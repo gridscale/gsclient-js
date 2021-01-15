@@ -1,4 +1,5 @@
 import type { StorageType } from './StorageType';
+import type { StorageVariant } from './StorageVariant';
 export declare type StorageCreate = {
     /**
      * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
@@ -13,5 +14,6 @@ export declare type StorageCreate = {
      */
     labels?: Array<string>;
     storage_type?: StorageType;
+    storage_variant?: StorageVariant;
     template?: any;
 };

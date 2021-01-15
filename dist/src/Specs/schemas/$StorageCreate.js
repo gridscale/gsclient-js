@@ -23,6 +23,9 @@ exports.$StorageCreate = {
         storage_type: {
             type: 'StorageType',
         },
+        storage_variant: {
+            type: 'StorageVariant',
+        },
         template: {
             properties: {},
         },
