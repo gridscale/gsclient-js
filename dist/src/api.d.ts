@@ -156,18 +156,18 @@ export interface RequestPollResult {
     create_time: string;
 }
 export interface BaseRelationObject {
-    objectName?: string;
-    objectUuid?: string;
+    object_name?: string;
+    object_uuid?: string;
 }
 /**
  * interface with basic properties each object (server, storage ...) should have
  */
 export interface BaseObject {
-    objectUuid?: string;
+    object_uuid?: string;
     status?: string;
     name?: string;
     labels?: string[];
-    locationUuid?: string;
+    location_uuid?: string;
     relations?: {
         [key: string]: BaseRelationObject[];
     };
