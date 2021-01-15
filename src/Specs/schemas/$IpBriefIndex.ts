@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $IpBriefIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'IpBrief',
     },
 };

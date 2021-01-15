@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type IsoimageIndex = {
-}
+import type { Isoimage } from './Isoimage';
+
+export type IsoimageIndex = Record<string, Isoimage>;

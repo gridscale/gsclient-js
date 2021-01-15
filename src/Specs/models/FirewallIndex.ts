@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type FirewallIndex = {
-}
+import type { Firewall } from './Firewall';
+
+export type FirewallIndex = Record<string, Firewall>;

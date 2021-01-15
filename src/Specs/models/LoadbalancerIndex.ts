@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type LoadbalancerIndex = {
-}
+import type { Loadbalancer } from './Loadbalancer';
+
+export type LoadbalancerIndex = Record<string, Loadbalancer>;

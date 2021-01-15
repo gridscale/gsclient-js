@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SshkeyIndex = {
-}
+import type { Sshkey } from './Sshkey';
+
+export type SshkeyIndex = Record<string, Sshkey>;

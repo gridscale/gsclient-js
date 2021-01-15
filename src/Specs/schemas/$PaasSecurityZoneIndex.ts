@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $PaasSecurityZoneIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'PaasSecurityZones',
     },
 };

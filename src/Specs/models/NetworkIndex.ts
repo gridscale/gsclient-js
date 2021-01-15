@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type NetworkIndex = {
-}
+import type { Network } from './Network';
+
+export type NetworkIndex = Record<string, Network>;

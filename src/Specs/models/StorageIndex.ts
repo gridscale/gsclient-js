@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type StorageIndex = {
-}
+import type { Storage } from './Storage';
+
+export type StorageIndex = Record<string, Storage>;

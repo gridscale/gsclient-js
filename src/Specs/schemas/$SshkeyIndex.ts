@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $SshkeyIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Sshkey',
     },
 };

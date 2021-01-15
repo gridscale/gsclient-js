@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $PaasServiceTemplateIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'PaasServiceTemplate',
     },
 };

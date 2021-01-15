@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $RequestGetResponse = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Request',
     },
 };

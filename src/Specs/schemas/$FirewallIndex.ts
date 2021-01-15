@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $FirewallIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Firewall',
     },
 };

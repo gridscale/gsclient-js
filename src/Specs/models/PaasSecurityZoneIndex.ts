@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type PaasSecurityZoneIndex = {
-}
+import type { PaasSecurityZones } from './PaasSecurityZones';
+
+export type PaasSecurityZoneIndex = Record<string, PaasSecurityZones>;

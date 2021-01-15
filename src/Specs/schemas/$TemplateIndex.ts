@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $TemplateIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Template',
     },
 };

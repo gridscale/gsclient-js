@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type RequestGetResponse = {
-}
+import type { Request } from './Request';
+
+export type RequestGetResponse = Record<string, Request>;

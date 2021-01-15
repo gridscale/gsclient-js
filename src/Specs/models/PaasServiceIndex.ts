@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type PaasServiceIndex = {
-}
+import type { PaasService } from './PaasService';
+
+export type PaasServiceIndex = Record<string, PaasService>;

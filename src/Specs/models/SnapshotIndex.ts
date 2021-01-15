@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SnapshotIndex = {
-}
+import type { Snapshot } from './Snapshot';
+
+export type SnapshotIndex = Record<string, Snapshot>;

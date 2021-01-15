@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $SnapshotScheduleIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'SnapshotSchedule',
     },
 };

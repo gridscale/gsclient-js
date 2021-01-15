@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type MarketplaceApplicationIndex = {
-}
+import type { MarketplaceApplication } from './MarketplaceApplication';
+
+export type MarketplaceApplicationIndex = Record<string, MarketplaceApplication>;

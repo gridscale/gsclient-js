@@ -2,5 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type TemplateIndex = {
-}
+import type { Template } from './Template';
+
+export type TemplateIndex = Record<string, Template>;

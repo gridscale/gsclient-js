@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $StorageIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Storage',
     },
 };

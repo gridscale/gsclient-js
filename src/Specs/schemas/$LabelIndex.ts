@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $LabelIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Label',
     },
 };

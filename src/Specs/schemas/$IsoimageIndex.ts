@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $IsoimageIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Isoimage',
     },
 };

@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $MarketplaceApplicationIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'MarketplaceApplication',
     },
 };

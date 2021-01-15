@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const $NetworkIndex = {
-    properties: {
+    type: 'dictionary',
+    contains: {
+        type: 'Network',
     },
 };
