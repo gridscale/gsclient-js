@@ -1,1 +1,2 @@
-export declare type PaasSecurityZoneIndex = {};
+import type { PaasSecurityZones } from './PaasSecurityZones';
+export declare type PaasSecurityZoneIndex = Record<string, PaasSecurityZones>;

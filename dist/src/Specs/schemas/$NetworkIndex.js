@@ -5,7 +5,10 @@ exports.$NetworkIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$NetworkIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Network',
+    },
 };
 
 //# sourceMappingURL=$NetworkIndex.js.map

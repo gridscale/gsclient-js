@@ -1,3 +1,6 @@
 export declare const $FirewallIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

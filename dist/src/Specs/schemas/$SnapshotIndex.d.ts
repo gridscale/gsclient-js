@@ -1,3 +1,6 @@
 export declare const $SnapshotIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

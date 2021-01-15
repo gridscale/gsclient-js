@@ -1,3 +1,6 @@
 export declare const $IpBriefIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

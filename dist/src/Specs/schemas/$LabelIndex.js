@@ -5,7 +5,10 @@ exports.$LabelIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$LabelIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Label',
+    },
 };
 
 //# sourceMappingURL=$LabelIndex.js.map

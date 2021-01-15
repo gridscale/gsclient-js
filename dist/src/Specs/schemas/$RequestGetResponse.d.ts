@@ -1,3 +1,6 @@
 export declare const $RequestGetResponse: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

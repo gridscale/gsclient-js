@@ -1,3 +1,6 @@
 export declare const $SnapshotScheduleIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

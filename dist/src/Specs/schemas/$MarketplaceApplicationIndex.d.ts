@@ -1,3 +1,6 @@
 export declare const $MarketplaceApplicationIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

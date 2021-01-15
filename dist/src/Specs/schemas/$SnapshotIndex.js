@@ -5,7 +5,10 @@ exports.$SnapshotIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$SnapshotIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Snapshot',
+    },
 };
 
 //# sourceMappingURL=$SnapshotIndex.js.map

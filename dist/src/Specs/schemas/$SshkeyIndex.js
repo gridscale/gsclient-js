@@ -5,7 +5,10 @@ exports.$SshkeyIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$SshkeyIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Sshkey',
+    },
 };
 
 //# sourceMappingURL=$SshkeyIndex.js.map

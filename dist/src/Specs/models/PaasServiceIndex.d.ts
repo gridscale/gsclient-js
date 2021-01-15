@@ -1,1 +1,2 @@
-export declare type PaasServiceIndex = {};
+import type { PaasService } from './PaasService';
+export declare type PaasServiceIndex = Record<string, PaasService>;

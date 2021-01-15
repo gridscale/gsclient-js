@@ -1,3 +1,6 @@
 export declare const $TemplateIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

@@ -5,7 +5,10 @@ exports.$MarketplaceApplicationIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$MarketplaceApplicationIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'MarketplaceApplication',
+    },
 };
 
 //# sourceMappingURL=$MarketplaceApplicationIndex.js.map

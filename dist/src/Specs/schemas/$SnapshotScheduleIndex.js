@@ -5,7 +5,10 @@ exports.$SnapshotScheduleIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$SnapshotScheduleIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'SnapshotSchedule',
+    },
 };
 
 //# sourceMappingURL=$SnapshotScheduleIndex.js.map

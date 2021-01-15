@@ -5,7 +5,10 @@ exports.$PaasSecurityZoneIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$PaasSecurityZoneIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'PaasSecurityZones',
+    },
 };
 
 //# sourceMappingURL=$PaasSecurityZoneIndex.js.map

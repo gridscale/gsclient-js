@@ -1,3 +1,6 @@
 export declare const $PaasSecurityZoneIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

@@ -5,7 +5,10 @@ exports.$IsoimageIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$IsoimageIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Isoimage',
+    },
 };
 
 //# sourceMappingURL=$IsoimageIndex.js.map

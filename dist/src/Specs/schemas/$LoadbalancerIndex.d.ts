@@ -1,3 +1,6 @@
 export declare const $LoadbalancerIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

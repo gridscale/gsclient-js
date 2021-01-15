@@ -5,7 +5,10 @@ exports.$TemplateIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$TemplateIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Template',
+    },
 };
 
 //# sourceMappingURL=$TemplateIndex.js.map

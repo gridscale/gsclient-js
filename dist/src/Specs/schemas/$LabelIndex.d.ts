@@ -1,3 +1,6 @@
 export declare const $LabelIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

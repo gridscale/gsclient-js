@@ -1,3 +1,6 @@
 export declare const $StorageBackupIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

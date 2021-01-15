@@ -5,7 +5,10 @@ exports.$FirewallIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$FirewallIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Firewall',
+    },
 };
 
 //# sourceMappingURL=$FirewallIndex.js.map

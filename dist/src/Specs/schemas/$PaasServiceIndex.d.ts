@@ -1,3 +1,6 @@
 export declare const $PaasServiceIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

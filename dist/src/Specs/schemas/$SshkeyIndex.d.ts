@@ -1,3 +1,6 @@
 export declare const $SshkeyIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

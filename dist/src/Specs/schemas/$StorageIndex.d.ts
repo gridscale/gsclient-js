@@ -1,3 +1,6 @@
 export declare const $StorageIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

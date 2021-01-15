@@ -1,1 +1,2 @@
-export declare type IsoimageIndex = {};
+import type { Isoimage } from './Isoimage';
+export declare type IsoimageIndex = Record<string, Isoimage>;

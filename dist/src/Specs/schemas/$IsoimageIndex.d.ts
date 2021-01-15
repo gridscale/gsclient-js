@@ -1,3 +1,6 @@
 export declare const $IsoimageIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

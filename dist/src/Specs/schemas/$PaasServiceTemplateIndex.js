@@ -5,7 +5,10 @@ exports.$PaasServiceTemplateIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$PaasServiceTemplateIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'PaasServiceTemplate',
+    },
 };
 
 //# sourceMappingURL=$PaasServiceTemplateIndex.js.map

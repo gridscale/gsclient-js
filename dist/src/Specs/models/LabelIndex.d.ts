@@ -1,1 +1,2 @@
-export declare type LabelIndex = {};
+import type { Label } from './Label';
+export declare type LabelIndex = Record<string, Label>;

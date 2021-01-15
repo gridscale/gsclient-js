@@ -5,7 +5,10 @@ exports.$LoadbalancerIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$LoadbalancerIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Loadbalancer',
+    },
 };
 
 //# sourceMappingURL=$LoadbalancerIndex.js.map

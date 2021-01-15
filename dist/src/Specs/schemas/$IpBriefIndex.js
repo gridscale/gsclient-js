@@ -5,7 +5,10 @@ exports.$IpBriefIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$IpBriefIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'IpBrief',
+    },
 };
 
 //# sourceMappingURL=$IpBriefIndex.js.map

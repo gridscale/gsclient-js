@@ -1,3 +1,6 @@
 export declare const $NetworkIndex: {
-    properties: {};
+    type: string;
+    contains: {
+        type: string;
+    };
 };

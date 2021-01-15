@@ -1,1 +1,2 @@
-export declare type StorageBackupScheduleIndex = {};
+import type { StorageBackupSchedule } from './StorageBackupSchedule';
+export declare type StorageBackupScheduleIndex = Record<string, StorageBackupSchedule>;

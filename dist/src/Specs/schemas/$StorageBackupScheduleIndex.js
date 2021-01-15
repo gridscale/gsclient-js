@@ -5,7 +5,10 @@ exports.$StorageBackupScheduleIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$StorageBackupScheduleIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'StorageBackupSchedule',
+    },
 };
 
 //# sourceMappingURL=$StorageBackupScheduleIndex.js.map

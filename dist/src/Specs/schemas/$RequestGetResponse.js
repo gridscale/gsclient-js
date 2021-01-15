@@ -5,7 +5,10 @@ exports.$RequestGetResponse = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$RequestGetResponse = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Request',
+    },
 };
 
 //# sourceMappingURL=$RequestGetResponse.js.map

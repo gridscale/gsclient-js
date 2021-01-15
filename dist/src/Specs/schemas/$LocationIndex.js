@@ -5,7 +5,10 @@ exports.$LocationIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$LocationIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Location',
+    },
 };
 
 //# sourceMappingURL=$LocationIndex.js.map

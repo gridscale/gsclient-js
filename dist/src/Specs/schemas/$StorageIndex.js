@@ -5,7 +5,10 @@ exports.$StorageIndex = void 0;
 /* tslint:disable */
 /* eslint-disable */
 exports.$StorageIndex = {
-    properties: {},
+    type: 'dictionary',
+    contains: {
+        type: 'Storage',
+    },
 };
 
 //# sourceMappingURL=$StorageIndex.js.map
