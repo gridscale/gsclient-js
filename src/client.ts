@@ -1,4 +1,4 @@
-import { api, ApiSettings } from './api';
+import { api, ApiSettings, LogData } from './api';
 
 import { Server } from './Objects/Server';
 import { Storage } from './Objects/Storage';
@@ -88,36 +88,63 @@ class GridscaleClient {
         this.Deleted = new Deleted(api);
         this.MarketplaceApplication = new MarketplaceApplication(api);
         this.watchRequest = api.watchRequest.bind(api);
-
     }
 
+    /**
+     * Set the identifier of the client (used in X-Api-Client Header)
+     * @param _client
+     */
     public setApiClient(_client: string) {
       api.storeClient(_client);
     }
 
-    public setToken (_token: string, _userId: string) {
-      api.storeToken(_token, _userId);
+    /**
+     * Set a new Token and User-UUID
+     * @param _token
+     * @param _userId
+     */
+    public setToken (_token: string, _userUUID: string) {
+      api.storeToken(_token, _userUUID);
     }
 
+    /**
+     * Set the HTTP endpoint of the API
+     * @param _endpoint
+     */
     public setEndpoint(_endpoint: string) {
       api.setOptions({ endpoint: _endpoint });
     }
 
+    /**
+     * Inject a custom fetch method, otherwise the API will decide if to use the browser's fetch method or a polyfill
+     * @param _fetch
+     */
     public setFetch(_fetch: Function) {
       api.setOptions({ fetch: fetch });
     }
 
-
-    public addLogger ( _callback: Function ) {
+    /**
+     * Add an additional logger callback, called whenever an error is happening
+     * @param _callback
+     */
+    public addLogger ( _callback: (logData: LogData) => void ) {
       api.addLogger( _callback );
     }
 
+    /**
+     * Get the paas service metrics API which is a special one as the service-uuid is required early in the URL
+     * @param _serviceUUID
+     */
     public PaasServiceMetrics(_serviceUUID: string) {
       return new PaasServiceMetrics(api, _serviceUUID);
     }
 
-    // tslint:disable-next-line: no-any
-    public stringifyResponseRequest<T>(object: any): T {
+    /**
+     * Stringifies all non string-values of a HTTP Response (e.g. headers)
+     * @param object
+     * @deprecated
+     */
+    public stringifyResponseRequest<T>(object: Object): T {
       // tslint:disable-next-line: no-any
       const tmp: any = {};
       forEach(object, (_val, _key) => {
