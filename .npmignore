@@ -4,6 +4,8 @@ node_modules/
 
 dev/
 test/
+example/
+scripts/
 gulpfile.js
 tsconfig.json
 tslint.json
