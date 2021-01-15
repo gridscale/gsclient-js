@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type { StorageType } from './StorageType';
+import type { StorageVariant } from './StorageVariant';
 
 export type StorageCreate = {
     /**
@@ -18,5 +19,6 @@ export type StorageCreate = {
      */
     labels?: Array<string>;
     storage_type?: StorageType;
+    storage_variant?: StorageVariant;
     template?: any;
 }

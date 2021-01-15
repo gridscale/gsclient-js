@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type { StoragesRelation } from './StoragesRelation';
+import type { StorageVariant } from './StorageVariant';
 
 export type Storage = {
     /**
@@ -79,6 +80,7 @@ export type Storage = {
      * (one of storage, storage_high, storage_insane).
      */
     storage_type?: Storage.storage_type;
+    storage_variant?: StorageVariant;
     /**
      * If a template has been used that requires a license key (e.g. Windows Servers) this shows the product_no of the license (see the /prices endpoint for more details).
      */

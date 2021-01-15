@@ -76,6 +76,9 @@ export const $Storage = {
         storage_type: {
             type: 'Enum',
         },
+        storage_variant: {
+            type: 'StorageVariant',
+        },
         license_product_no: {
             type: 'number',
         },
