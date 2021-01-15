@@ -1,12 +1,12 @@
 import { GridscaleObjects } from './GridscaleObjects';
-import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { ServerCreate, ServerUpdate, LinkedStorageUpdate, LinkedIsoimageUpdate, LinkedNetworkUpdate, LinkNetwork } from './../Specs/index';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
+import * as models from './../Specs';
+import { ServerCreate, ServerUpdate, LinkedStorageUpdate, LinkedIsoimageUpdate, LinkedNetworkUpdate, LinkNetwork } from './../Specs';
 interface Server {
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServersGetResponse>>;
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServerGetResponse>>;
-    create(_attributes: ServerCreate, _callback?: Function): Promise<ApiResult<models.ServerCreateResponse>>;
-    patch(_uuid: string, _attributes: ServerUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    list(_options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.ServersGetResponse>>;
+    get(_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.ServerGetResponse>>;
+    create(_attributes: ServerCreate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.ServerCreateResponse>>;
+    patch(_uuid: string, _attributes: ServerUpdate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
 }
 declare class Server extends GridscaleObjects {
     constructor(_api: APIClass);
@@ -18,7 +18,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    power(_uuid: string, _power: Boolean, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    power(_uuid: string, _power: Boolean, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Send ACPI-Shutdown to User
      *
@@ -26,7 +26,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    shutdown(_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    shutdown(_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      *  IP Adress Handling
      *
@@ -37,7 +37,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    ips(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIpsGetResponse>>;
+    ips(_uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedIpsGetResponse>>;
     /**
      * Get IP that is in Relation with Server
      *
@@ -46,7 +46,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<models.LinkedIpGetResponse>>}
      */
-    ip(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIpGetResponse>>;
+    ip(_uuid: string, _ip_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedIpGetResponse>>;
     /**
      * Relate an IP with the Server
      *
@@ -55,7 +55,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    addIp(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    addIp(_uuid: string, _ip_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Remove IP-Adress from Server
      *
@@ -65,7 +65,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    removeIp(_uuid: string, _ip_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    removeIp(_uuid: string, _ip_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      *  Storages
      *
@@ -76,7 +76,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    storages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedStoragesGetResponse>>;
+    storages(_uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedStoragesGetResponse>>;
     /**
      * Get single Storage <=> Server Relation
      *
@@ -85,7 +85,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<models.LinkedStorageGetResponse>>}
      */
-    storage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedStorageGetResponse>>;
+    storage(_uuid: string, _storage_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedStorageGetResponse>>;
     /**
      * Patch Storage that is related to a Server i flag it as Bootdevice
      *
@@ -96,7 +96,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    patchStorage(_uuid: string, _storage_uuid: string, _attribute: LinkedStorageUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    patchStorage(_uuid: string, _storage_uuid: string, _attribute: LinkedStorageUpdate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Relate Storage with Server
      *
@@ -105,7 +105,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    addStorage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    addStorage(_uuid: string, _storage_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Remove Storage from Server
      *
@@ -115,7 +115,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    removeStorage(_uuid: string, _storage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    removeStorage(_uuid: string, _storage_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      *  Metrics
      *
@@ -126,7 +126,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    metrics(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.ServerMetricsGetResponse>>;
+    metrics(_uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.ServerMetricsGetResponse>>;
     /**
      *  Isoimages
      *
@@ -137,7 +137,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    isoimages(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedIsoimagesGetResponse>>;
+    isoimages(_uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedIsoimagesGetResponse>>;
     /**
      * Get single Storage <=> Server Relation
      *
@@ -146,7 +146,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<models.LinkedIsoimageGetResponse>>}
      */
-    isoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedIsoimageGetResponse>>;
+    isoimage(_uuid: string, _isoimage_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedIsoimageGetResponse>>;
     /**
      * Patch Storage that is related to a Server i flag it as Bootdevice
      *
@@ -157,7 +157,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    patchIsoimage(_uuid: string, _isoimage_uuid: string, _attribute: LinkedIsoimageUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    patchIsoimage(_uuid: string, _isoimage_uuid: string, _attribute: LinkedIsoimageUpdate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Relate Storage with Server
      *
@@ -166,7 +166,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    addIsoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    addIsoimage(_uuid: string, _isoimage_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Remove Isoimage from Server
      *
@@ -176,7 +176,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    removeIsoimage(_uuid: string, _isoimage_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    removeIsoimage(_uuid: string, _isoimage_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      *  Networks
      *
@@ -187,7 +187,7 @@ declare class Server extends GridscaleObjects {
      * @param _uuid Server UUID
      * @param _callback Callback Function
      */
-    networks(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LinkedNetworksGetResponse>>;
+    networks(_uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedNetworksGetResponse>>;
     /**
      * Get single NEtwork <=> Server Relation
      *
@@ -196,7 +196,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<models.LinkedNetworkGetResponse>>}
      */
-    network(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<models.LinkedNetworkGetResponse>>;
+    network(_uuid: string, _network_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LinkedNetworkGetResponse>>;
     /**
      * Patch Network that is related to a Server
      *
@@ -212,7 +212,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    patchNetwork(_uuid: string, _network_uuid: string, _attribute: LinkedNetworkUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    patchNetwork(_uuid: string, _network_uuid: string, _attribute: LinkedNetworkUpdate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Relate Storage with Server
      *
@@ -221,7 +221,7 @@ declare class Server extends GridscaleObjects {
      * @param _callback  Callback Function
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    addNetwork(_uuid: string, _network_uuid: string, _additionalOptions?: LinkNetwork, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    addNetwork(_uuid: string, _network_uuid: string, _additionalOptions?: LinkNetwork, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Remove Storage from Server
      *
@@ -231,6 +231,6 @@ declare class Server extends GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    removeNetwork(_uuid: string, _network_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    removeNetwork(_uuid: string, _network_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
 }
 export { Server };

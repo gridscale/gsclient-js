@@ -52,7 +52,7 @@ var APIClass = /** @class */ (function () {
             token: '',
             userId: '',
             limit: 25,
-            watchdelay: 51,
+            watchdelay: 1000,
             apiClient: 'gs_api_node'
         };
         /**
@@ -65,12 +65,16 @@ var APIClass = /** @class */ (function () {
             lodash_1.assignIn(_this.settings, _option);
         };
         this.callbacks = [];
+        /**
+         * Adds a new logger for error logging
+         * @param _callback
+         */
         this.addLogger = function (_callback) {
             _this.callbacks.push(_callback);
         };
-        this.log = function (_error) {
+        this.log = function (_logData) {
             for (var i = 0; i < _this.callbacks.length; i++) {
-                _this.callbacks[i](_error);
+                _this.callbacks[i](_logData);
             }
         };
     }
@@ -90,28 +94,18 @@ var APIClass = /** @class */ (function () {
         this.settings.token = _token;
         this.settings.userId = _userId;
     };
-    APIClass.prototype.request = function (_path, _options, _callback) {
-        if (_path === void 0) { _path = ''; }
-        if (_callback === void 0) { _callback = function () { }; }
-        return this.makeRequest(_path, _options, _callback);
-    };
     /**
      * Start the API Request
-     *
      *
      * @param _path
      * @param _options
      * @param _callback
      * @returns {Promise}
      */
-    APIClass.prototype.makeRequest = function (_path, _options, _callback) {
+    APIClass.prototype.request = function (_path, _options, _callback) {
         var _this = this;
         if (_path === void 0) { _path = ''; }
-        if (_callback === void 0) { _callback = function () { }; }
-        /**
-         * Build Request Object
-         * @type {{url: string; headers: {X-Auth-UserId: string; X-Auth-Token: string}}}
-         */
+        if (_callback === void 0) { _callback = function (response, result) { }; }
         var options = !lodash_1.isObject(_options) ? {} : lodash_1.assignIn({}, _options);
         // check if we should use another endpoint for this path (mocking)
         var endpoint = this.settings.endpoint;
@@ -142,7 +136,7 @@ var APIClass = /** @class */ (function () {
                 if (_response.status !== 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
                     _response.json()
                         .then(function (json) {
-                        _resolve(_this.camelify(json));
+                        _resolve(json);
                     })
                         .catch(function () {
                         if (_rejectOnJsonFailure) {
@@ -279,7 +273,7 @@ var APIClass = /** @class */ (function () {
         if (lodash_1.isUndefined(_callback) && lodash_1.isFunction(_options)) {
             _callback = _options;
         }
-        return this.makeRequest(_path, { method: 'GET' }, _callback);
+        return this.request(_path, { method: 'GET' }, _callback);
     };
     /**
      * Start Delete Call
@@ -287,7 +281,7 @@ var APIClass = /** @class */ (function () {
      * @param _callback
      */
     APIClass.prototype.remove = function (_path, _callback) {
-        return this.makeRequest(_path, { method: 'DELETE' }, _callback);
+        return this.request(_path, { method: 'DELETE' }, _callback);
     };
     /**
      * Send Post Request
@@ -298,7 +292,7 @@ var APIClass = /** @class */ (function () {
      * @returns {Promise}
      */
     APIClass.prototype.post = function (_path, _attributes, _callback) {
-        return this.makeRequest(_path, { method: 'POST', body: JSON.stringify(this.lodashify(_attributes)), headers: { 'Content-Type': 'application/json' } }, _callback);
+        return this.request(_path, { method: 'POST', body: JSON.stringify(_attributes), headers: { 'Content-Type': 'application/json' } }, _callback);
     };
     /**
      * Send PAtCH Request
@@ -309,7 +303,7 @@ var APIClass = /** @class */ (function () {
      * @returns {Promise}
      */
     APIClass.prototype.patch = function (_path, _attributes, _callback) {
-        return this.makeRequest(_path, { method: 'PATCH', body: JSON.stringify(this.lodashify(_attributes)), headers: { 'Content-Type': 'application/json' } }, _callback);
+        return this.request(_path, { method: 'PATCH', body: JSON.stringify(_attributes), headers: { 'Content-Type': 'application/json' } }, _callback);
     };
     /**
      * Generate URL for Linked Request. No Options are required because its in the URL already
@@ -324,7 +318,7 @@ var APIClass = /** @class */ (function () {
          * generate Function that has an Optional Callback
          */
         return function (_callback) {
-            return _this.makeRequest(_link.href, { method: 'GET' }, _callback);
+            return _this.request(_link.href, { method: 'GET' }, _callback);
         };
     };
     /**
@@ -336,7 +330,7 @@ var APIClass = /** @class */ (function () {
      * @returns {Promise}
      */
     APIClass.prototype.requestpooling = function (_requestid, _callback) {
-        return this.makeRequest('/requests/' + _requestid, { method: 'GET' }, _callback);
+        return this.request('/requests/' + _requestid, { method: 'GET' }, _callback);
     };
     /**
      * Recursive creating of Request Proises
@@ -379,63 +373,6 @@ var APIClass = /** @class */ (function () {
         return new Promise(function (_resolve, _reject) {
             _this.buildAndStartRequestCallback(_requestid, _resolve, _reject);
         });
-    };
-    /**
-     * transform camel case attribute names to lodashed names
-     * @param _attributes
-     */
-    APIClass.prototype.lodashify = function (_attributes) {
-        var _this = this;
-        var tmp = {};
-        lodash_1.forEach(_attributes, function (_val, _key) {
-            if (lodash_1.isPlainObject(_val)) {
-                tmp[_key.replace(/([a-z0-9]+)([A-Z])/g, '$1_$2').toLowerCase()] = _this.lodashify(_val);
-            }
-            else {
-                tmp[_key.replace(/([a-z0-9]+)([A-Z])/g, '$1_$2').toLowerCase()] = _val;
-            }
-        });
-        return tmp;
-    };
-    /**
-     * transform lodashed attribute names to camel case names
-     * @param _attributes
-     */
-    APIClass.prototype.camelify = function (_attributes) {
-        var _this = this;
-        var tmp;
-        var arrayMode = false;
-        if (lodash_1.isArray(_attributes)) {
-            tmp = [];
-            arrayMode = true;
-        }
-        else {
-            tmp = {};
-        }
-        lodash_1.forEach(_attributes, function (_val, _key) {
-            if (String(_key).indexOf('_') === 0) {
-                tmp[_key] = _val;
-                return true;
-            }
-            if (arrayMode) {
-                if (lodash_1.isPlainObject(_val) || lodash_1.isArray(_val)) {
-                    tmp.push(_this.camelify(_val));
-                }
-                else {
-                    tmp.push(_val);
-                }
-            }
-            else {
-                var newKey = String(_key).replace(/_([a-z0-9])/g, function (all, letter) { return letter.toUpperCase(); });
-                if (lodash_1.isPlainObject(_val) || lodash_1.isArray(_val)) {
-                    tmp[newKey] = _this.camelify(_val);
-                }
-                else {
-                    tmp[newKey] = _val;
-                }
-            }
-        });
-        return tmp;
     };
     return APIClass;
 }());

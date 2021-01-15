@@ -1,5 +1,5 @@
-import { APIClass, ApiResult, RequestOptions } from '../api';
-import * as models from './../Specs/index';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
+import * as models from './../Specs';
 declare class Location {
     _api: APIClass;
     _defaults: RequestOptions;
@@ -35,7 +35,7 @@ declare class Location {
      * @param _callback
      * @returns {Promise<ApiResult<models.LocationsGetResponse>>}
      */
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LocationsGetResponse>>;
+    list(_options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.LocationsGetResponse>>;
     /**
      * Get Single Object by UUID
      *

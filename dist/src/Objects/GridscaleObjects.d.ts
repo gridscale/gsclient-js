@@ -34,42 +34,42 @@ declare class GridscaleObjects {
      * @param _callback
      * @returns {Promise<ApiResult<GenericApiResult>>}
      */
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    list(_options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>>;
     /**
      * Get Single Object by UUID
      *
      * @param _uuid
      * @param _callback
      */
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    get(_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>>;
     /**
      * Get Single Object by UUID
      *
      * @param _uuid
      * @param _callback
      */
-    remove(_uuid: string, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    remove(_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Create object
      * @param _attributes
      * @param _callback
      * @returns {Promise<ApiResult<CreateResult>>}
      */
-    create(_attributes: Object, _callback?: Function): Promise<ApiResult<CreateResponse>>;
+    create(_attributes: Object, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<CreateResponse>>;
     /**
      * Patch object
      * @param _attributes
      * @param _callback
      * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    patch(_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
+    patch(_uuid: string, _attributes: Object, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>>;
     /**
      * Wrapper for Subtypes to save some lines of code
      *
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    _sub(_type: string, _uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    _sub(_type: string, _uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>>;
     /**
      * Get Single Sub Object by UUID
      *
@@ -79,7 +79,7 @@ declare class GridscaleObjects {
      * @param _callback
      * @private
      */
-    _sub_get(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    _sub_get(_type: string, _uuid: string, _sub_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>>;
     /**
      * Post to Subtype ob Object
      *
@@ -90,7 +90,7 @@ declare class GridscaleObjects {
      * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
-    _sub_post(_type: string, _uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    _sub_post(_type: string, _uuid: string, _attributes: Object, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>>;
     /**
      * Patch Subobject
      *
@@ -102,7 +102,7 @@ declare class GridscaleObjects {
      * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
-    _sub_patch(_type: string, _uuid: string, _sub_uuid: string, _attributes: Object, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    _sub_patch(_type: string, _uuid: string, _sub_uuid: string, _attributes: Object, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>>;
     /**
      * Remove Sub Type from Object
      *
@@ -114,13 +114,13 @@ declare class GridscaleObjects {
      * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
-    _sub_remove(_type: string, _uuid: string, _sub_uuid: string, _callback?: Function): Promise<ApiResult<GenericApiResult>>;
+    _sub_remove(_type: string, _uuid: string, _sub_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>>;
     /**
      *  Get Events for this Object
      *
      * @param _uuid Object UUID
      * @param _callback Callback Function
      */
-    events(_uuid: string, _options?: RequestOptions, _callback?: Function): Promise<ApiResult<EventResponse>>;
+    events(_uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<EventResponse>>;
 }
 export { GridscaleObjects };

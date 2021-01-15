@@ -1,7 +1,7 @@
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { PaasServiceCreate, PaasServiceUpdate } from './../Specs/index';
+import * as models from './../Specs';
+import { PaasServiceCreate, PaasServiceUpdate } from './../Specs';
 interface PaasService {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.PaasServicesGetResponse>>;
     get(_uuid: string, _callback?: Function): Promise<ApiResult<models.PaasServiceGetResponse>>;

@@ -1,4 +1,0 @@
-export {};
-/**
- * Test for Calculator
- */

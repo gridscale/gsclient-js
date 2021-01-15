@@ -64,25 +64,54 @@ var GridscaleClient = /** @class */ (function () {
         this.MarketplaceApplication = new Marketplace_1.MarketplaceApplication(api_1.api);
         this.watchRequest = api_1.api.watchRequest.bind(api_1.api);
     }
+    /**
+     * Set the identifier of the client (used in X-Api-Client Header)
+     * @param _client
+     */
     GridscaleClient.prototype.setApiClient = function (_client) {
         api_1.api.storeClient(_client);
     };
-    GridscaleClient.prototype.setToken = function (_token, _userId) {
-        api_1.api.storeToken(_token, _userId);
+    /**
+     * Set a new Token and User-UUID
+     * @param _token
+     * @param _userId
+     */
+    GridscaleClient.prototype.setToken = function (_token, _userUUID) {
+        api_1.api.storeToken(_token, _userUUID);
     };
+    /**
+     * Set the HTTP endpoint of the API
+     * @param _endpoint
+     */
     GridscaleClient.prototype.setEndpoint = function (_endpoint) {
         api_1.api.setOptions({ endpoint: _endpoint });
     };
+    /**
+     * Inject a custom fetch method, otherwise the API will decide if to use the browser's fetch method or a polyfill
+     * @param _fetch
+     */
     GridscaleClient.prototype.setFetch = function (_fetch) {
         api_1.api.setOptions({ fetch: fetch });
     };
+    /**
+     * Add an additional logger callback, called whenever an error is happening
+     * @param _callback
+     */
     GridscaleClient.prototype.addLogger = function (_callback) {
         api_1.api.addLogger(_callback);
     };
+    /**
+     * Get the paas service metrics API which is a special one as the service-uuid is required early in the URL
+     * @param _serviceUUID
+     */
     GridscaleClient.prototype.PaasServiceMetrics = function (_serviceUUID) {
         return new PaasServiceMetrics_1.PaasServiceMetrics(api_1.api, _serviceUUID);
     };
-    // tslint:disable-next-line: no-any
+    /**
+     * Stringifies all non string-values of a HTTP Response (e.g. headers)
+     * @param object
+     * @deprecated
+     */
     GridscaleClient.prototype.stringifyResponseRequest = function (object) {
         var _this = this;
         // tslint:disable-next-line: no-any

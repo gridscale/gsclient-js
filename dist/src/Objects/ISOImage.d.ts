@@ -1,7 +1,7 @@
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, RequestOptions, ApiResult, VoidApiResult } from '../api';
-import * as models from './../Specs/index';
-import { IsoimageCreate, IsoimageUpdate } from './../Specs/index';
+import * as models from './../Specs';
+import { IsoimageCreate, IsoimageUpdate } from './../Specs';
 interface ISOImage {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.IsoimagesGetResponse>>;
     get(_uuid: string, _callback?: Function): Promise<ApiResult<models.IsoimageGetResponse>>;

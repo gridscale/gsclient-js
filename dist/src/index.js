@@ -18,6 +18,6 @@ var gridscale = require("./client");
 exports.gridscale = gridscale;
 var api_1 = require("./api");
 Object.defineProperty(exports, "GSError", { enumerable: true, get: function () { return api_1.GSError; } });
-__exportStar(require("./Specs/index"), exports);
+__exportStar(require("./Specs"), exports);
 
 //# sourceMappingURL=index.js.map
