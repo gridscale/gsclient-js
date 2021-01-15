@@ -57,6 +57,7 @@ function testFn() {
 
 
 //gulp.task('default', gulp.series(['clean-ts', 'compile-ts', 'copy-json', 'test']));
-var build = gulp.series(cleanTs, compileTs, copyJson, testFn);
+// TODO: implement tests and reactivate
+var build = gulp.series(cleanTs, compileTs, copyJson/*, testFn*/);
 
 exports.default = build;
