@@ -46,7 +46,7 @@ jspm_packages
 /typings
 
 ## Ignore distribution folder
-#/dist/
+/dist/
 
 # Ignore generated package file
 tsc-seed-1.0.0.tgz
