@@ -17,7 +17,7 @@ function compileTs() {
     // .pipe(tsc())
     .pipe(tsProject());
     return merge([
-        tsResult.dts.pipe(gulp.dest('dist')),
+        tsResult.dts.pipe(gulp.dest('dist/src')),
         tsResult.js.pipe(sourcemaps.write('.', {
             // Return relative source map root directories per file.
             includeContent: false,
@@ -25,7 +25,7 @@ function compileTs() {
                 var sourceFile = path.join(file.cwd, file.sourceMap.file);
                 return "../" + path.relative(path.dirname(sourceFile), __dirname);
             }
-        })).pipe(gulp.dest('dist'))
+        })).pipe(gulp.dest('dist/src'))
     ]);
 };
 
@@ -40,7 +40,7 @@ function copyJson () {
 
 function cleanTs(cb) {
   var typeScriptGenFiles = [
-                              './dist/**/*.*'    // path to all JS files auto gen'd by editor
+                              './dist/**'    // path to all JS files auto gen'd by editor
                            ];
 
   // delete the files

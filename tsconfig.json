@@ -3,13 +3,14 @@
         "target": "es5",
         "declaration": true,
         "module": "commonjs",
-        "sourceMap": true,
+        "sourceMap": false,
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "outDir": "dist",
+        "outDir": "dist/src/",
         "noImplicitAny": false,
-        "rootDir": ".",
+        "allowJs": true,
+        "rootDir": "./src",
         "types": [
             "node"
          ],
@@ -21,9 +22,7 @@
           "dom"
         ]
     },
-    "exclude": [
-        "node_modules",
-        "build",
-        "dist"
+    "include": [
+        "src/**/*",
     ]
 }
