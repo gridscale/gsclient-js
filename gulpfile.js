@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     del = require('del'),
     tsProject = tsc.createProject('tsconfig.json'),
-    mocha = require('gulp-mocha'),
+    // mocha = require('gulp-mocha'),
     path = require('path');
 // or requiring in ES5
 var merge = require('merge2');
@@ -47,13 +47,13 @@ function cleanTs(cb) {
   return del(typeScriptGenFiles, cb);
 }
 
-function testFn() {
-	return gulp.src('dist/test/**/*.spec.js', {read: false})
-		// gulp-mocha needs filepaths so you can't have any plugins before it
-		.pipe(mocha({reporter: 'spec', timeout: '360000'})).once('error', () => {
-            process.exit(1);
-        });
-}
+// function testFn() {
+// 	return gulp.src('dist/test/**/*.spec.js', {read: false})
+// 		// gulp-mocha needs filepaths so you can't have any plugins before it
+// 		.pipe(mocha({reporter: 'spec', timeout: '360000'})).once('error', () => {
+//             process.exit(1);
+//         });
+// }
 
 
 //gulp.task('default', gulp.series(['clean-ts', 'compile-ts', 'copy-json', 'test']));
