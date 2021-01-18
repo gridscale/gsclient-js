@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/Specs/schemas/$MarketplaceApplicationsGetResponse.ts"],"names":[],"mappings":";;;AAAA,0BAA0B;AAC1B,oBAAoB;AACpB,oBAAoB;AACP,QAAA,mCAAmC,GAAG;IAC/C,UAAU,EAAE;QACR,YAAY,EAAE;YACV,IAAI,EAAE,6BAA6B;SACtC;KACJ;CACJ,CAAC","file":"$MarketplaceApplicationsGetResponse.js","sourceRoot":"../../../../../../.."}

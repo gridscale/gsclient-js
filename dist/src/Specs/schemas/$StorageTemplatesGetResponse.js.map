@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/Specs/schemas/$StorageTemplatesGetResponse.ts"],"names":[],"mappings":";;;AAAA,0BAA0B;AAC1B,oBAAoB;AACpB,oBAAoB;AACP,QAAA,4BAA4B,GAAG;IACxC,UAAU,EAAE;QACR,SAAS,EAAE;YACP,IAAI,EAAE,eAAe;SACxB;KACJ;CACJ,CAAC","file":"$StorageTemplatesGetResponse.js","sourceRoot":"../../../../../../.."}

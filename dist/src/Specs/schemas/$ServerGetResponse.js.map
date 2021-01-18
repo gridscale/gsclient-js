@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/Specs/schemas/$ServerGetResponse.ts"],"names":[],"mappings":";;;AAAA,0BAA0B;AAC1B,oBAAoB;AACpB,oBAAoB;AACP,QAAA,kBAAkB,GAAG;IAC9B,UAAU,EAAE;QACR,MAAM,EAAE;YACJ,IAAI,EAAE,QAAQ;SACjB;KACJ;CACJ,CAAC","file":"$ServerGetResponse.js","sourceRoot":"../../../../../../.."}

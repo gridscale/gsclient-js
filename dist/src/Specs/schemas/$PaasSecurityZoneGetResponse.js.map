@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/Specs/schemas/$PaasSecurityZoneGetResponse.ts"],"names":[],"mappings":";;;AAAA,0BAA0B;AAC1B,oBAAoB;AACpB,oBAAoB;AACP,QAAA,4BAA4B,GAAG;IACxC,UAAU,EAAE;QACR,kBAAkB,EAAE;YAChB,IAAI,EAAE,kBAAkB;SAC3B;KACJ;CACJ,CAAC","file":"$PaasSecurityZoneGetResponse.js","sourceRoot":"../../../../../../.."}
