@@ -1,7 +1,7 @@
 var process = require('process');
 var colors = require('colors');
 
-var gridscale = require('@gridscale/api').gridscale;
+var gridscale = require('@gridscale/api');
 var client;
 
 
@@ -17,6 +17,7 @@ function createClient(_token, _user_uuid) {
   listServers(["power=false"], "Stopped Servers:");
   listServers(["power=true"], "Running Servers:");
   listStorages("Storages:");
+  listMarketplaceApps("Marketplace Apps:");
 }
 
 
@@ -56,11 +57,35 @@ function listServers(_filters = [], _headline = "") {
   });
 }
 
+/**
+ * fetches the marketplace applications and outputs a list
+ * @param _headline string - optional headline to display
+ */
+function listMarketplaceApps(_headline = "") {
+  client.MarketplaceApplication.list({}).then((_request) => {
+    // request was successful
+    output(_headline, 'bold');
+    for (var x in _request.result.applications) {
+      if (_request.result.applications.hasOwnProperty(x)) {
+        let _application = _request.result.applications[x];
+        output(_application.object_uuid + ": " + _application.name, 'blue');
+      }
+    }
+  }).
+    catch((_error) => {
+      // handle the error
+      output("An error occured", 'bgRed');
+      if (_error.name == 'GridscaleError' && _error.result && _error.result.response) {
+        output(_error.message + ": " + _error.result.response.status + " - " + _error.result.response.statusText, 'red');
 
+      } else {
+        output("Unknown error " + _error.message);
+      }
+    });
+}
 
 /**
- * fetches the servers with given filters and outputs a list
- * @param _filters string[] - optional filters for the request. field + operator + testValue
+ * fetches the servers and outputs a list
  * @param _headline string - optional headline to display
  */
 function listStorages(_headline = "") {
@@ -75,7 +100,7 @@ function listStorages(_headline = "") {
     for (var x in _request.result.storages) {
       if (_request.result.storages.hasOwnProperty(x)) {
         let _storage = _request.result.storages[x];
-        output(_storage.object_uuid + ": " + _storage.name, 'yellow');
+        output(_storage.object_uuid + ": " + _storage.name, 'magenta');
       }
     }
   }).
@@ -121,7 +146,7 @@ if (typeof(document) !== 'undefined' && document.body) {
   // for browser ...
 
   var intro = document.createElement('p');
-  intro.innerHTML = 'Welcome to the gridscale API client example! You will now be asked for an API-Token and an User-UUID. Please log in to the gridscale panel (<a href="https://my.gridscale.io" target="_blank">https://my.gridscale.io</a>) and navigate to the "API-Keys" section to generate one. Read access es enough. The User-UUID is also displayed here.';
+  intro.innerHTML = 'Welcome to the gridscale API client example! You will now be asked for an API-Token and an User-UUID. Please log in to the gridscale panel (<a href="https://my.gridscale.io" target="_blank">https://my.gridscale.io</a>) and navigate to the "API-Keys" section to generate one. Read access is enough. The User-UUID is also displayed here.';
   intro.setAttribute('class', 'intro');
   document.body.appendChild(intro);
 
