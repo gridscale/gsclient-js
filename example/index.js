@@ -1,7 +1,7 @@
 var process = require('process');
 var colors = require('colors');
 
-var gridscale = require('@gridscale/api');
+var gridscale = require('@gridscale/api').gridscale;
 var client;
 
 

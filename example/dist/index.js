@@ -2,7 +2,7 @@
 var process = require('process');
 var colors = require('colors');
 
-var gridscale = require('@gridscale/api');
+var gridscale = require('@gridscale/api').gridscale;
 var client;
 
 
@@ -13956,7 +13956,6 @@ exports.gridscale = gridscale;
 var api_1 = require("./api");
 Object.defineProperty(exports, "GSError", { enumerable: true, get: function () { return api_1.GSError; } });
 __exportStar(require("./Specs"), exports);
-module.exports = gridscale;
 
 
 

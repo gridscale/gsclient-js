@@ -48,7 +48,7 @@ Then in your HTML you use
 
 ### In Node.js
 ```js
-const gridscale = require("@gridscale/api");
+const gridscale = require("@gridscale/api").gridscale;
 const client = new gridscale.Client("[API-Token]", "[User-UUID]");
 ```
 
