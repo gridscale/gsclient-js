@@ -58,6 +58,60 @@ For details to all API endpoints and their methods, you should refer to the **of
 ## Demo 
 Test basic functionality in our [Demo](https://gridscale.github.io/gs_api_node/example/index.html)
 
+## Types & Schemas
+Since version 1.0.0 the typescript type definitions of all API parameters and responses are bundled with this package. 
+
+There are also additional **schemas** bundled with this package, containing additional formatting hints on the types (e.g. special string formats etc.). The schemas are named like the types, prefixed by a `$`.
+
+Example:
+```js
+import { ServerCreate, $ServerCreate }
+
+const createServerForm: ServerCreate = {
+  name: "test",
+  cores: 1,
+  memory: 1
+};
+
+onUserInput(formData) {
+  // @TODO: perform additional user input checking
+  console.log($ServerCreate.properties);
+  /*
+  {
+    name: {
+        type: 'string',
+        isRequired: true,
+    },
+    cores: {
+        type: 'number',
+        isRequired: true,
+    },
+    memory: {
+        type: 'number',
+        isRequired: true,
+    },
+    labels: {
+        type: 'array',
+        contains: {
+            type: 'string',
+        },
+    },
+    status: {
+        type: 'string',
+    },
+    availability_zone: {
+        type: 'string',
+    },
+    auto_recovery: {
+        type: 'string',
+    },
+    hardware_profile: {
+        type: 'Enum',
+    },
+  }
+  */
+}
+```
 
 ## Client settings
 
