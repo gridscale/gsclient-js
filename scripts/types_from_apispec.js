@@ -11,7 +11,6 @@ const http = require('https');
 const fs = require('fs');
 const jsYaml = require('js-yaml');
 const OpenAPI = require('openapi-typescript-codegen');
-const babel = require('@babel/core');
 
 const specFile = __dirname + '/spec.yaml';
 const specUrl = "https://ce85b99cc46752fffee35cab9a7b0278abb4c2d2055cff685af4912c49490f8.gos3.io/spec.yaml";
