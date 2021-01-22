@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ListenPortsByIpIndex } from './ListenPortsByIpIndex';
-import type { PaasServiceCredentials } from './PaasServiceCredentials';
+import { ListenPortsByIpIndex } from './ListenPortsByIpIndex';
+import { PaasServiceCredentials } from './PaasServiceCredentials';
 
 export type ServiceinPaasSecurityZone = Array<{
     /**

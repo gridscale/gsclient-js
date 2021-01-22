@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Storage } from './Storage';
+import { Storage } from './Storage';
 
 export type StorageGetResponse = {
     storage?: Storage;

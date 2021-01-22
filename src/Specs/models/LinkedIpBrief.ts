@@ -10,7 +10,7 @@ export type LinkedIpBrief = {
     /**
      * Either 4 or 6
      */
-    family?: LinkedIpBrief.family;
+    family?: 4 | 6;
     /**
      * The prefix of the IP Address.
      */
@@ -27,17 +27,4 @@ export type LinkedIpBrief = {
      * The IP Address (v4 or v6)
      */
     ip?: string;
-}
-
-export namespace LinkedIpBrief {
-
-    /**
-     * Either 4 or 6
-     */
-    export enum family {
-        _4 = 4,
-        _6 = 6,
-    }
-
-
 }

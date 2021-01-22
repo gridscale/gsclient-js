@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ServerRelation } from './ServerRelation';
+import { ServerRelation } from './ServerRelation';
 
 export type Server = {
     /**

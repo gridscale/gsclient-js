@@ -19,6 +19,9 @@ export const $PaasServiceTemplate = {
         version: {
             type: 'string',
         },
+        release: {
+            type: 'string',
+        },
         performance_class: {
             type: 'string',
         },

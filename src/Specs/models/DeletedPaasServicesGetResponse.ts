@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasServiceIndex } from './PaasServiceIndex';
+import { PaasServiceIndex } from './PaasServiceIndex';
 
 export type DeletedPaasServicesGetResponse = {
     deleted_paas_services?: PaasServiceIndex;

@@ -7,7 +7,10 @@ export const $FirewallUpdate = {
             type: 'string',
         },
         labels: {
-            type: 'string',
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
         },
         rules: {
             type: 'FirewallRules',

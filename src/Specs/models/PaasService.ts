@@ -2,10 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ListenPortsByIpIndex } from './ListenPortsByIpIndex';
-import type { PaasServiceCredentials } from './PaasServiceCredentials';
-import type { PaasServiceParameters } from './PaasServiceParameters';
-import type { PaasServiceResourceLimits } from './PaasServiceResourceLimits';
+import { ListenPortsByIpIndex } from './ListenPortsByIpIndex';
+import { PaasServiceCredentials } from './PaasServiceCredentials';
+import { PaasServiceParameters } from './PaasServiceParameters';
+import { PaasServiceResourceLimits } from './PaasServiceResourceLimits';
 
 export type PaasService = {
     /**

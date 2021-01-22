@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Metrics } from './Metrics';
-import type { MetricsValue } from './MetricsValue';
+import { Metrics } from './Metrics';
+import { MetricsValue } from './MetricsValue';
 
 export type PaasServiceMetrics = (Metrics & {
     /**

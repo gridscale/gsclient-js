@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasServiceMetricsList } from './PaasServiceMetricsList';
+import { PaasServiceMetricsList } from './PaasServiceMetricsList';
 
 export type ServerMetricsGetResponse = {
     server_metrics?: PaasServiceMetricsList;

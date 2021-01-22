@@ -11,4 +11,8 @@ export type NetworkUpdate = {
      * Defines information about MAC spoofing protection (filters layer2 and ARP traffic based on MAC source). It can only be (de-)activated on a private network - the public network always has l2security enabled. It will be true if the network is public, and false if the network is private.
      */
     l2security?: boolean;
+    /**
+     * List of labels.
+     */
+    labels?: Array<string>;
 }

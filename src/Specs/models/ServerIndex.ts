@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Server } from './Server';
+import { Server } from './Server';
 
 export type ServerIndex = Record<string, Server>;

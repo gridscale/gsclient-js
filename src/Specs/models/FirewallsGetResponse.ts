@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { FirewallIndex } from './FirewallIndex';
+import { FirewallIndex } from './FirewallIndex';
 
 export type FirewallsGetResponse = {
     firewalls?: FirewallIndex;

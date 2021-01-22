@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { StorageType } from './StorageType';
-import type { StorageVariant } from './StorageVariant';
+import { StorageType } from './StorageType';
+import { StorageVariant } from './StorageVariant';
 
 export type StorageCreate = {
     /**

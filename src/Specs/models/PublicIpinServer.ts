@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { LinkedIpBrief } from './LinkedIpBrief';
+import { LinkedIpBrief } from './LinkedIpBrief';
 
 export type PublicIpinServer = Array<LinkedIpBrief>;

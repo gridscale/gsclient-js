@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { LinkedNetwork } from './LinkedNetwork';
+import { LinkedNetwork } from './LinkedNetwork';
 
 export type LinkedNetworkGetResponse = {
     network_relation?: LinkedNetwork;

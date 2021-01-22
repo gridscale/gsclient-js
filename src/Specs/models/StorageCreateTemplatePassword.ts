@@ -21,18 +21,5 @@ export type StorageCreateTemplatePassword = {
     /**
      * Password type (one of plain, crypt).
      */
-    password_type: StorageCreateTemplatePassword.password_type;
-}
-
-export namespace StorageCreateTemplatePassword {
-
-    /**
-     * Password type (one of plain, crypt).
-     */
-    export enum password_type {
-        PLAIN = 'plain',
-        CRYPT = 'crypt',
-    }
-
-
+    password_type: 'plain' | 'crypt';
 }

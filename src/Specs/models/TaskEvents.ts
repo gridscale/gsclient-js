@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { TaskEventLabel } from './TaskEventLabel';
-import type { TaskEventName } from './TaskEventName';
+import { TaskEventLabel } from './TaskEventLabel';
+import { TaskEventName } from './TaskEventName';
 
 export type TaskEvents = {
     schedules?: {

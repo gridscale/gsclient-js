@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { SnapshotSchedule } from './SnapshotSchedule';
+import { SnapshotSchedule } from './SnapshotSchedule';
 
 export type SnapshotScheduleIndex = Record<string, SnapshotSchedule>;

@@ -6,7 +6,7 @@ export type IpCreate = {
     /**
      * Defines the IP Address family (v4 or v6).
      */
-    family: IpCreate.family;
+    family: 4 | 6;
     /**
      * Sets failover mode for this IP. If true, then this IP is no longer available for DHCP and can no longer be related to any server.
      */
@@ -23,17 +23,4 @@ export type IpCreate = {
      * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
     name?: string;
-}
-
-export namespace IpCreate {
-
-    /**
-     * Defines the IP Address family (v4 or v6).
-     */
-    export enum family {
-        _4 = 4,
-        _6 = 6,
-    }
-
-
 }

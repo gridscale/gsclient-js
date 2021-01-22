@@ -38,6 +38,9 @@ export const $EventResponse = {
                         type: 'string',
                         format: 'uuid',
                     },
+                    initiator: {
+                        type: 'string',
+                    },
                 },
             },
         },

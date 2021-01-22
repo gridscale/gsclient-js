@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasServiceParametersSchema } from './PaasServiceParametersSchema';
+import { PaasServiceParametersSchema } from './PaasServiceParametersSchema';
 
 export type PaasServiceTemplate = {
     /**
@@ -25,6 +25,10 @@ export type PaasServiceTemplate = {
      * Describes the version of the service.
      */
     version?: string;
+    /**
+     * Describes the release of the service.
+     */
+    release?: string;
     /**
      * Describes the performance class of the service.
      */

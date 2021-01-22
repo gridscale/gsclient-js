@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { StorageBackupSchedule } from './StorageBackupSchedule';
+import { StorageBackupSchedule } from './StorageBackupSchedule';
 
 export type StorageBackupScheduleIndex = Record<string, StorageBackupSchedule>;

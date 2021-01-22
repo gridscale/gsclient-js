@@ -10,7 +10,7 @@ export type LinkedIp = {
     /**
      * Either 4 or 6
      */
-    family?: LinkedIp.family;
+    family?: 4 | 6;
     /**
      * The prefix of the IP Address.
      */
@@ -20,17 +20,4 @@ export type LinkedIp = {
      */
     create_time?: string;
     ip?: string;
-}
-
-export namespace LinkedIp {
-
-    /**
-     * Either 4 or 6
-     */
-    export enum family {
-        _4 = 4,
-        _6 = 6,
-    }
-
-
 }

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { StorageBackupSchedule } from './StorageBackupSchedule';
+import { StorageBackupSchedule } from './StorageBackupSchedule';
 
 export type StorageBackupScheduleGetResponse = {
     schedule_storage_backup?: StorageBackupSchedule;

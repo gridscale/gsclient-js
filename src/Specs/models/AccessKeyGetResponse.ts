@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { AccessKey } from './AccessKey';
+import { AccessKey } from './AccessKey';
 
 export type AccessKeyGetResponse = {
     access_key?: AccessKey;

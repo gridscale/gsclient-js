@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasServiceParameters } from './PaasServiceParameters';
-import type { PaasServiceResourceLimits } from './PaasServiceResourceLimits';
+import { PaasServiceParameters } from './PaasServiceParameters';
+import { PaasServiceResourceLimits } from './PaasServiceResourceLimits';
 
 export type PaasServiceUpdate = {
     /**

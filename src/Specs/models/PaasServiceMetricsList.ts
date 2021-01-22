@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasServiceMetrics } from './PaasServiceMetrics';
+import { PaasServiceMetrics } from './PaasServiceMetrics';
 
 export type PaasServiceMetricsList = Array<PaasServiceMetrics>;

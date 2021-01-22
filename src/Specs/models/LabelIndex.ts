@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Label } from './Label';
+import { Label } from './Label';
 
 export type LabelIndex = Record<string, Label>;

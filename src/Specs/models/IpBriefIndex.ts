@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IpBrief } from './IpBrief';
+import { IpBrief } from './IpBrief';
 
 export type IpBriefIndex = Record<string, IpBrief>;

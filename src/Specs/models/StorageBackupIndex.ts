@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { StorageBackup } from './StorageBackup';
+import { StorageBackup } from './StorageBackup';
 
 export type StorageBackupIndex = Record<string, StorageBackup>;

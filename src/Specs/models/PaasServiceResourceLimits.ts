@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasServiceResourceLimit } from './PaasServiceResourceLimit';
+import { PaasServiceResourceLimit } from './PaasServiceResourceLimit';
 
 /**
  * A list of service resource limits.

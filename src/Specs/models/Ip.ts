@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IpRelation } from './IpRelation';
+import { IpRelation } from './IpRelation';
 
 export type Ip = {
     /**
@@ -57,7 +57,7 @@ export type Ip = {
     /**
      * The IP Address family (v4 or v6).
      */
-    family?: Ip.family;
+    family?: 4 | 6;
     /**
      * Uses IATA airport code, which works as a location identifier.
      */
@@ -78,17 +78,4 @@ export type Ip = {
      * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
     name?: string;
-}
-
-export namespace Ip {
-
-    /**
-     * The IP Address family (v4 or v6).
-     */
-    export enum family {
-        _4 = 4,
-        _6 = 6,
-    }
-
-
 }

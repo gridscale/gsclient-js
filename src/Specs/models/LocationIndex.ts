@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Location } from './Location';
+import { Location } from './Location';
 
 export type LocationIndex = Record<string, Location>;

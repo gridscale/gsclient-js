@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { NetworkRelation } from './NetworkRelation';
+import { NetworkRelation } from './NetworkRelation';
 
 export type Network = {
     /**

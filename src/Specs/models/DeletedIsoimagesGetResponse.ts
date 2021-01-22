@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IsoimageIndex } from './IsoimageIndex';
+import { IsoimageIndex } from './IsoimageIndex';
 
 export type DeletedIsoimagesGetResponse = {
     deleted_isoimages?: IsoimageIndex;

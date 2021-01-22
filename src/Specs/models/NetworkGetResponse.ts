@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Network } from './Network';
+import { Network } from './Network';
 
 export type NetworkGetResponse = {
     network?: Network;

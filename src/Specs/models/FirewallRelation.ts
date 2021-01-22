@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { NetworkinFirewall } from './NetworkinFirewall';
+import { NetworkinFirewall } from './NetworkinFirewall';
 
 /**
  * The information about other object which are related to this Firewall. the object could be Network

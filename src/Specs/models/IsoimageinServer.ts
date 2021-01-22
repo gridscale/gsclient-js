@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { LinkedIsoimage } from './LinkedIsoimage';
+import { LinkedIsoimage } from './LinkedIsoimage';
 
 export type IsoimageinServer = Array<LinkedIsoimage>;

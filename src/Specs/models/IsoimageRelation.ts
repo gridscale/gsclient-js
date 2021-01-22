@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ServerinIsoimage } from './ServerinIsoimage';
+import { ServerinIsoimage } from './ServerinIsoimage';
 
 /**
  * The information about other object which are related to this isoimage.

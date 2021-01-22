@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IsoimageRelation } from './IsoimageRelation';
+import { IsoimageRelation } from './IsoimageRelation';
 
 export type Isoimage = {
     /**

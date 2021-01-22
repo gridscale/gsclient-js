@@ -37,8 +37,12 @@ export type EventResponse = {
          */
         timestamp?: string,
         /**
-         * The UUID of the user that triggered the event.
+         * The UUID of the user that triggered the event. Empty in case this event was not initiated by a user.
          */
         user_uuid?: string,
+        /**
+         * The user that triggered the event. Usually the user's email if the event was triggered by request of a user, otherwise a short descriptive name of the system component responsible.
+         */
+        initiator?: string,
     }>;
 }

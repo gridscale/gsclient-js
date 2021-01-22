@@ -18,19 +18,5 @@ export type StorageUpdate = {
     /**
      * Updating the storage_type parameter allows you to increase the speed of your storage. Downgrading is not supported
      */
-    storage_type?: StorageUpdate.storage_type;
-}
-
-export namespace StorageUpdate {
-
-    /**
-     * Updating the storage_type parameter allows you to increase the speed of your storage. Downgrading is not supported
-     */
-    export enum storage_type {
-        STORAGE = 'storage',
-        STORAGE_HIGH = 'storage_high',
-        STORAGE_INSANE = 'storage_insane',
-    }
-
-
+    storage_type?: 'storage' | 'storage_high' | 'storage_insane';
 }

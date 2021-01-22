@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { MarketplaceApplication } from './MarketplaceApplication';
+import { MarketplaceApplication } from './MarketplaceApplication';
 
 export type MarketplaceApplicationGetResponse = {
     application?: MarketplaceApplication;

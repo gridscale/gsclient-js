@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Snapshot } from './Snapshot';
+import { Snapshot } from './Snapshot';
 
 export type SnapshotGetResponse = {
     snapshot?: Snapshot;

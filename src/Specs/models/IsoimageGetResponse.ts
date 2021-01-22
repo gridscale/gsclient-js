@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Isoimage } from './Isoimage';
+import { Isoimage } from './Isoimage';
 
 export type IsoimageGetResponse = {
     isoimage?: Isoimage;

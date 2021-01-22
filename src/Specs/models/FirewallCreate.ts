@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { FirewallRules } from './FirewallRules';
+import { FirewallRules } from './FirewallRules';
 
 export type FirewallCreate = {
     name: string;

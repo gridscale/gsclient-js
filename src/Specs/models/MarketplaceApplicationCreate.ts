@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { MarketplaceApplicationMetadata } from './MarketplaceApplicationMetadata';
+import { MarketplaceApplicationMetadata } from './MarketplaceApplicationMetadata';
 
 export type MarketplaceApplicationCreate = {
     /**
@@ -13,7 +13,7 @@ export type MarketplaceApplicationCreate = {
      * Path to the images for the application, must be in .gz format and started with s3//
      */
     object_storage_path: string;
-    category?: MarketplaceApplicationCreate.category;
+    category?: 'CMS' | 'project management' | 'Adminpanel' | 'Collaboration' | 'Cloud Storage' | 'Archiving';
     /**
      * whether you want to publish your application or not
      */
@@ -36,18 +36,4 @@ export type MarketplaceApplicationCreate = {
         capacity: number,
     };
     metadata?: MarketplaceApplicationMetadata;
-}
-
-export namespace MarketplaceApplicationCreate {
-
-    export enum category {
-        CMS = 'CMS',
-        PROJECT_MANAGEMENT = 'project management',
-        ADMINPANEL = 'Adminpanel',
-        COLLABORATION = 'Collaboration',
-        CLOUD_STORAGE = 'Cloud Storage',
-        ARCHIVING = 'Archiving',
-    }
-
-
 }

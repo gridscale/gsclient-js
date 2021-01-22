@@ -2,10 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { FirewallV4inRule } from './FirewallV4inRule';
-import type { FirewallV4outRule } from './FirewallV4outRule';
-import type { FirewallV6inRule } from './FirewallV6inRule';
-import type { FirewallV6outRule } from './FirewallV6outRule';
+import { FirewallV4inRule } from './FirewallV4inRule';
+import { FirewallV4outRule } from './FirewallV4outRule';
+import { FirewallV6inRule } from './FirewallV6inRule';
+import { FirewallV6outRule } from './FirewallV6outRule';
 
 export type FirewallRules = {
     'rules-v6-in'?: FirewallV6inRule;

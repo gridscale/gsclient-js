@@ -9,5 +9,11 @@ export const $NetworkUpdate = {
         l2security: {
             type: 'boolean',
         },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
     },
 };

@@ -6,7 +6,7 @@ export type RulesProperties = {
     /**
      * Either udp or tcp
      */
-    protocol: RulesProperties.protocol;
+    protocol: 'udp' | 'tcp';
     /**
      * A Number between 1 and 65535, port ranges are seperated by a colon for FTP.
      */
@@ -19,7 +19,7 @@ export type RulesProperties = {
     /**
      * This defines what the firewall will do. Either accept or drop.
      */
-    action: RulesProperties.action;
+    action: 'accept' | 'drop';
     comment?: string;
     /**
      * Either an IPv4/6 address or and IP Network in CIDR format. If this field is empty then all IPs have access to this service.
@@ -29,25 +29,4 @@ export type RulesProperties = {
      * The order at which the firewall will compare packets against its rules, a packet will be compared against the first rule, it will either allow it to pass or block it and it won t be matched against any other rules. However, if it does no match the rule, then it will proceed onto rule 2. Packets that do not match any rules are blocked by default.
      */
     order: string;
-}
-
-export namespace RulesProperties {
-
-    /**
-     * Either udp or tcp
-     */
-    export enum protocol {
-        UDP = 'udp',
-        TCP = 'tcp',
-    }
-
-    /**
-     * This defines what the firewall will do. Either accept or drop.
-     */
-    export enum action {
-        ACCEPT = 'accept',
-        DROP = 'drop',
-    }
-
-
 }

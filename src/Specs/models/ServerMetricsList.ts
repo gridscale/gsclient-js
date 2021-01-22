@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ServerMetrics } from './ServerMetrics';
+import { ServerMetrics } from './ServerMetrics';
 
 export type ServerMetricsList = Array<ServerMetrics>;

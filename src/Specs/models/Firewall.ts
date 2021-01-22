@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { FirewallRelation } from './FirewallRelation';
-import type { FirewallRules } from './FirewallRules';
+import { FirewallRelation } from './FirewallRelation';
+import { FirewallRules } from './FirewallRules';
 
 export type Firewall = {
     /**

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { MarketplaceApplicationIndex } from './MarketplaceApplicationIndex';
+import { MarketplaceApplicationIndex } from './MarketplaceApplicationIndex';
 
 export type MarketplaceApplicationsGetResponse = {
     applications?: MarketplaceApplicationIndex;

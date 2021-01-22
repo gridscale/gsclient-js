@@ -10,22 +10,9 @@ export type StorageClone = {
     /**
      * Password type (one of plain, crypt).
      */
-    password_type?: StorageClone.password_type;
+    password_type?: 'plain' | 'crypt';
     /**
      * List of SSH Keys uuid.
      */
     sshkeys?: Array<string>;
-}
-
-export namespace StorageClone {
-
-    /**
-     * Password type (one of plain, crypt).
-     */
-    export enum password_type {
-        PLAIN = 'plain',
-        CRYPT = 'crypt',
-    }
-
-
 }

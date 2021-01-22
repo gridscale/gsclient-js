@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { RulesProperties } from './RulesProperties';
+import { RulesProperties } from './RulesProperties';
 
 /**
  * Firewall template tules for outbound traffic - covers ipv4 addresses.

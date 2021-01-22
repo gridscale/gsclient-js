@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasSecurityZoneRelation } from './PaasSecurityZoneRelation';
+import { PaasSecurityZoneRelation } from './PaasSecurityZoneRelation';
 
 export type PaasSecurityZone = {
     /**

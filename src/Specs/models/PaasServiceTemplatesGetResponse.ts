@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PaasServiceTemplateIndex } from './PaasServiceTemplateIndex';
+import { PaasServiceTemplateIndex } from './PaasServiceTemplateIndex';
 
 export type PaasServiceTemplatesGetResponse = {
     paas_service_templates?: PaasServiceTemplateIndex;

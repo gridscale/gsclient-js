@@ -18,5 +18,5 @@ export type StorageBackup = {
     /**
      * The size of a backup in GB.
      */
-    Capacity?: number;
+    capacity?: number;
 }

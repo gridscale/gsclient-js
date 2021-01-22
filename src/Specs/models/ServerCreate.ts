@@ -34,24 +34,5 @@ export type ServerCreate = {
     /**
      * Specifies the hardware settings for the virtual machine.
      */
-    hardware_profile?: ServerCreate.hardware_profile;
-}
-
-export namespace ServerCreate {
-
-    /**
-     * Specifies the hardware settings for the virtual machine.
-     */
-    export enum hardware_profile {
-        DEFAULT = 'default',
-        NESTED = 'nested',
-        LEGACY = 'legacy',
-        CISCO_CSR = 'cisco_csr',
-        SOPHOS_UTM = 'sophos_utm',
-        F5_BIGIP = 'f5_bigip',
-        Q35 = 'q35',
-        Q35_NESTED = 'q35_nested',
-    }
-
-
+    hardware_profile?: 'default' | 'nested' | 'legacy' | 'cisco_csr' | 'sophos_utm' | 'f5_bigip' | 'q35' | 'q35_nested';
 }

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { SnapshotIndex } from './SnapshotIndex';
+import { SnapshotIndex } from './SnapshotIndex';
 
 export type DeletedSnapshotsGetResponse = {
     deleted_snapshots?: SnapshotIndex;

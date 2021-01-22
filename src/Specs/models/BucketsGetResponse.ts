@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { BucketList } from './BucketList';
+import { BucketList } from './BucketList';
 
 export type BucketsGetResponse = {
     Buckets?: BucketList;

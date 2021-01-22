@@ -2,6 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Bucket } from './Bucket';
+import { Bucket } from './Bucket';
 
 export type BucketList = Array<Bucket>;

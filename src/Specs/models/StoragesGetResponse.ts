@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { StorageIndex } from './StorageIndex';
+import { StorageIndex } from './StorageIndex';
 
 export type StoragesGetResponse = {
     storages?: StorageIndex;

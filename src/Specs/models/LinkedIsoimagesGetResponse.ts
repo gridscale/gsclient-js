@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { LinkedIsoimageBrief } from './LinkedIsoimageBrief';
+import { LinkedIsoimageBrief } from './LinkedIsoimageBrief';
 
 export type LinkedIsoimagesGetResponse = {
     isoimage_relations?: Array<LinkedIsoimageBrief>;

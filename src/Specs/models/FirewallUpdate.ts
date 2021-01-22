@@ -2,10 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { FirewallRules } from './FirewallRules';
+import { FirewallRules } from './FirewallRules';
 
 export type FirewallUpdate = {
     name?: string;
-    labels?: string;
+    /**
+     * List of labels.
+     */
+    labels?: Array<string>;
     rules?: FirewallRules;
 }

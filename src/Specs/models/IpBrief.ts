@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { IpRelation } from './IpRelation';
+import { IpRelation } from './IpRelation';
 
 export type IpBrief = {
     /**
@@ -57,7 +57,7 @@ export type IpBrief = {
     /**
      * The IP Address family (v4 or v6).
      */
-    family?: IpBrief.family;
+    family?: 4 | 6;
     /**
      * Uses IATA airport code, which works as a location identifier.
      */
@@ -82,17 +82,4 @@ export type IpBrief = {
      * The UUID of the Storage used to create this Snapshot.
      */
     partner_uuid?: string;
-}
-
-export namespace IpBrief {
-
-    /**
-     * The IP Address family (v4 or v6).
-     */
-    export enum family {
-        _4 = 4,
-        _6 = 6,
-    }
-
-
 }

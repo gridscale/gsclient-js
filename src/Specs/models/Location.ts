@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { LocationChangeRequested } from './LocationChangeRequested';
+import { LocationChangeRequested } from './LocationChangeRequested';
 
 export type Location = {
     /**

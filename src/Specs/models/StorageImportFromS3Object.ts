@@ -14,17 +14,5 @@ export type StorageImportFromS3Object = {
     /**
      * The extension of source gz,iso, ..., but for now we will support gz
      */
-    extension: StorageImportFromS3Object.extension;
-}
-
-export namespace StorageImportFromS3Object {
-
-    /**
-     * The extension of source gz,iso, ..., but for now we will support gz
-     */
-    export enum extension {
-        GZ = 'gz',
-    }
-
-
+    extension: 'gz';
 }

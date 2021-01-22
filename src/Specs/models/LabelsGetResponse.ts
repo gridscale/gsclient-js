@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { LabelIndex } from './LabelIndex';
+import { LabelIndex } from './LabelIndex';
 
 export type LabelsGetResponse = {
     labels?: LabelIndex;

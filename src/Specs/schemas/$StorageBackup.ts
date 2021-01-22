@@ -14,7 +14,7 @@ export const $StorageBackup = {
             type: 'string',
             format: 'date-time',
         },
-        Capacity: {
+        capacity: {
             type: 'number',
         },
     },

@@ -68,7 +68,7 @@ export type MarketplaceApplication = {
     /**
      * Category of marketplace application
      */
-    category?: MarketplaceApplication.category;
+    category?: 'CMS' | 'project management' | 'Adminpanel' | 'Collaboration' | 'Cloud Storage' | 'Archiving';
     /**
      * Metadata of the Application
      */
@@ -109,21 +109,4 @@ export type MarketplaceApplication = {
      * the type of template
      */
     application_type?: string;
-}
-
-export namespace MarketplaceApplication {
-
-    /**
-     * Category of marketplace application
-     */
-    export enum category {
-        CMS = 'CMS',
-        PROJECT_MANAGEMENT = 'project management',
-        ADMINPANEL = 'Adminpanel',
-        COLLABORATION = 'Collaboration',
-        CLOUD_STORAGE = 'Cloud Storage',
-        ARCHIVING = 'Archiving',
-    }
-
-
 }
