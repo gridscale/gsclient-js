@@ -17,7 +17,7 @@ npm i @gridscale/api --save
 or clone this repo and run
 ```sh
 npm i
-npm build-browser
+npm build
 ```
 This will build the client into the `dist` directory.
 
@@ -60,6 +60,7 @@ Test basic functionality in our [Demo](https://gridscale.github.io/gs_api_node/e
 
 ## Types & Schemas
 Since version 1.0.0 the typescript type definitions of all API parameters and responses are bundled with this package. 
+**Developer note:** This client is not (yet) automatically updated on changes to the gridscale public API. To update the types from the official API spec, run `npm run updateFromSpec`.
 
 There are also additional **schemas** bundled with this package, containing additional formatting hints on the types (e.g. special string formats etc.). The schemas are named like the types, prefixed by a `$`.
 
