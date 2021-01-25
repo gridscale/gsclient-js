@@ -1,6 +1,6 @@
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, ApiResult, RequestOptions, VoidApiResult } from '../api';
-import * as models from './../Specs';
+import * as models from '../Specs';
 
 
 interface MarketplaceApplication {

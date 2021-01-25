@@ -19,7 +19,7 @@ import { PaasServiceTemplate } from './Objects/PaasServiceTemplate';
 import { PaasService } from './Objects/PaasService';
 import { PaasSecurityZone } from './Objects/PaasSecurityZone';
 import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
-import { MarketplaceApplication } from './Objects/Marketplace';
+import { MarketplaceApplication } from './Objects/MarketplaceApplication';
 import { forEach } from 'lodash';
 
 /**
