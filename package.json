@@ -1,11 +1,13 @@
 {
   "name": "@gridscale/api",
-  "version": "0.4.3",
+  "version": "1.0.1",
   "description": "gridscale API Wrapper",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp",
+    "build-browser": "gulp && webpack",
+    "updateFromSpec": "node ./scripts/types_from_apispec.js"
   },
   "homepage": "https://gridscale.io",
   "repository": "https://github.com/gridscale/gs_api_node",
@@ -23,23 +25,23 @@
   "dependencies": {
     "es6-promise": "^4.2.8",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.14",
-    "tslib": "^1.9.3",
-    "whatwg-fetch": "^3.0.0"
+    "lodash": "^4.17.14"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.123",
-    "@types/node": "^8.10.38",
-    "chai": "^3.5.0",
-    "del": "^2.2.2",
+    "@types/node": "^14.14.21",
+    "del": "^6.0.0",
     "gulp": "^4.0.2",
-    "gulp-mocha": "^7.0.0",
     "gulp-shell": "^0.8.0",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-tslint": "^8.1.0",
     "gulp-typescript": "^5.0.0",
+    "js-yaml": "^4.0.0",
     "merge2": "^1.0.2",
-    "tslint": "^5.16.0",
-    "typescript": "3.5.3"
+    "openapi-typescript-codegen": "^0.7.2",
+    "ts-loader": "^8.0.14",
+    "typescript": "^3.9.7",
+    "webpack": "^5.15.0",
+    "webpack-cli": "^4.3.1"
   }
 }

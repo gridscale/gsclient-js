@@ -18,6 +18,7 @@ function createClient(_token, _user_uuid) {
   listServers(["power=false"], "Stopped Servers:");
   listServers(["power=true"], "Running Servers:");
   listStorages("Storages:");
+  listMarketplaceApps("Marketplace Apps:");
 }
 
 
@@ -57,11 +58,35 @@ function listServers(_filters = [], _headline = "") {
   });
 }
 
+/**
+ * fetches the marketplace applications and outputs a list
+ * @param _headline string - optional headline to display
+ */
+function listMarketplaceApps(_headline = "") {
+  client.MarketplaceApplication.list({}).then((_request) => {
+    // request was successful
+    output(_headline, 'bold');
+    for (var x in _request.result.applications) {
+      if (_request.result.applications.hasOwnProperty(x)) {
+        let _application = _request.result.applications[x];
+        output(_application.object_uuid + ": " + _application.name, 'blue');
+      }
+    }
+  }).
+    catch((_error) => {
+      // handle the error
+      output("An error occured", 'bgRed');
+      if (_error.name == 'GridscaleError' && _error.result && _error.result.response) {
+        output(_error.message + ": " + _error.result.response.status + " - " + _error.result.response.statusText, 'red');
 
+      } else {
+        output("Unknown error " + _error.message);
+      }
+    });
+}
 
 /**
- * fetches the servers with given filters and outputs a list
- * @param _filters string[] - optional filters for the request. field + operator + testValue
+ * fetches the servers and outputs a list
  * @param _headline string - optional headline to display
  */
 function listStorages(_headline = "") {
@@ -76,7 +101,7 @@ function listStorages(_headline = "") {
     for (var x in _request.result.storages) {
       if (_request.result.storages.hasOwnProperty(x)) {
         let _storage = _request.result.storages[x];
-        output(_storage.object_uuid + ": " + _storage.name, 'yellow');
+        output(_storage.object_uuid + ": " + _storage.name, 'magenta');
       }
     }
   }).
@@ -122,7 +147,7 @@ if (typeof(document) !== 'undefined' && document.body) {
   // for browser ...
 
   var intro = document.createElement('p');
-  intro.innerHTML = 'Welcome to the gridscale API client example! You will now be asked for an API-Token and an User-UUID. Please log in to the gridscale panel (<a href="https://my.gridscale.io" target="_blank">https://my.gridscale.io</a>) and navigate to the "API-Keys" section to generate one. Read access es enough. The User-UUID is also displayed here.';
+  intro.innerHTML = 'Welcome to the gridscale API client example! You will now be asked for an API-Token and an User-UUID. Please log in to the gridscale panel (<a href="https://my.gridscale.io" target="_blank">https://my.gridscale.io</a>) and navigate to the "API-Keys" section to generate one. Read access is enough. The User-UUID is also displayed here.';
   intro.setAttribute('class', 'intro');
   document.body.appendChild(intro);
 
@@ -174,18 +199,10 @@ if (typeof(document) !== 'undefined' && document.body) {
   });
 }
 
-},{"@gridscale/api":2,"colors":28,"process":38,"readline":23}],2:[function(require,module,exports){
+},{"@gridscale/api":264,"colors":270,"process":282,"readline":265}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Export all publicly accessible modules
- */
-var gridscale = require("./src/client");
-exports.gridscale = gridscale;
-
-},{"./src/client":22}],3:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.Deleted = void 0;
 var lodash_1 = require("lodash");
 var Deleted = /** @class */ (function () {
     /**
@@ -198,8 +215,8 @@ var Deleted = /** @class */ (function () {
     function Deleted(_api) {
         this._api = _api;
         this._defaults = {
-            "page": 0,
-            "limit": 25
+            'page': 0,
+            'limit': 25
         };
     }
     /**
@@ -249,6 +266,9 @@ var Deleted = /** @class */ (function () {
     Deleted.prototype.templates = function (_options, _callback) {
         return this._deleted('templates', _options, _callback);
     };
+    Deleted.prototype.loadbalancers = function (_options, _callback) {
+        return this._deleted('loadbalancers', _options, _callback);
+    };
     Deleted.prototype.paasServices = function (_options, _callback) {
         return this._deleted('paas_services', _options, _callback);
     };
@@ -256,7 +276,9 @@ var Deleted = /** @class */ (function () {
 }());
 exports.Deleted = Deleted;
 
-},{"lodash":36}],4:[function(require,module,exports){
+
+
+},{"lodash":280}],3:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -272,6 +294,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Events = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var Events = /** @class */ (function (_super) {
     __extends(Events, _super);
@@ -282,7 +305,9 @@ var Events = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Events = Events;
 
-},{"./GridscaleObjects":6}],5:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],4:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -298,6 +323,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Firewall = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var Firewall = /** @class */ (function (_super) {
     __extends(Firewall, _super);
@@ -308,9 +334,12 @@ var Firewall = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Firewall = Firewall;
 
-},{"./GridscaleObjects":6}],6:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridscaleObjects = void 0;
 var lodash_1 = require("lodash");
 var GridscaleObjects = /** @class */ (function () {
     /**
@@ -322,8 +351,8 @@ var GridscaleObjects = /** @class */ (function () {
     function GridscaleObjects(_api, _path) {
         this._api = _api;
         this._defaults = {
-            "page": 0,
-            "limit": 25
+            'page': 0,
+            'limit': 25
         };
         this._basepath = _path;
     }
@@ -340,7 +369,7 @@ var GridscaleObjects = /** @class */ (function () {
      *
      *
      * @param _options
-     * @returns {any}
+     * @returns {RequestOptions}
      * @private
      */
     GridscaleObjects.prototype._buildRequestOptions = function (_options) {
@@ -359,7 +388,7 @@ var GridscaleObjects = /** @class */ (function () {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      */
     GridscaleObjects.prototype.list = function (_options, _callback) {
         // Get Defaults
@@ -368,8 +397,7 @@ var GridscaleObjects = /** @class */ (function () {
         if (lodash_1.isFunction(_options) && lodash_1.isUndefined(_callback)) {
             _callback = _options;
         }
-        var req = this._api.get(this._basepath, requestOptions, _callback);
-        return req;
+        return this._api.get(this._basepath, requestOptions, _callback);
     };
     /**
      * Get Single Object by UUID
@@ -378,7 +406,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _callback
      */
     GridscaleObjects.prototype.get = function (_uuid, _callback) {
-        return this._api.get(this._basepath + '/' + _uuid, _callback);
+        return this._api.get(this._basepath + '/' + _uuid, {}, _callback);
     };
     /**
      * Get Single Object by UUID
@@ -393,7 +421,7 @@ var GridscaleObjects = /** @class */ (function () {
      * Create object
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<CreateResult>>}
      */
     GridscaleObjects.prototype.create = function (_attributes, _callback) {
         return this._api.post(this._basepath, _attributes, _callback);
@@ -402,7 +430,7 @@ var GridscaleObjects = /** @class */ (function () {
      * Patch object
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     GridscaleObjects.prototype.patch = function (_uuid, _attributes, _callback) {
         return this._api.patch(this._basepath + '/' + _uuid, _attributes, _callback);
@@ -432,7 +460,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @private
      */
     GridscaleObjects.prototype._sub_get = function (_type, _uuid, _sub_uuid, _callback) {
-        return this._api.get(this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid, _callback);
+        return this._api.get(this._basepath + '/' + _uuid + '/' + _type + '/' + _sub_uuid, {}, _callback);
     };
     /**
      * Post to Subtype ob Object
@@ -441,7 +469,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _uuid
      * @param _attributes
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     GridscaleObjects.prototype._sub_post = function (_type, _uuid, _attributes, _callback) {
@@ -455,7 +483,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _sub_uuid
      * @param _attributes
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     GridscaleObjects.prototype._sub_patch = function (_type, _uuid, _sub_uuid, _attributes, _callback) {
@@ -469,7 +497,7 @@ var GridscaleObjects = /** @class */ (function () {
      * @param _uuid
      * @param _sub_uuid
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<GenericApiResult>>}
      * @private
      */
     GridscaleObjects.prototype._sub_remove = function (_type, _uuid, _sub_uuid, _callback) {
@@ -488,7 +516,9 @@ var GridscaleObjects = /** @class */ (function () {
 }());
 exports.GridscaleObjects = GridscaleObjects;
 
-},{"lodash":36}],7:[function(require,module,exports){
+
+
+},{"lodash":280}],6:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -504,28 +534,20 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.IP = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var IP = /** @class */ (function (_super) {
     __extends(IP, _super);
     function IP(_api) {
         return _super.call(this, _api, '/objects/ips') || this;
     }
-    /**
-     * List Objects
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     */
-    IP.prototype.list = function (_callback) {
-        return this._api.get(this._basepath, _callback);
-    };
     return IP;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.IP = IP;
 
-},{"./GridscaleObjects":6}],8:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],7:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -541,6 +563,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ISOImage = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var ISOImage = /** @class */ (function (_super) {
     __extends(ISOImage, _super);
@@ -551,7 +574,9 @@ var ISOImage = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.ISOImage = ISOImage;
 
-},{"./GridscaleObjects":6}],9:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],8:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -567,6 +592,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Label = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var Label = /** @class */ (function (_super) {
     __extends(Label, _super);
@@ -577,7 +603,9 @@ var Label = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Label = Label;
 
-},{"./GridscaleObjects":6}],10:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],9:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -593,6 +621,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Loadbalancer = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var Loadbalancer = /** @class */ (function (_super) {
     __extends(Loadbalancer, _super);
@@ -603,9 +632,12 @@ var Loadbalancer = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Loadbalancer = Loadbalancer;
 
-},{"./GridscaleObjects":6}],11:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Location = void 0;
 var lodash_1 = require("lodash");
 var Location = /** @class */ (function () {
     /**
@@ -618,8 +650,8 @@ var Location = /** @class */ (function () {
     function Location(_api) {
         this._api = _api;
         this._defaults = {
-            "page": 0,
-            "limit": 25
+            'page': 0,
+            'limit': 25
         };
         this._basepath = '/objects/locations';
     }
@@ -636,7 +668,7 @@ var Location = /** @class */ (function () {
      *
      *
      * @param _options
-     * @returns {any}
+     * @returns {RequestOptions}
      * @private
      */
     Location.prototype._buildRequestOptions = function (_options) {
@@ -655,7 +687,7 @@ var Location = /** @class */ (function () {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LocationsGetResponse>>}
      */
     Location.prototype.list = function (_options, _callback) {
         // Get Defaults
@@ -664,8 +696,7 @@ var Location = /** @class */ (function () {
         if (lodash_1.isFunction(_options) && lodash_1.isUndefined(_callback)) {
             _callback = _options;
         }
-        var req = this._api.get(this._basepath, requestOptions, _callback);
-        return req;
+        return this._api.get(this._basepath, requestOptions, _callback);
     };
     /**
      * Get Single Object by UUID
@@ -722,33 +753,9 @@ var Location = /** @class */ (function () {
 }());
 exports.Location = Location;
 
-},{"lodash":36}],12:[function(require,module,exports){
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var GridscaleObjects_1 = require("./GridscaleObjects");
-var Marketplace = /** @class */ (function (_super) {
-    __extends(Marketplace, _super);
-    function Marketplace(_api) {
-        return _super.call(this, _api, '/objects/marketplace/templates') || this;
-    }
-    return Marketplace;
-}(GridscaleObjects_1.GridscaleObjects));
-exports.Marketplace = Marketplace;
 
-},{"./GridscaleObjects":6}],13:[function(require,module,exports){
+
+},{"lodash":280}],11:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -764,6 +771,36 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MarketplaceApplication = void 0;
+var GridscaleObjects_1 = require("./GridscaleObjects");
+var MarketplaceApplication = /** @class */ (function (_super) {
+    __extends(MarketplaceApplication, _super);
+    function MarketplaceApplication(_api) {
+        return _super.call(this, _api, '/objects/marketplace/applications') || this;
+    }
+    return MarketplaceApplication;
+}(GridscaleObjects_1.GridscaleObjects));
+exports.MarketplaceApplication = MarketplaceApplication;
+
+
+
+},{"./GridscaleObjects":5}],12:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Network = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var Network = /** @class */ (function (_super) {
     __extends(Network, _super);
@@ -774,9 +811,12 @@ var Network = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Network = Network;
 
-},{"./GridscaleObjects":6}],14:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ObjectStorage = void 0;
 var ObjectStorage = /** @class */ (function () {
     /**
      * Create Object Endpoint
@@ -794,10 +834,10 @@ var ObjectStorage = /** @class */ (function () {
      *
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.AccessKeysGetResponse>>}
      */
-    ObjectStorage.prototype.accessKeys = function (_callback) {
-        return this._api.get('/objects/objectstorages/access_keys', _callback);
+    ObjectStorage.prototype.accessKeys = function (_options, _callback) {
+        return this._api.get('/objects/objectstorages/access_keys', _options, _callback);
     };
     /**
      * Get Single Object by UUID
@@ -821,146 +861,41 @@ var ObjectStorage = /** @class */ (function () {
      * Creates new Access Key
      *
      * @param _callback
-     * @returns {any|TRequest|LineCollection}
+     * @returns {Promise<ApiResult<models.AccessKeyCreateResponse>>}
      */
     ObjectStorage.prototype.createAccessKey = function (_callback) {
         return this._api.post('/objects/objectstorages/access_keys', _callback);
-    };
-    /**
-     * List Access Keys
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     */
-    ObjectStorage.prototype.buckets = function (_callback) {
-        return this._api.get('/objects/objectstorages/buckets', _callback);
-    };
-    /**
-     * Get Single Object by UUID
-     *
-     * @param _uuid
-     * @param _callback
-     */
-    ObjectStorage.prototype.bucket = function (_bucket_name, _callback) {
-        return this._api.get('/objects/objectstorages/buckets/' + _bucket_name, _callback);
     };
     return ObjectStorage;
 }());
 exports.ObjectStorage = ObjectStorage;
 
-},{}],15:[function(require,module,exports){
+
+
+},{}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PAAS = void 0;
+var PaasServiceTemplate_1 = require("./PaasServiceTemplate");
+var PaasSecurityZone_1 = require("./PaasSecurityZone");
+var PaasService_1 = require("./PaasService");
+/**
+ * this class is only a wrapper to the PaasService, PaasServiceTemplate and PaasSecurityZone classes, due to historical reasons...
+ */
 var PAAS = /** @class */ (function () {
-    /**
-     * Create Object Endpoint
-     *
-     *
-     * @param _api API Class Instance
-     * @param _path Path to the Object
-     */
     function PAAS(_api) {
-        var _this = this;
-        this.serviceTemplates = {
-            list: function (_options, _callback) {
-                if (_options === void 0) { _options = {}; }
-                return _this._api.get('/objects/paas/service_templates', _options, _callback);
-            },
-            get: function (_uuid, _callback) {
-                return _this._api.get('/objects/paas/service_templates/' + _uuid, _callback);
-            }
-        };
-        this.securityZones = {
-            list: function (_options, _callback) {
-                if (_options === void 0) { _options = {}; }
-                return _this._api.get('/objects/paas/security_zones', _options, _callback);
-            },
-            get: function (_uuid, _callback) {
-                return _this._api.get('/objects/paas/security_zones/' + _uuid, _callback);
-            },
-            events: function (_uuid, _callback) {
-                return _this._api.get('/objects/paas/security_zones/' + _uuid + '/events', _callback);
-            },
-            remove: function (_uuid, _callback) {
-                return _this._api.remove('/objects/paas/security_zones/' + _uuid, _callback);
-            },
-            create: function (_data, _callback) {
-                return _this._api.post('/objects/paas/security_zones', _data, _callback);
-            },
-            patch: function (_uuid, _attributes, _callback) {
-                return _this._api.patch('/objects/paas/security_zones/' + _uuid, _attributes, _callback);
-            },
-        };
-        this.services = {
-            list: function (_options, _callback) {
-                if (_options === void 0) { _options = {}; }
-                return _this._api.get('/objects/paas/services', _options, _callback);
-            },
-            get: function (_uuid, _callback) {
-                return _this._api.get('/objects/paas/services/' + _uuid, _callback);
-            },
-            listMetrics: function (_uuid, _callback) {
-                return _this._api.get('/objects/paas/services/' + _uuid + '/metrics', _callback);
-            },
-            remove: function (_uuid, _callback) {
-                return _this._api.remove('/objects/paas/services/' + _uuid, _callback);
-            },
-            create: function (_data, _callback) {
-                return _this._api.post('/objects/paas/services', _data, _callback);
-            },
-            patch: function (_uuid, _attributes, _callback) {
-                return _this._api.patch('/objects/paas/services/' + _uuid, _attributes, _callback);
-            },
-            events: function (_uuid, _callback) {
-                return _this._api.get('/objects/paas/services/' + _uuid + '/events', _callback);
-            },
-        };
         this._api = _api;
+        this.serviceTemplates = new PaasServiceTemplate_1.PaasServiceTemplate(this._api);
+        this.securityZones = new PaasSecurityZone_1.PaasSecurityZone(this._api);
+        this.services = new PaasService_1.PaasService(this._api);
     }
     return PAAS;
 }());
 exports.PAAS = PAAS;
 
-},{}],16:[function(require,module,exports){
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var GridscaleObjects_1 = require("./GridscaleObjects");
-var Price = /** @class */ (function (_super) {
-    __extends(Price, _super);
-    function Price(_api) {
-        return _super.call(this, _api, '/prices') || this;
-    }
-    /**
-     * List Objects
-     *
-     *
-     * @param _options
-     * @param _callback
-     * @returns {any}
-     */
-    Price.prototype.list = function (_callback) {
-        return this._api.get(this._basepath, _callback);
-    };
-    return Price;
-}(GridscaleObjects_1.GridscaleObjects));
-exports.Price = Price;
 
-},{"./GridscaleObjects":6}],17:[function(require,module,exports){
+
+},{"./PaasSecurityZone":15,"./PaasService":16,"./PaasServiceTemplate":18}],15:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -976,6 +911,134 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PaasSecurityZone = void 0;
+var GridscaleObjects_1 = require("./GridscaleObjects");
+var PaasSecurityZone = /** @class */ (function (_super) {
+    __extends(PaasSecurityZone, _super);
+    function PaasSecurityZone(_api) {
+        return _super.call(this, _api, '/objects/paas/security_zones') || this;
+    }
+    return PaasSecurityZone;
+}(GridscaleObjects_1.GridscaleObjects));
+exports.PaasSecurityZone = PaasSecurityZone;
+
+
+
+},{"./GridscaleObjects":5}],16:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PaasService = void 0;
+var GridscaleObjects_1 = require("./GridscaleObjects");
+var PaasServiceMetrics_1 = require("./PaasServiceMetrics");
+var PaasService = /** @class */ (function (_super) {
+    __extends(PaasService, _super);
+    function PaasService(_api) {
+        var _this = _super.call(this, _api, '/objects/paas/services') || this;
+        _this.api = _api;
+        return _this;
+    }
+    PaasService.prototype.listMetrics = function (_uuid, _callback) {
+        return new PaasServiceMetrics_1.PaasServiceMetrics(this._api, _uuid).list({}, _callback);
+    };
+    PaasService.prototype.renewCredentials = function (_serviceUUID) {
+        return this._api.patch(this._basepath + '/' + _serviceUUID + '/renew_credentials', {});
+    };
+    return PaasService;
+}(GridscaleObjects_1.GridscaleObjects));
+exports.PaasService = PaasService;
+
+
+
+},{"./GridscaleObjects":5,"./PaasServiceMetrics":17}],17:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PaasServiceMetrics = void 0;
+var GridscaleObjects_1 = require("./GridscaleObjects");
+var PaasServiceMetrics = /** @class */ (function (_super) {
+    __extends(PaasServiceMetrics, _super);
+    function PaasServiceMetrics(_api, _serviceUUID) {
+        var _this = _super.call(this, _api, '/objects/paas/services/' + _serviceUUID + '/metrics') || this;
+        _this._defaults = {};
+        return _this;
+    }
+    return PaasServiceMetrics;
+}(GridscaleObjects_1.GridscaleObjects));
+exports.PaasServiceMetrics = PaasServiceMetrics;
+
+
+
+},{"./GridscaleObjects":5}],18:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PaasServiceTemplate = void 0;
+var GridscaleObjects_1 = require("./GridscaleObjects");
+var PaasServiceTemplate = /** @class */ (function (_super) {
+    __extends(PaasServiceTemplate, _super);
+    function PaasServiceTemplate(_api) {
+        return _super.call(this, _api, '/objects/paas/service_templates') || this;
+    }
+    return PaasServiceTemplate;
+}(GridscaleObjects_1.GridscaleObjects));
+exports.PaasServiceTemplate = PaasServiceTemplate;
+
+
+
+},{"./GridscaleObjects":5}],19:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SSHKey = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var SSHKey = /** @class */ (function (_super) {
     __extends(SSHKey, _super);
@@ -986,7 +1049,9 @@ var SSHKey = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.SSHKey = SSHKey;
 
-},{"./GridscaleObjects":6}],18:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],20:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1002,7 +1067,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Server = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
+var lodash_1 = require("lodash");
 var Server = /** @class */ (function (_super) {
     __extends(Server, _super);
     function Server(_api) {
@@ -1014,7 +1081,7 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid
      * @param _power
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.power = function (_uuid, _power, _callback) {
         return this._api.patch(this._basepath + '/' + _uuid + '/power', { power: _power }, _callback);
@@ -1024,7 +1091,7 @@ var Server = /** @class */ (function (_super) {
      *
      * @param _uuid
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.shutdown = function (_uuid, _callback) {
         return this._api.patch(this._basepath + '/' + _uuid + '/shutdown', {}, _callback);
@@ -1048,7 +1115,7 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid
      * @param _ip_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedIpGetResponse>>}
      */
     Server.prototype.ip = function (_uuid, _ip_uuid, _callback) {
         return this._sub_get('ips', _uuid, _ip_uuid, _callback);
@@ -1059,10 +1126,10 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _ip_uuid IP UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.addIp = function (_uuid, _ip_uuid, _callback) {
-        return this._sub_post('ips', _uuid, { "object_uuid": _ip_uuid }, _callback);
+        return this._sub_post('ips', _uuid, { 'object_uuid': _ip_uuid }, _callback);
     };
     /**
      * Remove IP-Adress from Server
@@ -1071,7 +1138,7 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _ip_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.removeIp = function (_uuid, _ip_uuid, _callback) {
         return this._sub_remove('ips', _uuid, _ip_uuid, _callback);
@@ -1090,21 +1157,12 @@ var Server = /** @class */ (function (_super) {
         return this._sub('storages', _uuid, _options, _callback);
     };
     /**
-     *  Get Metrics for this Object
-     *
-     * @param _uuid Object UUID
-     * @param _callback Callback Function
-     */
-    Server.prototype.metrics = function (_uuid, _options, _callback) {
-        return this._sub('metrics', _uuid, _options, _callback);
-    };
-    /**
      * Get single Storage <=> Server Relation
      *
      * @param _uuid
      * @param _storage_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedStorageGetResponse>>}
      */
     Server.prototype.storage = function (_uuid, _storage_uuid, _callback) {
         return this._sub_get('storages', _uuid, _storage_uuid, _callback);
@@ -1117,7 +1175,7 @@ var Server = /** @class */ (function (_super) {
      * @param _storage_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.patchStorage = function (_uuid, _storage_uuid, _attribute, _callback) {
         return this._sub_patch('storages', _uuid, _storage_uuid, _attribute, _callback);
@@ -1128,10 +1186,10 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _storage_uuid IP UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.addStorage = function (_uuid, _storage_uuid, _callback) {
-        return this._sub_post('storages', _uuid, { "object_uuid": _storage_uuid }, _callback);
+        return this._sub_post('storages', _uuid, { 'object_uuid': _storage_uuid }, _callback);
     };
     /**
      * Remove Storage from Server
@@ -1140,10 +1198,23 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _storage_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.removeStorage = function (_uuid, _storage_uuid, _callback) {
         return this._sub_remove('storages', _uuid, _storage_uuid, _callback);
+    };
+    /**
+     *  Metrics
+     *
+     */
+    /**
+     *  Get Metrics for this Object
+     *
+     * @param _uuid Object UUID
+     * @param _callback Callback Function
+     */
+    Server.prototype.metrics = function (_uuid, _options, _callback) {
+        return this._sub('metrics', _uuid, _options, _callback);
     };
     /**
      *  Isoimages
@@ -1164,7 +1235,7 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid
      * @param _isoimage_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedIsoimageGetResponse>>}
      */
     Server.prototype.isoimage = function (_uuid, _isoimage_uuid, _callback) {
         return this._sub_get('isoimages', _uuid, _isoimage_uuid, _callback);
@@ -1177,7 +1248,7 @@ var Server = /** @class */ (function (_super) {
      * @param _isoimage_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.patchIsoimage = function (_uuid, _isoimage_uuid, _attribute, _callback) {
         return this._sub_patch('isoimages', _uuid, _isoimage_uuid, _attribute, _callback);
@@ -1188,10 +1259,10 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _isoimage_uuid IP UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.addIsoimage = function (_uuid, _isoimage_uuid, _callback) {
-        return this._sub_post('isoimages', _uuid, { "object_uuid": _isoimage_uuid }, _callback);
+        return this._sub_post('isoimages', _uuid, { 'object_uuid': _isoimage_uuid }, _callback);
     };
     /**
      * Remove Isoimage from Server
@@ -1200,7 +1271,7 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _isoimage_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.removeIsoimage = function (_uuid, _isoimage_uuid, _callback) {
         return this._sub_remove('isoimages', _uuid, _isoimage_uuid, _callback);
@@ -1224,7 +1295,7 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid
      * @param _network_uuid Network UUID
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.LinkedNetworkGetResponse>>}
      */
     Server.prototype.network = function (_uuid, _network_uuid, _callback) {
         return this._sub_get('networks', _uuid, _network_uuid, _callback);
@@ -1242,7 +1313,7 @@ var Server = /** @class */ (function (_super) {
      * @param _network_uuid Network UUID
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.patchNetwork = function (_uuid, _network_uuid, _attribute, _callback) {
         return this._sub_patch('networks', _uuid, _network_uuid, _attribute, _callback);
@@ -1253,10 +1324,14 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _network_uuid Network UUID
      * @param _callback  Callback Function
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
-    Server.prototype.addNetwork = function (_uuid, _network_uuid, _callback) {
-        return this._sub_post('networks', _uuid, { "object_uuid": _network_uuid }, _callback);
+    Server.prototype.addNetwork = function (_uuid, _network_uuid, _additionalOptions, _callback) {
+        if (_additionalOptions === undefined) {
+            _additionalOptions = { object_uuid: _network_uuid };
+        }
+        var _options = lodash_1.assignIn({ 'object_uuid': _network_uuid }, _additionalOptions);
+        return this._sub_post('networks', _uuid, _options, _callback);
     };
     /**
      * Remove Storage from Server
@@ -1265,7 +1340,7 @@ var Server = /** @class */ (function (_super) {
      * @param _uuid Server UUID
      * @param _network_uuid Network UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Server.prototype.removeNetwork = function (_uuid, _network_uuid, _callback) {
         return this._sub_remove('networks', _uuid, _network_uuid, _callback);
@@ -1274,7 +1349,9 @@ var Server = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Server = Server;
 
-},{"./GridscaleObjects":6}],19:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5,"lodash":280}],21:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1290,12 +1367,22 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Storage = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var Storage = /** @class */ (function (_super) {
     __extends(Storage, _super);
     function Storage(_api) {
         return _super.call(this, _api, '/objects/storages') || this;
     }
+    /**
+     *  Clone a Storage
+     *
+     * @param _uuid Object UUID to Clone
+     * @param _callback Callback Function
+     */
+    Storage.prototype.clone = function (_uuid, _callback) {
+        return this._api.post(this._basepath + '/' + _uuid + '/clone', _callback);
+    };
     /**
      *  Snapshots
      *
@@ -1315,7 +1402,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _snapshot_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.SnapshotGetResponse>>}
      */
     Storage.prototype.snapshot = function (_uuid, _snapshot_uuid, _callback) {
         return this._sub_get('snapshots', _uuid, _snapshot_uuid, _callback);
@@ -1332,7 +1419,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _storage_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.patchSnapshot = function (_uuid, _snapshot_uuid, _attribute, _callback) {
         return this._sub_patch('snapshots', _uuid, _snapshot_uuid, _attribute, _callback);
@@ -1347,7 +1434,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _storage_uuid
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.rollbackSnapshot = function (_uuid, _snapshot_uuid, _callback) {
         return this._api.patch('/objects/storages/' + _uuid + '/snapshots/' + _snapshot_uuid + '/rollback', { rollback: true }, _callback);
@@ -1362,7 +1449,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _storage_uuid
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.exportSnapshot = function (_uuid, _snapshot_uuid, _data, _callback) {
         return this._api.patch('/objects/storages/' + _uuid + '/snapshots/' + _snapshot_uuid + '/export_to_s3', _data, _callback);
@@ -1373,7 +1460,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _attribute
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<CreateResponse>>}
      */
     Storage.prototype.createSnapshot = function (_uuid, _attribute, _callback) {
         return this._sub_post('snapshots', _uuid, _attribute, _callback);
@@ -1382,10 +1469,10 @@ var Storage = /** @class */ (function (_super) {
      * Remove Snapshot
      *
      *
-     * @param _uuid Server UUID
+     * @param _uuid Storage UUID
      * @param _snapshot_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.removeSnapshot = function (_uuid, _snapshot_uuid, _callback) {
         return this._sub_remove('snapshots', _uuid, _snapshot_uuid, _callback);
@@ -1409,7 +1496,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _snapshot_scheduler_uuid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise<ApiResult<models.SnapshotScheduleGetResponse>>}
      */
     Storage.prototype.snapshotScheduler = function (_uuid, _snapshot_scheduler_uuid, _callback) {
         return this._sub_get('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
@@ -1422,7 +1509,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _snapshot_scheduler_uuid
      * @param _attribute
      * @param _callback
-     * @returns {any|TRequest}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.patchSnapshotScheduler = function (_uuid, _snapshot_scheduler_uuid, _attribute, _callback) {
         return this._sub_patch('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _attribute, _callback);
@@ -1433,7 +1520,7 @@ var Storage = /** @class */ (function (_super) {
      * @param _uuid
      * @param _attribute
      * @param _callback
-     * @returns {TRequest|any}
+     * @returns {Promise<ApiResult<CreateResponse>>}
      */
     Storage.prototype.createSnapshotScheduler = function (_uuid, _attribute, _callback) {
         return this._sub_post('snapshot_schedules', _uuid, _attribute, _callback);
@@ -1442,19 +1529,107 @@ var Storage = /** @class */ (function (_super) {
      * Remove Snapshot Schedler
      *
      *
-     * @param _uuid Server UUID
+     * @param _uuid Storage UUID
      * @param _snapshot_scheduler_uuid IP UUID
      * @param _callback
-     * @returns {any|void|PromiseLike<void>}
+     * @returns {Promise<ApiResult<VoidApiResult>>}
      */
     Storage.prototype.removeSnapshotScheduler = function (_uuid, _snapshot_scheduler_uuid, _callback) {
         return this._sub_remove('snapshot_schedules', _uuid, _snapshot_scheduler_uuid, _callback);
+    };
+    /**
+     * List all backup schedules for the storage
+     *
+     * @param _uuid Storage UUID
+     * @param _options requestOptions
+     * @param _callback
+     * @returns {Promise<ApiResult<models.StorageBackupSchedulesGetResponse>>}
+     */
+    Storage.prototype.backupSchedules = function (_uuid, _options, _callback) {
+        return this._sub('backup_schedules', _uuid, _options, _callback);
+    };
+    /**
+     * Fetches one backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid Backup-Schedule UUID
+     * @param _callback
+     */
+    Storage.prototype.backupScheduler = function (_uuid, _backup_schedule_uuid, _callback) {
+        return this._sub_get('backup_schedules', _uuid, _backup_schedule_uuid, _callback);
+    };
+    /**
+     * Creates a new backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_options
+     * @param _callback
+     */
+    Storage.prototype.createBackupScheduler = function (_uuid, _backup_schedule_options, _callback) {
+        return this._sub_post('backup_schedules', _uuid, _backup_schedule_options, _callback);
+    };
+    /**
+     * Modifies existing backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid  Backup-Schedule UUID
+     * @param backup_schedule_options
+     * @param callback
+     */
+    Storage.prototype.patchBackupSchedule = function (_uuid, _backup_schedule_uuid, _backup_schedule_options, _callback) {
+        return this._sub_patch('backup_schedules', _uuid, _backup_schedule_uuid, _backup_schedule_options, _callback);
+    };
+    /**
+     * Remove existing backup schedule
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_schedule_uuid Backup-Schedule UUID
+     * @param callback
+     */
+    Storage.prototype.removeStorageBackupSchedule = function (_uuid, _backup_schedule_uuid, _callback) {
+        return this._sub_remove('backup_schedules', _uuid, _backup_schedule_uuid, _callback);
+    };
+    /**
+     * List all backups of the storage
+     *
+     * @param _uuid Storage UUID
+     * @param _callback
+     */
+    Storage.prototype.backups = function (_uuid, _options, _callback) {
+        return this._sub('backups', _uuid, _options, _callback);
+    };
+    /**
+     * Remove existing backup
+     *
+     * @param _uuid Storage UUID
+     * @param _backup_uuid
+     * @param _callback
+     */
+    Storage.prototype.deleteStorageBackup = function (_uuid, _backup_uuid, _callback) {
+        return this._sub_remove('backups', _uuid, _backup_uuid, _callback);
+    };
+    Storage.prototype.rollbackStorageBackup = function (_uuid, _backup_uuid, _attributes, _callback) {
+        return this._sub_patch('backups', _uuid, _backup_uuid + '/rollback', _attributes, _callback);
+    };
+    /**
+     * Creates a new storage from an existing backup
+     * @param _name Name of the new storage
+     * @param _backup_uuid Backup-UUID to restore from
+     * @param _callback
+     */
+    Storage.prototype.createFromBackup = function (_name, _backup_uuid, _callback) {
+        return this._api.post(this._basepath + '/import', { backup: {
+                name: _name,
+                backup_uuid: _backup_uuid,
+            } }, _callback);
     };
     return Storage;
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Storage = Storage;
 
-},{"./GridscaleObjects":6}],20:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],22:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1470,6 +1645,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Template = void 0;
 var GridscaleObjects_1 = require("./GridscaleObjects");
 var Template = /** @class */ (function (_super) {
     __extends(Template, _super);
@@ -1480,7 +1656,11760 @@ var Template = /** @class */ (function (_super) {
 }(GridscaleObjects_1.GridscaleObjects));
 exports.Template = Template;
 
-},{"./GridscaleObjects":6}],21:[function(require,module,exports){
+
+
+},{"./GridscaleObjects":5}],23:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Ip_1 = require("./models/Ip");
+Object.defineProperty(exports, "Ip", { enumerable: true, get: function () { return Ip_1.Ip; } });
+var IpBrief_1 = require("./models/IpBrief");
+Object.defineProperty(exports, "IpBrief", { enumerable: true, get: function () { return IpBrief_1.IpBrief; } });
+var IpCreate_1 = require("./models/IpCreate");
+Object.defineProperty(exports, "IpCreate", { enumerable: true, get: function () { return IpCreate_1.IpCreate; } });
+var LinkedIp_1 = require("./models/LinkedIp");
+Object.defineProperty(exports, "LinkedIp", { enumerable: true, get: function () { return LinkedIp_1.LinkedIp; } });
+var LinkedIpBrief_1 = require("./models/LinkedIpBrief");
+Object.defineProperty(exports, "LinkedIpBrief", { enumerable: true, get: function () { return LinkedIpBrief_1.LinkedIpBrief; } });
+var MarketplaceApplication_1 = require("./models/MarketplaceApplication");
+Object.defineProperty(exports, "MarketplaceApplication", { enumerable: true, get: function () { return MarketplaceApplication_1.MarketplaceApplication; } });
+var MarketplaceApplicationCreate_1 = require("./models/MarketplaceApplicationCreate");
+Object.defineProperty(exports, "MarketplaceApplicationCreate", { enumerable: true, get: function () { return MarketplaceApplicationCreate_1.MarketplaceApplicationCreate; } });
+var MarketplaceApplicationUpdate_1 = require("./models/MarketplaceApplicationUpdate");
+Object.defineProperty(exports, "MarketplaceApplicationUpdate", { enumerable: true, get: function () { return MarketplaceApplicationUpdate_1.MarketplaceApplicationUpdate; } });
+var RulesProperties_1 = require("./models/RulesProperties");
+Object.defineProperty(exports, "RulesProperties", { enumerable: true, get: function () { return RulesProperties_1.RulesProperties; } });
+var ServerCreate_1 = require("./models/ServerCreate");
+Object.defineProperty(exports, "ServerCreate", { enumerable: true, get: function () { return ServerCreate_1.ServerCreate; } });
+var Storage_1 = require("./models/Storage");
+Object.defineProperty(exports, "Storage", { enumerable: true, get: function () { return Storage_1.Storage; } });
+var StorageClone_1 = require("./models/StorageClone");
+Object.defineProperty(exports, "StorageClone", { enumerable: true, get: function () { return StorageClone_1.StorageClone; } });
+var StorageCreateTemplatePassword_1 = require("./models/StorageCreateTemplatePassword");
+Object.defineProperty(exports, "StorageCreateTemplatePassword", { enumerable: true, get: function () { return StorageCreateTemplatePassword_1.StorageCreateTemplatePassword; } });
+var StorageImportFromS3Object_1 = require("./models/StorageImportFromS3Object");
+Object.defineProperty(exports, "StorageImportFromS3Object", { enumerable: true, get: function () { return StorageImportFromS3Object_1.StorageImportFromS3Object; } });
+var StorageType_1 = require("./models/StorageType");
+Object.defineProperty(exports, "StorageType", { enumerable: true, get: function () { return StorageType_1.StorageType; } });
+var StorageUpdate_1 = require("./models/StorageUpdate");
+Object.defineProperty(exports, "StorageUpdate", { enumerable: true, get: function () { return StorageUpdate_1.StorageUpdate; } });
+var StorageVariant_1 = require("./models/StorageVariant");
+Object.defineProperty(exports, "StorageVariant", { enumerable: true, get: function () { return StorageVariant_1.StorageVariant; } });
+var _AccessKey_1 = require("./schemas/$AccessKey");
+Object.defineProperty(exports, "$AccessKey", { enumerable: true, get: function () { return _AccessKey_1.$AccessKey; } });
+var _AccessKeyCreateResponse_1 = require("./schemas/$AccessKeyCreateResponse");
+Object.defineProperty(exports, "$AccessKeyCreateResponse", { enumerable: true, get: function () { return _AccessKeyCreateResponse_1.$AccessKeyCreateResponse; } });
+var _AccessKeyGetResponse_1 = require("./schemas/$AccessKeyGetResponse");
+Object.defineProperty(exports, "$AccessKeyGetResponse", { enumerable: true, get: function () { return _AccessKeyGetResponse_1.$AccessKeyGetResponse; } });
+var _AccessKeyList_1 = require("./schemas/$AccessKeyList");
+Object.defineProperty(exports, "$AccessKeyList", { enumerable: true, get: function () { return _AccessKeyList_1.$AccessKeyList; } });
+var _AccessKeysGetResponse_1 = require("./schemas/$AccessKeysGetResponse");
+Object.defineProperty(exports, "$AccessKeysGetResponse", { enumerable: true, get: function () { return _AccessKeysGetResponse_1.$AccessKeysGetResponse; } });
+var _Bucket_1 = require("./schemas/$Bucket");
+Object.defineProperty(exports, "$Bucket", { enumerable: true, get: function () { return _Bucket_1.$Bucket; } });
+var _BucketGetResponse_1 = require("./schemas/$BucketGetResponse");
+Object.defineProperty(exports, "$BucketGetResponse", { enumerable: true, get: function () { return _BucketGetResponse_1.$BucketGetResponse; } });
+var _BucketList_1 = require("./schemas/$BucketList");
+Object.defineProperty(exports, "$BucketList", { enumerable: true, get: function () { return _BucketList_1.$BucketList; } });
+var _BucketsGetResponse_1 = require("./schemas/$BucketsGetResponse");
+Object.defineProperty(exports, "$BucketsGetResponse", { enumerable: true, get: function () { return _BucketsGetResponse_1.$BucketsGetResponse; } });
+var _CreateResponse_1 = require("./schemas/$CreateResponse");
+Object.defineProperty(exports, "$CreateResponse", { enumerable: true, get: function () { return _CreateResponse_1.$CreateResponse; } });
+var _DeletedIpsGetResponse_1 = require("./schemas/$DeletedIpsGetResponse");
+Object.defineProperty(exports, "$DeletedIpsGetResponse", { enumerable: true, get: function () { return _DeletedIpsGetResponse_1.$DeletedIpsGetResponse; } });
+var _DeletedIsoimagesGetResponse_1 = require("./schemas/$DeletedIsoimagesGetResponse");
+Object.defineProperty(exports, "$DeletedIsoimagesGetResponse", { enumerable: true, get: function () { return _DeletedIsoimagesGetResponse_1.$DeletedIsoimagesGetResponse; } });
+var _DeletedLoadbalancersGetResponse_1 = require("./schemas/$DeletedLoadbalancersGetResponse");
+Object.defineProperty(exports, "$DeletedLoadbalancersGetResponse", { enumerable: true, get: function () { return _DeletedLoadbalancersGetResponse_1.$DeletedLoadbalancersGetResponse; } });
+var _DeletedNetworksGetResponse_1 = require("./schemas/$DeletedNetworksGetResponse");
+Object.defineProperty(exports, "$DeletedNetworksGetResponse", { enumerable: true, get: function () { return _DeletedNetworksGetResponse_1.$DeletedNetworksGetResponse; } });
+var _DeletedPaasServicesGetResponse_1 = require("./schemas/$DeletedPaasServicesGetResponse");
+Object.defineProperty(exports, "$DeletedPaasServicesGetResponse", { enumerable: true, get: function () { return _DeletedPaasServicesGetResponse_1.$DeletedPaasServicesGetResponse; } });
+var _DeletedServersGetResponse_1 = require("./schemas/$DeletedServersGetResponse");
+Object.defineProperty(exports, "$DeletedServersGetResponse", { enumerable: true, get: function () { return _DeletedServersGetResponse_1.$DeletedServersGetResponse; } });
+var _DeletedSnapshotsGetResponse_1 = require("./schemas/$DeletedSnapshotsGetResponse");
+Object.defineProperty(exports, "$DeletedSnapshotsGetResponse", { enumerable: true, get: function () { return _DeletedSnapshotsGetResponse_1.$DeletedSnapshotsGetResponse; } });
+var _DeletedStoragesGetResponse_1 = require("./schemas/$DeletedStoragesGetResponse");
+Object.defineProperty(exports, "$DeletedStoragesGetResponse", { enumerable: true, get: function () { return _DeletedStoragesGetResponse_1.$DeletedStoragesGetResponse; } });
+var _DeletedTemplatesGetResponse_1 = require("./schemas/$DeletedTemplatesGetResponse");
+Object.defineProperty(exports, "$DeletedTemplatesGetResponse", { enumerable: true, get: function () { return _DeletedTemplatesGetResponse_1.$DeletedTemplatesGetResponse; } });
+var _EventResponse_1 = require("./schemas/$EventResponse");
+Object.defineProperty(exports, "$EventResponse", { enumerable: true, get: function () { return _EventResponse_1.$EventResponse; } });
+var _Firewall_1 = require("./schemas/$Firewall");
+Object.defineProperty(exports, "$Firewall", { enumerable: true, get: function () { return _Firewall_1.$Firewall; } });
+var _FirewallCreate_1 = require("./schemas/$FirewallCreate");
+Object.defineProperty(exports, "$FirewallCreate", { enumerable: true, get: function () { return _FirewallCreate_1.$FirewallCreate; } });
+var _FirewallGetResponse_1 = require("./schemas/$FirewallGetResponse");
+Object.defineProperty(exports, "$FirewallGetResponse", { enumerable: true, get: function () { return _FirewallGetResponse_1.$FirewallGetResponse; } });
+var _FirewallIndex_1 = require("./schemas/$FirewallIndex");
+Object.defineProperty(exports, "$FirewallIndex", { enumerable: true, get: function () { return _FirewallIndex_1.$FirewallIndex; } });
+var _FirewallRelation_1 = require("./schemas/$FirewallRelation");
+Object.defineProperty(exports, "$FirewallRelation", { enumerable: true, get: function () { return _FirewallRelation_1.$FirewallRelation; } });
+var _FirewallRules_1 = require("./schemas/$FirewallRules");
+Object.defineProperty(exports, "$FirewallRules", { enumerable: true, get: function () { return _FirewallRules_1.$FirewallRules; } });
+var _FirewallsGetResponse_1 = require("./schemas/$FirewallsGetResponse");
+Object.defineProperty(exports, "$FirewallsGetResponse", { enumerable: true, get: function () { return _FirewallsGetResponse_1.$FirewallsGetResponse; } });
+var _FirewallUpdate_1 = require("./schemas/$FirewallUpdate");
+Object.defineProperty(exports, "$FirewallUpdate", { enumerable: true, get: function () { return _FirewallUpdate_1.$FirewallUpdate; } });
+var _FirewallV4inRule_1 = require("./schemas/$FirewallV4inRule");
+Object.defineProperty(exports, "$FirewallV4inRule", { enumerable: true, get: function () { return _FirewallV4inRule_1.$FirewallV4inRule; } });
+var _FirewallV4outRule_1 = require("./schemas/$FirewallV4outRule");
+Object.defineProperty(exports, "$FirewallV4outRule", { enumerable: true, get: function () { return _FirewallV4outRule_1.$FirewallV4outRule; } });
+var _FirewallV6inRule_1 = require("./schemas/$FirewallV6inRule");
+Object.defineProperty(exports, "$FirewallV6inRule", { enumerable: true, get: function () { return _FirewallV6inRule_1.$FirewallV6inRule; } });
+var _FirewallV6outRule_1 = require("./schemas/$FirewallV6outRule");
+Object.defineProperty(exports, "$FirewallV6outRule", { enumerable: true, get: function () { return _FirewallV6outRule_1.$FirewallV6outRule; } });
+var _Ip_1 = require("./schemas/$Ip");
+Object.defineProperty(exports, "$Ip", { enumerable: true, get: function () { return _Ip_1.$Ip; } });
+var _IpBrief_1 = require("./schemas/$IpBrief");
+Object.defineProperty(exports, "$IpBrief", { enumerable: true, get: function () { return _IpBrief_1.$IpBrief; } });
+var _IpBriefIndex_1 = require("./schemas/$IpBriefIndex");
+Object.defineProperty(exports, "$IpBriefIndex", { enumerable: true, get: function () { return _IpBriefIndex_1.$IpBriefIndex; } });
+var _IpCreate_1 = require("./schemas/$IpCreate");
+Object.defineProperty(exports, "$IpCreate", { enumerable: true, get: function () { return _IpCreate_1.$IpCreate; } });
+var _IpCreateResponse_1 = require("./schemas/$IpCreateResponse");
+Object.defineProperty(exports, "$IpCreateResponse", { enumerable: true, get: function () { return _IpCreateResponse_1.$IpCreateResponse; } });
+var _IpGetResponse_1 = require("./schemas/$IpGetResponse");
+Object.defineProperty(exports, "$IpGetResponse", { enumerable: true, get: function () { return _IpGetResponse_1.$IpGetResponse; } });
+var _IpRelation_1 = require("./schemas/$IpRelation");
+Object.defineProperty(exports, "$IpRelation", { enumerable: true, get: function () { return _IpRelation_1.$IpRelation; } });
+var _IpsGetResponse_1 = require("./schemas/$IpsGetResponse");
+Object.defineProperty(exports, "$IpsGetResponse", { enumerable: true, get: function () { return _IpsGetResponse_1.$IpsGetResponse; } });
+var _IpUpdate_1 = require("./schemas/$IpUpdate");
+Object.defineProperty(exports, "$IpUpdate", { enumerable: true, get: function () { return _IpUpdate_1.$IpUpdate; } });
+var _Isoimage_1 = require("./schemas/$Isoimage");
+Object.defineProperty(exports, "$Isoimage", { enumerable: true, get: function () { return _Isoimage_1.$Isoimage; } });
+var _IsoimageCreate_1 = require("./schemas/$IsoimageCreate");
+Object.defineProperty(exports, "$IsoimageCreate", { enumerable: true, get: function () { return _IsoimageCreate_1.$IsoimageCreate; } });
+var _IsoimageGetResponse_1 = require("./schemas/$IsoimageGetResponse");
+Object.defineProperty(exports, "$IsoimageGetResponse", { enumerable: true, get: function () { return _IsoimageGetResponse_1.$IsoimageGetResponse; } });
+var _IsoimageIndex_1 = require("./schemas/$IsoimageIndex");
+Object.defineProperty(exports, "$IsoimageIndex", { enumerable: true, get: function () { return _IsoimageIndex_1.$IsoimageIndex; } });
+var _IsoimageinServer_1 = require("./schemas/$IsoimageinServer");
+Object.defineProperty(exports, "$IsoimageinServer", { enumerable: true, get: function () { return _IsoimageinServer_1.$IsoimageinServer; } });
+var _IsoimageRelation_1 = require("./schemas/$IsoimageRelation");
+Object.defineProperty(exports, "$IsoimageRelation", { enumerable: true, get: function () { return _IsoimageRelation_1.$IsoimageRelation; } });
+var _IsoimagesGetResponse_1 = require("./schemas/$IsoimagesGetResponse");
+Object.defineProperty(exports, "$IsoimagesGetResponse", { enumerable: true, get: function () { return _IsoimagesGetResponse_1.$IsoimagesGetResponse; } });
+var _IsoimageUpdate_1 = require("./schemas/$IsoimageUpdate");
+Object.defineProperty(exports, "$IsoimageUpdate", { enumerable: true, get: function () { return _IsoimageUpdate_1.$IsoimageUpdate; } });
+var _Label_1 = require("./schemas/$Label");
+Object.defineProperty(exports, "$Label", { enumerable: true, get: function () { return _Label_1.$Label; } });
+var _LabelGetResponse_1 = require("./schemas/$LabelGetResponse");
+Object.defineProperty(exports, "$LabelGetResponse", { enumerable: true, get: function () { return _LabelGetResponse_1.$LabelGetResponse; } });
+var _LabelIndex_1 = require("./schemas/$LabelIndex");
+Object.defineProperty(exports, "$LabelIndex", { enumerable: true, get: function () { return _LabelIndex_1.$LabelIndex; } });
+var _LabelsGetResponse_1 = require("./schemas/$LabelsGetResponse");
+Object.defineProperty(exports, "$LabelsGetResponse", { enumerable: true, get: function () { return _LabelsGetResponse_1.$LabelsGetResponse; } });
+var _LinkedIp_1 = require("./schemas/$LinkedIp");
+Object.defineProperty(exports, "$LinkedIp", { enumerable: true, get: function () { return _LinkedIp_1.$LinkedIp; } });
+var _LinkedIpBrief_1 = require("./schemas/$LinkedIpBrief");
+Object.defineProperty(exports, "$LinkedIpBrief", { enumerable: true, get: function () { return _LinkedIpBrief_1.$LinkedIpBrief; } });
+var _LinkedIpGetResponse_1 = require("./schemas/$LinkedIpGetResponse");
+Object.defineProperty(exports, "$LinkedIpGetResponse", { enumerable: true, get: function () { return _LinkedIpGetResponse_1.$LinkedIpGetResponse; } });
+var _LinkedIpsGetResponse_1 = require("./schemas/$LinkedIpsGetResponse");
+Object.defineProperty(exports, "$LinkedIpsGetResponse", { enumerable: true, get: function () { return _LinkedIpsGetResponse_1.$LinkedIpsGetResponse; } });
+var _LinkedIpUpdate_1 = require("./schemas/$LinkedIpUpdate");
+Object.defineProperty(exports, "$LinkedIpUpdate", { enumerable: true, get: function () { return _LinkedIpUpdate_1.$LinkedIpUpdate; } });
+var _LinkedIsoimage_1 = require("./schemas/$LinkedIsoimage");
+Object.defineProperty(exports, "$LinkedIsoimage", { enumerable: true, get: function () { return _LinkedIsoimage_1.$LinkedIsoimage; } });
+var _LinkedIsoimageBrief_1 = require("./schemas/$LinkedIsoimageBrief");
+Object.defineProperty(exports, "$LinkedIsoimageBrief", { enumerable: true, get: function () { return _LinkedIsoimageBrief_1.$LinkedIsoimageBrief; } });
+var _LinkedIsoimageGetResponse_1 = require("./schemas/$LinkedIsoimageGetResponse");
+Object.defineProperty(exports, "$LinkedIsoimageGetResponse", { enumerable: true, get: function () { return _LinkedIsoimageGetResponse_1.$LinkedIsoimageGetResponse; } });
+var _LinkedIsoimagesGetResponse_1 = require("./schemas/$LinkedIsoimagesGetResponse");
+Object.defineProperty(exports, "$LinkedIsoimagesGetResponse", { enumerable: true, get: function () { return _LinkedIsoimagesGetResponse_1.$LinkedIsoimagesGetResponse; } });
+var _LinkedIsoimageUpdate_1 = require("./schemas/$LinkedIsoimageUpdate");
+Object.defineProperty(exports, "$LinkedIsoimageUpdate", { enumerable: true, get: function () { return _LinkedIsoimageUpdate_1.$LinkedIsoimageUpdate; } });
+var _LinkedNetwork_1 = require("./schemas/$LinkedNetwork");
+Object.defineProperty(exports, "$LinkedNetwork", { enumerable: true, get: function () { return _LinkedNetwork_1.$LinkedNetwork; } });
+var _LinkedNetworkBrief_1 = require("./schemas/$LinkedNetworkBrief");
+Object.defineProperty(exports, "$LinkedNetworkBrief", { enumerable: true, get: function () { return _LinkedNetworkBrief_1.$LinkedNetworkBrief; } });
+var _LinkedNetworkGetResponse_1 = require("./schemas/$LinkedNetworkGetResponse");
+Object.defineProperty(exports, "$LinkedNetworkGetResponse", { enumerable: true, get: function () { return _LinkedNetworkGetResponse_1.$LinkedNetworkGetResponse; } });
+var _LinkedNetworksGetResponse_1 = require("./schemas/$LinkedNetworksGetResponse");
+Object.defineProperty(exports, "$LinkedNetworksGetResponse", { enumerable: true, get: function () { return _LinkedNetworksGetResponse_1.$LinkedNetworksGetResponse; } });
+var _LinkedNetworkUpdate_1 = require("./schemas/$LinkedNetworkUpdate");
+Object.defineProperty(exports, "$LinkedNetworkUpdate", { enumerable: true, get: function () { return _LinkedNetworkUpdate_1.$LinkedNetworkUpdate; } });
+var _LinkedStorage_1 = require("./schemas/$LinkedStorage");
+Object.defineProperty(exports, "$LinkedStorage", { enumerable: true, get: function () { return _LinkedStorage_1.$LinkedStorage; } });
+var _LinkedStorageBrief_1 = require("./schemas/$LinkedStorageBrief");
+Object.defineProperty(exports, "$LinkedStorageBrief", { enumerable: true, get: function () { return _LinkedStorageBrief_1.$LinkedStorageBrief; } });
+var _LinkedStorageGetResponse_1 = require("./schemas/$LinkedStorageGetResponse");
+Object.defineProperty(exports, "$LinkedStorageGetResponse", { enumerable: true, get: function () { return _LinkedStorageGetResponse_1.$LinkedStorageGetResponse; } });
+var _LinkedStoragesGetResponse_1 = require("./schemas/$LinkedStoragesGetResponse");
+Object.defineProperty(exports, "$LinkedStoragesGetResponse", { enumerable: true, get: function () { return _LinkedStoragesGetResponse_1.$LinkedStoragesGetResponse; } });
+var _LinkedStorageUpdate_1 = require("./schemas/$LinkedStorageUpdate");
+Object.defineProperty(exports, "$LinkedStorageUpdate", { enumerable: true, get: function () { return _LinkedStorageUpdate_1.$LinkedStorageUpdate; } });
+var _LinkIp_1 = require("./schemas/$LinkIp");
+Object.defineProperty(exports, "$LinkIp", { enumerable: true, get: function () { return _LinkIp_1.$LinkIp; } });
+var _LinkIsoimage_1 = require("./schemas/$LinkIsoimage");
+Object.defineProperty(exports, "$LinkIsoimage", { enumerable: true, get: function () { return _LinkIsoimage_1.$LinkIsoimage; } });
+var _LinkNetwork_1 = require("./schemas/$LinkNetwork");
+Object.defineProperty(exports, "$LinkNetwork", { enumerable: true, get: function () { return _LinkNetwork_1.$LinkNetwork; } });
+var _LinkStorage_1 = require("./schemas/$LinkStorage");
+Object.defineProperty(exports, "$LinkStorage", { enumerable: true, get: function () { return _LinkStorage_1.$LinkStorage; } });
+var _ListenPorts_1 = require("./schemas/$ListenPorts");
+Object.defineProperty(exports, "$ListenPorts", { enumerable: true, get: function () { return _ListenPorts_1.$ListenPorts; } });
+var _ListenPortsByIpIndex_1 = require("./schemas/$ListenPortsByIpIndex");
+Object.defineProperty(exports, "$ListenPortsByIpIndex", { enumerable: true, get: function () { return _ListenPortsByIpIndex_1.$ListenPortsByIpIndex; } });
+var _Loadbalancer_1 = require("./schemas/$Loadbalancer");
+Object.defineProperty(exports, "$Loadbalancer", { enumerable: true, get: function () { return _Loadbalancer_1.$Loadbalancer; } });
+var _LoadbalancerCreate_1 = require("./schemas/$LoadbalancerCreate");
+Object.defineProperty(exports, "$LoadbalancerCreate", { enumerable: true, get: function () { return _LoadbalancerCreate_1.$LoadbalancerCreate; } });
+var _LoadbalancerGetResponse_1 = require("./schemas/$LoadbalancerGetResponse");
+Object.defineProperty(exports, "$LoadbalancerGetResponse", { enumerable: true, get: function () { return _LoadbalancerGetResponse_1.$LoadbalancerGetResponse; } });
+var _LoadbalancerIndex_1 = require("./schemas/$LoadbalancerIndex");
+Object.defineProperty(exports, "$LoadbalancerIndex", { enumerable: true, get: function () { return _LoadbalancerIndex_1.$LoadbalancerIndex; } });
+var _LoadbalancerinIp_1 = require("./schemas/$LoadbalancerinIp");
+Object.defineProperty(exports, "$LoadbalancerinIp", { enumerable: true, get: function () { return _LoadbalancerinIp_1.$LoadbalancerinIp; } });
+var _LoadbalancersGetResponse_1 = require("./schemas/$LoadbalancersGetResponse");
+Object.defineProperty(exports, "$LoadbalancersGetResponse", { enumerable: true, get: function () { return _LoadbalancersGetResponse_1.$LoadbalancersGetResponse; } });
+var _LoadbalancerUpdate_1 = require("./schemas/$LoadbalancerUpdate");
+Object.defineProperty(exports, "$LoadbalancerUpdate", { enumerable: true, get: function () { return _LoadbalancerUpdate_1.$LoadbalancerUpdate; } });
+var _Location_1 = require("./schemas/$Location");
+Object.defineProperty(exports, "$Location", { enumerable: true, get: function () { return _Location_1.$Location; } });
+var _LocationChangeRequested_1 = require("./schemas/$LocationChangeRequested");
+Object.defineProperty(exports, "$LocationChangeRequested", { enumerable: true, get: function () { return _LocationChangeRequested_1.$LocationChangeRequested; } });
+var _LocationCreate_1 = require("./schemas/$LocationCreate");
+Object.defineProperty(exports, "$LocationCreate", { enumerable: true, get: function () { return _LocationCreate_1.$LocationCreate; } });
+var _LocationGetResponse_1 = require("./schemas/$LocationGetResponse");
+Object.defineProperty(exports, "$LocationGetResponse", { enumerable: true, get: function () { return _LocationGetResponse_1.$LocationGetResponse; } });
+var _LocationIndex_1 = require("./schemas/$LocationIndex");
+Object.defineProperty(exports, "$LocationIndex", { enumerable: true, get: function () { return _LocationIndex_1.$LocationIndex; } });
+var _LocationsGetResponse_1 = require("./schemas/$LocationsGetResponse");
+Object.defineProperty(exports, "$LocationsGetResponse", { enumerable: true, get: function () { return _LocationsGetResponse_1.$LocationsGetResponse; } });
+var _LocationUpdate_1 = require("./schemas/$LocationUpdate");
+Object.defineProperty(exports, "$LocationUpdate", { enumerable: true, get: function () { return _LocationUpdate_1.$LocationUpdate; } });
+var _MarketplaceApplication_1 = require("./schemas/$MarketplaceApplication");
+Object.defineProperty(exports, "$MarketplaceApplication", { enumerable: true, get: function () { return _MarketplaceApplication_1.$MarketplaceApplication; } });
+var _MarketplaceApplicationCreate_1 = require("./schemas/$MarketplaceApplicationCreate");
+Object.defineProperty(exports, "$MarketplaceApplicationCreate", { enumerable: true, get: function () { return _MarketplaceApplicationCreate_1.$MarketplaceApplicationCreate; } });
+var _MarketplaceApplicationCreateResponse_1 = require("./schemas/$MarketplaceApplicationCreateResponse");
+Object.defineProperty(exports, "$MarketplaceApplicationCreateResponse", { enumerable: true, get: function () { return _MarketplaceApplicationCreateResponse_1.$MarketplaceApplicationCreateResponse; } });
+var _MarketplaceApplicationGetResponse_1 = require("./schemas/$MarketplaceApplicationGetResponse");
+Object.defineProperty(exports, "$MarketplaceApplicationGetResponse", { enumerable: true, get: function () { return _MarketplaceApplicationGetResponse_1.$MarketplaceApplicationGetResponse; } });
+var _MarketplaceApplicationImport_1 = require("./schemas/$MarketplaceApplicationImport");
+Object.defineProperty(exports, "$MarketplaceApplicationImport", { enumerable: true, get: function () { return _MarketplaceApplicationImport_1.$MarketplaceApplicationImport; } });
+var _MarketplaceApplicationIndex_1 = require("./schemas/$MarketplaceApplicationIndex");
+Object.defineProperty(exports, "$MarketplaceApplicationIndex", { enumerable: true, get: function () { return _MarketplaceApplicationIndex_1.$MarketplaceApplicationIndex; } });
+var _MarketplaceApplicationMetadata_1 = require("./schemas/$MarketplaceApplicationMetadata");
+Object.defineProperty(exports, "$MarketplaceApplicationMetadata", { enumerable: true, get: function () { return _MarketplaceApplicationMetadata_1.$MarketplaceApplicationMetadata; } });
+var _MarketplaceApplicationSetup_1 = require("./schemas/$MarketplaceApplicationSetup");
+Object.defineProperty(exports, "$MarketplaceApplicationSetup", { enumerable: true, get: function () { return _MarketplaceApplicationSetup_1.$MarketplaceApplicationSetup; } });
+var _MarketplaceApplicationsGetResponse_1 = require("./schemas/$MarketplaceApplicationsGetResponse");
+Object.defineProperty(exports, "$MarketplaceApplicationsGetResponse", { enumerable: true, get: function () { return _MarketplaceApplicationsGetResponse_1.$MarketplaceApplicationsGetResponse; } });
+var _MarketplaceApplicationUpdate_1 = require("./schemas/$MarketplaceApplicationUpdate");
+Object.defineProperty(exports, "$MarketplaceApplicationUpdate", { enumerable: true, get: function () { return _MarketplaceApplicationUpdate_1.$MarketplaceApplicationUpdate; } });
+var _Metrics_1 = require("./schemas/$Metrics");
+Object.defineProperty(exports, "$Metrics", { enumerable: true, get: function () { return _Metrics_1.$Metrics; } });
+var _MetricsValue_1 = require("./schemas/$MetricsValue");
+Object.defineProperty(exports, "$MetricsValue", { enumerable: true, get: function () { return _MetricsValue_1.$MetricsValue; } });
+var _Network_1 = require("./schemas/$Network");
+Object.defineProperty(exports, "$Network", { enumerable: true, get: function () { return _Network_1.$Network; } });
+var _NetworkCreate_1 = require("./schemas/$NetworkCreate");
+Object.defineProperty(exports, "$NetworkCreate", { enumerable: true, get: function () { return _NetworkCreate_1.$NetworkCreate; } });
+var _NetworkGetResponse_1 = require("./schemas/$NetworkGetResponse");
+Object.defineProperty(exports, "$NetworkGetResponse", { enumerable: true, get: function () { return _NetworkGetResponse_1.$NetworkGetResponse; } });
+var _NetworkIndex_1 = require("./schemas/$NetworkIndex");
+Object.defineProperty(exports, "$NetworkIndex", { enumerable: true, get: function () { return _NetworkIndex_1.$NetworkIndex; } });
+var _NetworkinFirewall_1 = require("./schemas/$NetworkinFirewall");
+Object.defineProperty(exports, "$NetworkinFirewall", { enumerable: true, get: function () { return _NetworkinFirewall_1.$NetworkinFirewall; } });
+var _NetworkinServer_1 = require("./schemas/$NetworkinServer");
+Object.defineProperty(exports, "$NetworkinServer", { enumerable: true, get: function () { return _NetworkinServer_1.$NetworkinServer; } });
+var _NetworkRelation_1 = require("./schemas/$NetworkRelation");
+Object.defineProperty(exports, "$NetworkRelation", { enumerable: true, get: function () { return _NetworkRelation_1.$NetworkRelation; } });
+var _NetworksGetResponse_1 = require("./schemas/$NetworksGetResponse");
+Object.defineProperty(exports, "$NetworksGetResponse", { enumerable: true, get: function () { return _NetworksGetResponse_1.$NetworksGetResponse; } });
+var _NetworkUpdate_1 = require("./schemas/$NetworkUpdate");
+Object.defineProperty(exports, "$NetworkUpdate", { enumerable: true, get: function () { return _NetworkUpdate_1.$NetworkUpdate; } });
+var _PaasSecurityZone_1 = require("./schemas/$PaasSecurityZone");
+Object.defineProperty(exports, "$PaasSecurityZone", { enumerable: true, get: function () { return _PaasSecurityZone_1.$PaasSecurityZone; } });
+var _PaasSecurityZoneCreate_1 = require("./schemas/$PaasSecurityZoneCreate");
+Object.defineProperty(exports, "$PaasSecurityZoneCreate", { enumerable: true, get: function () { return _PaasSecurityZoneCreate_1.$PaasSecurityZoneCreate; } });
+var _PaasSecurityZoneCreateResponse_1 = require("./schemas/$PaasSecurityZoneCreateResponse");
+Object.defineProperty(exports, "$PaasSecurityZoneCreateResponse", { enumerable: true, get: function () { return _PaasSecurityZoneCreateResponse_1.$PaasSecurityZoneCreateResponse; } });
+var _PaasSecurityZoneGetResponse_1 = require("./schemas/$PaasSecurityZoneGetResponse");
+Object.defineProperty(exports, "$PaasSecurityZoneGetResponse", { enumerable: true, get: function () { return _PaasSecurityZoneGetResponse_1.$PaasSecurityZoneGetResponse; } });
+var _PaasSecurityZoneIndex_1 = require("./schemas/$PaasSecurityZoneIndex");
+Object.defineProperty(exports, "$PaasSecurityZoneIndex", { enumerable: true, get: function () { return _PaasSecurityZoneIndex_1.$PaasSecurityZoneIndex; } });
+var _PaasSecurityZoneRelation_1 = require("./schemas/$PaasSecurityZoneRelation");
+Object.defineProperty(exports, "$PaasSecurityZoneRelation", { enumerable: true, get: function () { return _PaasSecurityZoneRelation_1.$PaasSecurityZoneRelation; } });
+var _PaasSecurityZones_1 = require("./schemas/$PaasSecurityZones");
+Object.defineProperty(exports, "$PaasSecurityZones", { enumerable: true, get: function () { return _PaasSecurityZones_1.$PaasSecurityZones; } });
+var _PaasSecurityZonesGetResponse_1 = require("./schemas/$PaasSecurityZonesGetResponse");
+Object.defineProperty(exports, "$PaasSecurityZonesGetResponse", { enumerable: true, get: function () { return _PaasSecurityZonesGetResponse_1.$PaasSecurityZonesGetResponse; } });
+var _PaasSecurityZonesRelation_1 = require("./schemas/$PaasSecurityZonesRelation");
+Object.defineProperty(exports, "$PaasSecurityZonesRelation", { enumerable: true, get: function () { return _PaasSecurityZonesRelation_1.$PaasSecurityZonesRelation; } });
+var _PaasSecurityZoneUpdate_1 = require("./schemas/$PaasSecurityZoneUpdate");
+Object.defineProperty(exports, "$PaasSecurityZoneUpdate", { enumerable: true, get: function () { return _PaasSecurityZoneUpdate_1.$PaasSecurityZoneUpdate; } });
+var _PaasService_1 = require("./schemas/$PaasService");
+Object.defineProperty(exports, "$PaasService", { enumerable: true, get: function () { return _PaasService_1.$PaasService; } });
+var _PaasServiceCreate_1 = require("./schemas/$PaasServiceCreate");
+Object.defineProperty(exports, "$PaasServiceCreate", { enumerable: true, get: function () { return _PaasServiceCreate_1.$PaasServiceCreate; } });
+var _PaasServiceCreateResponse_1 = require("./schemas/$PaasServiceCreateResponse");
+Object.defineProperty(exports, "$PaasServiceCreateResponse", { enumerable: true, get: function () { return _PaasServiceCreateResponse_1.$PaasServiceCreateResponse; } });
+var _PaasServiceCredentials_1 = require("./schemas/$PaasServiceCredentials");
+Object.defineProperty(exports, "$PaasServiceCredentials", { enumerable: true, get: function () { return _PaasServiceCredentials_1.$PaasServiceCredentials; } });
+var _PaasServiceGetResponse_1 = require("./schemas/$PaasServiceGetResponse");
+Object.defineProperty(exports, "$PaasServiceGetResponse", { enumerable: true, get: function () { return _PaasServiceGetResponse_1.$PaasServiceGetResponse; } });
+var _PaasServiceIndex_1 = require("./schemas/$PaasServiceIndex");
+Object.defineProperty(exports, "$PaasServiceIndex", { enumerable: true, get: function () { return _PaasServiceIndex_1.$PaasServiceIndex; } });
+var _PaasServiceMetrics_1 = require("./schemas/$PaasServiceMetrics");
+Object.defineProperty(exports, "$PaasServiceMetrics", { enumerable: true, get: function () { return _PaasServiceMetrics_1.$PaasServiceMetrics; } });
+var _PaasServiceMetricsGetResponse_1 = require("./schemas/$PaasServiceMetricsGetResponse");
+Object.defineProperty(exports, "$PaasServiceMetricsGetResponse", { enumerable: true, get: function () { return _PaasServiceMetricsGetResponse_1.$PaasServiceMetricsGetResponse; } });
+var _PaasServiceMetricsList_1 = require("./schemas/$PaasServiceMetricsList");
+Object.defineProperty(exports, "$PaasServiceMetricsList", { enumerable: true, get: function () { return _PaasServiceMetricsList_1.$PaasServiceMetricsList; } });
+var _PaasServiceParameters_1 = require("./schemas/$PaasServiceParameters");
+Object.defineProperty(exports, "$PaasServiceParameters", { enumerable: true, get: function () { return _PaasServiceParameters_1.$PaasServiceParameters; } });
+var _PaasServiceParametersSchema_1 = require("./schemas/$PaasServiceParametersSchema");
+Object.defineProperty(exports, "$PaasServiceParametersSchema", { enumerable: true, get: function () { return _PaasServiceParametersSchema_1.$PaasServiceParametersSchema; } });
+var _PaasServiceResourceLimit_1 = require("./schemas/$PaasServiceResourceLimit");
+Object.defineProperty(exports, "$PaasServiceResourceLimit", { enumerable: true, get: function () { return _PaasServiceResourceLimit_1.$PaasServiceResourceLimit; } });
+var _PaasServiceResourceLimits_1 = require("./schemas/$PaasServiceResourceLimits");
+Object.defineProperty(exports, "$PaasServiceResourceLimits", { enumerable: true, get: function () { return _PaasServiceResourceLimits_1.$PaasServiceResourceLimits; } });
+var _PaasServicesGetResponse_1 = require("./schemas/$PaasServicesGetResponse");
+Object.defineProperty(exports, "$PaasServicesGetResponse", { enumerable: true, get: function () { return _PaasServicesGetResponse_1.$PaasServicesGetResponse; } });
+var _PaasServiceTemplate_1 = require("./schemas/$PaasServiceTemplate");
+Object.defineProperty(exports, "$PaasServiceTemplate", { enumerable: true, get: function () { return _PaasServiceTemplate_1.$PaasServiceTemplate; } });
+var _PaasServiceTemplateIndex_1 = require("./schemas/$PaasServiceTemplateIndex");
+Object.defineProperty(exports, "$PaasServiceTemplateIndex", { enumerable: true, get: function () { return _PaasServiceTemplateIndex_1.$PaasServiceTemplateIndex; } });
+var _PaasServiceTemplatesGetResponse_1 = require("./schemas/$PaasServiceTemplatesGetResponse");
+Object.defineProperty(exports, "$PaasServiceTemplatesGetResponse", { enumerable: true, get: function () { return _PaasServiceTemplatesGetResponse_1.$PaasServiceTemplatesGetResponse; } });
+var _PaasServiceUpdate_1 = require("./schemas/$PaasServiceUpdate");
+Object.defineProperty(exports, "$PaasServiceUpdate", { enumerable: true, get: function () { return _PaasServiceUpdate_1.$PaasServiceUpdate; } });
+var _PublicIpinServer_1 = require("./schemas/$PublicIpinServer");
+Object.defineProperty(exports, "$PublicIpinServer", { enumerable: true, get: function () { return _PublicIpinServer_1.$PublicIpinServer; } });
+var _Request_1 = require("./schemas/$Request");
+Object.defineProperty(exports, "$Request", { enumerable: true, get: function () { return _Request_1.$Request; } });
+var _RequestGetResponse_1 = require("./schemas/$RequestGetResponse");
+Object.defineProperty(exports, "$RequestGetResponse", { enumerable: true, get: function () { return _RequestGetResponse_1.$RequestGetResponse; } });
+var _RulesProperties_1 = require("./schemas/$RulesProperties");
+Object.defineProperty(exports, "$RulesProperties", { enumerable: true, get: function () { return _RulesProperties_1.$RulesProperties; } });
+var _Server_1 = require("./schemas/$Server");
+Object.defineProperty(exports, "$Server", { enumerable: true, get: function () { return _Server_1.$Server; } });
+var _ServerCreate_1 = require("./schemas/$ServerCreate");
+Object.defineProperty(exports, "$ServerCreate", { enumerable: true, get: function () { return _ServerCreate_1.$ServerCreate; } });
+var _ServerCreateResponse_1 = require("./schemas/$ServerCreateResponse");
+Object.defineProperty(exports, "$ServerCreateResponse", { enumerable: true, get: function () { return _ServerCreateResponse_1.$ServerCreateResponse; } });
+var _ServerGetResponse_1 = require("./schemas/$ServerGetResponse");
+Object.defineProperty(exports, "$ServerGetResponse", { enumerable: true, get: function () { return _ServerGetResponse_1.$ServerGetResponse; } });
+var _ServerIndex_1 = require("./schemas/$ServerIndex");
+Object.defineProperty(exports, "$ServerIndex", { enumerable: true, get: function () { return _ServerIndex_1.$ServerIndex; } });
+var _ServerinIp_1 = require("./schemas/$ServerinIp");
+Object.defineProperty(exports, "$ServerinIp", { enumerable: true, get: function () { return _ServerinIp_1.$ServerinIp; } });
+var _ServerinIsoimage_1 = require("./schemas/$ServerinIsoimage");
+Object.defineProperty(exports, "$ServerinIsoimage", { enumerable: true, get: function () { return _ServerinIsoimage_1.$ServerinIsoimage; } });
+var _ServerinNetwork_1 = require("./schemas/$ServerinNetwork");
+Object.defineProperty(exports, "$ServerinNetwork", { enumerable: true, get: function () { return _ServerinNetwork_1.$ServerinNetwork; } });
+var _ServerinStrorage_1 = require("./schemas/$ServerinStrorage");
+Object.defineProperty(exports, "$ServerinStrorage", { enumerable: true, get: function () { return _ServerinStrorage_1.$ServerinStrorage; } });
+var _ServerMetrics_1 = require("./schemas/$ServerMetrics");
+Object.defineProperty(exports, "$ServerMetrics", { enumerable: true, get: function () { return _ServerMetrics_1.$ServerMetrics; } });
+var _ServerMetricsGetResponse_1 = require("./schemas/$ServerMetricsGetResponse");
+Object.defineProperty(exports, "$ServerMetricsGetResponse", { enumerable: true, get: function () { return _ServerMetricsGetResponse_1.$ServerMetricsGetResponse; } });
+var _ServerMetricsList_1 = require("./schemas/$ServerMetricsList");
+Object.defineProperty(exports, "$ServerMetricsList", { enumerable: true, get: function () { return _ServerMetricsList_1.$ServerMetricsList; } });
+var _ServerPowerStatus_1 = require("./schemas/$ServerPowerStatus");
+Object.defineProperty(exports, "$ServerPowerStatus", { enumerable: true, get: function () { return _ServerPowerStatus_1.$ServerPowerStatus; } });
+var _ServerPowerUpdate_1 = require("./schemas/$ServerPowerUpdate");
+Object.defineProperty(exports, "$ServerPowerUpdate", { enumerable: true, get: function () { return _ServerPowerUpdate_1.$ServerPowerUpdate; } });
+var _ServerRelation_1 = require("./schemas/$ServerRelation");
+Object.defineProperty(exports, "$ServerRelation", { enumerable: true, get: function () { return _ServerRelation_1.$ServerRelation; } });
+var _ServersGetResponse_1 = require("./schemas/$ServersGetResponse");
+Object.defineProperty(exports, "$ServersGetResponse", { enumerable: true, get: function () { return _ServersGetResponse_1.$ServersGetResponse; } });
+var _ServerUpdate_1 = require("./schemas/$ServerUpdate");
+Object.defineProperty(exports, "$ServerUpdate", { enumerable: true, get: function () { return _ServerUpdate_1.$ServerUpdate; } });
+var _ServiceinPaasSecurityZone_1 = require("./schemas/$ServiceinPaasSecurityZone");
+Object.defineProperty(exports, "$ServiceinPaasSecurityZone", { enumerable: true, get: function () { return _ServiceinPaasSecurityZone_1.$ServiceinPaasSecurityZone; } });
+var _ServiceinPaasSecurityZones_1 = require("./schemas/$ServiceinPaasSecurityZones");
+Object.defineProperty(exports, "$ServiceinPaasSecurityZones", { enumerable: true, get: function () { return _ServiceinPaasSecurityZones_1.$ServiceinPaasSecurityZones; } });
+var _Snapshot_1 = require("./schemas/$Snapshot");
+Object.defineProperty(exports, "$Snapshot", { enumerable: true, get: function () { return _Snapshot_1.$Snapshot; } });
+var _SnapshotCreate_1 = require("./schemas/$SnapshotCreate");
+Object.defineProperty(exports, "$SnapshotCreate", { enumerable: true, get: function () { return _SnapshotCreate_1.$SnapshotCreate; } });
+var _SnapshotExportToS3Payload_1 = require("./schemas/$SnapshotExportToS3Payload");
+Object.defineProperty(exports, "$SnapshotExportToS3Payload", { enumerable: true, get: function () { return _SnapshotExportToS3Payload_1.$SnapshotExportToS3Payload; } });
+var _SnapshotGetResponse_1 = require("./schemas/$SnapshotGetResponse");
+Object.defineProperty(exports, "$SnapshotGetResponse", { enumerable: true, get: function () { return _SnapshotGetResponse_1.$SnapshotGetResponse; } });
+var _SnapshotIndex_1 = require("./schemas/$SnapshotIndex");
+Object.defineProperty(exports, "$SnapshotIndex", { enumerable: true, get: function () { return _SnapshotIndex_1.$SnapshotIndex; } });
+var _SnapshotSchedule_1 = require("./schemas/$SnapshotSchedule");
+Object.defineProperty(exports, "$SnapshotSchedule", { enumerable: true, get: function () { return _SnapshotSchedule_1.$SnapshotSchedule; } });
+var _SnapshotScheduleCreate_1 = require("./schemas/$SnapshotScheduleCreate");
+Object.defineProperty(exports, "$SnapshotScheduleCreate", { enumerable: true, get: function () { return _SnapshotScheduleCreate_1.$SnapshotScheduleCreate; } });
+var _SnapshotScheduleGetResponse_1 = require("./schemas/$SnapshotScheduleGetResponse");
+Object.defineProperty(exports, "$SnapshotScheduleGetResponse", { enumerable: true, get: function () { return _SnapshotScheduleGetResponse_1.$SnapshotScheduleGetResponse; } });
+var _SnapshotScheduleIndex_1 = require("./schemas/$SnapshotScheduleIndex");
+Object.defineProperty(exports, "$SnapshotScheduleIndex", { enumerable: true, get: function () { return _SnapshotScheduleIndex_1.$SnapshotScheduleIndex; } });
+var _SnapshotSchedulesGetResponse_1 = require("./schemas/$SnapshotSchedulesGetResponse");
+Object.defineProperty(exports, "$SnapshotSchedulesGetResponse", { enumerable: true, get: function () { return _SnapshotSchedulesGetResponse_1.$SnapshotSchedulesGetResponse; } });
+var _SnapshotSchedulesinStorage_1 = require("./schemas/$SnapshotSchedulesinStorage");
+Object.defineProperty(exports, "$SnapshotSchedulesinStorage", { enumerable: true, get: function () { return _SnapshotSchedulesinStorage_1.$SnapshotSchedulesinStorage; } });
+var _SnapshotScheduleUpdate_1 = require("./schemas/$SnapshotScheduleUpdate");
+Object.defineProperty(exports, "$SnapshotScheduleUpdate", { enumerable: true, get: function () { return _SnapshotScheduleUpdate_1.$SnapshotScheduleUpdate; } });
+var _SnapshotsGetResponse_1 = require("./schemas/$SnapshotsGetResponse");
+Object.defineProperty(exports, "$SnapshotsGetResponse", { enumerable: true, get: function () { return _SnapshotsGetResponse_1.$SnapshotsGetResponse; } });
+var _SnapshotUpdate_1 = require("./schemas/$SnapshotUpdate");
+Object.defineProperty(exports, "$SnapshotUpdate", { enumerable: true, get: function () { return _SnapshotUpdate_1.$SnapshotUpdate; } });
+var _Sshkey_1 = require("./schemas/$Sshkey");
+Object.defineProperty(exports, "$Sshkey", { enumerable: true, get: function () { return _Sshkey_1.$Sshkey; } });
+var _SshkeyCreate_1 = require("./schemas/$SshkeyCreate");
+Object.defineProperty(exports, "$SshkeyCreate", { enumerable: true, get: function () { return _SshkeyCreate_1.$SshkeyCreate; } });
+var _SshkeyGetResponse_1 = require("./schemas/$SshkeyGetResponse");
+Object.defineProperty(exports, "$SshkeyGetResponse", { enumerable: true, get: function () { return _SshkeyGetResponse_1.$SshkeyGetResponse; } });
+var _SshkeyIndex_1 = require("./schemas/$SshkeyIndex");
+Object.defineProperty(exports, "$SshkeyIndex", { enumerable: true, get: function () { return _SshkeyIndex_1.$SshkeyIndex; } });
+var _SshkeysGetResponse_1 = require("./schemas/$SshkeysGetResponse");
+Object.defineProperty(exports, "$SshkeysGetResponse", { enumerable: true, get: function () { return _SshkeysGetResponse_1.$SshkeysGetResponse; } });
+var _SshkeyUpdate_1 = require("./schemas/$SshkeyUpdate");
+Object.defineProperty(exports, "$SshkeyUpdate", { enumerable: true, get: function () { return _SshkeyUpdate_1.$SshkeyUpdate; } });
+var _Storage_1 = require("./schemas/$Storage");
+Object.defineProperty(exports, "$Storage", { enumerable: true, get: function () { return _Storage_1.$Storage; } });
+var _StorageBackup_1 = require("./schemas/$StorageBackup");
+Object.defineProperty(exports, "$StorageBackup", { enumerable: true, get: function () { return _StorageBackup_1.$StorageBackup; } });
+var _StorageBackupIndex_1 = require("./schemas/$StorageBackupIndex");
+Object.defineProperty(exports, "$StorageBackupIndex", { enumerable: true, get: function () { return _StorageBackupIndex_1.$StorageBackupIndex; } });
+var _StorageBackupSchedule_1 = require("./schemas/$StorageBackupSchedule");
+Object.defineProperty(exports, "$StorageBackupSchedule", { enumerable: true, get: function () { return _StorageBackupSchedule_1.$StorageBackupSchedule; } });
+var _StorageBackupScheduleCreate_1 = require("./schemas/$StorageBackupScheduleCreate");
+Object.defineProperty(exports, "$StorageBackupScheduleCreate", { enumerable: true, get: function () { return _StorageBackupScheduleCreate_1.$StorageBackupScheduleCreate; } });
+var _StorageBackupScheduleGetResponse_1 = require("./schemas/$StorageBackupScheduleGetResponse");
+Object.defineProperty(exports, "$StorageBackupScheduleGetResponse", { enumerable: true, get: function () { return _StorageBackupScheduleGetResponse_1.$StorageBackupScheduleGetResponse; } });
+var _StorageBackupScheduleIndex_1 = require("./schemas/$StorageBackupScheduleIndex");
+Object.defineProperty(exports, "$StorageBackupScheduleIndex", { enumerable: true, get: function () { return _StorageBackupScheduleIndex_1.$StorageBackupScheduleIndex; } });
+var _StorageBackupSchedulesGetResponse_1 = require("./schemas/$StorageBackupSchedulesGetResponse");
+Object.defineProperty(exports, "$StorageBackupSchedulesGetResponse", { enumerable: true, get: function () { return _StorageBackupSchedulesGetResponse_1.$StorageBackupSchedulesGetResponse; } });
+var _StorageBackupScheduleUpdate_1 = require("./schemas/$StorageBackupScheduleUpdate");
+Object.defineProperty(exports, "$StorageBackupScheduleUpdate", { enumerable: true, get: function () { return _StorageBackupScheduleUpdate_1.$StorageBackupScheduleUpdate; } });
+var _StorageBackupsGetResponse_1 = require("./schemas/$StorageBackupsGetResponse");
+Object.defineProperty(exports, "$StorageBackupsGetResponse", { enumerable: true, get: function () { return _StorageBackupsGetResponse_1.$StorageBackupsGetResponse; } });
+var _StorageClone_1 = require("./schemas/$StorageClone");
+Object.defineProperty(exports, "$StorageClone", { enumerable: true, get: function () { return _StorageClone_1.$StorageClone; } });
+var _StorageCreate_1 = require("./schemas/$StorageCreate");
+Object.defineProperty(exports, "$StorageCreate", { enumerable: true, get: function () { return _StorageCreate_1.$StorageCreate; } });
+var _StorageCreateTemplatePassword_1 = require("./schemas/$StorageCreateTemplatePassword");
+Object.defineProperty(exports, "$StorageCreateTemplatePassword", { enumerable: true, get: function () { return _StorageCreateTemplatePassword_1.$StorageCreateTemplatePassword; } });
+var _StorageCreateTemplateSshkey_1 = require("./schemas/$StorageCreateTemplateSshkey");
+Object.defineProperty(exports, "$StorageCreateTemplateSshkey", { enumerable: true, get: function () { return _StorageCreateTemplateSshkey_1.$StorageCreateTemplateSshkey; } });
+var _StorageGetResponse_1 = require("./schemas/$StorageGetResponse");
+Object.defineProperty(exports, "$StorageGetResponse", { enumerable: true, get: function () { return _StorageGetResponse_1.$StorageGetResponse; } });
+var _StorageImportFromBackup_1 = require("./schemas/$StorageImportFromBackup");
+Object.defineProperty(exports, "$StorageImportFromBackup", { enumerable: true, get: function () { return _StorageImportFromBackup_1.$StorageImportFromBackup; } });
+var _StorageImportFromS3Object_1 = require("./schemas/$StorageImportFromS3Object");
+Object.defineProperty(exports, "$StorageImportFromS3Object", { enumerable: true, get: function () { return _StorageImportFromS3Object_1.$StorageImportFromS3Object; } });
+var _StorageIndex_1 = require("./schemas/$StorageIndex");
+Object.defineProperty(exports, "$StorageIndex", { enumerable: true, get: function () { return _StorageIndex_1.$StorageIndex; } });
+var _StorageRollback_1 = require("./schemas/$StorageRollback");
+Object.defineProperty(exports, "$StorageRollback", { enumerable: true, get: function () { return _StorageRollback_1.$StorageRollback; } });
+var _StoragesGetResponse_1 = require("./schemas/$StoragesGetResponse");
+Object.defineProperty(exports, "$StoragesGetResponse", { enumerable: true, get: function () { return _StoragesGetResponse_1.$StoragesGetResponse; } });
+var _StoragesinServer_1 = require("./schemas/$StoragesinServer");
+Object.defineProperty(exports, "$StoragesinServer", { enumerable: true, get: function () { return _StoragesinServer_1.$StoragesinServer; } });
+var _StoragesRelation_1 = require("./schemas/$StoragesRelation");
+Object.defineProperty(exports, "$StoragesRelation", { enumerable: true, get: function () { return _StoragesRelation_1.$StoragesRelation; } });
+var _StorageTemplateCreate_1 = require("./schemas/$StorageTemplateCreate");
+Object.defineProperty(exports, "$StorageTemplateCreate", { enumerable: true, get: function () { return _StorageTemplateCreate_1.$StorageTemplateCreate; } });
+var _StorageTemplatesGetResponse_1 = require("./schemas/$StorageTemplatesGetResponse");
+Object.defineProperty(exports, "$StorageTemplatesGetResponse", { enumerable: true, get: function () { return _StorageTemplatesGetResponse_1.$StorageTemplatesGetResponse; } });
+var _StorageType_1 = require("./schemas/$StorageType");
+Object.defineProperty(exports, "$StorageType", { enumerable: true, get: function () { return _StorageType_1.$StorageType; } });
+var _StorageUpdate_1 = require("./schemas/$StorageUpdate");
+Object.defineProperty(exports, "$StorageUpdate", { enumerable: true, get: function () { return _StorageUpdate_1.$StorageUpdate; } });
+var _StorageVariant_1 = require("./schemas/$StorageVariant");
+Object.defineProperty(exports, "$StorageVariant", { enumerable: true, get: function () { return _StorageVariant_1.$StorageVariant; } });
+var _TaskEventLabel_1 = require("./schemas/$TaskEventLabel");
+Object.defineProperty(exports, "$TaskEventLabel", { enumerable: true, get: function () { return _TaskEventLabel_1.$TaskEventLabel; } });
+var _TaskEventName_1 = require("./schemas/$TaskEventName");
+Object.defineProperty(exports, "$TaskEventName", { enumerable: true, get: function () { return _TaskEventName_1.$TaskEventName; } });
+var _TaskEvents_1 = require("./schemas/$TaskEvents");
+Object.defineProperty(exports, "$TaskEvents", { enumerable: true, get: function () { return _TaskEvents_1.$TaskEvents; } });
+var _Template_1 = require("./schemas/$Template");
+Object.defineProperty(exports, "$Template", { enumerable: true, get: function () { return _Template_1.$Template; } });
+var _TemplateGetResponse_1 = require("./schemas/$TemplateGetResponse");
+Object.defineProperty(exports, "$TemplateGetResponse", { enumerable: true, get: function () { return _TemplateGetResponse_1.$TemplateGetResponse; } });
+var _TemplateIndex_1 = require("./schemas/$TemplateIndex");
+Object.defineProperty(exports, "$TemplateIndex", { enumerable: true, get: function () { return _TemplateIndex_1.$TemplateIndex; } });
+var _TemplatesGetResponse_1 = require("./schemas/$TemplatesGetResponse");
+Object.defineProperty(exports, "$TemplatesGetResponse", { enumerable: true, get: function () { return _TemplatesGetResponse_1.$TemplatesGetResponse; } });
+var _TemplateUpdate_1 = require("./schemas/$TemplateUpdate");
+Object.defineProperty(exports, "$TemplateUpdate", { enumerable: true, get: function () { return _TemplateUpdate_1.$TemplateUpdate; } });
+var _VlansinNetwork_1 = require("./schemas/$VlansinNetwork");
+Object.defineProperty(exports, "$VlansinNetwork", { enumerable: true, get: function () { return _VlansinNetwork_1.$VlansinNetwork; } });
+
+
+
+},{"./models/Ip":24,"./models/IpBrief":25,"./models/IpCreate":26,"./models/LinkedIp":27,"./models/LinkedIpBrief":28,"./models/MarketplaceApplication":29,"./models/MarketplaceApplicationCreate":30,"./models/MarketplaceApplicationUpdate":31,"./models/RulesProperties":32,"./models/ServerCreate":33,"./models/Storage":34,"./models/StorageClone":35,"./models/StorageCreateTemplatePassword":36,"./models/StorageImportFromS3Object":37,"./models/StorageType":38,"./models/StorageUpdate":39,"./models/StorageVariant":40,"./schemas/$AccessKey":41,"./schemas/$AccessKeyCreateResponse":42,"./schemas/$AccessKeyGetResponse":43,"./schemas/$AccessKeyList":44,"./schemas/$AccessKeysGetResponse":45,"./schemas/$Bucket":46,"./schemas/$BucketGetResponse":47,"./schemas/$BucketList":48,"./schemas/$BucketsGetResponse":49,"./schemas/$CreateResponse":50,"./schemas/$DeletedIpsGetResponse":51,"./schemas/$DeletedIsoimagesGetResponse":52,"./schemas/$DeletedLoadbalancersGetResponse":53,"./schemas/$DeletedNetworksGetResponse":54,"./schemas/$DeletedPaasServicesGetResponse":55,"./schemas/$DeletedServersGetResponse":56,"./schemas/$DeletedSnapshotsGetResponse":57,"./schemas/$DeletedStoragesGetResponse":58,"./schemas/$DeletedTemplatesGetResponse":59,"./schemas/$EventResponse":60,"./schemas/$Firewall":61,"./schemas/$FirewallCreate":62,"./schemas/$FirewallGetResponse":63,"./schemas/$FirewallIndex":64,"./schemas/$FirewallRelation":65,"./schemas/$FirewallRules":66,"./schemas/$FirewallUpdate":67,"./schemas/$FirewallV4inRule":68,"./schemas/$FirewallV4outRule":69,"./schemas/$FirewallV6inRule":70,"./schemas/$FirewallV6outRule":71,"./schemas/$FirewallsGetResponse":72,"./schemas/$Ip":73,"./schemas/$IpBrief":74,"./schemas/$IpBriefIndex":75,"./schemas/$IpCreate":76,"./schemas/$IpCreateResponse":77,"./schemas/$IpGetResponse":78,"./schemas/$IpRelation":79,"./schemas/$IpUpdate":80,"./schemas/$IpsGetResponse":81,"./schemas/$Isoimage":82,"./schemas/$IsoimageCreate":83,"./schemas/$IsoimageGetResponse":84,"./schemas/$IsoimageIndex":85,"./schemas/$IsoimageRelation":86,"./schemas/$IsoimageUpdate":87,"./schemas/$IsoimageinServer":88,"./schemas/$IsoimagesGetResponse":89,"./schemas/$Label":90,"./schemas/$LabelGetResponse":91,"./schemas/$LabelIndex":92,"./schemas/$LabelsGetResponse":93,"./schemas/$LinkIp":94,"./schemas/$LinkIsoimage":95,"./schemas/$LinkNetwork":96,"./schemas/$LinkStorage":97,"./schemas/$LinkedIp":98,"./schemas/$LinkedIpBrief":99,"./schemas/$LinkedIpGetResponse":100,"./schemas/$LinkedIpUpdate":101,"./schemas/$LinkedIpsGetResponse":102,"./schemas/$LinkedIsoimage":103,"./schemas/$LinkedIsoimageBrief":104,"./schemas/$LinkedIsoimageGetResponse":105,"./schemas/$LinkedIsoimageUpdate":106,"./schemas/$LinkedIsoimagesGetResponse":107,"./schemas/$LinkedNetwork":108,"./schemas/$LinkedNetworkBrief":109,"./schemas/$LinkedNetworkGetResponse":110,"./schemas/$LinkedNetworkUpdate":111,"./schemas/$LinkedNetworksGetResponse":112,"./schemas/$LinkedStorage":113,"./schemas/$LinkedStorageBrief":114,"./schemas/$LinkedStorageGetResponse":115,"./schemas/$LinkedStorageUpdate":116,"./schemas/$LinkedStoragesGetResponse":117,"./schemas/$ListenPorts":118,"./schemas/$ListenPortsByIpIndex":119,"./schemas/$Loadbalancer":120,"./schemas/$LoadbalancerCreate":121,"./schemas/$LoadbalancerGetResponse":122,"./schemas/$LoadbalancerIndex":123,"./schemas/$LoadbalancerUpdate":124,"./schemas/$LoadbalancerinIp":125,"./schemas/$LoadbalancersGetResponse":126,"./schemas/$Location":127,"./schemas/$LocationChangeRequested":128,"./schemas/$LocationCreate":129,"./schemas/$LocationGetResponse":130,"./schemas/$LocationIndex":131,"./schemas/$LocationUpdate":132,"./schemas/$LocationsGetResponse":133,"./schemas/$MarketplaceApplication":134,"./schemas/$MarketplaceApplicationCreate":135,"./schemas/$MarketplaceApplicationCreateResponse":136,"./schemas/$MarketplaceApplicationGetResponse":137,"./schemas/$MarketplaceApplicationImport":138,"./schemas/$MarketplaceApplicationIndex":139,"./schemas/$MarketplaceApplicationMetadata":140,"./schemas/$MarketplaceApplicationSetup":141,"./schemas/$MarketplaceApplicationUpdate":142,"./schemas/$MarketplaceApplicationsGetResponse":143,"./schemas/$Metrics":144,"./schemas/$MetricsValue":145,"./schemas/$Network":146,"./schemas/$NetworkCreate":147,"./schemas/$NetworkGetResponse":148,"./schemas/$NetworkIndex":149,"./schemas/$NetworkRelation":150,"./schemas/$NetworkUpdate":151,"./schemas/$NetworkinFirewall":152,"./schemas/$NetworkinServer":153,"./schemas/$NetworksGetResponse":154,"./schemas/$PaasSecurityZone":155,"./schemas/$PaasSecurityZoneCreate":156,"./schemas/$PaasSecurityZoneCreateResponse":157,"./schemas/$PaasSecurityZoneGetResponse":158,"./schemas/$PaasSecurityZoneIndex":159,"./schemas/$PaasSecurityZoneRelation":160,"./schemas/$PaasSecurityZoneUpdate":161,"./schemas/$PaasSecurityZones":162,"./schemas/$PaasSecurityZonesGetResponse":163,"./schemas/$PaasSecurityZonesRelation":164,"./schemas/$PaasService":165,"./schemas/$PaasServiceCreate":166,"./schemas/$PaasServiceCreateResponse":167,"./schemas/$PaasServiceCredentials":168,"./schemas/$PaasServiceGetResponse":169,"./schemas/$PaasServiceIndex":170,"./schemas/$PaasServiceMetrics":171,"./schemas/$PaasServiceMetricsGetResponse":172,"./schemas/$PaasServiceMetricsList":173,"./schemas/$PaasServiceParameters":174,"./schemas/$PaasServiceParametersSchema":175,"./schemas/$PaasServiceResourceLimit":176,"./schemas/$PaasServiceResourceLimits":177,"./schemas/$PaasServiceTemplate":178,"./schemas/$PaasServiceTemplateIndex":179,"./schemas/$PaasServiceTemplatesGetResponse":180,"./schemas/$PaasServiceUpdate":181,"./schemas/$PaasServicesGetResponse":182,"./schemas/$PublicIpinServer":183,"./schemas/$Request":184,"./schemas/$RequestGetResponse":185,"./schemas/$RulesProperties":186,"./schemas/$Server":187,"./schemas/$ServerCreate":188,"./schemas/$ServerCreateResponse":189,"./schemas/$ServerGetResponse":190,"./schemas/$ServerIndex":191,"./schemas/$ServerMetrics":192,"./schemas/$ServerMetricsGetResponse":193,"./schemas/$ServerMetricsList":194,"./schemas/$ServerPowerStatus":195,"./schemas/$ServerPowerUpdate":196,"./schemas/$ServerRelation":197,"./schemas/$ServerUpdate":198,"./schemas/$ServerinIp":199,"./schemas/$ServerinIsoimage":200,"./schemas/$ServerinNetwork":201,"./schemas/$ServerinStrorage":202,"./schemas/$ServersGetResponse":203,"./schemas/$ServiceinPaasSecurityZone":204,"./schemas/$ServiceinPaasSecurityZones":205,"./schemas/$Snapshot":206,"./schemas/$SnapshotCreate":207,"./schemas/$SnapshotExportToS3Payload":208,"./schemas/$SnapshotGetResponse":209,"./schemas/$SnapshotIndex":210,"./schemas/$SnapshotSchedule":211,"./schemas/$SnapshotScheduleCreate":212,"./schemas/$SnapshotScheduleGetResponse":213,"./schemas/$SnapshotScheduleIndex":214,"./schemas/$SnapshotScheduleUpdate":215,"./schemas/$SnapshotSchedulesGetResponse":216,"./schemas/$SnapshotSchedulesinStorage":217,"./schemas/$SnapshotUpdate":218,"./schemas/$SnapshotsGetResponse":219,"./schemas/$Sshkey":220,"./schemas/$SshkeyCreate":221,"./schemas/$SshkeyGetResponse":222,"./schemas/$SshkeyIndex":223,"./schemas/$SshkeyUpdate":224,"./schemas/$SshkeysGetResponse":225,"./schemas/$Storage":226,"./schemas/$StorageBackup":227,"./schemas/$StorageBackupIndex":228,"./schemas/$StorageBackupSchedule":229,"./schemas/$StorageBackupScheduleCreate":230,"./schemas/$StorageBackupScheduleGetResponse":231,"./schemas/$StorageBackupScheduleIndex":232,"./schemas/$StorageBackupScheduleUpdate":233,"./schemas/$StorageBackupSchedulesGetResponse":234,"./schemas/$StorageBackupsGetResponse":235,"./schemas/$StorageClone":236,"./schemas/$StorageCreate":237,"./schemas/$StorageCreateTemplatePassword":238,"./schemas/$StorageCreateTemplateSshkey":239,"./schemas/$StorageGetResponse":240,"./schemas/$StorageImportFromBackup":241,"./schemas/$StorageImportFromS3Object":242,"./schemas/$StorageIndex":243,"./schemas/$StorageRollback":244,"./schemas/$StorageTemplateCreate":245,"./schemas/$StorageTemplatesGetResponse":246,"./schemas/$StorageType":247,"./schemas/$StorageUpdate":248,"./schemas/$StorageVariant":249,"./schemas/$StoragesGetResponse":250,"./schemas/$StoragesRelation":251,"./schemas/$StoragesinServer":252,"./schemas/$TaskEventLabel":253,"./schemas/$TaskEventName":254,"./schemas/$TaskEvents":255,"./schemas/$Template":256,"./schemas/$TemplateGetResponse":257,"./schemas/$TemplateIndex":258,"./schemas/$TemplateUpdate":259,"./schemas/$TemplatesGetResponse":260,"./schemas/$VlansinNetwork":261}],24:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Ip = void 0;
+var Ip;
+(function (Ip) {
+    /**
+     * The IP Address family (v4 or v6).
+     */
+    var family;
+    (function (family) {
+        family[family["_4"] = 4] = "_4";
+        family[family["_6"] = 6] = "_6";
+    })(family = Ip.family || (Ip.family = {}));
+})(Ip = exports.Ip || (exports.Ip = {}));
+
+
+
+},{}],25:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.IpBrief = void 0;
+var IpBrief;
+(function (IpBrief) {
+    /**
+     * The IP Address family (v4 or v6).
+     */
+    var family;
+    (function (family) {
+        family[family["_4"] = 4] = "_4";
+        family[family["_6"] = 6] = "_6";
+    })(family = IpBrief.family || (IpBrief.family = {}));
+})(IpBrief = exports.IpBrief || (exports.IpBrief = {}));
+
+
+
+},{}],26:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.IpCreate = void 0;
+var IpCreate;
+(function (IpCreate) {
+    /**
+     * Defines the IP Address family (v4 or v6).
+     */
+    var family;
+    (function (family) {
+        family[family["_4"] = 4] = "_4";
+        family[family["_6"] = 6] = "_6";
+    })(family = IpCreate.family || (IpCreate.family = {}));
+})(IpCreate = exports.IpCreate || (exports.IpCreate = {}));
+
+
+
+},{}],27:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LinkedIp = void 0;
+var LinkedIp;
+(function (LinkedIp) {
+    /**
+     * Either 4 or 6
+     */
+    var family;
+    (function (family) {
+        family[family["_4"] = 4] = "_4";
+        family[family["_6"] = 6] = "_6";
+    })(family = LinkedIp.family || (LinkedIp.family = {}));
+})(LinkedIp = exports.LinkedIp || (exports.LinkedIp = {}));
+
+
+
+},{}],28:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LinkedIpBrief = void 0;
+var LinkedIpBrief;
+(function (LinkedIpBrief) {
+    /**
+     * Either 4 or 6
+     */
+    var family;
+    (function (family) {
+        family[family["_4"] = 4] = "_4";
+        family[family["_6"] = 6] = "_6";
+    })(family = LinkedIpBrief.family || (LinkedIpBrief.family = {}));
+})(LinkedIpBrief = exports.LinkedIpBrief || (exports.LinkedIpBrief = {}));
+
+
+
+},{}],29:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MarketplaceApplication = void 0;
+var MarketplaceApplication;
+(function (MarketplaceApplication) {
+    /**
+     * Category of marketplace application
+     */
+    var category;
+    (function (category) {
+        category["CMS"] = "CMS";
+        category["PROJECT_MANAGEMENT"] = "project management";
+        category["ADMINPANEL"] = "Adminpanel";
+        category["COLLABORATION"] = "Collaboration";
+        category["CLOUD_STORAGE"] = "Cloud Storage";
+        category["ARCHIVING"] = "Archiving";
+    })(category = MarketplaceApplication.category || (MarketplaceApplication.category = {}));
+})(MarketplaceApplication = exports.MarketplaceApplication || (exports.MarketplaceApplication = {}));
+
+
+
+},{}],30:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MarketplaceApplicationCreate = void 0;
+var MarketplaceApplicationCreate;
+(function (MarketplaceApplicationCreate) {
+    var category;
+    (function (category) {
+        category["CMS"] = "CMS";
+        category["PROJECT_MANAGEMENT"] = "project management";
+        category["ADMINPANEL"] = "Adminpanel";
+        category["COLLABORATION"] = "Collaboration";
+        category["CLOUD_STORAGE"] = "Cloud Storage";
+        category["ARCHIVING"] = "Archiving";
+    })(category = MarketplaceApplicationCreate.category || (MarketplaceApplicationCreate.category = {}));
+})(MarketplaceApplicationCreate = exports.MarketplaceApplicationCreate || (exports.MarketplaceApplicationCreate = {}));
+
+
+
+},{}],31:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MarketplaceApplicationUpdate = void 0;
+var MarketplaceApplicationUpdate;
+(function (MarketplaceApplicationUpdate) {
+    var category;
+    (function (category) {
+        category["CMS"] = "CMS";
+        category["PROJECT_MANAGEMENT"] = "project management";
+        category["ADMINPANEL"] = "Adminpanel";
+        category["COLLABORATION"] = "Collaboration";
+        category["CLOUD_STORAGE"] = "Cloud Storage";
+        category["ARCHIVING"] = "Archiving";
+    })(category = MarketplaceApplicationUpdate.category || (MarketplaceApplicationUpdate.category = {}));
+})(MarketplaceApplicationUpdate = exports.MarketplaceApplicationUpdate || (exports.MarketplaceApplicationUpdate = {}));
+
+
+
+},{}],32:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RulesProperties = void 0;
+var RulesProperties;
+(function (RulesProperties) {
+    /**
+     * Either udp or tcp
+     */
+    var protocol;
+    (function (protocol) {
+        protocol["UDP"] = "udp";
+        protocol["TCP"] = "tcp";
+    })(protocol = RulesProperties.protocol || (RulesProperties.protocol = {}));
+    /**
+     * This defines what the firewall will do. Either accept or drop.
+     */
+    var action;
+    (function (action) {
+        action["ACCEPT"] = "accept";
+        action["DROP"] = "drop";
+    })(action = RulesProperties.action || (RulesProperties.action = {}));
+})(RulesProperties = exports.RulesProperties || (exports.RulesProperties = {}));
+
+
+
+},{}],33:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ServerCreate = void 0;
+var ServerCreate;
+(function (ServerCreate) {
+    /**
+     * Specifies the hardware settings for the virtual machine.
+     */
+    var hardware_profile;
+    (function (hardware_profile) {
+        hardware_profile["DEFAULT"] = "default";
+        hardware_profile["NESTED"] = "nested";
+        hardware_profile["LEGACY"] = "legacy";
+        hardware_profile["CISCO_CSR"] = "cisco_csr";
+        hardware_profile["SOPHOS_UTM"] = "sophos_utm";
+        hardware_profile["F5_BIGIP"] = "f5_bigip";
+        hardware_profile["Q35"] = "q35";
+        hardware_profile["Q35_NESTED"] = "q35_nested";
+    })(hardware_profile = ServerCreate.hardware_profile || (ServerCreate.hardware_profile = {}));
+})(ServerCreate = exports.ServerCreate || (exports.ServerCreate = {}));
+
+
+
+},{}],34:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Storage = void 0;
+var Storage;
+(function (Storage) {
+    /**
+     * (one of storage, storage_high, storage_insane).
+     */
+    var storage_type;
+    (function (storage_type) {
+        storage_type["STORAGE"] = "storage";
+        storage_type["STORAGE_HIGH"] = "storage_high";
+        storage_type["STORAGE_INSANE"] = "storage_insane";
+    })(storage_type = Storage.storage_type || (Storage.storage_type = {}));
+})(Storage = exports.Storage || (exports.Storage = {}));
+
+
+
+},{}],35:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageClone = void 0;
+var StorageClone;
+(function (StorageClone) {
+    /**
+     * Password type (one of plain, crypt).
+     */
+    var password_type;
+    (function (password_type) {
+        password_type["PLAIN"] = "plain";
+        password_type["CRYPT"] = "crypt";
+    })(password_type = StorageClone.password_type || (StorageClone.password_type = {}));
+})(StorageClone = exports.StorageClone || (exports.StorageClone = {}));
+
+
+
+},{}],36:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageCreateTemplatePassword = void 0;
+var StorageCreateTemplatePassword;
+(function (StorageCreateTemplatePassword) {
+    /**
+     * Password type (one of plain, crypt).
+     */
+    var password_type;
+    (function (password_type) {
+        password_type["PLAIN"] = "plain";
+        password_type["CRYPT"] = "crypt";
+    })(password_type = StorageCreateTemplatePassword.password_type || (StorageCreateTemplatePassword.password_type = {}));
+})(StorageCreateTemplatePassword = exports.StorageCreateTemplatePassword || (exports.StorageCreateTemplatePassword = {}));
+
+
+
+},{}],37:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageImportFromS3Object = void 0;
+var StorageImportFromS3Object;
+(function (StorageImportFromS3Object) {
+    /**
+     * The extension of source gz,iso, ..., but for now we will support gz
+     */
+    var extension;
+    (function (extension) {
+        extension["GZ"] = "gz";
+    })(extension = StorageImportFromS3Object.extension || (StorageImportFromS3Object.extension = {}));
+})(StorageImportFromS3Object = exports.StorageImportFromS3Object || (exports.StorageImportFromS3Object = {}));
+
+
+
+},{}],38:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageType = void 0;
+/**
+ * Storage type (one of storage, storage_high, storage_insane).
+ */
+var StorageType;
+(function (StorageType) {
+    StorageType["STORAGE"] = "storage";
+    StorageType["STORAGE_HIGH"] = "storage_high";
+    StorageType["STORAGE_INSANE"] = "storage_insane";
+})(StorageType = exports.StorageType || (exports.StorageType = {}));
+
+
+
+},{}],39:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageUpdate = void 0;
+var StorageUpdate;
+(function (StorageUpdate) {
+    /**
+     * Updating the storage_type parameter allows you to increase the speed of your storage. Downgrading is not supported
+     */
+    var storage_type;
+    (function (storage_type) {
+        storage_type["STORAGE"] = "storage";
+        storage_type["STORAGE_HIGH"] = "storage_high";
+        storage_type["STORAGE_INSANE"] = "storage_insane";
+    })(storage_type = StorageUpdate.storage_type || (StorageUpdate.storage_type = {}));
+})(StorageUpdate = exports.StorageUpdate || (exports.StorageUpdate = {}));
+
+
+
+},{}],40:[function(require,module,exports){
+"use strict";
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageVariant = void 0;
+/**
+ * Storage variant (one of local or distributed).
+ */
+var StorageVariant;
+(function (StorageVariant) {
+    StorageVariant["DISTRIBUTED"] = "distributed";
+    StorageVariant["LOCAL"] = "local";
+})(StorageVariant = exports.StorageVariant || (exports.StorageVariant = {}));
+
+
+
+},{}],41:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$AccessKey = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$AccessKey = {
+    properties: {
+        secret_key: {
+            type: 'string',
+        },
+        access_key: {
+            type: 'string',
+        },
+        user: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],42:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$AccessKeyCreateResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$AccessKeyCreateResponse = {
+    properties: {
+        access_key: {
+            properties: {
+                secret_key: {
+                    type: 'string',
+                },
+                access_key: {
+                    type: 'string',
+                },
+            },
+        },
+        request_uuid: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],43:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$AccessKeyGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$AccessKeyGetResponse = {
+    properties: {
+        access_key: {
+            type: 'AccessKey',
+        },
+    },
+};
+
+
+
+},{}],44:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$AccessKeyList = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$AccessKeyList = {
+    type: 'array',
+    contains: {
+        type: 'AccessKey',
+    },
+};
+
+
+
+},{}],45:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$AccessKeysGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$AccessKeysGetResponse = {
+    properties: {
+        access_keys: {
+            type: 'AccessKeyList',
+        },
+    },
+};
+
+
+
+},{}],46:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Bucket = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Bucket = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        ussage: {
+            properties: {
+                size_kb: {
+                    type: 'number',
+                },
+                num_objects: {
+                    type: 'number',
+                },
+            },
+        },
+    },
+};
+
+
+
+},{}],47:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$BucketGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$BucketGetResponse = {
+    properties: {
+        Bucket: {
+            type: 'Bucket',
+        },
+    },
+};
+
+
+
+},{}],48:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$BucketList = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$BucketList = {
+    type: 'array',
+    contains: {
+        type: 'Bucket',
+    },
+};
+
+
+
+},{}],49:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$BucketsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$BucketsGetResponse = {
+    properties: {
+        Buckets: {
+            type: 'BucketList',
+        },
+    },
+};
+
+
+
+},{}],50:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$CreateResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$CreateResponse = {
+    properties: {
+        request_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],51:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedIpsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedIpsGetResponse = {
+    properties: {
+        deleted_ips: {
+            type: 'IpBriefIndex',
+        },
+    },
+};
+
+
+
+},{}],52:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedIsoimagesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedIsoimagesGetResponse = {
+    properties: {
+        deleted_isoimages: {
+            type: 'IsoimageIndex',
+        },
+    },
+};
+
+
+
+},{}],53:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedLoadbalancersGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedLoadbalancersGetResponse = {
+    properties: {
+        deleted_loadbalancers: {
+            type: 'LoadbalancerIndex',
+        },
+    },
+};
+
+
+
+},{}],54:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedNetworksGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedNetworksGetResponse = {
+    properties: {
+        deleted_networks: {
+            type: 'NetworkIndex',
+        },
+    },
+};
+
+
+
+},{}],55:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedPaasServicesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedPaasServicesGetResponse = {
+    properties: {
+        deleted_paas_services: {
+            type: 'PaasServiceIndex',
+        },
+    },
+};
+
+
+
+},{}],56:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedServersGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedServersGetResponse = {
+    properties: {
+        deleted_servers: {
+            type: 'ServerIndex',
+        },
+    },
+};
+
+
+
+},{}],57:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedSnapshotsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedSnapshotsGetResponse = {
+    properties: {
+        deleted_snapshots: {
+            type: 'SnapshotIndex',
+        },
+    },
+};
+
+
+
+},{}],58:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedStoragesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedStoragesGetResponse = {
+    properties: {
+        deleted_storages: {
+            type: 'StorageIndex',
+        },
+    },
+};
+
+
+
+},{}],59:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$DeletedTemplatesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$DeletedTemplatesGetResponse = {
+    properties: {
+        deleted_templates: {
+            type: 'TemplateIndex',
+        },
+    },
+};
+
+
+
+},{}],60:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$EventResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$EventResponse = {
+    properties: {
+        events: {
+            type: 'array',
+            contains: {
+                properties: {
+                    object_type: {
+                        type: 'string',
+                    },
+                    request_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    object_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    activity: {
+                        type: 'string',
+                    },
+                    request_type: {
+                        type: 'string',
+                    },
+                    request_status: {
+                        type: 'string',
+                    },
+                    change: {
+                        type: 'string',
+                    },
+                    timestamp: {
+                        type: 'string',
+                        format: 'date-time',
+                    },
+                    user_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                },
+            },
+        },
+    },
+};
+
+
+
+},{}],61:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Firewall = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Firewall = {
+    properties: {
+        status: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        rules: {
+            type: 'FirewallRules',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        private: {
+            type: 'boolean',
+        },
+        relations: {
+            type: 'FirewallRelation',
+        },
+        description: {
+            type: 'string',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],62:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        labels: {
+            type: 'string',
+        },
+        rules: {
+            type: 'FirewallRules',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],63:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallGetResponse = {
+    properties: {
+        firewall: {
+            type: 'Firewall',
+        },
+    },
+};
+
+
+
+},{}],64:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Firewall',
+    },
+};
+
+
+
+},{}],65:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallRelation = {
+    properties: {
+        networks: {
+            type: 'NetworkinFirewall',
+        },
+    },
+};
+
+
+
+},{}],66:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallRules = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallRules = {
+    properties: {
+        'rules-v6-in': {
+            type: 'FirewallV6inRule',
+        },
+        'rules-v6-out': {
+            type: 'FirewallV6outRule',
+        },
+        'rules-v4-in': {
+            type: 'FirewallV4inRule',
+        },
+        'rules-v4-out': {
+            type: 'FirewallV4outRule',
+        },
+    },
+};
+
+
+
+},{}],67:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'string',
+        },
+        rules: {
+            type: 'FirewallRules',
+        },
+    },
+};
+
+
+
+},{}],68:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallV4inRule = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallV4inRule = {
+    type: 'array',
+    contains: {
+        type: 'RulesProperties',
+    },
+};
+
+
+
+},{}],69:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallV4outRule = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallV4outRule = {
+    type: 'array',
+    contains: {
+        type: 'RulesProperties',
+    },
+};
+
+
+
+},{}],70:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallV6inRule = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallV6inRule = {
+    type: 'array',
+    contains: {
+        type: 'RulesProperties',
+    },
+};
+
+
+
+},{}],71:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallV6outRule = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallV6outRule = {
+    type: 'array',
+    contains: {
+        type: 'RulesProperties',
+    },
+};
+
+
+
+},{}],72:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$FirewallsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$FirewallsGetResponse = {
+    properties: {
+        firewalls: {
+            type: 'FirewallIndex',
+        },
+    },
+};
+
+
+
+},{}],73:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Ip = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Ip = {
+    properties: {
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        status: {
+            type: 'string',
+        },
+        relations: {
+            type: 'IpRelation',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        prefix: {
+            type: 'string',
+        },
+        delete_block: {
+            type: 'boolean',
+        },
+        failover: {
+            type: 'boolean',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        ip: {
+            type: 'string',
+        },
+        family: {
+            type: 'Enum',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        reverse_dns: {
+            type: 'string',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],74:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpBrief = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpBrief = {
+    properties: {
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        status: {
+            type: 'string',
+        },
+        relations: {
+            type: 'IpRelation',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        prefix: {
+            type: 'string',
+        },
+        delete_block: {
+            type: 'boolean',
+        },
+        failover: {
+            type: 'boolean',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        ip: {
+            type: 'string',
+        },
+        family: {
+            type: 'Enum',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        reverse_dns: {
+            type: 'string',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        name: {
+            type: 'string',
+        },
+        partner_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],75:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpBriefIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpBriefIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'IpBrief',
+    },
+};
+
+
+
+},{}],76:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpCreate = {
+    properties: {
+        family: {
+            type: 'Enum',
+            isRequired: true,
+        },
+        failover: {
+            type: 'boolean',
+        },
+        reverse_dns: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],77:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpCreateResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpCreateResponse = {
+    properties: {
+        request_uuid: {
+            type: 'string',
+        },
+        ip: {
+            type: 'string',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        prefix: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],78:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpGetResponse = {
+    properties: {
+        ip: {
+            type: 'Ip',
+        },
+    },
+};
+
+
+
+},{}],79:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpRelation = {
+    properties: {
+        servers: {
+            type: 'ServerinIp',
+        },
+        loadbalancers: {
+            type: 'LoadbalancerinIp',
+        },
+    },
+};
+
+
+
+},{}],80:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpUpdate = {
+    properties: {
+        failover: {
+            type: 'boolean',
+        },
+        reverse_dns: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],81:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IpsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IpsGetResponse = {
+    properties: {
+        ips: {
+            type: 'IpBriefIndex',
+        },
+    },
+};
+
+
+
+},{}],82:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Isoimage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Isoimage = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        relations: {
+            type: 'IsoimageRelation',
+        },
+        description: {
+            type: 'string',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        source_url: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        location_iata: {
+            type: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        status: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        name: {
+            type: 'string',
+        },
+        version: {
+            type: 'string',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        private: {
+            type: 'boolean',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        capacity: {
+            type: 'number',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+    },
+};
+
+
+
+},{}],83:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IsoimageCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IsoimageCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        source_url: {
+            type: 'string',
+            isRequired: true,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],84:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IsoimageGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IsoimageGetResponse = {
+    properties: {
+        isoimage: {
+            type: 'Isoimage',
+        },
+    },
+};
+
+
+
+},{}],85:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IsoimageIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IsoimageIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Isoimage',
+    },
+};
+
+
+
+},{}],86:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IsoimageRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IsoimageRelation = {
+    properties: {
+        servers: {
+            type: 'ServerinIsoimage',
+        },
+    },
+};
+
+
+
+},{}],87:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IsoimageUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IsoimageUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],88:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IsoimageinServer = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IsoimageinServer = {
+    type: 'array',
+    contains: {
+        type: 'LinkedIsoimage',
+    },
+};
+
+
+
+},{}],89:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$IsoimagesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$IsoimagesGetResponse = {
+    properties: {
+        isoimages: {
+            type: 'IsoimageIndex',
+        },
+    },
+};
+
+
+
+},{}],90:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Label = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Label = {
+    properties: {
+        label: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'datetime',
+        },
+        change_time: {
+            type: 'string',
+            format: 'dattime',
+        },
+        relations: {
+            type: 'array',
+            contains: {
+                properties: {},
+            },
+        },
+        status: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],91:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LabelGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LabelGetResponse = {
+    properties: {
+        label: {
+            type: 'Label',
+        },
+    },
+};
+
+
+
+},{}],92:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LabelIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LabelIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Label',
+    },
+};
+
+
+
+},{}],93:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LabelsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LabelsGetResponse = {
+    properties: {
+        labels: {
+            type: 'LabelIndex',
+        },
+    },
+};
+
+
+
+},{}],94:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkIp = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkIp = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],95:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkIsoimage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkIsoimage = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],96:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkNetwork = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkNetwork = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+        ordering: {
+            type: 'number',
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+        l3security: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        firewall: {
+            type: 'FirewallRules',
+        },
+        firewall_template_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],97:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkStorage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkStorage = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],98:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIp = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIp = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        family: {
+            type: 'Enum',
+        },
+        prefix: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        ip: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],99:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIpBrief = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIpBrief = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        family: {
+            type: 'Enum',
+        },
+        prefix: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        server_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        ip: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],100:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIpGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIpGetResponse = {
+    properties: {
+        ip_relation: {
+            type: 'LinkedIp',
+        },
+    },
+};
+
+
+
+},{}],101:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIpUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIpUpdate = {
+    properties: {
+        bootdevice: {
+            type: 'boolean',
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],102:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIpsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIpsGetResponse = {
+    properties: {
+        ip_relations: {
+            type: 'array',
+            contains: {
+                type: 'LinkedIpBrief',
+            },
+        },
+    },
+};
+
+
+
+},{}],103:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIsoimage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIsoimage = {
+    properties: {
+        bootdevice: {
+            type: 'boolean',
+        },
+        private: {
+            type: 'boolean',
+        },
+        object_name: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],104:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIsoimageBrief = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIsoimageBrief = {
+    properties: {
+        bootdevice: {
+            type: 'boolean',
+        },
+        object_name: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        private: {
+            type: 'boolean',
+            format: 'date-time',
+        },
+        server_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],105:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIsoimageGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIsoimageGetResponse = {
+    properties: {
+        isoimage_relation: {
+            type: 'LinkedIsoimage',
+        },
+    },
+};
+
+
+
+},{}],106:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIsoimageUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIsoimageUpdate = {
+    properties: {
+        bootdevice: {
+            type: 'boolean',
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],107:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedIsoimagesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedIsoimagesGetResponse = {
+    properties: {
+        isoimage_relations: {
+            type: 'array',
+            contains: {
+                type: 'LinkedIsoimageBrief',
+            },
+        },
+    },
+};
+
+
+
+},{}],108:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedNetwork = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedNetwork = {
+    properties: {
+        network_type: {
+            type: 'string',
+        },
+        l3security: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+        network_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        l2security: {
+            type: 'boolean',
+        },
+        mac: {
+            type: 'string',
+        },
+        ordering: {
+            type: 'string',
+        },
+        firewall: {
+            type: 'string',
+        },
+        firewall_template_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        object_name: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        public_net: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],109:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedNetworkBrief = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedNetworkBrief = {
+    properties: {
+        network_type: {
+            type: 'string',
+        },
+        l3security: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+        network_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        l2security: {
+            type: 'boolean',
+        },
+        server_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        mac: {
+            type: 'string',
+        },
+        ordering: {
+            type: 'string',
+        },
+        firewall: {
+            type: 'string',
+        },
+        firewall_template_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        object_name: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        public_net: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],110:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedNetworkGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedNetworkGetResponse = {
+    properties: {
+        network_relation: {
+            type: 'LinkedNetwork',
+        },
+    },
+};
+
+
+
+},{}],111:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedNetworkUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedNetworkUpdate = {
+    properties: {
+        ordering: {
+            type: 'number',
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+        l3security: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        firewall: {
+            type: 'FirewallRules',
+        },
+        firewall_template_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],112:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedNetworksGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedNetworksGetResponse = {
+    properties: {
+        network_relations: {
+            type: 'array',
+            contains: {
+                type: 'LinkedNetworkBrief',
+            },
+        },
+    },
+};
+
+
+
+},{}],113:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedStorage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedStorage = {
+    properties: {
+        storage_type: {
+            type: 'string',
+        },
+        target: {
+            type: 'number',
+        },
+        bus: {
+            type: 'number',
+        },
+        capacity: {
+            type: 'number',
+        },
+        license_product_no: {
+            type: 'number',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        controller: {
+            type: 'number',
+        },
+        lun: {
+            type: 'number',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        last_used_template: {
+            type: 'string',
+            format: 'uuid',
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+        object_name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],114:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedStorageBrief = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedStorageBrief = {
+    properties: {
+        storage_type: {
+            type: 'string',
+        },
+        target: {
+            type: 'number',
+        },
+        bus: {
+            type: 'number',
+        },
+        capacity: {
+            type: 'number',
+        },
+        license_product_no: {
+            type: 'number',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        controller: {
+            type: 'number',
+        },
+        lun: {
+            type: 'number',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        server_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        last_used_template: {
+            type: 'string',
+            format: 'uuid',
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+        object_name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],115:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedStorageGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedStorageGetResponse = {
+    properties: {
+        storage_relation: {
+            type: 'LinkedStorage',
+        },
+    },
+};
+
+
+
+},{}],116:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedStorageUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedStorageUpdate = {
+    properties: {
+        ordering: {
+            type: 'number',
+        },
+        bootdevice: {
+            type: 'boolean',
+        },
+        l3security: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],117:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LinkedStoragesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LinkedStoragesGetResponse = {
+    properties: {
+        storage_relations: {
+            type: 'array',
+            contains: {
+                type: 'LinkedStorageBrief',
+            },
+        },
+    },
+};
+
+
+
+},{}],118:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ListenPorts = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ListenPorts = {
+    type: 'dictionary',
+    contains: {
+        type: 'number',
+    },
+};
+
+
+
+},{}],119:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ListenPortsByIpIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ListenPortsByIpIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'ListenPorts',
+    },
+};
+
+
+
+},{}],120:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Loadbalancer = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Loadbalancer = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        name: {
+            type: 'string',
+        },
+        forwarding_rules: {
+            type: 'array',
+            contains: {
+                properties: {},
+            },
+        },
+        location_iata: {
+            type: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        backend_servers: {
+            type: 'array',
+            contains: {
+                properties: {},
+            },
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        status: {
+            type: 'string',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        redirect_http_to_https: {
+            type: 'boolean',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        algorithm: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        listen_ipv4_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        listen_ipv6_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],121:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LoadbalancerCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LoadbalancerCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        forwarding_rules: {
+            type: 'array',
+            contains: {
+                properties: {},
+            },
+            isRequired: true,
+        },
+        backend_servers: {
+            type: 'array',
+            contains: {
+                properties: {},
+            },
+            isRequired: true,
+        },
+        status: {
+            type: 'string',
+        },
+        redirect_http_to_https: {
+            type: 'boolean',
+            isRequired: true,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+            isRequired: true,
+        },
+        algorithm: {
+            type: 'string',
+            isRequired: true,
+        },
+        listen_ipv4_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+        listen_ipv6_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],122:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LoadbalancerGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LoadbalancerGetResponse = {
+    properties: {
+        loadbalancer: {
+            type: 'Loadbalancer',
+        },
+    },
+};
+
+
+
+},{}],123:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LoadbalancerIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LoadbalancerIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Loadbalancer',
+    },
+};
+
+
+
+},{}],124:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LoadbalancerUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LoadbalancerUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        forwarding_rules: {
+            type: 'array',
+            contains: {
+                properties: {},
+            },
+        },
+        backend_servers: {
+            type: 'array',
+            contains: {
+                properties: {},
+            },
+        },
+        status: {
+            type: 'string',
+        },
+        redirect_http_to_https: {
+            type: 'boolean',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        algorithm: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],125:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LoadbalancerinIp = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LoadbalancerinIp = {
+    type: 'array',
+    contains: {
+        properties: {
+            create_time: {
+                type: 'string',
+                format: 'date-time',
+            },
+            loadbalancer_uuid: {
+                type: 'string',
+            },
+            loadbalancer_name: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],126:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LoadbalancersGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LoadbalancersGetResponse = {
+    properties: {
+        loadbalancers: {
+            type: 'LoadbalancerIndex',
+        },
+    },
+};
+
+
+
+},{}],127:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Location = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Location = {
+    properties: {
+        iata: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        name: {
+            type: 'string',
+            format: 'string',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        country: {
+            type: 'string',
+            format: 'string',
+        },
+        active: {
+            type: 'boolean',
+        },
+        change_requested: {
+            type: 'LocationChangeRequested',
+        },
+        cpunode_count: {
+            type: 'number',
+        },
+        public: {
+            type: 'boolean',
+        },
+        product_no: {
+            type: 'number',
+        },
+    },
+};
+
+
+
+},{}],128:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LocationChangeRequested = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LocationChangeRequested = {
+    properties: {
+        cpunode_count: {
+            type: 'string',
+        },
+        product_no: {
+            type: 'number',
+        },
+        parent_location_uuid: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],129:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LocationCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LocationCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        parent_location_uuid: {
+            type: 'string',
+            isRequired: true,
+        },
+        cpunode_count: {
+            type: 'number',
+            isRequired: true,
+        },
+        product_no: {
+            type: 'number',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],130:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LocationGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LocationGetResponse = {
+    properties: {
+        location: {
+            type: 'Location',
+        },
+    },
+};
+
+
+
+},{}],131:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LocationIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LocationIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Location',
+    },
+};
+
+
+
+},{}],132:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LocationUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LocationUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        cpunode_count: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],133:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$LocationsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$LocationsGetResponse = {
+    properties: {
+        locations: {
+            type: 'LocationIndex',
+        },
+    },
+};
+
+
+
+},{}],134:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplication = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplication = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        unique_hash: {
+            type: 'string',
+        },
+        object_storage_path: {
+            type: 'string',
+        },
+        application_owner: {
+            type: 'boolean',
+        },
+        setup: {
+            properties: {
+                capacity: {
+                    type: 'number',
+                },
+                cores: {
+                    type: 'number',
+                },
+                memory: {
+                    type: 'number',
+                },
+            },
+        },
+        published: {
+            type: 'boolean',
+        },
+        published_date: {
+            type: 'string',
+            format: 'date-time',
+        },
+        publish_requested: {
+            type: 'boolean',
+        },
+        publish_requested_date: {
+            type: 'string',
+            format: 'date-time',
+        },
+        publish_global_requested: {
+            type: 'boolean',
+        },
+        publish_global_requested_date: {
+            type: 'string',
+            format: 'date-time',
+        },
+        published_global: {
+            type: 'boolean',
+        },
+        published_global_date: {
+            type: 'string',
+            format: 'date-time',
+        },
+        category: {
+            type: 'Enum',
+        },
+        metadata: {
+            properties: {
+                license: {
+                    type: 'string',
+                },
+                os: {
+                    type: 'string',
+                },
+                components: {
+                    type: 'array',
+                    contains: {
+                        type: 'string',
+                    },
+                },
+                overview: {
+                    type: 'string',
+                },
+                hints: {
+                    type: 'string',
+                },
+                term_of_use: {
+                    type: 'string',
+                },
+                icon: {
+                    type: 'string',
+                },
+                features: {
+                    type: 'string',
+                },
+                terms_of_use: {
+                    type: 'string',
+                },
+                authors: {
+                    type: 'string',
+                },
+                advices: {
+                    type: 'string',
+                },
+            },
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        status: {
+            type: 'string',
+        },
+        application_type: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],135:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        object_storage_path: {
+            type: 'string',
+            isRequired: true,
+        },
+        category: {
+            type: 'Enum',
+        },
+        publish: {
+            type: 'boolean',
+        },
+        setup: {
+            properties: {
+                cores: {
+                    type: 'number',
+                    isRequired: true,
+                    maximum: 64,
+                    minimum: 1,
+                },
+                memory: {
+                    type: 'number',
+                    isRequired: true,
+                    maximum: 192,
+                    minimum: 1,
+                },
+                capacity: {
+                    type: 'number',
+                    isRequired: true,
+                    maximum: 16384,
+                    minimum: 1,
+                },
+            },
+            isRequired: true,
+        },
+        metadata: {
+            type: 'MarketplaceApplicationMetadata',
+        },
+    },
+};
+
+
+
+},{}],136:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationCreateResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationCreateResponse = {
+    properties: {
+        request_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        unique_hash: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],137:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationGetResponse = {
+    properties: {
+        application: {
+            type: 'MarketplaceApplication',
+        },
+    },
+};
+
+
+
+},{}],138:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationImport = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationImport = {
+    properties: {
+        unique_hash: {
+            type: 'string',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],139:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'MarketplaceApplication',
+    },
+};
+
+
+
+},{}],140:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationMetadata = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationMetadata = {
+    properties: {
+        components: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        features: {
+            type: 'string',
+        },
+        hints: {
+            type: 'string',
+        },
+        icon: {
+            type: 'string',
+        },
+        license: {
+            type: 'string',
+        },
+        overview: {
+            type: 'string',
+        },
+        terms_of_use: {
+            type: 'string',
+        },
+        os: {
+            type: 'string',
+        },
+        author: {
+            type: 'string',
+        },
+        advices: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],141:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationSetup = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationSetup = {
+    properties: {
+        cores: {
+            type: 'number',
+            maximum: 64,
+            minimum: 1,
+        },
+        memory: {
+            type: 'number',
+            maximum: 192,
+            minimum: 1,
+        },
+        capacity: {
+            type: 'number',
+            maximum: 16384,
+            minimum: 1,
+        },
+    },
+};
+
+
+
+},{}],142:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        object_storage_path: {
+            type: 'string',
+        },
+        category: {
+            type: 'Enum',
+        },
+        publish: {
+            type: 'boolean',
+        },
+        setup: {
+            type: 'MarketplaceApplicationSetup',
+        },
+        metadata: {
+            type: 'MarketplaceApplicationMetadata',
+        },
+    },
+};
+
+
+
+},{}],143:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MarketplaceApplicationsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MarketplaceApplicationsGetResponse = {
+    properties: {
+        applications: {
+            type: 'MarketplaceApplicationIndex',
+        },
+    },
+};
+
+
+
+},{}],144:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Metrics = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Metrics = {
+    properties: {
+        begin_time: {
+            type: 'string',
+            isRequired: true,
+            format: 'string',
+        },
+        end_time: {
+            type: 'string',
+            isRequired: true,
+            format: 'string',
+        },
+    },
+};
+
+
+
+},{}],145:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$MetricsValue = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$MetricsValue = {
+    properties: {
+        value: {
+            type: 'number',
+            isRequired: true,
+            format: 'float',
+        },
+        unit: {
+            type: 'string',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],146:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Network = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Network = {
+    properties: {
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        public_net: {
+            type: 'boolean',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        network_type: {
+            type: 'string',
+        },
+        name: {
+            type: 'string',
+        },
+        delete_block: {
+            type: 'boolean',
+        },
+        status: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        l2security: {
+            type: 'boolean',
+        },
+        relations: {
+            type: 'NetworkRelation',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+    },
+};
+
+
+
+},{}],147:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworkCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworkCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        l2security: {
+            type: 'boolean',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],148:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworkGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworkGetResponse = {
+    properties: {
+        network: {
+            type: 'Network',
+        },
+    },
+};
+
+
+
+},{}],149:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworkIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworkIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Network',
+    },
+};
+
+
+
+},{}],150:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworkRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworkRelation = {
+    properties: {
+        servers: {
+            type: 'ServerinNetwork',
+        },
+        vlans: {
+            type: 'VlansinNetwork',
+        },
+    },
+};
+
+
+
+},{}],151:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworkUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworkUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        l2security: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],152:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworkinFirewall = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworkinFirewall = {
+    type: 'array',
+    contains: {
+        properties: {
+            create_time: {
+                type: 'string',
+                format: 'date-time',
+            },
+            network_uuid: {
+                type: 'string',
+            },
+            network_name: {
+                type: 'string',
+            },
+            object_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+            object_name: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],153:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworkinServer = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworkinServer = {
+    type: 'array',
+    contains: {
+        type: 'LinkedNetworkBrief',
+    },
+};
+
+
+
+},{}],154:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$NetworksGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$NetworksGetResponse = {
+    properties: {
+        networks: {
+            type: 'NetworkIndex',
+        },
+    },
+};
+
+
+
+},{}],155:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZone = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZone = {
+    properties: {
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        relations: {
+            type: 'PaasSecurityZoneRelation',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        status: {
+            type: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],156:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZoneCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZoneCreate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],157:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZoneCreateResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZoneCreateResponse = {
+    properties: {
+        request_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        paas_security_zone_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],158:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZoneGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZoneGetResponse = {
+    properties: {
+        paas_security_zone: {
+            type: 'PaasSecurityZone',
+        },
+    },
+};
+
+
+
+},{}],159:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZoneIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZoneIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'PaasSecurityZones',
+    },
+};
+
+
+
+},{}],160:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZoneRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZoneRelation = {
+    properties: {
+        services: {
+            type: 'ServiceinPaasSecurityZone',
+        },
+    },
+};
+
+
+
+},{}],161:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZoneUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZoneUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        paas_security_zone_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],162:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZones = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZones = {
+    properties: {
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        relations: {
+            type: 'PaasSecurityZonesRelation',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        status: {
+            type: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        name: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],163:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZonesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZonesGetResponse = {
+    properties: {
+        paas_security_zones: {
+            type: 'PaasSecurityZoneIndex',
+        },
+    },
+};
+
+
+
+},{}],164:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasSecurityZonesRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasSecurityZonesRelation = {
+    properties: {
+        services: {
+            type: 'ServiceinPaasSecurityZones',
+        },
+    },
+};
+
+
+
+},{}],165:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasService = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasService = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        credentials: {
+            type: 'PaasServiceCredentials',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        listen_ports: {
+            type: 'ListenPortsByIpIndex',
+        },
+        security_zone_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        service_template_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        status: {
+            type: 'string',
+        },
+        name: {
+            type: 'string',
+        },
+        parameters: {
+            type: 'PaasServiceParameters',
+        },
+        resource_limits: {
+            type: 'PaasServiceResourceLimits',
+        },
+        upgrade_options: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],166:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        paas_service_template_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        paas_security_zone_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        parameters: {
+            type: 'PaasServiceParameters',
+        },
+        resource_limits: {
+            type: 'PaasServiceResourceLimits',
+        },
+    },
+};
+
+
+
+},{}],167:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceCreateResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceCreateResponse = {
+    properties: {
+        request_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        listen_ports: {
+            type: 'ListenPortsByIpIndex',
+        },
+        paas_service_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        credentials: {
+            type: 'PaasServiceCredentials',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        parameters: {
+            type: 'PaasServiceParameters',
+        },
+        resource_limits: {
+            type: 'PaasServiceResourceLimits',
+        },
+    },
+};
+
+
+
+},{}],168:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceCredentials = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceCredentials = {
+    type: 'array',
+    contains: {
+        properties: {
+            kubeconfig: {
+                type: 'string',
+            },
+            expiration_time: {
+                type: 'string',
+                format: 'date-time',
+            },
+            password: {
+                type: 'string',
+            },
+            username: {
+                type: 'string',
+            },
+            type: {
+                type: 'string',
+                isRequired: true,
+            },
+        },
+    },
+};
+
+
+
+},{}],169:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceGetResponse = {
+    properties: {
+        paas_service: {
+            type: 'PaasService',
+        },
+    },
+};
+
+
+
+},{}],170:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'PaasService',
+    },
+};
+
+
+
+},{}],171:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceMetrics = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceMetrics = {
+    type: 'all-of',
+    contains: [{
+            type: 'Metrics',
+        }, {
+            properties: {
+                paas_service_uuid: {
+                    type: 'string',
+                    format: 'uuid',
+                },
+                core_usage: {
+                    type: 'MetricsValue',
+                },
+                storage_size: {
+                    type: 'MetricsValue',
+                },
+            },
+        }],
+};
+
+
+
+},{}],172:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceMetricsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceMetricsGetResponse = {
+    properties: {
+        paas_service_metrics: {
+            type: 'PaasServiceMetricsList',
+        },
+    },
+};
+
+
+
+},{}],173:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceMetricsList = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceMetricsList = {
+    type: 'array',
+    contains: {
+        type: 'PaasServiceMetrics',
+    },
+};
+
+
+
+},{}],174:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceParameters = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceParameters = {
+    properties: {},
+};
+
+
+
+},{}],175:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceParametersSchema = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceParametersSchema = {
+    type: 'dictionary',
+    contains: {
+        properties: {},
+    },
+};
+
+
+
+},{}],176:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceResourceLimit = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceResourceLimit = {
+    properties: {
+        resource: {
+            type: 'string',
+        },
+        limit: {
+            type: 'number',
+        },
+    },
+};
+
+
+
+},{}],177:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceResourceLimits = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceResourceLimits = {
+    type: 'array',
+    contains: {
+        type: 'PaasServiceResourceLimit',
+    },
+};
+
+
+
+},{}],178:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceTemplate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceTemplate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        category: {
+            type: 'string',
+        },
+        flavour: {
+            type: 'string',
+        },
+        version: {
+            type: 'string',
+        },
+        performance_class: {
+            type: 'string',
+        },
+        version_upgrades: {
+            type: 'array',
+            contains: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+        performance_class_updates: {
+            type: 'array',
+            contains: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+        patch_updates: {
+            type: 'array',
+            contains: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        product_no: {
+            type: 'number',
+        },
+        discount_product_no: {
+            type: 'number',
+        },
+        discount_period: {
+            type: 'number',
+        },
+        resources: {
+            properties: {
+                memory: {
+                    type: 'number',
+                },
+                connections: {
+                    type: 'number',
+                },
+            },
+        },
+        status: {
+            type: 'string',
+        },
+        parameters_schema: {
+            type: 'PaasServiceParametersSchema',
+        },
+    },
+};
+
+
+
+},{}],179:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceTemplateIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceTemplateIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'PaasServiceTemplate',
+    },
+};
+
+
+
+},{}],180:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceTemplatesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceTemplatesGetResponse = {
+    properties: {
+        paas_service_templates: {
+            type: 'PaasServiceTemplateIndex',
+        },
+    },
+};
+
+
+
+},{}],181:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServiceUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServiceUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        parameters: {
+            type: 'PaasServiceParameters',
+        },
+        resource_limits: {
+            type: 'PaasServiceResourceLimits',
+        },
+        paas_service_template_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],182:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PaasServicesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PaasServicesGetResponse = {
+    properties: {
+        paas_services: {
+            type: 'PaasServiceIndex',
+        },
+    },
+};
+
+
+
+},{}],183:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$PublicIpinServer = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$PublicIpinServer = {
+    type: 'array',
+    contains: {
+        type: 'LinkedIpBrief',
+    },
+};
+
+
+
+},{}],184:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Request = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Request = {
+    properties: {
+        create_time: {
+            type: 'string',
+            isRequired: true,
+            format: 'date-time',
+        },
+        status: {
+            type: 'string',
+            isRequired: true,
+        },
+        message: {
+            type: 'string',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],185:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$RequestGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$RequestGetResponse = {
+    type: 'dictionary',
+    contains: {
+        type: 'Request',
+    },
+};
+
+
+
+},{}],186:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$RulesProperties = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$RulesProperties = {
+    properties: {
+        protocol: {
+            type: 'Enum',
+            isRequired: true,
+        },
+        dst_port: {
+            properties: {},
+        },
+        src_port: {
+            properties: {},
+        },
+        src_cidr: {
+            type: 'string',
+        },
+        action: {
+            type: 'Enum',
+            isRequired: true,
+        },
+        comment: {
+            type: 'string',
+        },
+        dst_cidr: {
+            type: 'string',
+        },
+        order: {
+            type: 'string',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],187:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Server = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Server = {
+    properties: {
+        cores: {
+            type: 'number',
+        },
+        relations: {
+            type: 'ServerRelation',
+        },
+        legacy: {
+            type: 'boolean',
+        },
+        memory: {
+            type: 'number',
+        },
+        console_token: {
+            type: 'string',
+        },
+        usage_in_minutes_memory: {
+            type: 'number',
+        },
+        auto_recovery: {
+            type: 'boolean',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        usage_in_minutes_cores: {
+            type: 'number',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        availability_zone: {
+            type: 'string',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        hardware_profile: {
+            type: 'string',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        power: {
+            type: 'boolean',
+        },
+        name: {
+            type: 'string',
+        },
+        status: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],188:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        cores: {
+            type: 'number',
+            isRequired: true,
+        },
+        memory: {
+            type: 'number',
+            isRequired: true,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        status: {
+            type: 'string',
+        },
+        availability_zone: {
+            type: 'string',
+        },
+        auto_recovery: {
+            type: 'string',
+        },
+        hardware_profile: {
+            type: 'Enum',
+        },
+    },
+};
+
+
+
+},{}],189:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerCreateResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerCreateResponse = {
+    properties: {
+        server_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        request_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        network_uuids: {
+            type: 'array',
+            contains: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+        storage_uuids: {
+            type: 'array',
+            contains: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+        ipaddr_uuids: {
+            type: 'array',
+            contains: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+    },
+};
+
+
+
+},{}],190:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerGetResponse = {
+    properties: {
+        server: {
+            type: 'Server',
+        },
+    },
+};
+
+
+
+},{}],191:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Server',
+    },
+};
+
+
+
+},{}],192:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerMetrics = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerMetrics = {
+    type: 'all-of',
+    contains: [{
+            type: 'Metrics',
+        }, {
+            properties: {
+                server_uuid: {
+                    type: 'string',
+                    format: 'uuid',
+                },
+                core_usage: {
+                    type: 'MetricsValue',
+                },
+                storage_read_iops: {
+                    type: 'MetricsValue',
+                },
+                storage_write_iops: {
+                    type: 'MetricsValue',
+                },
+            },
+        }],
+};
+
+
+
+},{}],193:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerMetricsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerMetricsGetResponse = {
+    properties: {
+        server_metrics: {
+            type: 'PaasServiceMetricsList',
+        },
+    },
+};
+
+
+
+},{}],194:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerMetricsList = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerMetricsList = {
+    type: 'array',
+    contains: {
+        type: 'ServerMetrics',
+    },
+};
+
+
+
+},{}],195:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerPowerStatus = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerPowerStatus = {
+    properties: {
+        power: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],196:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerPowerUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerPowerUpdate = {
+    properties: {
+        power: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],197:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerRelation = {
+    properties: {
+        public_ips: {
+            type: 'PublicIpinServer',
+        },
+        isoimages: {
+            type: 'IsoimageinServer',
+        },
+        storages: {
+            type: 'StoragesinServer',
+        },
+        networks: {
+            type: 'NetworkinServer',
+        },
+    },
+};
+
+
+
+},{}],198:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        cores: {
+            type: 'number',
+        },
+        memory: {
+            type: 'number',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        availability_zone: {
+            type: 'string',
+        },
+        auto_recovery: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],199:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerinIp = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerinIp = {
+    type: 'array',
+    contains: {
+        properties: {
+            create_time: {
+                type: 'string',
+                format: 'date-time',
+            },
+            server_uuid: {
+                type: 'string',
+            },
+            server_name: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],200:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerinIsoimage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerinIsoimage = {
+    type: 'array',
+    contains: {
+        properties: {
+            bootdevice: {
+                type: 'boolean',
+            },
+            create_time: {
+                type: 'string',
+                format: 'date-time',
+            },
+            object_name: {
+                type: 'string',
+            },
+            object_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+    },
+};
+
+
+
+},{}],201:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerinNetwork = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerinNetwork = {
+    type: 'array',
+    contains: {
+        properties: {
+            bootdevice: {
+                type: 'boolean',
+            },
+            create_time: {
+                type: 'string',
+                format: 'date-time',
+            },
+            l3security: {
+                type: 'array',
+                contains: {
+                    type: 'string',
+                },
+            },
+            mac: {
+                type: 'string',
+            },
+            network_uuid: {
+                type: 'string',
+            },
+            object_name: {
+                type: 'string',
+            },
+            object_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+            ordering: {
+                type: 'number',
+            },
+        },
+    },
+};
+
+
+
+},{}],202:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServerinStrorage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServerinStrorage = {
+    type: 'array',
+    contains: {
+        properties: {
+            bootdevice: {
+                type: 'boolean',
+            },
+            bus: {
+                type: 'number',
+            },
+            controller: {
+                type: 'number',
+            },
+            create_time: {
+                type: 'string',
+                format: 'date-time',
+            },
+            lun: {
+                type: 'number',
+            },
+            object_name: {
+                type: 'string',
+            },
+            object_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+            target: {
+                type: 'number',
+            },
+        },
+    },
+};
+
+
+
+},{}],203:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServersGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServersGetResponse = {
+    properties: {
+        servers: {
+            type: 'ServerIndex',
+        },
+    },
+};
+
+
+
+},{}],204:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServiceinPaasSecurityZone = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServiceinPaasSecurityZone = {
+    type: 'array',
+    contains: {
+        properties: {
+            object_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+            listen_ports: {
+                type: 'ListenPortsByIpIndex',
+            },
+            name: {
+                type: 'string',
+            },
+            service_template_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+            credentials: {
+                type: 'PaasServiceCredentials',
+            },
+            resources: {
+                properties: {},
+            },
+            security_zone_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+            parameters: {
+                properties: {},
+            },
+        },
+    },
+};
+
+
+
+},{}],205:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$ServiceinPaasSecurityZones = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$ServiceinPaasSecurityZones = {
+    type: 'array',
+    contains: {
+        properties: {
+            object_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+    },
+};
+
+
+
+},{}],206:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Snapshot = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Snapshot = {
+    properties: {
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        name: {
+            type: 'string',
+        },
+        status: {
+            type: 'string',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        license_product_no: {
+            type: 'number',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        capacity: {
+            type: 'number',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        parent_uuid: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],207:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotCreate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],208:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotExportToS3Payload = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotExportToS3Payload = {
+    properties: {
+        s3auth: {
+            properties: {
+                host: {
+                    type: 'string',
+                },
+                access_keys: {
+                    type: 'string',
+                },
+                secret_key: {
+                    type: 'string',
+                },
+            },
+        },
+        s3data: {
+            properties: {
+                host: {
+                    type: 'string',
+                },
+                bucket: {
+                    type: 'string',
+                },
+                filename: {
+                    type: 'string',
+                },
+                private: {
+                    type: 'boolean',
+                },
+            },
+        },
+    },
+};
+
+
+
+},{}],209:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotGetResponse = {
+    properties: {
+        snapshot: {
+            type: 'Snapshot',
+        },
+    },
+};
+
+
+
+},{}],210:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Snapshot',
+    },
+};
+
+
+
+},{}],211:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotSchedule = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotSchedule = {
+    properties: {
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        keep_snapshots: {
+            type: 'number',
+            minimum: 1,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        name: {
+            type: 'string',
+        },
+        next_runtime: {
+            type: 'string',
+            format: 'date-time',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        relations: {
+            properties: {
+                snapshots: {
+                    type: 'array',
+                    contains: {
+                        properties: {
+                            create_time: {
+                                type: 'string',
+                                format: 'date-time',
+                            },
+                            name: {
+                                type: 'string',
+                            },
+                            object_uuid: {
+                                type: 'string',
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        run_interval: {
+            type: 'number',
+            minimum: 1,
+        },
+        status: {
+            type: 'string',
+        },
+        storage_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+    },
+};
+
+
+
+},{}],212:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotScheduleCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotScheduleCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        run_interval: {
+            type: 'number',
+            isRequired: true,
+            minimum: 60,
+        },
+        keep_snapshots: {
+            type: 'number',
+            isRequired: true,
+            minimum: 1,
+        },
+        next_runtime: {
+            type: 'string',
+            format: 'date-time',
+        },
+    },
+};
+
+
+
+},{}],213:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotScheduleGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotScheduleGetResponse = {
+    properties: {
+        snapshot_schedule: {
+            type: 'SnapshotSchedule',
+        },
+    },
+};
+
+
+
+},{}],214:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotScheduleIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotScheduleIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'SnapshotSchedule',
+    },
+};
+
+
+
+},{}],215:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotScheduleUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotScheduleUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        run_interval: {
+            type: 'number',
+            minimum: 1,
+        },
+        keep_snapshots: {
+            type: 'number',
+            minimum: 60,
+        },
+        next_runtime: {
+            type: 'string',
+            format: 'date-time',
+        },
+    },
+};
+
+
+
+},{}],216:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotSchedulesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotSchedulesGetResponse = {
+    properties: {
+        snapshot_schedules: {
+            type: 'SnapshotScheduleIndex',
+        },
+    },
+};
+
+
+
+},{}],217:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotSchedulesinStorage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotSchedulesinStorage = {
+    type: 'array',
+    contains: {
+        properties: {
+            object_name: {
+                type: 'string',
+            },
+            next_runtime: {
+                type: 'string',
+                format: 'date-time',
+            },
+            keep_snapshots: {
+                type: 'number',
+            },
+            create_time: {
+                type: 'string',
+            },
+            name: {
+                type: 'string',
+            },
+            run_interval: {
+                type: 'number',
+            },
+            object_uuid: {
+                type: 'string',
+                format: 'uuid',
+            },
+        },
+    },
+};
+
+
+
+},{}],218:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],219:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SnapshotsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SnapshotsGetResponse = {
+    properties: {
+        snapshots: {
+            type: 'SnapshotIndex',
+        },
+    },
+};
+
+
+
+},{}],220:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Sshkey = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Sshkey = {
+    properties: {
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        user_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        status: {
+            type: 'string',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        name: {
+            type: 'string',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        sshkey: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],221:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SshkeyCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SshkeyCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        sshkey: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],222:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SshkeyGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SshkeyGetResponse = {
+    properties: {
+        sshkey: {
+            type: 'Sshkey',
+        },
+    },
+};
+
+
+
+},{}],223:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SshkeyIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SshkeyIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Sshkey',
+    },
+};
+
+
+
+},{}],224:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SshkeyUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SshkeyUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        sshkey: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],225:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$SshkeysGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$SshkeysGetResponse = {
+    properties: {
+        sshkeys: {
+            type: 'SshkeyIndex',
+        },
+    },
+};
+
+
+
+},{}],226:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Storage = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Storage = {
+    properties: {
+        parent_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        snapshots: {
+            type: 'array',
+            contains: {
+                properties: {
+                    object_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    storage_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    object_name: {
+                        type: 'string',
+                    },
+                    schedules_snapshot_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    schedules_snapshot_name: {
+                        type: 'string',
+                    },
+                    last_used_template: {
+                        type: 'string',
+                    },
+                    create_time: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                },
+            },
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        relations: {
+            type: 'StoragesRelation',
+        },
+        name: {
+            type: 'string',
+        },
+        status: {
+            type: 'string',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        storage_type: {
+            type: 'Enum',
+        },
+        storage_variant: {
+            type: 'StorageVariant',
+        },
+        license_product_no: {
+            type: 'number',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        last_used_template: {
+            type: 'string',
+        },
+        capacity: {
+            type: 'number',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        location_iata: {
+            type: 'string',
+        },
+    },
+};
+
+
+
+},{}],227:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackup = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackup = {
+    properties: {
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        name: {
+            type: 'string',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        Capacity: {
+            type: 'number',
+        },
+    },
+};
+
+
+
+},{}],228:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'StorageBackup',
+    },
+};
+
+
+
+},{}],229:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupSchedule = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupSchedule = {
+    properties: {
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        keep_backups: {
+            type: 'number',
+            minimum: 1,
+        },
+        name: {
+            type: 'string',
+        },
+        next_runtime: {
+            type: 'string',
+            format: 'date-time',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        relations: {
+            properties: {
+                storages_backups: {
+                    type: 'array',
+                    contains: {
+                        properties: {
+                            create_time: {
+                                type: 'string',
+                                format: 'date-time',
+                            },
+                            name: {
+                                type: 'string',
+                            },
+                            object_uuid: {
+                                type: 'string',
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        run_interval: {
+            type: 'number',
+            minimum: 1,
+        },
+        status: {
+            type: 'string',
+        },
+        storage_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        active: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],230:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupScheduleCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupScheduleCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        run_interval: {
+            type: 'number',
+            isRequired: true,
+            minimum: 1,
+        },
+        keep_backups: {
+            type: 'number',
+            isRequired: true,
+            minimum: 60,
+        },
+        next_runtime: {
+            type: 'string',
+            isRequired: true,
+            format: 'date-time',
+        },
+        active: {
+            type: 'boolean',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],231:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupScheduleGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupScheduleGetResponse = {
+    properties: {
+        schedule_storage_backup: {
+            type: 'StorageBackupSchedule',
+        },
+    },
+};
+
+
+
+},{}],232:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupScheduleIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupScheduleIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'StorageBackupSchedule',
+    },
+};
+
+
+
+},{}],233:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupScheduleUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupScheduleUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        run_interval: {
+            type: 'number',
+            minimum: 1,
+        },
+        keep_backups: {
+            type: 'number',
+            minimum: 60,
+        },
+        next_runtime: {
+            type: 'string',
+            format: 'date-time',
+        },
+        active: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],234:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupSchedulesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupSchedulesGetResponse = {
+    properties: {
+        schedule_storage_backups: {
+            type: 'StorageBackupScheduleIndex',
+        },
+    },
+};
+
+
+
+},{}],235:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageBackupsGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageBackupsGetResponse = {
+    properties: {
+        backups: {
+            type: 'StorageBackupIndex',
+        },
+    },
+};
+
+
+
+},{}],236:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageClone = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageClone = {
+    properties: {
+        password: {
+            type: 'string',
+        },
+        password_type: {
+            type: 'Enum',
+        },
+        sshkeys: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],237:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        capacity: {
+            type: 'number',
+            isRequired: true,
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        storage_type: {
+            type: 'StorageType',
+        },
+        storage_variant: {
+            type: 'StorageVariant',
+        },
+        template: {
+            properties: {},
+        },
+    },
+};
+
+
+
+},{}],238:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageCreateTemplatePassword = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageCreateTemplatePassword = {
+    properties: {
+        template_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+        hostname: {
+            type: 'string',
+        },
+        password: {
+            type: 'string',
+            isRequired: true,
+        },
+        password_type: {
+            type: 'Enum',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],239:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageCreateTemplateSshkey = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageCreateTemplateSshkey = {
+    properties: {
+        template_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+        hostname: {
+            type: 'string',
+        },
+        sshkeys: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],240:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageGetResponse = {
+    properties: {
+        storage: {
+            type: 'Storage',
+        },
+    },
+};
+
+
+
+},{}],241:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageImportFromBackup = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageImportFromBackup = {
+    properties: {
+        backup: {
+            properties: {
+                name: {
+                    type: 'string',
+                },
+                backup_uuid: {
+                    type: 'string',
+                    isRequired: true,
+                    format: 'uuid',
+                },
+            },
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],242:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageImportFromS3Object = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageImportFromS3Object = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        url: {
+            type: 'string',
+            isRequired: true,
+        },
+        extension: {
+            type: 'Enum',
+            isRequired: true,
+        },
+    },
+};
+
+
+
+},{}],243:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Storage',
+    },
+};
+
+
+
+},{}],244:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageRollback = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageRollback = {
+    properties: {
+        rollback: {
+            type: 'boolean',
+        },
+    },
+};
+
+
+
+},{}],245:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageTemplateCreate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageTemplateCreate = {
+    properties: {
+        name: {
+            type: 'string',
+            isRequired: true,
+        },
+        snapshot_uuid: {
+            type: 'string',
+            isRequired: true,
+            format: 'uuid',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],246:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageTemplatesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageTemplatesGetResponse = {
+    properties: {
+        templates: {
+            type: 'TemplateIndex',
+        },
+    },
+};
+
+
+
+},{}],247:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageType = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageType = {
+    type: 'Enum',
+};
+
+
+
+},{}],248:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        capacity: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+        storage_type: {
+            type: 'Enum',
+        },
+    },
+};
+
+
+
+},{}],249:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StorageVariant = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StorageVariant = {
+    type: 'Enum',
+};
+
+
+
+},{}],250:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StoragesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StoragesGetResponse = {
+    properties: {
+        storages: {
+            type: 'StorageIndex',
+        },
+    },
+};
+
+
+
+},{}],251:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StoragesRelation = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StoragesRelation = {
+    properties: {
+        servers: {
+            type: 'ServerinStrorage',
+        },
+        snapshot_schedules: {
+            type: 'SnapshotSchedulesinStorage',
+        },
+    },
+};
+
+
+
+},{}],252:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$StoragesinServer = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$StoragesinServer = {
+    type: 'array',
+    contains: {
+        type: 'LinkedStorage',
+    },
+};
+
+
+
+},{}],253:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$TaskEventLabel = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$TaskEventLabel = {
+    properties: {
+        type: {
+            type: 'string',
+        },
+        description: {
+            type: 'string',
+        },
+        unique: {
+            type: 'boolean',
+        },
+        maxlength: {
+            type: 'number',
+        },
+        response_code: {
+            type: 'number',
+        },
+        schema: {
+            properties: {
+                type: {
+                    type: 'string',
+                },
+                description: {
+                    type: 'string',
+                },
+                maxlength: {
+                    type: 'number',
+                },
+            },
+        },
+    },
+};
+
+
+
+},{}],254:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$TaskEventName = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$TaskEventName = {
+    properties: {
+        type: {
+            type: 'string',
+        },
+        description: {
+            type: 'string',
+        },
+        empty: {
+            type: 'string',
+        },
+        maxlength: {
+            type: 'number',
+        },
+        minlength: {
+            type: 'number',
+        },
+    },
+};
+
+
+
+},{}],255:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$TaskEvents = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$TaskEvents = {
+    properties: {
+        schedules: {
+            properties: {
+                schedule_snapshot_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        run_interval: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        keep_snapshots: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        next_runtime: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        schedule_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                schedule_snapshot_perform: {
+                    properties: {
+                        type: {
+                            type: 'string',
+                        },
+                        description: {
+                            type: 'string',
+                        },
+                    },
+                },
+                schedule_snapshot_update: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        run_interval: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        keep_snapshots: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        next_runtime: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        schedule_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                schedule_snapshot_remove: {
+                    properties: {
+                        schedule_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        ipaddr: {
+            properties: {
+                ipaddr_update: {
+                    properties: {
+                        ipaddr_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        reverse_dns: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        failover: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                    },
+                },
+                ipaddr_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        reverse_dns: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        family: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'number',
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        failover: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        next_runtime: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        ipaddr_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        location_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                ipaddr_remove: {
+                    properties: {
+                        ipaddr_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        loadbalancer: {
+            properties: {
+                loadbalancer_update: {
+                    properties: {
+                        listen_ipv6_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        algorithm: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'string',
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        redirect_http_to_https: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        lb_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        listen_ipv4_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        backend_servers: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                schema: {
+                                    properties: {
+                                        schema: {
+                                            properties: {
+                                                host: {
+                                                    properties: {
+                                                        anyof_schema: {
+                                                            type: 'array',
+                                                            contains: {
+                                                                properties: {
+                                                                    type: {
+                                                                        type: 'string',
+                                                                    },
+                                                                    required: {
+                                                                        type: 'boolean',
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                weight: {
+                                                    properties: {
+                                                        max: {
+                                                            type: 'number',
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                        min: {
+                                                            type: 'number',
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                        type: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        location_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        forwarding_rule: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                schema: {
+                                    properties: {
+                                        schema: {
+                                            properties: {
+                                                target_port: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                    },
+                                                },
+                                                letsencrypt_ssl: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                        nullable: {
+                                                            type: 'boolean',
+                                                        },
+                                                    },
+                                                },
+                                                mode: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                        allowed: {
+                                                            type: 'array',
+                                                            contains: {
+                                                                type: 'string',
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                listen_port: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                        type: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                loadbalancer_add: {
+                    properties: {
+                        listen_ipv6_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        algorithm: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'string',
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        redirect_http_to_https: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        lb_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        listen_ipv4_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        backend_servers: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                schema: {
+                                    properties: {
+                                        schema: {
+                                            properties: {
+                                                host: {
+                                                    properties: {
+                                                        anyof_schema: {
+                                                            type: 'array',
+                                                            contains: {
+                                                                properties: {
+                                                                    type: {
+                                                                        type: 'string',
+                                                                    },
+                                                                    required: {
+                                                                        type: 'boolean',
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                weight: {
+                                                    properties: {
+                                                        max: {
+                                                            type: 'number',
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                        min: {
+                                                            type: 'number',
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                        type: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        location_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        forwarding_rule: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                schema: {
+                                    properties: {
+                                        schema: {
+                                            properties: {
+                                                target_port: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                    },
+                                                },
+                                                letsencrypt_ssl: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                        nullable: {
+                                                            type: 'boolean',
+                                                        },
+                                                    },
+                                                },
+                                                mode: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                        allowed: {
+                                                            type: 'array',
+                                                            contains: {
+                                                                type: 'string',
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                listen_port: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        required: {
+                                                            type: 'boolean',
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                        type: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                loadbalancer_remove: {
+                    properties: {
+                        lb_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        paas: {
+            properties: {
+                paas_service_remove: {
+                    properties: {
+                        paas_service_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                paas_security_zone_remove: {
+                    properties: {
+                        paas_security_zone_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                paas_security_zone_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        mpls_mgmt_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        mpls_cust_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        paas_security_zone_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                paas_security_zone_update: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        paas_security_zone_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                paas_service_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        paas_security_zone_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        paas_service_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        paas_template_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        credentials: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                schema: {
+                                    properties: {
+                                        type: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        resource_limit: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                schema: {
+                                    properties: {
+                                        anyof: {
+                                            type: 'array',
+                                            contains: {
+                                                properties: {
+                                                    schema: {
+                                                        properties: {
+                                                            resource: {
+                                                                properties: {
+                                                                    allowed: {
+                                                                        type: 'array',
+                                                                        contains: {
+                                                                            type: 'string',
+                                                                        },
+                                                                    },
+                                                                    type: {
+                                                                        type: 'string',
+                                                                    },
+                                                                    required: {
+                                                                        type: 'boolean',
+                                                                    },
+                                                                },
+                                                            },
+                                                            limit: {
+                                                                properties: {
+                                                                    type: {
+                                                                        type: 'string',
+                                                                    },
+                                                                    required: {
+                                                                        type: 'boolean',
+                                                                    },
+                                                                    max: {
+                                                                        type: 'number',
+                                                                    },
+                                                                    min: {
+                                                                        type: 'number',
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        parameters: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                paas_service_update: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        resource_limit: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                schema: {
+                                    properties: {
+                                        anyof: {
+                                            type: 'array',
+                                            contains: {
+                                                properties: {
+                                                    schema: {
+                                                        properties: {
+                                                            resource: {
+                                                                properties: {
+                                                                    allowed: {
+                                                                        type: 'array',
+                                                                        contains: {
+                                                                            type: 'string',
+                                                                        },
+                                                                    },
+                                                                    type: {
+                                                                        type: 'string',
+                                                                    },
+                                                                    required: {
+                                                                        type: 'boolean',
+                                                                    },
+                                                                },
+                                                            },
+                                                            limit: {
+                                                                properties: {
+                                                                    type: {
+                                                                        type: 'string',
+                                                                    },
+                                                                    required: {
+                                                                        type: 'boolean',
+                                                                    },
+                                                                    max: {
+                                                                        type: 'number',
+                                                                    },
+                                                                    min: {
+                                                                        type: 'number',
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        paas_service_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        marketplace_template: {
+            properties: {
+                marketplace_template_remove: {
+                    properties: {
+                        template_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                marketplace_template_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        template_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        capacity: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        object_storage_path: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                empty: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                marketplace_template_update: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        template_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        capacity: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        object_storage_path: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                empty: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                marketplace_template_import: {
+                    properties: {
+                        unique_hash: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        firewall: {
+            properties: {
+                firewall_remove: {
+                    properties: {
+                        tfirewall_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                firewall_update: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        firewall_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        rules: {
+                            properties: {
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                schema: {
+                                    properties: {
+                                        'rules-v4-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v4-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                firewall_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        firewall_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        rules: {
+                            properties: {
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                schema: {
+                                    properties: {
+                                        'rules-v4-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v4-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        isoimage: {
+            properties: {
+                isoimage_remove: {
+                    properties: {
+                        isoimage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                isoimage_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        isoimage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        location_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        source_url: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                isoimage_update: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        isoimage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        snapshot: {
+            properties: {
+                snapshot_remove: {
+                    properties: {
+                        snaapshot_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                snapshot_add: {
+                    properties: {
+                        snaapshot_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                    },
+                },
+                snapshot_export_tos3: {
+                    properties: {
+                        snaapshot_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        s3auth: {
+                            properties: {
+                                schema: {
+                                    properties: {
+                                        host: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                            },
+                                        },
+                                        secret_key: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                                empty: {
+                                                    type: 'string',
+                                                },
+                                                maxlength: {
+                                                    type: 'number',
+                                                },
+                                                minlength: {
+                                                    type: 'number',
+                                                },
+                                            },
+                                        },
+                                        access_key: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                                empty: {
+                                                    type: 'string',
+                                                },
+                                                maxlength: {
+                                                    type: 'number',
+                                                },
+                                                minlength: {
+                                                    type: 'number',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        s3data: {
+                            properties: {
+                                schema: {
+                                    properties: {
+                                        host: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                            },
+                                        },
+                                        bucket: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                                empty: {
+                                                    type: 'string',
+                                                },
+                                                maxlength: {
+                                                    type: 'number',
+                                                },
+                                                minlength: {
+                                                    type: 'number',
+                                                },
+                                            },
+                                        },
+                                        filename: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                                empty: {
+                                                    type: 'string',
+                                                },
+                                                maxlength: {
+                                                    type: 'number',
+                                                },
+                                                minlength: {
+                                                    type: 'number',
+                                                },
+                                            },
+                                        },
+                                        private: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                snapshot_rollback: {
+                    properties: {
+                        snaapshot_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        rollback: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                snapshot_update: {
+                    properties: {
+                        snaapshot_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                    },
+                },
+            },
+        },
+        sshkey: {
+            properties: {
+                sshkey_remove: {
+                    properties: {
+                        sshkey_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                sshkey_add: {
+                    properties: {
+                        sshkey: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                empty: {
+                                    type: 'boolean',
+                                },
+                                maxlength: {
+                                    type: 'number',
+                                },
+                                minlength: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        sshkey_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                    },
+                },
+                sshkey_update: {
+                    properties: {
+                        sshkey: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                empty: {
+                                    type: 'boolean',
+                                },
+                                maxlength: {
+                                    type: 'number',
+                                },
+                                minlength: {
+                                    type: 'number',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        sshkey_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                    },
+                },
+            },
+        },
+        storage: {
+            properties: {
+                storage_remove: {
+                    properties: {
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                storage_add: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        location_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        template: {
+                            properties: {
+                                schema: {
+                                    properties: {
+                                        password_type: {
+                                            properties: {
+                                                allowed: {
+                                                    type: 'array',
+                                                    contains: {
+                                                        type: 'string',
+                                                    },
+                                                },
+                                                dependencies: {
+                                                    type: 'array',
+                                                    contains: {
+                                                        type: 'string',
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        hostname: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        sshkeys: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                unique: {
+                                                    type: 'boolean',
+                                                },
+                                                schema: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                        private: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        template_uuid: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                required: {
+                                                    type: 'boolean',
+                                                },
+                                            },
+                                        },
+                                        password: {
+                                            properties: {
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                                empty: {
+                                                    type: 'boolean',
+                                                },
+                                                dependencies: {
+                                                    type: 'array',
+                                                    contains: {
+                                                        type: 'string',
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        capacity: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        storage_type: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'string',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                isoimage_update: {
+                    properties: {
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        capacity: {
+                            properties: {
+                                required: {
+                                    type: 'boolean',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        server: {
+            properties: {
+                server_relation_isoimage_add: {
+                    properties: {
+                        isoimage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        bootdevice: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_isoimage_update: {
+                    properties: {
+                        isoimage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        bootdevice: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_isoimage_remove: {
+                    properties: {
+                        isoimage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_ipaddr_add: {
+                    properties: {
+                        ipaddr_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_ipaddr_remove: {
+                    properties: {
+                        ipaddr_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_network_add: {
+                    properties: {
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        l3security: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                unique: {
+                                    type: 'boolean',
+                                },
+                                schema: {
+                                    properties: {
+                                        type: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        bootdevice: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        firewall: {
+                            properties: {
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                schema: {
+                                    properties: {
+                                        'rules-v4-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v4-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        firewall_template_uuid: {
+                            properties: {
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        ordering: {
+                            properties: {
+                                max: {
+                                    type: 'number',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_network_update: {
+                    properties: {
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        l3security: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                unique: {
+                                    type: 'boolean',
+                                },
+                                schema: {
+                                    properties: {
+                                        type: {
+                                            type: 'string',
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        bootdevice: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        firewall: {
+                            properties: {
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                schema: {
+                                    properties: {
+                                        'rules-v4-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-out': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v4-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                        'rules-v6-in': {
+                                            properties: {
+                                                schema: {
+                                                    properties: {
+                                                        src_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        action: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        src_port: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        dst_cidr: {
+                                                            properties: {
+                                                                nullable: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        order: {
+                                                            properties: {
+                                                                min: {
+                                                                    type: 'number',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        protocol: {
+                                                            properties: {
+                                                                allowed: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                required: {
+                                                                    type: 'boolean',
+                                                                },
+                                                                type: {
+                                                                    type: 'string',
+                                                                },
+                                                            },
+                                                        },
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
+                                                type: {
+                                                    type: 'string',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        firewall_template_uuid: {
+                            properties: {
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        ordering: {
+                            properties: {
+                                max: {
+                                    type: 'number',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_network_remove: {
+                    properties: {
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_storage_add: {
+                    properties: {
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        bootdevice: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_storage_update: {
+                    properties: {
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        bootdevice: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_relation_storage_remove: {
+                    properties: {
+                        storage_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_add: {
+                    properties: {
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        auto_recovery: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        availability_zone: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'string',
+                                    },
+                                },
+                            },
+                        },
+                        cores: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        memory: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        hardware_profile: {
+                            properties: {
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'string',
+                                    },
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        legacy: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        location_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_update: {
+                    properties: {
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        auto_recovery: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        availability_zone: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                nullable: {
+                                    type: 'boolean',
+                                },
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'string',
+                                    },
+                                },
+                            },
+                        },
+                        cores: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        memory: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                                min: {
+                                    type: 'number',
+                                },
+                                max: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        hardware_profile: {
+                            properties: {
+                                allowed: {
+                                    type: 'array',
+                                    contains: {
+                                        type: 'string',
+                                    },
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_remove: {
+                    properties: {
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_power_shutdown: {
+                    properties: {
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                server_power_update: {
+                    properties: {
+                        server_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        autotriger: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        power: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                                response_code: {
+                                    type: 'number',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        template: {
+            properties: {
+                template_add: {
+                    properties: {
+                        template_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        snapshot_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                template_update: {
+                    properties: {
+                        template_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                    },
+                },
+                template_remove: {
+                    properties: {
+                        template_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        network: {
+            properties: {
+                network_add: {
+                    properties: {
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        l2security: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                        location_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+                network_update: {
+                    properties: {
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                        l2security: {
+                            properties: {
+                                description: {
+                                    type: 'string',
+                                },
+                                type: {
+                                    type: 'string',
+                                },
+                            },
+                        },
+                        labels: {
+                            type: 'TaskEventLabel',
+                        },
+                        name: {
+                            type: 'TaskEventName',
+                        },
+                    },
+                },
+                network_remove: {
+                    properties: {
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+};
+
+
+
+},{}],256:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$Template = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$Template = {
+    properties: {
+        status: {
+            type: 'string',
+        },
+        ostype: {
+            type: 'string',
+        },
+        location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        version: {
+            type: 'string',
+        },
+        location_iata: {
+            type: 'string',
+        },
+        change_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        private: {
+            type: 'boolean',
+        },
+        object_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        license_product_no: {
+            type: 'number',
+        },
+        create_time: {
+            type: 'string',
+            format: 'date-time',
+        },
+        usage_in_minutes: {
+            type: 'number',
+        },
+        capacity: {
+            type: 'number',
+        },
+        location_name: {
+            type: 'string',
+            format: 'string',
+        },
+        distro: {
+            type: 'string',
+        },
+        description: {
+            type: 'string',
+        },
+        current_price: {
+            type: 'number',
+            format: 'float',
+        },
+        location_country: {
+            type: 'string',
+            format: 'string',
+        },
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],257:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$TemplateGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$TemplateGetResponse = {
+    properties: {
+        template: {
+            type: 'Template',
+        },
+    },
+};
+
+
+
+},{}],258:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$TemplateIndex = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$TemplateIndex = {
+    type: 'dictionary',
+    contains: {
+        type: 'Template',
+    },
+};
+
+
+
+},{}],259:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$TemplateUpdate = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$TemplateUpdate = {
+    properties: {
+        name: {
+            type: 'string',
+        },
+        labels: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
+    },
+};
+
+
+
+},{}],260:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$TemplatesGetResponse = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$TemplatesGetResponse = {
+    properties: {
+        templates: {
+            type: 'TemplateIndex',
+        },
+    },
+};
+
+
+
+},{}],261:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.$VlansinNetwork = void 0;
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+exports.$VlansinNetwork = {
+    type: 'array',
+    contains: {
+        properties: {},
+    },
+};
+
+
+
+},{}],262:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1496,29 +13425,47 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.api = exports.APIClass = exports.GSError = void 0;
 var lodash_1 = require("lodash");
-require("whatwg-fetch");
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 var GSError = /** @class */ (function (_super) {
     __extends(GSError, _super);
     function GSError(message, result) {
         var _this = _super.call(this) || this;
+        _this.success = false;
         _this.name = 'GridscaleError';
-        _this.message = message || 'Default Message';
+        // try to assemble message with more details from result
+        if (result.response
+            && result.response.request
+            && result.response.request.method
+            && typeof (result.response.status) !== 'undefined' && result.response.request.url) {
+            _this.message = 'Error : ' + result.response.request.method
+                + ' | ' + result.response.status
+                + ' | ' + result.response.request.url.split('?')[0];
+        }
+        else {
+            _this.message = message || 'Default Message';
+        }
         _this.result = result;
+        _this.response = result.response || undefined;
         return _this;
     }
     return GSError;
 }(Error));
+exports.GSError = GSError;
 var APIClass = /** @class */ (function () {
     function APIClass() {
         var _this = this;
         // Local Settings
         this.settings = {
             endpoint: 'https://api.gridscale.io',
+            endpointOverrides: {},
             token: '',
             userId: '',
-            limit: 50,
-            watchdelay: 51
+            limit: 25,
+            watchdelay: 1000,
+            apiClient: 'gs_api_node'
         };
         /**
          * Update local Request Options
@@ -1530,15 +13477,26 @@ var APIClass = /** @class */ (function () {
             lodash_1.assignIn(_this.settings, _option);
         };
         this.callbacks = [];
+        /**
+         * Adds a new logger for error logging
+         * @param _callback
+         */
         this.addLogger = function (_callback) {
             _this.callbacks.push(_callback);
         };
-        this.log = function (_error) {
+        this.log = function (_logData) {
             for (var i = 0; i < _this.callbacks.length; i++) {
-                _this.callbacks[i](_error);
+                _this.callbacks[i](_logData);
             }
         };
     }
+    /**
+     * Store api client in current session
+     * @param _client  String
+     */
+    APIClass.prototype.storeClient = function (_client) {
+        this.settings.apiClient = _client;
+    };
     /**
      * Store Token for Current Session
      * @param _token Secret Token
@@ -1548,132 +13506,151 @@ var APIClass = /** @class */ (function () {
         this.settings.token = _token;
         this.settings.userId = _userId;
     };
-    ;
-    APIClass.prototype.request = function (_path, _options, _callback) {
-        if (_path === void 0) { _path = ''; }
-        if (_callback === void 0) { _callback = function () { }; }
-        return this.makeRequest(_path, _options, _callback);
-    };
     /**
      * Start the API Request
-     *
      *
      * @param _path
      * @param _options
      * @param _callback
-     * @returns {any}
+     * @returns {Promise}
      */
-    APIClass.prototype.makeRequest = function (_path, _options, _callback) {
+    APIClass.prototype.request = function (_path, _options, _callback) {
         var _this = this;
         if (_path === void 0) { _path = ''; }
-        if (_callback === void 0) { _callback = function () { }; }
-        /**
-         * Build Request Object
-         * @type {{url: string; headers: {X-Auth-UserId: string; X-Auth-Token: string}}}
-         */
+        if (_callback === void 0) { _callback = function (response, result) { }; }
         var options = !lodash_1.isObject(_options) ? {} : lodash_1.assignIn({}, _options);
+        // check if we should use another endpoint for this path (mocking)
+        var endpoint = this.settings.endpoint;
+        if (this.settings.endpointOverrides && typeof (this.settings.endpointOverrides) === 'object') {
+            lodash_1.forEach(this.settings.endpointOverrides, function (_overrideEndpoint, _overridePath) {
+                if (_overridePath.match(/^\/(.*)\/$/) && _path.split('?')[0].match(new RegExp(RegExp.$1))) {
+                    endpoint = _overrideEndpoint;
+                }
+                else if (_path.split('?')[0] === _overridePath) {
+                    endpoint = _overrideEndpoint;
+                }
+                else {
+                    return true;
+                }
+                return false;
+            });
+        }
         // Build Options
-        var url = _path.search('https://') == 0 ? _path : this.settings.endpoint + _path; // on Links there is already
+        var url = _path.search('https://') === 0 ? _path : endpoint + _path; // on Links there is already
         options.headers = options.headers ? options.headers : {};
-        options.headers["X-Auth-UserId"] = this.settings.userId;
-        options.headers["X-Auth-Token"] = this.settings.token;
-        options.headers["X-Api-Client"] = "expert";
+        options.headers['X-Auth-UserId'] = this.settings.userId;
+        options.headers['X-Auth-Token'] = this.settings.token;
+        options.headers['X-Api-Client'] = this.settings.apiClient;
+        // return results as object or text
+        var getResult = function (_response, _rejectOnJsonFailure) {
+            if (_rejectOnJsonFailure === void 0) { _rejectOnJsonFailure = true; }
+            return new Promise(function (_resolve, _reject) {
+                if (_response.status !== 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type').indexOf('application/json') === 0) {
+                    _response.json()
+                        .then(function (json) {
+                        _resolve(json);
+                    })
+                        .catch(function () {
+                        if (_rejectOnJsonFailure) {
+                            _reject();
+                        }
+                        else {
+                            // try text
+                            _response.text().then(function (text) { return _resolve(text); })
+                                .catch(function (e) { return _resolve(null); });
+                        }
+                    });
+                }
+                else {
+                    _response.text().then(function (text) { return _resolve(text); })
+                        .catch(function (e) { return _resolve(null); });
+                }
+            });
+        };
         // Setup DEF
         var def = new Promise(function (_resolve, _reject) {
             // Fire Request
-            var onSuccess = function (_response) {
-                _response['statusCode'] = _response.status;
-                setTimeout(function () { return _callback(_response); });
-                if (_response.status != 204 && _response.headers.has('Content-Type') && _response.headers.get('Content-Type') == 'application/json') {
-                    _response.json()
-                        .then(function (json) {
-                        var result = {
-                            success: true,
-                            result: json,
-                            response: _response,
-                            links: {},
-                            watch: null
-                        };
-                        // Check for Links and generate them as Functions
-                        if (json && json._links) {
-                            var links = {};
-                            for (var linkname in json._links) {
-                                links[linkname] = _this.link(json._links[linkname]);
-                            }
-                            result.links = links;
+            var onSuccess = function (_response, _request, _requestInit) {
+                getResult(_response.clone()).then(function (_result) {
+                    var result = {
+                        success: true,
+                        result: _result,
+                        response: _response.clone(),
+                        id: null,
+                        requestInit: _requestInit
+                    };
+                    // Check for Links and generate them as Functions
+                    if (_result && _result._links) {
+                        var links_1 = {};
+                        lodash_1.forEach(_result._links, function (link, linkname) {
+                            links_1[linkname] = _this.link(_result._links[linkname]);
+                        });
+                        result.links = links_1;
+                    }
+                    if (_result && _result._meta) {
+                        result.meta = _result._meta;
+                    }
+                    /**
+                     * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
+                     */
+                    if (options['method'] === 'POST' || options['method'] === 'PATCH' || options['method'] === 'DELETE') {
+                        if (result.response.headers.has('x-request-id')) {
+                            result.watch = function () { return _this.watchRequest(result.response.headers.get('x-request-id')); };
                         }
-                        /**
-                         * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
-                         */
-                        if (options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE') {
-                            if (result.response.headers.has('x-request-id')) {
-                                result.watch = function () { return _this.watchRequest(result.response.headers.get('x-request-id')); };
-                            }
-                        }
-                        _resolve(result);
-                    })
-                        .catch(function () {
-                        onFail(_response);
-                    });
-                }
-                else {
-                    _response.body.getReader().read().then(function (_body) {
-                        var result = {
-                            success: true,
-                            result: _body.value,
-                            response: _response,
-                            watch: null
-                        };
-                        /**
-                         * On POST, PATCH and DELETE Request we will inject a watch Function into the Response so you can easiely start watching the current Job
-                         */
-                        if (options['method'] == 'POST' || options['method'] == 'PATCH' || options['method'] == 'DELETE') {
-                            if (result.response.headers.has('x-request-id')) {
-                                result.watch = function () { return _this.watchRequest(result.response.headers.get('x-request-id')); };
-                            }
-                        }
-                        _resolve(result);
-                    });
-                }
-            };
-            var onFail = function (_response) {
-                _response['statusCode'] = _response.status;
-                setTimeout(function () { return _callback(_response); });
-                var result = {
-                    success: false,
-                    result: null,
-                    response: _response,
-                    id: lodash_1.uniqueId('apierror_' + (new Date()).getTime() + '_')
-                };
-                _this.log({
-                    result: result,
-                    response: _response,
-                    id: result.id
+                    }
+                    _resolve(result);
+                    setTimeout(function () { return _callback(_response.clone(), result); });
+                })
+                    .catch(function () {
+                    // tslint:disable-next-line: no-use-before-declare
+                    onFail(_response, _request, _requestInit, 'json');
                 });
-                _reject(new GSError('Request Error', result));
             };
-            var req = window['fetch'](url, options);
-            req
+            var onFail = function (_response, _request, _requestInit, _failType) {
+                if (_failType === void 0) { _failType = 'request'; }
+                getResult(_response.clone(), false).then(function (_result) {
+                    var result = {
+                        success: false,
+                        result: _result,
+                        response: lodash_1.assign(_response.clone(), { request: _request }),
+                        links: {},
+                        watch: null,
+                        id: lodash_1.uniqueId('apierror_' + (new Date()).getTime() + '_'),
+                        requestInit: _requestInit,
+                        failureType: _failType
+                    };
+                    _this.log({
+                        result: result,
+                        response: _response.clone(),
+                        id: result.id,
+                        requestInit: result.requestInit
+                    });
+                    _reject(new GSError('Request Error', result));
+                    setTimeout(function () { return _callback(_response.clone(), result); });
+                });
+            };
+            var request = new Request(url, options);
+            var promise = (_this.settings.fetch || fetch)(request);
+            promise
                 .then(function (_response) {
                 if (_response.ok) {
                     // The promise does not reject on HTTP errors
-                    onSuccess(_response);
+                    onSuccess(_response, request, options);
                 }
                 else {
-                    onFail(_response);
+                    onFail(_response, request, options);
                 }
             })
                 .catch(function (_response) {
-                onFail(_response);
+                _reject(new GSError('Network failure', _response));
             });
             // Return promise
-            return req;
+            return promise;
         });
         // Catch all Errors and
         // Return DEF
         return def;
     };
-    ;
     /**
      * Build Option URL to expand URL
      * @param _options
@@ -1683,17 +13660,18 @@ var APIClass = /** @class */ (function () {
         // Push Valued
         var url = [];
         // Add Options to URL
-        for (var key in _options) {
+        lodash_1.forEach(_options, function (val, key) {
             if (lodash_1.isArray(_options[key])) {
-                url.push(key + '=' + _options[key].join(','));
+                if (_options[key].length > 0) {
+                    url.push(key + '=' + _options[key].join(','));
+                }
             }
             else {
                 url.push(key + '=' + _options[key]);
             }
-        }
+        });
         return url.length > 0 ? ('?' + url.join('&')) : '';
     };
-    ;
     /**
      * Start Get Call
      * @param _path
@@ -1707,53 +13685,52 @@ var APIClass = /** @class */ (function () {
         if (lodash_1.isUndefined(_callback) && lodash_1.isFunction(_options)) {
             _callback = _options;
         }
-        return this.makeRequest(_path, { method: 'GET' }, _callback);
+        return this.request(_path, { method: 'GET' }, _callback);
     };
-    ;
     /**
      * Start Delete Call
      * @param _path
      * @param _callback
      */
     APIClass.prototype.remove = function (_path, _callback) {
-        return this.makeRequest(_path, { method: 'DELETE' }, _callback);
+        return this.request(_path, { method: 'DELETE' }, _callback);
     };
-    ;
     /**
      * Send Post Request
      *
      * @param _path Endpoint
      * @param _attributes  Attributes for Post Body
      * @param _callback Optional Callback
-     * @returns {any}
+     * @returns {Promise}
      */
     APIClass.prototype.post = function (_path, _attributes, _callback) {
-        return this.makeRequest(_path, { method: 'POST', body: JSON.stringify(_attributes), headers: { 'Content-Type': 'application/json' } }, _callback);
+        return this.request(_path, { method: 'POST', body: JSON.stringify(_attributes), headers: { 'Content-Type': 'application/json' } }, _callback);
     };
     /**
-         * Send PAtCH Request
-         *
-         * @param _path Endpoint
-         * @param _attributes  Attributes for Post Body
-         * @param _callback Optional Callback
-         * @returns {any}
-         */
+     * Send PAtCH Request
+     *
+     * @param _path Endpoint
+     * @param _attributes  Attributes for Post Body
+     * @param _callback Optional Callback
+     * @returns {Promise}
+     */
     APIClass.prototype.patch = function (_path, _attributes, _callback) {
-        return this.makeRequest(_path, { method: 'PATCH', body: JSON.stringify(_attributes), headers: { 'Content-Type': 'application/json' } }, _callback);
+        return this.request(_path, { method: 'PATCH', body: JSON.stringify(_attributes), headers: { 'Content-Type': 'application/json' } }, _callback);
     };
     /**
      * Generate URL for Linked Request. No Options are required because its in the URL already
      *
      * @param _link
      * @param _callback
-     * @returns {any}
+     * @returns {Function}
      */
     APIClass.prototype.link = function (_link) {
+        var _this = this;
         /**
          * generate Function that has an Optional Callback
          */
         return function (_callback) {
-            return this.makeRequest(_link.href, { method: 'GET' }, _callback);
+            return _this.request(_link.href, { method: 'GET' }, _callback);
         };
     };
     /**
@@ -1762,12 +13739,11 @@ var APIClass = /** @class */ (function () {
      *
      * @param _requestid
      * @param _callback
-     * @returns {any}
+     * @returns {Promise}
      */
     APIClass.prototype.requestpooling = function (_requestid, _callback) {
-        return this.makeRequest('/requests/' + _requestid, { method: 'GET' }, _callback);
+        return this.request('/requests/' + _requestid, { method: 'GET' }, _callback);
     };
-    ;
     /**
      * Recursive creating of Request Proises
      *
@@ -1783,12 +13759,12 @@ var APIClass = /** @class */ (function () {
          */
         this.requestpooling(_requestid).then(function (_result) {
             // Check Request Status to Decide if we start again
-            if (_result.result[_requestid].status == 'pending') {
+            if (_result.result[_requestid].status === 'pending') {
                 setTimeout(function () {
                     _this.buildAndStartRequestCallback(_requestid, _resolve, _reject);
                 }, _this.settings.watchdelay);
             }
-            else if (_result.response.status == 200) {
+            else if (_result.response.status === 200) {
                 // Job done
                 _resolve(_result);
             }
@@ -1805,21 +13781,22 @@ var APIClass = /** @class */ (function () {
      * @param _callback
      */
     APIClass.prototype.watchRequest = function (_requestid) {
-        // Setup DEF
-        var def = new Promise(function (_resolve, _reject) {
-            exports.api.buildAndStartRequestCallback(_requestid, _resolve, _reject);
+        var _this = this;
+        return new Promise(function (_resolve, _reject) {
+            _this.buildAndStartRequestCallback(_requestid, _resolve, _reject);
         });
-        // Return DEF
-        return def;
     };
     return APIClass;
 }());
+exports.APIClass = APIClass;
 exports.api = new APIClass();
 
-},{"lodash":36,"whatwg-fetch":42}],22:[function(require,module,exports){
+
+
+},{"es6-promise":278,"isomorphic-fetch":279,"lodash":280}],263:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Marketplace_1 = require("./Objects/Marketplace");
+exports.Client = void 0;
 var api_1 = require("./api");
 var Server_1 = require("./Objects/Server");
 var Storage_1 = require("./Objects/Storage");
@@ -1831,12 +13808,17 @@ var Template_1 = require("./Objects/Template");
 var Location_1 = require("./Objects/Location");
 var ObjectStorage_1 = require("./Objects/ObjectStorage");
 var Label_1 = require("./Objects/Label");
-var Price_1 = require("./Objects/Price");
 var Loadbalancer_1 = require("./Objects/Loadbalancer");
 var Events_1 = require("./Objects/Events");
 var Firewall_1 = require("./Objects/Firewall");
 var PAAS_1 = require("./Objects/PAAS");
 var Deleted_1 = require("./Objects/Deleted");
+var PaasServiceTemplate_1 = require("./Objects/PaasServiceTemplate");
+var PaasService_1 = require("./Objects/PaasService");
+var PaasSecurityZone_1 = require("./Objects/PaasSecurityZone");
+var PaasServiceMetrics_1 = require("./Objects/PaasServiceMetrics");
+var Marketplace_1 = require("./Objects/Marketplace");
+var lodash_1 = require("lodash");
 /**
  * generate Client Class for all Connections
  * test
@@ -1867,28 +13849,119 @@ var GridscaleClient = /** @class */ (function () {
         this.Location = new Location_1.Location(api_1.api);
         this.ObjectStorage = new ObjectStorage_1.ObjectStorage(api_1.api);
         this.Label = new Label_1.Label(api_1.api);
-        this.Price = new Price_1.Price(api_1.api);
         this.Loadbalancer = new Loadbalancer_1.Loadbalancer(api_1.api);
         this.Events = new Events_1.Events(api_1.api);
         this.Firewall = new Firewall_1.Firewall(api_1.api);
         this.PAAS = new PAAS_1.PAAS(api_1.api);
+        this.PaasServiceTemplate = new PaasServiceTemplate_1.PaasServiceTemplate(api_1.api);
+        this.PaasService = new PaasService_1.PaasService(api_1.api);
+        this.PaasSecurityZone = new PaasSecurityZone_1.PaasSecurityZone(api_1.api);
         this.Deleted = new Deleted_1.Deleted(api_1.api);
-        this.Marketplace = new Marketplace_1.Marketplace(api_1.api);
-        this.watchRequest = api_1.api.watchRequest;
+        this.MarketplaceApplication = new Marketplace_1.MarketplaceApplication(api_1.api);
+        this.watchRequest = api_1.api.watchRequest.bind(api_1.api);
     }
-    GridscaleClient.prototype.setToken = function (_token, _userId) {
-        api_1.api.storeToken(_token, _userId);
+    /**
+     * Set the identifier of the client (used in X-Api-Client Header)
+     * @param _client
+     */
+    GridscaleClient.prototype.setApiClient = function (_client) {
+        api_1.api.storeClient(_client);
     };
+    /**
+     * Set a new Token and User-UUID
+     * @param _token
+     * @param _userId
+     */
+    GridscaleClient.prototype.setToken = function (_token, _userUUID) {
+        api_1.api.storeToken(_token, _userUUID);
+    };
+    /**
+     * Set the HTTP endpoint of the API
+     * @param _endpoint
+     */
+    GridscaleClient.prototype.setEndpoint = function (_endpoint) {
+        api_1.api.setOptions({ endpoint: _endpoint });
+    };
+    /**
+     * Inject a custom fetch method, otherwise the API will decide if to use the browser's fetch method or a polyfill
+     * @param _fetch
+     */
+    GridscaleClient.prototype.setFetch = function (_fetch) {
+        api_1.api.setOptions({ fetch: fetch });
+    };
+    /**
+     * Add an additional logger callback, called whenever an error is happening
+     * @param _callback
+     */
     GridscaleClient.prototype.addLogger = function (_callback) {
         api_1.api.addLogger(_callback);
+    };
+    /**
+     * Get the paas service metrics API which is a special one as the service-uuid is required early in the URL
+     * @param _serviceUUID
+     */
+    GridscaleClient.prototype.PaasServiceMetrics = function (_serviceUUID) {
+        return new PaasServiceMetrics_1.PaasServiceMetrics(api_1.api, _serviceUUID);
+    };
+    /**
+     * Stringifies all non string-values of a HTTP Response (e.g. headers)
+     * @param object
+     * @deprecated
+     */
+    GridscaleClient.prototype.stringifyResponseRequest = function (object) {
+        var _this = this;
+        // tslint:disable-next-line: no-any
+        var tmp = {};
+        lodash_1.forEach(object, function (_val, _key) {
+            if (_val instanceof Headers) {
+                tmp[_key] = {};
+                _val.forEach(function (_h, _k) {
+                    tmp[_key][_k] = _h;
+                });
+            }
+            else if (_val instanceof Request) {
+                tmp[_key] = _this.stringifyResponseRequest(_val);
+            }
+            else if (['string', 'number', 'object', 'boolean'].indexOf(typeof (_val)) >= 0) {
+                tmp[_key] = _val;
+            }
+        });
+        return tmp;
     };
     return GridscaleClient;
 }());
 exports.Client = GridscaleClient;
 
-},{"./Objects/Deleted":3,"./Objects/Events":4,"./Objects/Firewall":5,"./Objects/IP":7,"./Objects/ISOImage":8,"./Objects/Label":9,"./Objects/Loadbalancer":10,"./Objects/Location":11,"./Objects/Marketplace":12,"./Objects/Network":13,"./Objects/ObjectStorage":14,"./Objects/PAAS":15,"./Objects/Price":16,"./Objects/SSHKey":17,"./Objects/Server":18,"./Objects/Storage":19,"./Objects/Template":20,"./api":21}],23:[function(require,module,exports){
 
-},{}],24:[function(require,module,exports){
+
+},{"./Objects/Deleted":2,"./Objects/Events":3,"./Objects/Firewall":4,"./Objects/IP":6,"./Objects/ISOImage":7,"./Objects/Label":8,"./Objects/Loadbalancer":9,"./Objects/Location":10,"./Objects/Marketplace":11,"./Objects/Network":12,"./Objects/ObjectStorage":13,"./Objects/PAAS":14,"./Objects/PaasSecurityZone":15,"./Objects/PaasService":16,"./Objects/PaasServiceMetrics":17,"./Objects/PaasServiceTemplate":18,"./Objects/SSHKey":19,"./Objects/Server":20,"./Objects/Storage":21,"./Objects/Template":22,"./api":262,"lodash":280}],264:[function(require,module,exports){
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.gridscale = void 0;
+/**
+ * Export all publicly accessible modules
+ */
+var gridscale = require("./client");
+exports.gridscale = gridscale;
+var api_1 = require("./api");
+Object.defineProperty(exports, "GSError", { enumerable: true, get: function () { return api_1.GSError; } });
+__exportStar(require("./Specs"), exports);
+
+
+
+},{"./Specs":23,"./api":262,"./client":263}],265:[function(require,module,exports){
+
+},{}],266:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -1953,7 +14026,16 @@ var stylize = colors.stylize = function stylize(str, style) {
     return str+'';
   }
 
-  return ansiStyles[style].open + str + ansiStyles[style].close;
+  var styleMap = ansiStyles[style];
+
+  // Stylize should work for non-ANSI styles, too
+  if(!styleMap && style in colors){
+    // Style maps like trap operate as functions on strings;
+    // they don't have properties like open or close.
+    return colors[style](str);
+  }
+
+  return styleMap.open + str + styleMap.close;
 };
 
 var matchOperatorsRe = /[|\\{}()[\]^$+*?.]/g;
@@ -1996,7 +14078,8 @@ function applyStyle() {
   var args = Array.prototype.slice.call(arguments);
 
   var str = args.map(function(arg) {
-    if (arg !== undefined && arg.constructor === String) {
+    // Use weak equality check so we can colorize null/undefined in safe mode
+    if (arg != null && arg.constructor === String) {
       return arg;
     } else {
       return util.inspect(arg);
@@ -2091,7 +14174,7 @@ for (var map in colors.maps) {
 
 defineProps(colors, init());
 
-},{"./custom/trap":25,"./custom/zalgo":26,"./maps/america":29,"./maps/rainbow":30,"./maps/random":31,"./maps/zebra":32,"./styles":33,"./system/supports-colors":35,"util":41}],25:[function(require,module,exports){
+},{"./custom/trap":267,"./custom/zalgo":268,"./maps/america":271,"./maps/rainbow":272,"./maps/random":273,"./maps/zebra":274,"./styles":275,"./system/supports-colors":277,"util":285}],267:[function(require,module,exports){
 module['exports'] = function runTheTrap(text, options) {
   var result = '';
   text = text || 'Run the trap, drop the bass';
@@ -2139,7 +14222,7 @@ module['exports'] = function runTheTrap(text, options) {
   return result;
 };
 
-},{}],26:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || '   he is here   ';
@@ -2251,7 +14334,7 @@ module['exports'] = function zalgo(text, options) {
 };
 
 
-},{}],27:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function() {
@@ -2363,7 +14446,7 @@ module['exports'] = function() {
   };
 };
 
-},{"./colors":24}],28:[function(require,module,exports){
+},{"./colors":266}],270:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -2378,7 +14461,7 @@ module['exports'] = colors;
 //
 require('./extendStringPrototype')();
 
-},{"./colors":24,"./extendStringPrototype":27}],29:[function(require,module,exports){
+},{"./colors":266,"./extendStringPrototype":269}],271:[function(require,module,exports){
 module['exports'] = function(colors) {
   return function(letter, i, exploded) {
     if (letter === ' ') return letter;
@@ -2390,7 +14473,7 @@ module['exports'] = function(colors) {
   };
 };
 
-},{}],30:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 module['exports'] = function(colors) {
   // RoY G BiV
   var rainbowColors = ['red', 'yellow', 'green', 'blue', 'magenta'];
@@ -2404,10 +14487,11 @@ module['exports'] = function(colors) {
 };
 
 
-},{}],31:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 module['exports'] = function(colors) {
   var available = ['underline', 'inverse', 'grey', 'yellow', 'red', 'green',
-    'blue', 'white', 'cyan', 'magenta'];
+    'blue', 'white', 'cyan', 'magenta', 'brightYellow', 'brightRed',
+    'brightGreen', 'brightBlue', 'brightWhite', 'brightCyan', 'brightMagenta'];
   return function(letter, i, exploded) {
     return letter === ' ' ? letter :
       colors[
@@ -2416,14 +14500,14 @@ module['exports'] = function(colors) {
   };
 };
 
-},{}],32:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 module['exports'] = function(colors) {
   return function(letter, i, exploded) {
     return i % 2 === 0 ? letter : colors.inverse(letter);
   };
 };
 
-},{}],33:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -2474,6 +14558,14 @@ var codes = {
   gray: [90, 39],
   grey: [90, 39],
 
+  brightRed: [91, 39],
+  brightGreen: [92, 39],
+  brightYellow: [93, 39],
+  brightBlue: [94, 39],
+  brightMagenta: [95, 39],
+  brightCyan: [96, 39],
+  brightWhite: [97, 39],
+
   bgBlack: [40, 49],
   bgRed: [41, 49],
   bgGreen: [42, 49],
@@ -2482,6 +14574,16 @@ var codes = {
   bgMagenta: [45, 49],
   bgCyan: [46, 49],
   bgWhite: [47, 49],
+  bgGray: [100, 49],
+  bgGrey: [100, 49],
+
+  bgBrightRed: [101, 49],
+  bgBrightGreen: [102, 49],
+  bgBrightYellow: [103, 49],
+  bgBrightBlue: [104, 49],
+  bgBrightMagenta: [105, 49],
+  bgBrightCyan: [106, 49],
+  bgBrightWhite: [107, 49],
 
   // legacy styles for colors pre v1.0.0
   blackBG: [40, 49],
@@ -2502,7 +14604,7 @@ Object.keys(codes).forEach(function(key) {
   style.close = '\u001b[' + val[1] + 'm';
 });
 
-},{}],34:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 (function (process){
 /*
 MIT License
@@ -2541,7 +14643,7 @@ module.exports = function(flag, argv) {
 };
 
 }).call(this,require('_process'))
-},{"_process":38}],35:[function(require,module,exports){
+},{"_process":282}],277:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -2696,7 +14798,1193 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./has-flag.js":34,"_process":38,"os":37}],36:[function(require,module,exports){
+},{"./has-flag.js":276,"_process":282,"os":281}],278:[function(require,module,exports){
+(function (process,global){
+/*!
+ * @overview es6-promise - a tiny implementation of Promises/A+.
+ * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
+ * @license   Licensed under MIT license
+ *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
+ * @version   v4.2.8+1e68dce6
+ */
+
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.ES6Promise = factory());
+}(this, (function () { 'use strict';
+
+function objectOrFunction(x) {
+  var type = typeof x;
+  return x !== null && (type === 'object' || type === 'function');
+}
+
+function isFunction(x) {
+  return typeof x === 'function';
+}
+
+
+
+var _isArray = void 0;
+if (Array.isArray) {
+  _isArray = Array.isArray;
+} else {
+  _isArray = function (x) {
+    return Object.prototype.toString.call(x) === '[object Array]';
+  };
+}
+
+var isArray = _isArray;
+
+var len = 0;
+var vertxNext = void 0;
+var customSchedulerFn = void 0;
+
+var asap = function asap(callback, arg) {
+  queue[len] = callback;
+  queue[len + 1] = arg;
+  len += 2;
+  if (len === 2) {
+    // If len is 2, that means that we need to schedule an async flush.
+    // If additional callbacks are queued before the queue is flushed, they
+    // will be processed by this flush that we are scheduling.
+    if (customSchedulerFn) {
+      customSchedulerFn(flush);
+    } else {
+      scheduleFlush();
+    }
+  }
+};
+
+function setScheduler(scheduleFn) {
+  customSchedulerFn = scheduleFn;
+}
+
+function setAsap(asapFn) {
+  asap = asapFn;
+}
+
+var browserWindow = typeof window !== 'undefined' ? window : undefined;
+var browserGlobal = browserWindow || {};
+var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
+var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
+
+// test for web worker but not in IE10
+var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
+
+// node
+function useNextTick() {
+  // node version 0.10.x displays a deprecation warning when nextTick is used recursively
+  // see https://github.com/cujojs/when/issues/410 for details
+  return function () {
+    return process.nextTick(flush);
+  };
+}
+
+// vertx
+function useVertxTimer() {
+  if (typeof vertxNext !== 'undefined') {
+    return function () {
+      vertxNext(flush);
+    };
+  }
+
+  return useSetTimeout();
+}
+
+function useMutationObserver() {
+  var iterations = 0;
+  var observer = new BrowserMutationObserver(flush);
+  var node = document.createTextNode('');
+  observer.observe(node, { characterData: true });
+
+  return function () {
+    node.data = iterations = ++iterations % 2;
+  };
+}
+
+// web worker
+function useMessageChannel() {
+  var channel = new MessageChannel();
+  channel.port1.onmessage = flush;
+  return function () {
+    return channel.port2.postMessage(0);
+  };
+}
+
+function useSetTimeout() {
+  // Store setTimeout reference so es6-promise will be unaffected by
+  // other code modifying setTimeout (like sinon.useFakeTimers())
+  var globalSetTimeout = setTimeout;
+  return function () {
+    return globalSetTimeout(flush, 1);
+  };
+}
+
+var queue = new Array(1000);
+function flush() {
+  for (var i = 0; i < len; i += 2) {
+    var callback = queue[i];
+    var arg = queue[i + 1];
+
+    callback(arg);
+
+    queue[i] = undefined;
+    queue[i + 1] = undefined;
+  }
+
+  len = 0;
+}
+
+function attemptVertx() {
+  try {
+    var vertx = Function('return this')().require('vertx');
+    vertxNext = vertx.runOnLoop || vertx.runOnContext;
+    return useVertxTimer();
+  } catch (e) {
+    return useSetTimeout();
+  }
+}
+
+var scheduleFlush = void 0;
+// Decide what async method to use to triggering processing of queued callbacks:
+if (isNode) {
+  scheduleFlush = useNextTick();
+} else if (BrowserMutationObserver) {
+  scheduleFlush = useMutationObserver();
+} else if (isWorker) {
+  scheduleFlush = useMessageChannel();
+} else if (browserWindow === undefined && typeof require === 'function') {
+  scheduleFlush = attemptVertx();
+} else {
+  scheduleFlush = useSetTimeout();
+}
+
+function then(onFulfillment, onRejection) {
+  var parent = this;
+
+  var child = new this.constructor(noop);
+
+  if (child[PROMISE_ID] === undefined) {
+    makePromise(child);
+  }
+
+  var _state = parent._state;
+
+
+  if (_state) {
+    var callback = arguments[_state - 1];
+    asap(function () {
+      return invokeCallback(_state, child, callback, parent._result);
+    });
+  } else {
+    subscribe(parent, child, onFulfillment, onRejection);
+  }
+
+  return child;
+}
+
+/**
+  `Promise.resolve` returns a promise that will become resolved with the
+  passed `value`. It is shorthand for the following:
+
+  ```javascript
+  let promise = new Promise(function(resolve, reject){
+    resolve(1);
+  });
+
+  promise.then(function(value){
+    // value === 1
+  });
+  ```
+
+  Instead of writing the above, your code now simply becomes the following:
+
+  ```javascript
+  let promise = Promise.resolve(1);
+
+  promise.then(function(value){
+    // value === 1
+  });
+  ```
+
+  @method resolve
+  @static
+  @param {Any} value value that the returned promise will be resolved with
+  Useful for tooling.
+  @return {Promise} a promise that will become fulfilled with the given
+  `value`
+*/
+function resolve$1(object) {
+  /*jshint validthis:true */
+  var Constructor = this;
+
+  if (object && typeof object === 'object' && object.constructor === Constructor) {
+    return object;
+  }
+
+  var promise = new Constructor(noop);
+  resolve(promise, object);
+  return promise;
+}
+
+var PROMISE_ID = Math.random().toString(36).substring(2);
+
+function noop() {}
+
+var PENDING = void 0;
+var FULFILLED = 1;
+var REJECTED = 2;
+
+function selfFulfillment() {
+  return new TypeError("You cannot resolve a promise with itself");
+}
+
+function cannotReturnOwn() {
+  return new TypeError('A promises callback cannot return that same promise.');
+}
+
+function tryThen(then$$1, value, fulfillmentHandler, rejectionHandler) {
+  try {
+    then$$1.call(value, fulfillmentHandler, rejectionHandler);
+  } catch (e) {
+    return e;
+  }
+}
+
+function handleForeignThenable(promise, thenable, then$$1) {
+  asap(function (promise) {
+    var sealed = false;
+    var error = tryThen(then$$1, thenable, function (value) {
+      if (sealed) {
+        return;
+      }
+      sealed = true;
+      if (thenable !== value) {
+        resolve(promise, value);
+      } else {
+        fulfill(promise, value);
+      }
+    }, function (reason) {
+      if (sealed) {
+        return;
+      }
+      sealed = true;
+
+      reject(promise, reason);
+    }, 'Settle: ' + (promise._label || ' unknown promise'));
+
+    if (!sealed && error) {
+      sealed = true;
+      reject(promise, error);
+    }
+  }, promise);
+}
+
+function handleOwnThenable(promise, thenable) {
+  if (thenable._state === FULFILLED) {
+    fulfill(promise, thenable._result);
+  } else if (thenable._state === REJECTED) {
+    reject(promise, thenable._result);
+  } else {
+    subscribe(thenable, undefined, function (value) {
+      return resolve(promise, value);
+    }, function (reason) {
+      return reject(promise, reason);
+    });
+  }
+}
+
+function handleMaybeThenable(promise, maybeThenable, then$$1) {
+  if (maybeThenable.constructor === promise.constructor && then$$1 === then && maybeThenable.constructor.resolve === resolve$1) {
+    handleOwnThenable(promise, maybeThenable);
+  } else {
+    if (then$$1 === undefined) {
+      fulfill(promise, maybeThenable);
+    } else if (isFunction(then$$1)) {
+      handleForeignThenable(promise, maybeThenable, then$$1);
+    } else {
+      fulfill(promise, maybeThenable);
+    }
+  }
+}
+
+function resolve(promise, value) {
+  if (promise === value) {
+    reject(promise, selfFulfillment());
+  } else if (objectOrFunction(value)) {
+    var then$$1 = void 0;
+    try {
+      then$$1 = value.then;
+    } catch (error) {
+      reject(promise, error);
+      return;
+    }
+    handleMaybeThenable(promise, value, then$$1);
+  } else {
+    fulfill(promise, value);
+  }
+}
+
+function publishRejection(promise) {
+  if (promise._onerror) {
+    promise._onerror(promise._result);
+  }
+
+  publish(promise);
+}
+
+function fulfill(promise, value) {
+  if (promise._state !== PENDING) {
+    return;
+  }
+
+  promise._result = value;
+  promise._state = FULFILLED;
+
+  if (promise._subscribers.length !== 0) {
+    asap(publish, promise);
+  }
+}
+
+function reject(promise, reason) {
+  if (promise._state !== PENDING) {
+    return;
+  }
+  promise._state = REJECTED;
+  promise._result = reason;
+
+  asap(publishRejection, promise);
+}
+
+function subscribe(parent, child, onFulfillment, onRejection) {
+  var _subscribers = parent._subscribers;
+  var length = _subscribers.length;
+
+
+  parent._onerror = null;
+
+  _subscribers[length] = child;
+  _subscribers[length + FULFILLED] = onFulfillment;
+  _subscribers[length + REJECTED] = onRejection;
+
+  if (length === 0 && parent._state) {
+    asap(publish, parent);
+  }
+}
+
+function publish(promise) {
+  var subscribers = promise._subscribers;
+  var settled = promise._state;
+
+  if (subscribers.length === 0) {
+    return;
+  }
+
+  var child = void 0,
+      callback = void 0,
+      detail = promise._result;
+
+  for (var i = 0; i < subscribers.length; i += 3) {
+    child = subscribers[i];
+    callback = subscribers[i + settled];
+
+    if (child) {
+      invokeCallback(settled, child, callback, detail);
+    } else {
+      callback(detail);
+    }
+  }
+
+  promise._subscribers.length = 0;
+}
+
+function invokeCallback(settled, promise, callback, detail) {
+  var hasCallback = isFunction(callback),
+      value = void 0,
+      error = void 0,
+      succeeded = true;
+
+  if (hasCallback) {
+    try {
+      value = callback(detail);
+    } catch (e) {
+      succeeded = false;
+      error = e;
+    }
+
+    if (promise === value) {
+      reject(promise, cannotReturnOwn());
+      return;
+    }
+  } else {
+    value = detail;
+  }
+
+  if (promise._state !== PENDING) {
+    // noop
+  } else if (hasCallback && succeeded) {
+    resolve(promise, value);
+  } else if (succeeded === false) {
+    reject(promise, error);
+  } else if (settled === FULFILLED) {
+    fulfill(promise, value);
+  } else if (settled === REJECTED) {
+    reject(promise, value);
+  }
+}
+
+function initializePromise(promise, resolver) {
+  try {
+    resolver(function resolvePromise(value) {
+      resolve(promise, value);
+    }, function rejectPromise(reason) {
+      reject(promise, reason);
+    });
+  } catch (e) {
+    reject(promise, e);
+  }
+}
+
+var id = 0;
+function nextId() {
+  return id++;
+}
+
+function makePromise(promise) {
+  promise[PROMISE_ID] = id++;
+  promise._state = undefined;
+  promise._result = undefined;
+  promise._subscribers = [];
+}
+
+function validationError() {
+  return new Error('Array Methods must be provided an Array');
+}
+
+var Enumerator = function () {
+  function Enumerator(Constructor, input) {
+    this._instanceConstructor = Constructor;
+    this.promise = new Constructor(noop);
+
+    if (!this.promise[PROMISE_ID]) {
+      makePromise(this.promise);
+    }
+
+    if (isArray(input)) {
+      this.length = input.length;
+      this._remaining = input.length;
+
+      this._result = new Array(this.length);
+
+      if (this.length === 0) {
+        fulfill(this.promise, this._result);
+      } else {
+        this.length = this.length || 0;
+        this._enumerate(input);
+        if (this._remaining === 0) {
+          fulfill(this.promise, this._result);
+        }
+      }
+    } else {
+      reject(this.promise, validationError());
+    }
+  }
+
+  Enumerator.prototype._enumerate = function _enumerate(input) {
+    for (var i = 0; this._state === PENDING && i < input.length; i++) {
+      this._eachEntry(input[i], i);
+    }
+  };
+
+  Enumerator.prototype._eachEntry = function _eachEntry(entry, i) {
+    var c = this._instanceConstructor;
+    var resolve$$1 = c.resolve;
+
+
+    if (resolve$$1 === resolve$1) {
+      var _then = void 0;
+      var error = void 0;
+      var didError = false;
+      try {
+        _then = entry.then;
+      } catch (e) {
+        didError = true;
+        error = e;
+      }
+
+      if (_then === then && entry._state !== PENDING) {
+        this._settledAt(entry._state, i, entry._result);
+      } else if (typeof _then !== 'function') {
+        this._remaining--;
+        this._result[i] = entry;
+      } else if (c === Promise$1) {
+        var promise = new c(noop);
+        if (didError) {
+          reject(promise, error);
+        } else {
+          handleMaybeThenable(promise, entry, _then);
+        }
+        this._willSettleAt(promise, i);
+      } else {
+        this._willSettleAt(new c(function (resolve$$1) {
+          return resolve$$1(entry);
+        }), i);
+      }
+    } else {
+      this._willSettleAt(resolve$$1(entry), i);
+    }
+  };
+
+  Enumerator.prototype._settledAt = function _settledAt(state, i, value) {
+    var promise = this.promise;
+
+
+    if (promise._state === PENDING) {
+      this._remaining--;
+
+      if (state === REJECTED) {
+        reject(promise, value);
+      } else {
+        this._result[i] = value;
+      }
+    }
+
+    if (this._remaining === 0) {
+      fulfill(promise, this._result);
+    }
+  };
+
+  Enumerator.prototype._willSettleAt = function _willSettleAt(promise, i) {
+    var enumerator = this;
+
+    subscribe(promise, undefined, function (value) {
+      return enumerator._settledAt(FULFILLED, i, value);
+    }, function (reason) {
+      return enumerator._settledAt(REJECTED, i, reason);
+    });
+  };
+
+  return Enumerator;
+}();
+
+/**
+  `Promise.all` accepts an array of promises, and returns a new promise which
+  is fulfilled with an array of fulfillment values for the passed promises, or
+  rejected with the reason of the first passed promise to be rejected. It casts all
+  elements of the passed iterable to promises as it runs this algorithm.
+
+  Example:
+
+  ```javascript
+  let promise1 = resolve(1);
+  let promise2 = resolve(2);
+  let promise3 = resolve(3);
+  let promises = [ promise1, promise2, promise3 ];
+
+  Promise.all(promises).then(function(array){
+    // The array here would be [ 1, 2, 3 ];
+  });
+  ```
+
+  If any of the `promises` given to `all` are rejected, the first promise
+  that is rejected will be given as an argument to the returned promises's
+  rejection handler. For example:
+
+  Example:
+
+  ```javascript
+  let promise1 = resolve(1);
+  let promise2 = reject(new Error("2"));
+  let promise3 = reject(new Error("3"));
+  let promises = [ promise1, promise2, promise3 ];
+
+  Promise.all(promises).then(function(array){
+    // Code here never runs because there are rejected promises!
+  }, function(error) {
+    // error.message === "2"
+  });
+  ```
+
+  @method all
+  @static
+  @param {Array} entries array of promises
+  @param {String} label optional string for labeling the promise.
+  Useful for tooling.
+  @return {Promise} promise that is fulfilled when all `promises` have been
+  fulfilled, or rejected if any of them become rejected.
+  @static
+*/
+function all(entries) {
+  return new Enumerator(this, entries).promise;
+}
+
+/**
+  `Promise.race` returns a new promise which is settled in the same way as the
+  first passed promise to settle.
+
+  Example:
+
+  ```javascript
+  let promise1 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 1');
+    }, 200);
+  });
+
+  let promise2 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 2');
+    }, 100);
+  });
+
+  Promise.race([promise1, promise2]).then(function(result){
+    // result === 'promise 2' because it was resolved before promise1
+    // was resolved.
+  });
+  ```
+
+  `Promise.race` is deterministic in that only the state of the first
+  settled promise matters. For example, even if other promises given to the
+  `promises` array argument are resolved, but the first settled promise has
+  become rejected before the other promises became fulfilled, the returned
+  promise will become rejected:
+
+  ```javascript
+  let promise1 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 1');
+    }, 200);
+  });
+
+  let promise2 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      reject(new Error('promise 2'));
+    }, 100);
+  });
+
+  Promise.race([promise1, promise2]).then(function(result){
+    // Code here never runs
+  }, function(reason){
+    // reason.message === 'promise 2' because promise 2 became rejected before
+    // promise 1 became fulfilled
+  });
+  ```
+
+  An example real-world use case is implementing timeouts:
+
+  ```javascript
+  Promise.race([ajax('foo.json'), timeout(5000)])
+  ```
+
+  @method race
+  @static
+  @param {Array} promises array of promises to observe
+  Useful for tooling.
+  @return {Promise} a promise which settles in the same way as the first passed
+  promise to settle.
+*/
+function race(entries) {
+  /*jshint validthis:true */
+  var Constructor = this;
+
+  if (!isArray(entries)) {
+    return new Constructor(function (_, reject) {
+      return reject(new TypeError('You must pass an array to race.'));
+    });
+  } else {
+    return new Constructor(function (resolve, reject) {
+      var length = entries.length;
+      for (var i = 0; i < length; i++) {
+        Constructor.resolve(entries[i]).then(resolve, reject);
+      }
+    });
+  }
+}
+
+/**
+  `Promise.reject` returns a promise rejected with the passed `reason`.
+  It is shorthand for the following:
+
+  ```javascript
+  let promise = new Promise(function(resolve, reject){
+    reject(new Error('WHOOPS'));
+  });
+
+  promise.then(function(value){
+    // Code here doesn't run because the promise is rejected!
+  }, function(reason){
+    // reason.message === 'WHOOPS'
+  });
+  ```
+
+  Instead of writing the above, your code now simply becomes the following:
+
+  ```javascript
+  let promise = Promise.reject(new Error('WHOOPS'));
+
+  promise.then(function(value){
+    // Code here doesn't run because the promise is rejected!
+  }, function(reason){
+    // reason.message === 'WHOOPS'
+  });
+  ```
+
+  @method reject
+  @static
+  @param {Any} reason value that the returned promise will be rejected with.
+  Useful for tooling.
+  @return {Promise} a promise rejected with the given `reason`.
+*/
+function reject$1(reason) {
+  /*jshint validthis:true */
+  var Constructor = this;
+  var promise = new Constructor(noop);
+  reject(promise, reason);
+  return promise;
+}
+
+function needsResolver() {
+  throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
+}
+
+function needsNew() {
+  throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
+}
+
+/**
+  Promise objects represent the eventual result of an asynchronous operation. The
+  primary way of interacting with a promise is through its `then` method, which
+  registers callbacks to receive either a promise's eventual value or the reason
+  why the promise cannot be fulfilled.
+
+  Terminology
+  -----------
+
+  - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
+  - `thenable` is an object or function that defines a `then` method.
+  - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
+  - `exception` is a value that is thrown using the throw statement.
+  - `reason` is a value that indicates why a promise was rejected.
+  - `settled` the final resting state of a promise, fulfilled or rejected.
+
+  A promise can be in one of three states: pending, fulfilled, or rejected.
+
+  Promises that are fulfilled have a fulfillment value and are in the fulfilled
+  state.  Promises that are rejected have a rejection reason and are in the
+  rejected state.  A fulfillment value is never a thenable.
+
+  Promises can also be said to *resolve* a value.  If this value is also a
+  promise, then the original promise's settled state will match the value's
+  settled state.  So a promise that *resolves* a promise that rejects will
+  itself reject, and a promise that *resolves* a promise that fulfills will
+  itself fulfill.
+
+
+  Basic Usage:
+  ------------
+
+  ```js
+  let promise = new Promise(function(resolve, reject) {
+    // on success
+    resolve(value);
+
+    // on failure
+    reject(reason);
+  });
+
+  promise.then(function(value) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Advanced Usage:
+  ---------------
+
+  Promises shine when abstracting away asynchronous interactions such as
+  `XMLHttpRequest`s.
+
+  ```js
+  function getJSON(url) {
+    return new Promise(function(resolve, reject){
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('GET', url);
+      xhr.onreadystatechange = handler;
+      xhr.responseType = 'json';
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.send();
+
+      function handler() {
+        if (this.readyState === this.DONE) {
+          if (this.status === 200) {
+            resolve(this.response);
+          } else {
+            reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
+          }
+        }
+      };
+    });
+  }
+
+  getJSON('/posts.json').then(function(json) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Unlike callbacks, promises are great composable primitives.
+
+  ```js
+  Promise.all([
+    getJSON('/posts'),
+    getJSON('/comments')
+  ]).then(function(values){
+    values[0] // => postsJSON
+    values[1] // => commentsJSON
+
+    return values;
+  });
+  ```
+
+  @class Promise
+  @param {Function} resolver
+  Useful for tooling.
+  @constructor
+*/
+
+var Promise$1 = function () {
+  function Promise(resolver) {
+    this[PROMISE_ID] = nextId();
+    this._result = this._state = undefined;
+    this._subscribers = [];
+
+    if (noop !== resolver) {
+      typeof resolver !== 'function' && needsResolver();
+      this instanceof Promise ? initializePromise(this, resolver) : needsNew();
+    }
+  }
+
+  /**
+  The primary way of interacting with a promise is through its `then` method,
+  which registers callbacks to receive either a promise's eventual value or the
+  reason why the promise cannot be fulfilled.
+   ```js
+  findUser().then(function(user){
+    // user is available
+  }, function(reason){
+    // user is unavailable, and you are given the reason why
+  });
+  ```
+   Chaining
+  --------
+   The return value of `then` is itself a promise.  This second, 'downstream'
+  promise is resolved with the return value of the first promise's fulfillment
+  or rejection handler, or rejected if the handler throws an exception.
+   ```js
+  findUser().then(function (user) {
+    return user.name;
+  }, function (reason) {
+    return 'default name';
+  }).then(function (userName) {
+    // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
+    // will be `'default name'`
+  });
+   findUser().then(function (user) {
+    throw new Error('Found user, but still unhappy');
+  }, function (reason) {
+    throw new Error('`findUser` rejected and we're unhappy');
+  }).then(function (value) {
+    // never reached
+  }, function (reason) {
+    // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
+    // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
+  });
+  ```
+  If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
+   ```js
+  findUser().then(function (user) {
+    throw new PedagogicalException('Upstream error');
+  }).then(function (value) {
+    // never reached
+  }).then(function (value) {
+    // never reached
+  }, function (reason) {
+    // The `PedgagocialException` is propagated all the way down to here
+  });
+  ```
+   Assimilation
+  ------------
+   Sometimes the value you want to propagate to a downstream promise can only be
+  retrieved asynchronously. This can be achieved by returning a promise in the
+  fulfillment or rejection handler. The downstream promise will then be pending
+  until the returned promise is settled. This is called *assimilation*.
+   ```js
+  findUser().then(function (user) {
+    return findCommentsByAuthor(user);
+  }).then(function (comments) {
+    // The user's comments are now available
+  });
+  ```
+   If the assimliated promise rejects, then the downstream promise will also reject.
+   ```js
+  findUser().then(function (user) {
+    return findCommentsByAuthor(user);
+  }).then(function (comments) {
+    // If `findCommentsByAuthor` fulfills, we'll have the value here
+  }, function (reason) {
+    // If `findCommentsByAuthor` rejects, we'll have the reason here
+  });
+  ```
+   Simple Example
+  --------------
+   Synchronous Example
+   ```javascript
+  let result;
+   try {
+    result = findResult();
+    // success
+  } catch(reason) {
+    // failure
+  }
+  ```
+   Errback Example
+   ```js
+  findResult(function(result, err){
+    if (err) {
+      // failure
+    } else {
+      // success
+    }
+  });
+  ```
+   Promise Example;
+   ```javascript
+  findResult().then(function(result){
+    // success
+  }, function(reason){
+    // failure
+  });
+  ```
+   Advanced Example
+  --------------
+   Synchronous Example
+   ```javascript
+  let author, books;
+   try {
+    author = findAuthor();
+    books  = findBooksByAuthor(author);
+    // success
+  } catch(reason) {
+    // failure
+  }
+  ```
+   Errback Example
+   ```js
+   function foundBooks(books) {
+   }
+   function failure(reason) {
+   }
+   findAuthor(function(author, err){
+    if (err) {
+      failure(err);
+      // failure
+    } else {
+      try {
+        findBoooksByAuthor(author, function(books, err) {
+          if (err) {
+            failure(err);
+          } else {
+            try {
+              foundBooks(books);
+            } catch(reason) {
+              failure(reason);
+            }
+          }
+        });
+      } catch(error) {
+        failure(err);
+      }
+      // success
+    }
+  });
+  ```
+   Promise Example;
+   ```javascript
+  findAuthor().
+    then(findBooksByAuthor).
+    then(function(books){
+      // found books
+  }).catch(function(reason){
+    // something went wrong
+  });
+  ```
+   @method then
+  @param {Function} onFulfilled
+  @param {Function} onRejected
+  Useful for tooling.
+  @return {Promise}
+  */
+
+  /**
+  `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
+  as the catch block of a try/catch statement.
+  ```js
+  function findAuthor(){
+  throw new Error('couldn't find that author');
+  }
+  // synchronous
+  try {
+  findAuthor();
+  } catch(reason) {
+  // something went wrong
+  }
+  // async with promises
+  findAuthor().catch(function(reason){
+  // something went wrong
+  });
+  ```
+  @method catch
+  @param {Function} onRejection
+  Useful for tooling.
+  @return {Promise}
+  */
+
+
+  Promise.prototype.catch = function _catch(onRejection) {
+    return this.then(null, onRejection);
+  };
+
+  /**
+    `finally` will be invoked regardless of the promise's fate just as native
+    try/catch/finally behaves
+  
+    Synchronous example:
+  
+    ```js
+    findAuthor() {
+      if (Math.random() > 0.5) {
+        throw new Error();
+      }
+      return new Author();
+    }
+  
+    try {
+      return findAuthor(); // succeed or fail
+    } catch(error) {
+      return findOtherAuther();
+    } finally {
+      // always runs
+      // doesn't affect the return value
+    }
+    ```
+  
+    Asynchronous example:
+  
+    ```js
+    findAuthor().catch(function(reason){
+      return findOtherAuther();
+    }).finally(function(){
+      // author was either found, or not
+    });
+    ```
+  
+    @method finally
+    @param {Function} callback
+    @return {Promise}
+  */
+
+
+  Promise.prototype.finally = function _finally(callback) {
+    var promise = this;
+    var constructor = promise.constructor;
+
+    if (isFunction(callback)) {
+      return promise.then(function (value) {
+        return constructor.resolve(callback()).then(function () {
+          return value;
+        });
+      }, function (reason) {
+        return constructor.resolve(callback()).then(function () {
+          throw reason;
+        });
+      });
+    }
+
+    return promise.then(callback, callback);
+  };
+
+  return Promise;
+}();
+
+Promise$1.prototype.then = then;
+Promise$1.all = all;
+Promise$1.race = race;
+Promise$1.resolve = resolve$1;
+Promise$1.reject = reject$1;
+Promise$1._setScheduler = setScheduler;
+Promise$1._setAsap = setAsap;
+Promise$1._asap = asap;
+
+/*global self*/
+function polyfill() {
+  var local = void 0;
+
+  if (typeof global !== 'undefined') {
+    local = global;
+  } else if (typeof self !== 'undefined') {
+    local = self;
+  } else {
+    try {
+      local = Function('return this')();
+    } catch (e) {
+      throw new Error('polyfill failed because global object is unavailable in this environment');
+    }
+  }
+
+  var P = local.Promise;
+
+  if (P) {
+    var promiseToString = null;
+    try {
+      promiseToString = Object.prototype.toString.call(P.resolve());
+    } catch (e) {
+      // silently ignored
+    }
+
+    if (promiseToString === '[object Promise]' && !P.cast) {
+      return;
+    }
+  }
+
+  local.Promise = Promise$1;
+}
+
+// Strange compat..
+Promise$1.polyfill = polyfill;
+Promise$1.Promise = Promise$1;
+
+return Promise$1;
+
+})));
+
+
+
+
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"_process":282}],279:[function(require,module,exports){
+// the whatwg-fetch polyfill installs the fetch() function
+// on the global object (window or self)
+//
+// Return that as the export for use in Webpack, Browserify etc.
+require('whatwg-fetch');
+module.exports = self.fetch.bind(self);
+
+},{"whatwg-fetch":286}],280:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -2712,7 +16000,7 @@ module.exports = {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.14';
+  var VERSION = '4.17.20';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -6419,8 +19707,21 @@ module.exports = {
      * @returns {Array} Returns the new sorted array.
      */
     function baseOrderBy(collection, iteratees, orders) {
+      if (iteratees.length) {
+        iteratees = arrayMap(iteratees, function(iteratee) {
+          if (isArray(iteratee)) {
+            return function(value) {
+              return baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
+            }
+          }
+          return iteratee;
+        });
+      } else {
+        iteratees = [identity];
+      }
+
       var index = -1;
-      iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(getIteratee()));
+      iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
 
       var result = baseMap(collection, function(value, key, collection) {
         var criteria = arrayMap(iteratees, function(iteratee) {
@@ -6677,6 +19978,10 @@ module.exports = {
         var key = toKey(path[index]),
             newValue = value;
 
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+          return object;
+        }
+
         if (index != lastIndex) {
           var objValue = nested[key];
           newValue = customizer ? customizer(objValue, key, nested) : undefined;
@@ -6829,11 +20134,14 @@ module.exports = {
      *  into `array`.
      */
     function baseSortedIndexBy(array, value, iteratee, retHighest) {
-      value = iteratee(value);
-
       var low = 0,
-          high = array == null ? 0 : array.length,
-          valIsNaN = value !== value,
+          high = array == null ? 0 : array.length;
+      if (high === 0) {
+        return 0;
+      }
+
+      value = iteratee(value);
+      var valIsNaN = value !== value,
           valIsNull = value === null,
           valIsSymbol = isSymbol(value),
           valIsUndefined = value === undefined;
@@ -8318,10 +21626,11 @@ module.exports = {
       if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
         return false;
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(array);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var arrStacked = stack.get(array);
+      var othStacked = stack.get(other);
+      if (arrStacked && othStacked) {
+        return arrStacked == other && othStacked == array;
       }
       var index = -1,
           result = true,
@@ -8483,10 +21792,11 @@ module.exports = {
           return false;
         }
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var objStacked = stack.get(object);
+      var othStacked = stack.get(other);
+      if (objStacked && othStacked) {
+        return objStacked == other && othStacked == object;
       }
       var result = true;
       stack.set(object, other);
@@ -11867,6 +25177,10 @@ module.exports = {
      * // The `_.property` iteratee shorthand.
      * _.filter(users, 'active');
      * // => objects for ['barney']
+     *
+     * // Combining several predicates using `_.overEvery` or `_.overSome`.
+     * _.filter(users, _.overSome([{ 'age': 36 }, ['age', 40]]));
+     * // => objects for ['fred', 'barney']
      */
     function filter(collection, predicate) {
       var func = isArray(collection) ? arrayFilter : baseFilter;
@@ -12616,15 +25930,15 @@ module.exports = {
      * var users = [
      *   { 'user': 'fred',   'age': 48 },
      *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 },
+     *   { 'user': 'fred',   'age': 30 },
      *   { 'user': 'barney', 'age': 34 }
      * ];
      *
      * _.sortBy(users, [function(o) { return o.user; }]);
-     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
      *
      * _.sortBy(users, ['user', 'age']);
-     * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+     * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
      */
     var sortBy = baseRest(function(collection, iteratees) {
       if (collection == null) {
@@ -17499,11 +30813,11 @@ module.exports = {
 
       // Use a sourceURL for easier debugging.
       // The sourceURL gets injected into the source that's eval-ed, so be careful
-      // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-      // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
+      // to normalize all kinds of whitespace, so e.g. newlines (and unicode versions of it) can't sneak in
+      // and escape the comment, thus injecting code that gets evaled.
       var sourceURL = '//# sourceURL=' +
         (hasOwnProperty.call(options, 'sourceURL')
-          ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
+          ? (options.sourceURL + '').replace(/\s/g, ' ')
           : ('lodash.templateSources[' + (++templateCounter) + ']')
         ) + '\n';
 
@@ -17536,8 +30850,6 @@ module.exports = {
 
       // If `variable` is not specified wrap a with-statement around the generated
       // code to add the data object to the top of the scope chain.
-      // Like with sourceURL, we take care to not check the option's prototype,
-      // as this configuration is a code injection vector.
       var variable = hasOwnProperty.call(options, 'variable') && options.variable;
       if (!variable) {
         source = 'with (obj) {\n' + source + '\n}\n';
@@ -18244,6 +31556,9 @@ module.exports = {
      * values against any array or object value, respectively. See `_.isEqual`
      * for a list of supported value comparisons.
      *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
+     *
      * @static
      * @memberOf _
      * @since 3.0.0
@@ -18259,6 +31574,10 @@ module.exports = {
      *
      * _.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
      * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matches(source) {
       return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
@@ -18272,6 +31591,9 @@ module.exports = {
      * **Note:** Partial comparisons will match empty array and empty object
      * `srcValue` values against any array or object value, respectively. See
      * `_.isEqual` for a list of supported value comparisons.
+     *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
      *
      * @static
      * @memberOf _
@@ -18289,6 +31611,10 @@ module.exports = {
      *
      * _.find(objects, _.matchesProperty('a', 4));
      * // => { 'a': 4, 'b': 5, 'c': 6 }
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matchesProperty(path, srcValue) {
       return baseMatchesProperty(path, baseClone(srcValue, CLONE_DEEP_FLAG));
@@ -18512,6 +31838,10 @@ module.exports = {
      * Creates a function that checks if **all** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -18538,6 +31868,10 @@ module.exports = {
      * Creates a function that checks if **any** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -18557,6 +31891,9 @@ module.exports = {
      *
      * func(NaN);
      * // => false
+     *
+     * var matchesFunc = _.overSome([{ 'a': 1 }, { 'a': 2 }])
+     * var matchesPropertyFunc = _.overSome([['a', 1], ['a', 2]])
      */
     var overSome = createOver(arraySome);
 
@@ -19812,7 +33149,7 @@ module.exports = {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],37:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 exports.endianness = function () { return 'LE' };
 
 exports.hostname = function () {
@@ -19863,7 +33200,7 @@ exports.homedir = function () {
 	return '/'
 };
 
-},{}],38:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -20049,7 +33386,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],39:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -20074,14 +33411,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],40:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],41:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -20671,19 +34008,24 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":40,"_process":38,"inherits":39}],42:[function(require,module,exports){
+},{"./support/isBuffer":284,"_process":282,"inherits":283}],286:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (factory((global.WHATWGFetch = {})));
 }(this, (function (exports) { 'use strict';
 
+  var global =
+    (typeof globalThis !== 'undefined' && globalThis) ||
+    (typeof self !== 'undefined' && self) ||
+    (typeof global !== 'undefined' && global);
+
   var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
+    searchParams: 'URLSearchParams' in global,
+    iterable: 'Symbol' in global && 'iterator' in Symbol,
     blob:
-      'FileReader' in self &&
-      'Blob' in self &&
+      'FileReader' in global &&
+      'Blob' in global &&
       (function() {
         try {
           new Blob();
@@ -20692,8 +34034,8 @@ function hasOwnProperty(obj, prop) {
           return false
         }
       })(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
+    formData: 'FormData' in global,
+    arrayBuffer: 'ArrayBuffer' in global
   };
 
   function isDataView(obj) {
@@ -20724,7 +34066,7 @@ function hasOwnProperty(obj, prop) {
     if (typeof name !== 'string') {
       name = String(name);
     }
-    if (/[^a-z0-9\-#$%&'*+.^_`|~]/i.test(name)) {
+    if (/[^a-z0-9\-#$%&'*+.^_`|~!]/i.test(name) || name === '') {
       throw new TypeError('Invalid character in header field name')
     }
     return name.toLowerCase()
@@ -20889,6 +34231,17 @@ function hasOwnProperty(obj, prop) {
     this.bodyUsed = false;
 
     this._initBody = function(body) {
+      /*
+        fetch-mock wraps the Response object in an ES6 Proxy to
+        provide useful test harness features such as flush. However, on
+        ES5 browsers without fetch or Proxy support pollyfills must be used;
+        the proxy-pollyfill is unable to proxy an attribute unless it exists
+        on the object before the Proxy is created. This change ensures
+        Response.bodyUsed exists on the instance, while maintaining the
+        semantic of setting Request.bodyUsed in the constructor before
+        _initBody is called.
+      */
+      this.bodyUsed = this.bodyUsed;
       this._bodyInit = body;
       if (!body) {
         this._bodyText = '';
@@ -20941,7 +34294,20 @@ function hasOwnProperty(obj, prop) {
 
       this.arrayBuffer = function() {
         if (this._bodyArrayBuffer) {
-          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
+          var isConsumed = consumed(this);
+          if (isConsumed) {
+            return isConsumed
+          }
+          if (ArrayBuffer.isView(this._bodyArrayBuffer)) {
+            return Promise.resolve(
+              this._bodyArrayBuffer.buffer.slice(
+                this._bodyArrayBuffer.byteOffset,
+                this._bodyArrayBuffer.byteOffset + this._bodyArrayBuffer.byteLength
+              )
+            )
+          } else {
+            return Promise.resolve(this._bodyArrayBuffer)
+          }
         } else {
           return this.blob().then(readBlobAsArrayBuffer)
         }
@@ -20987,6 +34353,10 @@ function hasOwnProperty(obj, prop) {
   }
 
   function Request(input, options) {
+    if (!(this instanceof Request)) {
+      throw new TypeError('Please use the "new" operator, this DOM object constructor cannot be called as a function.')
+    }
+
     options = options || {};
     var body = options.body;
 
@@ -21023,6 +34393,21 @@ function hasOwnProperty(obj, prop) {
       throw new TypeError('Body not allowed for GET or HEAD requests')
     }
     this._initBody(body);
+
+    if (this.method === 'GET' || this.method === 'HEAD') {
+      if (options.cache === 'no-store' || options.cache === 'no-cache') {
+        // Search for a '_' parameter in the query string
+        var reParamSearch = /([?&])_=[^&]*/;
+        if (reParamSearch.test(this.url)) {
+          // If it already exists then set the value with the current time
+          this.url = this.url.replace(reParamSearch, '$1_=' + new Date().getTime());
+        } else {
+          // Otherwise add a new '_' parameter to the end with the current time
+          var reQueryString = /\?/;
+          this.url += (reQueryString.test(this.url) ? '&' : '?') + '_=' + new Date().getTime();
+        }
+      }
+    }
   }
 
   Request.prototype.clone = function() {
@@ -21050,20 +34435,31 @@ function hasOwnProperty(obj, prop) {
     // Replace instances of \r\n and \n followed by at least one space or horizontal tab with a space
     // https://tools.ietf.org/html/rfc7230#section-3.2
     var preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, ' ');
-    preProcessedHeaders.split(/\r?\n/).forEach(function(line) {
-      var parts = line.split(':');
-      var key = parts.shift().trim();
-      if (key) {
-        var value = parts.join(':').trim();
-        headers.append(key, value);
-      }
-    });
+    // Avoiding split via regex to work around a common IE11 bug with the core-js 3.6.0 regex polyfill
+    // https://github.com/github/fetch/issues/748
+    // https://github.com/zloirock/core-js/issues/751
+    preProcessedHeaders
+      .split('\r')
+      .map(function(header) {
+        return header.indexOf('\n') === 0 ? header.substr(1, header.length) : header
+      })
+      .forEach(function(line) {
+        var parts = line.split(':');
+        var key = parts.shift().trim();
+        if (key) {
+          var value = parts.join(':').trim();
+          headers.append(key, value);
+        }
+      });
     return headers
   }
 
   Body.call(Request.prototype);
 
   function Response(bodyInit, options) {
+    if (!(this instanceof Response)) {
+      throw new TypeError('Please use the "new" operator, this DOM object constructor cannot be called as a function.')
+    }
     if (!options) {
       options = {};
     }
@@ -21071,7 +34467,7 @@ function hasOwnProperty(obj, prop) {
     this.type = 'default';
     this.status = options.status === undefined ? 200 : options.status;
     this.ok = this.status >= 200 && this.status < 300;
-    this.statusText = 'statusText' in options ? options.statusText : 'OK';
+    this.statusText = 'statusText' in options ? options.statusText : '';
     this.headers = new Headers(options.headers);
     this.url = options.url || '';
     this._initBody(bodyInit);
@@ -21104,7 +34500,7 @@ function hasOwnProperty(obj, prop) {
     return new Response(null, {status: status, headers: {location: url}})
   };
 
-  exports.DOMException = self.DOMException;
+  exports.DOMException = global.DOMException;
   try {
     new exports.DOMException();
   } catch (err) {
@@ -21140,22 +34536,38 @@ function hasOwnProperty(obj, prop) {
         };
         options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
         var body = 'response' in xhr ? xhr.response : xhr.responseText;
-        resolve(new Response(body, options));
+        setTimeout(function() {
+          resolve(new Response(body, options));
+        }, 0);
       };
 
       xhr.onerror = function() {
-        reject(new TypeError('Network request failed'));
+        setTimeout(function() {
+          reject(new TypeError('Network request failed'));
+        }, 0);
       };
 
       xhr.ontimeout = function() {
-        reject(new TypeError('Network request failed'));
+        setTimeout(function() {
+          reject(new TypeError('Network request failed'));
+        }, 0);
       };
 
       xhr.onabort = function() {
-        reject(new exports.DOMException('Aborted', 'AbortError'));
+        setTimeout(function() {
+          reject(new exports.DOMException('Aborted', 'AbortError'));
+        }, 0);
       };
 
-      xhr.open(request.method, request.url, true);
+      function fixUrl(url) {
+        try {
+          return url === '' && global.location.href ? global.location.href : url
+        } catch (e) {
+          return url
+        }
+      }
+
+      xhr.open(request.method, fixUrl(request.url), true);
 
       if (request.credentials === 'include') {
         xhr.withCredentials = true;
@@ -21163,13 +34575,27 @@ function hasOwnProperty(obj, prop) {
         xhr.withCredentials = false;
       }
 
-      if ('responseType' in xhr && support.blob) {
-        xhr.responseType = 'blob';
+      if ('responseType' in xhr) {
+        if (support.blob) {
+          xhr.responseType = 'blob';
+        } else if (
+          support.arrayBuffer &&
+          request.headers.get('Content-Type') &&
+          request.headers.get('Content-Type').indexOf('application/octet-stream') !== -1
+        ) {
+          xhr.responseType = 'arraybuffer';
+        }
       }
 
-      request.headers.forEach(function(value, name) {
-        xhr.setRequestHeader(name, value);
-      });
+      if (init && typeof init.headers === 'object' && !(init.headers instanceof Headers)) {
+        Object.getOwnPropertyNames(init.headers).forEach(function(name) {
+          xhr.setRequestHeader(name, normalizeValue(init.headers[name]));
+        });
+      } else {
+        request.headers.forEach(function(value, name) {
+          xhr.setRequestHeader(name, value);
+        });
+      }
 
       if (request.signal) {
         request.signal.addEventListener('abort', abortXhr);
@@ -21188,11 +34614,11 @@ function hasOwnProperty(obj, prop) {
 
   fetch.polyfill = true;
 
-  if (!self.fetch) {
-    self.fetch = fetch;
-    self.Headers = Headers;
-    self.Request = Request;
-    self.Response = Response;
+  if (!global.fetch) {
+    global.fetch = fetch;
+    global.Headers = Headers;
+    global.Request = Request;
+    global.Response = Response;
   }
 
   exports.Headers = Headers;
