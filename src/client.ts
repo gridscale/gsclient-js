@@ -42,6 +42,9 @@ class GridscaleClient {
     public Loadbalancer: Loadbalancer;
     public Events: Events;
     public Firewall: Firewall;
+    /**
+     * @deprecated
+     */
     public PAAS: PAAS;
     public PaasService: PaasService;
     public PaasServiceTemplate: PaasServiceTemplate;

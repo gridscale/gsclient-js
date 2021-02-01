@@ -13,7 +13,7 @@ interface MarketplaceApplication {
     _callback?: Function
   ): Promise<ApiResult<models.MarketplaceApplicationGetResponse>>;
   create(
-    _attributes: models.MarketplaceApplicationCreate,
+    _attributes: models.MarketplaceApplicationCreate | models.MarketplaceApplicationImport,
     _callback?: Function
   ): Promise<ApiResult<models.MarketplaceApplicationCreateResponse>>;
   patch(
@@ -21,6 +21,15 @@ interface MarketplaceApplication {
     _attributes: models.MarketplaceApplicationUpdate,
     _callback?: Function
   ): Promise<ApiResult<VoidApiResult>>;
+  remove(
+    _uuid: string,
+    _callback?: Function
+  ): Promise<ApiResult<VoidApiResult>>;
+  events(
+    _uuid: string,
+    _options?: RequestOptions, 
+    _callback?: Function
+  ): Promise<ApiResult<models.EventResponse>>;
 }
 class MarketplaceApplication extends GridscaleObjects {
   constructor(_api: APIClass) {

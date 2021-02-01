@@ -5,6 +5,7 @@ import { APIClass } from '../api';
 
 /**
  * this class is only a wrapper to the PaasService, PaasServiceTemplate and PaasSecurityZone classes, due to historical reasons...
+ * @deprecated
  */
 class PAAS {
     constructor(private _api: APIClass) { }

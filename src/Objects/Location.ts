@@ -1,5 +1,5 @@
 import { assignIn, isFunction, isUndefined } from 'lodash';
-import { APIClass, ApiResult, GenericApiResult, RequestOptions } from '../api';
+import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
 import * as models from './../Specs';
 
 class Location {
@@ -85,7 +85,36 @@ class Location {
         return this._api.get( this._basepath , requestOptions , _callback);
     }
 
+    /**
+     * Create location
+     * @param _attributes
+     * @param _callback
+     * @returns {Promise<ApiResult<CreateResult>>}
+     */
+    create(_attributes: models.LocationCreate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.CreateResponse>> {
+        return this._api.post(  this._basepath , _attributes , _callback);
+    }
 
+
+    /**
+     * Patch location
+     * @param _attributes
+     * @param _callback
+     * @returns {Promise<ApiResult<VoidApiResult>>}
+     */
+    patch(_uuid: string, _attributes: models.LocationUpdate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>> {
+        return this._api.patch(  this._basepath + '/' + _uuid , _attributes , _callback);
+    }
+
+    /**
+     * remove Single location by UUID
+     *
+     * @param _uuid
+     * @param _callback
+     */
+    remove(_uuid: string, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>> {
+        return this._api.remove( this._basepath + '/' + _uuid, _callback);
+    }
 
     /**
      * Get Single Object by UUID

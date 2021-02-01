@@ -26,8 +26,8 @@ class PaasService extends GridscaleObjects {
         return new PaasServiceMetrics(this._api, _uuid).list({}, _callback);
     }
 
-    renewCredentials(_serviceUUID: string): Promise<ApiResult<VoidApiResult>> {
-        return this._api.patch(this._basepath + '/' + _serviceUUID + '/renew_credentials', {});
+    renewCredentials(_uuid: string): Promise<ApiResult<VoidApiResult>> {
+        return this._api.patch(this._basepath + '/' + _uuid + '/renew_credentials', {});
     }
 }
 

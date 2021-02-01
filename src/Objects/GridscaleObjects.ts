@@ -99,7 +99,7 @@ class GridscaleObjects {
 
 
     /**
-     * Get Single Object by UUID
+     * remove Single Object by UUID
      *
      * @param _uuid
      * @param _callback
