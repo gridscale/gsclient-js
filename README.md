@@ -11,7 +11,7 @@ To be able to use this client, a number of steps need to be taken. First a grids
 
 Install the package by npm running
 ```sh
-npm i @gridscale/api --save
+npm i @gridscale/gsclient-js --save
 ```
 
 or clone this repo and run
@@ -48,7 +48,7 @@ Then in your HTML you use
 
 ### In Node.js
 ```js
-const gridscale = require("@gridscale/api").gridscale;
+const gridscale = require("@gridscale/gsclient-js").gridscale;
 const client = new gridscale.Client("[API-Token]", "[User-UUID]");
 ```
 

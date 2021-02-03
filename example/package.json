@@ -5,7 +5,7 @@
     "browserify": "browserify index.js -o ./dist/index.js"
   },
   "dependencies": {
-    "@gridscale/api": "latest",
+    "@gridscale/gsclient-js": "latest",
     "colors": "^1.4.0"
   },
   "devDependencies": {
