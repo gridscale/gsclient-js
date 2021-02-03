@@ -234,7 +234,7 @@ export class APIClass {
       userId: '',
       limit: 25,
       watchdelay: 1000,
-      apiClient: 'gs_api_node'
+      apiClient: 'gsclient-js'
     };
 
     /**

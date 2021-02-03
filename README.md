@@ -56,7 +56,7 @@ const client = new gridscale.Client("[API-Token]", "[User-UUID]");
 For details to all API endpoints and their methods, you should refer to the **official API documentation** here - https://gridscale.io/en/api-documentation/index.html
 
 ## Demo 
-Test basic functionality in our [Demo](https://gridscale.github.io/gs_api_node/example/index.html)
+Test basic functionality in our [Demo](https://gridscale.github.io/gsclient-js/example/index.html)
 
 ## Types & Schemas
 Since version 1.0.0 the typescript type definitions of all API parameters and responses are bundled with this package. 

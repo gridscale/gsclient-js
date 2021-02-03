@@ -10,7 +10,7 @@
     "updateFromSpec": "node ./scripts/types_from_apispec.js"
   },
   "homepage": "https://gridscale.io",
-  "repository": "https://github.com/gridscale/gs_api_node",
+  "repository": "https://github.com/gridscale/gsclient-js",
   "author": "Marc Dittmann <marc@gridscale.io> (https://gridscale.io/)",
   "keywords": [
     "gridscale",
