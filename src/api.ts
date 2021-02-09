@@ -197,7 +197,7 @@ export interface LogData {
 }
 
 export class GSError extends Error {
-  result: GenericApiResult;
+  result: ApiResult<GenericApiResult>;
   success = false;
   response: Response;
 
