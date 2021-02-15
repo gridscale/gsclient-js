@@ -6,7 +6,7 @@ import * as models from './../Specs';
 import { IpCreate, IpUpdate } from './../Specs';
 
 interface IP {
-    list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.IpsGetResponse>>;
+    list(_options?: RequestOptions, _callback?: Function): Promise<Omit<ApiResult<models.IpsGetResponse>, 'meta' | 'links'>>;
     get(_uuid: string, _callback?: Function): Promise<ApiResult<models.IpGetResponse>>;
     create(_attributes: IpCreate, _callback?: Function): Promise<ApiResult<models.IpCreateResponse>>;
     patch(_uuid: string, _attributes: IpUpdate, _callback?: Function): Promise<ApiResult<VoidApiResult>>;
