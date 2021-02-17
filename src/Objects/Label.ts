@@ -4,7 +4,7 @@ import * as models from './../Specs';
 
 interface Label {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.LabelsGetResponse>>;
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.LabelGetResponse>>;
+    get(_label: string, _callback?: Function): Promise<ApiResult<models.LabelGetResponse>>;
 }
 class Label extends GridscaleObjects {
 
