@@ -9,5 +9,8 @@ export const $NetworkRelation = {
         vlans: {
             type: 'VlansinNetwork',
         },
+        paas_security_zones: {
+            type: 'PaasSecurityZonesinNetwork',
+        },
     },
 };

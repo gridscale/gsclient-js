@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { PaasSecurityZonesinNetwork } from './PaasSecurityZonesinNetwork';
 import { ServerinNetwork } from './ServerinNetwork';
 import { VlansinNetwork } from './VlansinNetwork';
 
@@ -11,4 +12,5 @@ import { VlansinNetwork } from './VlansinNetwork';
 export type NetworkRelation = {
     servers?: ServerinNetwork;
     vlans?: VlansinNetwork;
+    paas_security_zones?: PaasSecurityZonesinNetwork;
 }
