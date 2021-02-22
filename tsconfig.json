@@ -3,13 +3,13 @@
         "target": "es5",
         "declaration": true,
         "module": "commonjs",
-        "sourceMap": false,
+        "sourceMap": true,
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "outDir": "dist/src/",
         "noImplicitAny": false,
-        "allowJs": true,
+        "allowJs": false,
         "rootDir": "./src",
         "types": [
             "node"

@@ -6,7 +6,6 @@ dev/
 test/
 example/
 scripts/
-gulpfile.js
 tsconfig.json
 tslint.json
 typings.json
