@@ -1,4 +1,6 @@
+// browserify-ignore-start
 var process = require('process');
+// browserify-ignore-end
 var colors = require('colors');
 
 var gridscale = require('@gridscale/gsclient-js').gridscale;
