@@ -67,6 +67,19 @@ http.get(specUrl, function (response) {
                     }
                 }
             }
+
+            if (yaml.info && yaml.info.version) {
+                // generate API version badge
+                console.log('YAML VERSION', yaml.info.version);
+                // download a API version badge
+                const badgeFile = fs.createWriteStream(__dirname + '/../apiversion.png');
+                http.get('https://raster.shields.io/badge/Compatible%20with%20gridscale%20API-' + yaml.info.version + '-6bb7c4.png', function (response) {
+                    response.pipe(badgeFile);
+                    badgeFile.on('finish', function () {
+                        badgeFile.close();
+                    });
+                });
+            }
             
 
             // clean the dist dir

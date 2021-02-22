@@ -1,5 +1,7 @@
 [![npm version](https://badge.fury.io/js/%40gridscale%2Fgsclient-js.svg)](https://badge.fury.io/js/%40gridscale%2Fgsclient-js)
 
+[![gridscale API version](apiversion.png)](https://gridscale.io/en/api-documentation/index.html)
+
 # gridscale JavaScript client library
 
 This is the JavaScript library for our public API. We developed this package for our [Panels](https://my.gridscale.io) and want to share it with you.
