@@ -2,8 +2,12 @@
   "name": "@gridscale/gsclient-js",
   "version": "1.0.12",
   "description": "gridscale API Wrapper",
+  "type": "module",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "private": false,
   "scripts": {
     "build": "node ./scripts/clean_dist.js && tsc",
