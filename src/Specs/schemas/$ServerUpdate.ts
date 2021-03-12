@@ -22,7 +22,10 @@ export const $ServerUpdate = {
             type: 'string',
         },
         auto_recovery: {
-            type: 'string',
+            type: 'boolean',
+        },
+        hardware_profile: {
+            type: 'Enum',
         },
     },
 };

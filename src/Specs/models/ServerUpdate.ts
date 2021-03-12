@@ -26,5 +26,9 @@ export type ServerUpdate = {
     /**
      * If the server should be auto-started in case of a failure (default=true).
      */
-    auto_recovery?: string;
+    auto_recovery?: boolean;
+    /**
+     * Specifies the hardware settings for the virtual machine.
+     */
+    hardware_profile?: 'default' | 'nested' | 'legacy' | 'cisco_csr' | 'sophos_utm' | 'f5_bigip' | 'q35' | 'q35_nested' | 'nested_legacy' | 'q35_uefi' | 'q35_pc41' | 'q35_numa' | 'q35_numa_uefi';
 }

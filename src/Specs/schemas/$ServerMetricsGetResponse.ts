@@ -4,7 +4,7 @@
 export const $ServerMetricsGetResponse = {
     properties: {
         server_metrics: {
-            type: 'PaasServiceMetricsList',
+            type: 'ServerMetricsList',
         },
     },
 };
