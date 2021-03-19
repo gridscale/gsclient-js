@@ -5,19 +5,24 @@ export const $NetworkinFirewall = {
     type: 'array',
     contains: {
         properties: {
-            create_time: {
+            mac: {
                 type: 'string',
-                format: 'date-time',
             },
             network_uuid: {
+                type: 'string',
+            },
+            network_type: {
                 type: 'string',
             },
             network_name: {
                 type: 'string',
             },
-            object_uuid: {
+            server_uuid: {
                 type: 'string',
                 format: 'uuid',
+            },
+            server_name: {
+                type: 'string',
             },
             object_name: {
                 type: 'string',

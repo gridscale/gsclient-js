@@ -4,23 +4,31 @@
 
 export type NetworkinFirewall = Array<{
     /**
-     * Defines the date and time the object was initially created.
+     * The mac adress of the network
      */
-    create_time?: string,
+    mac?: string,
     /**
      * The UUID of the network you're requesting.
      */
     network_uuid?: string,
     /**
+     * The type of the network.
+     */
+    network_type?: string,
+    /**
      * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
     network_name?: string,
     /**
-     * The UUID of an object is always unique, and refers to a specific object.
+     * The UUID of the server is always unique, and refers to a specific object.
      */
-    object_uuid?: string,
+    server_uuid?: string,
     /**
-     * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
+     * The human-readable name of the server. It supports the full UTF-8 character set, with a maximum of 64 characters.
+     */
+    server_name?: string,
+    /**
+     * The human-readable name of the firewall. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
     object_name?: string,
 }>;

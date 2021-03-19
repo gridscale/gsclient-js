@@ -79,4 +79,23 @@ export type PaasServiceTemplate = {
      */
     status?: string;
     parameters_schema?: PaasServiceParametersSchema;
+    /**
+     * Values of the autoscaling resources
+     */
+    autoscaling?: {
+        /**
+         * Limit values cores autoscaling
+         */
+        cores?: {
+            min?: number,
+            max?: number,
+        },
+        /**
+         * Limit values storage autoscaling
+         */
+        storage?: {
+            min?: number,
+            max?: number,
+        },
+    };
 }

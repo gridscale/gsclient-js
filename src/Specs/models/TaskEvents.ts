@@ -222,6 +222,10 @@ export type TaskEvents = {
                             required?: boolean,
                             nullable?: boolean,
                         },
+                        certificate_uuid?: {
+                            type?: string,
+                            description?: string,
+                        },
                         mode?: {
                             type?: string,
                             required?: boolean,
@@ -304,6 +308,10 @@ export type TaskEvents = {
                             required?: boolean,
                             nullable?: boolean,
                         },
+                        certificate_uuid?: {
+                            type?: string,
+                            description?: string,
+                        },
                         mode?: {
                             type?: string,
                             required?: boolean,
@@ -320,6 +328,15 @@ export type TaskEvents = {
         },
         loadbalancer_remove?: {
             lb_uuid?: {
+                type?: string,
+                required?: boolean,
+            },
+        },
+    };
+    certificate?: {
+        certificate_add?: any,
+        certificate_remove?: {
+            certificate_uuid?: {
                 type?: string,
                 required?: boolean,
             },

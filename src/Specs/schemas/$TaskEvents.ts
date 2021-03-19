@@ -565,6 +565,16 @@ export const $TaskEvents = {
                                                         },
                                                     },
                                                 },
+                                                certificate_uuid: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        description: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
                                                 mode: {
                                                     properties: {
                                                         type: {
@@ -780,6 +790,16 @@ export const $TaskEvents = {
                                                         },
                                                     },
                                                 },
+                                                certificate_uuid: {
+                                                    properties: {
+                                                        type: {
+                                                            type: 'string',
+                                                        },
+                                                        description: {
+                                                            type: 'string',
+                                                        },
+                                                    },
+                                                },
                                                 mode: {
                                                     properties: {
                                                         type: {
@@ -820,6 +840,28 @@ export const $TaskEvents = {
                 loadbalancer_remove: {
                     properties: {
                         lb_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        certificate: {
+            properties: {
+                certificate_add: {
+                    properties: {
+                    },
+                },
+                certificate_remove: {
+                    properties: {
+                        certificate_uuid: {
                             properties: {
                                 type: {
                                     type: 'string',

@@ -77,5 +77,29 @@ export const $PaasServiceTemplate = {
         parameters_schema: {
             type: 'PaasServiceParametersSchema',
         },
+        autoscaling: {
+            properties: {
+                cores: {
+                    properties: {
+                        min: {
+                            type: 'number',
+                        },
+                        max: {
+                            type: 'number',
+                        },
+                    },
+                },
+                storage: {
+                    properties: {
+                        min: {
+                            type: 'number',
+                        },
+                        max: {
+                            type: 'number',
+                        },
+                    },
+                },
+            },
+        },
     },
 };
