@@ -1,4 +1,14 @@
 # Changelog
+
+
+## 1.1.0
+
+### Features
+* Add **Certificates** object class
+    * Allow create / list / get / delete of certificates
+* Updated **Load Balancer** object class with new Certificate Information. *Will be further optimized in next Version*
+
+
 ## 1.0.0
 
 ### Breaking changes
