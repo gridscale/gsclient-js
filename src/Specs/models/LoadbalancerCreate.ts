@@ -8,7 +8,7 @@ export type LoadbalancerCreate = {
      */
     name: string;
     /**
-     * An array of objects containing the forwarding rules for the Load balancer
+     * An array of objects containing the forwarding rules of the load balancer. The listen_port field specifies the entry port of the load balancer and the target_port field specifies the exit port that the load balancer uses to forward the traffic to the backend server. The load balancer supports HTTP and TCP modes. Furthermore, the load balancer supports SSL termination for letsencrypt and custom certificates (e.g., bring your own certificate). The certificate_uuid is the UUID of a custom certificate and is an optional field, but letsencrypt is a required field, which should be set to null if no letsencrypt is requested.
      */
     forwarding_rules: Array<any>;
     /**
