@@ -17,7 +17,7 @@ npm i @gridscale/gsclient-js --save
 or clone this repo and run
 ```sh
 npm i
-npm build
+npm run build
 ```
 This will build the client into the `dist` directory.
 
