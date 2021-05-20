@@ -32,6 +32,12 @@ export const $Server = {
             type: 'number',
             format: 'float',
         },
+        current_usage_per_minute: {
+            type: 'CurrentUsagePerMinute',
+        },
+        accumulated_usage: {
+            type: 'AccumulatedUsage',
+        },
         location_country: {
             type: 'string',
             format: 'string',

@@ -2,6 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
+
 export type Snapshot = {
     /**
      * List of labels.
@@ -63,4 +66,6 @@ export type Snapshot = {
      * Uuid of the storage used to create this snapshot
      */
     parent_uuid?: string;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
 }

@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
 import { IpRelation } from './IpRelation';
 
 export type IpBrief = {
@@ -82,4 +84,6 @@ export type IpBrief = {
      * The UUID of the Storage used to create this Snapshot.
      */
     partner_uuid?: string;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
 }

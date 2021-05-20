@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
 import { StoragesRelation } from './StoragesRelation';
 import { StorageVariant } from './StorageVariant';
 
@@ -109,4 +111,6 @@ export type Storage = {
      * Uses IATA airport code, which works as a location identifier.
      */
     location_iata?: string;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
 }

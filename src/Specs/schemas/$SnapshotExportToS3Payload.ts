@@ -5,9 +5,6 @@ export const $SnapshotExportToS3Payload = {
     properties: {
         s3auth: {
             properties: {
-                host: {
-                    type: 'string',
-                },
                 access_keys: {
                     type: 'string',
                 },
@@ -18,9 +15,6 @@ export const $SnapshotExportToS3Payload = {
         },
         s3data: {
             properties: {
-                host: {
-                    type: 'string',
-                },
                 bucket: {
                     type: 'string',
                 },

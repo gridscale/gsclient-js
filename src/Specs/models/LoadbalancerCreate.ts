@@ -2,6 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { LoadbalancerCreateBackendServers } from './LoadbalancerCreateBackendServers';
+import { LoadbalancerCreateForwardingRules } from './LoadbalancerCreateForwardingRules';
+
 export type LoadbalancerCreate = {
     /**
      * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
@@ -10,11 +13,11 @@ export type LoadbalancerCreate = {
     /**
      * An array of objects containing the forwarding rules of the load balancer. The listen_port field specifies the entry port of the load balancer and the target_port field specifies the exit port that the load balancer uses to forward the traffic to the backend server. The load balancer supports HTTP and TCP modes. Furthermore, the load balancer supports SSL termination for letsencrypt and custom certificates (e.g., bring your own certificate). The certificate_uuid is the UUID of a custom certificate and is an optional field, but letsencrypt is a required field, which should be set to null if no letsencrypt is requested.
      */
-    forwarding_rules: Array<any>;
+    forwarding_rules: Array<LoadbalancerCreateForwardingRules>;
     /**
      * The servers that this Load balancer can communicate with
      */
-    backend_servers: Array<any>;
+    backend_servers: Array<LoadbalancerCreateBackendServers>;
     /**
      * Status indicates the status of the object.
      */

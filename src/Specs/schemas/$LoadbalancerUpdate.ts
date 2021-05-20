@@ -9,15 +9,13 @@ export const $LoadbalancerUpdate = {
         forwarding_rules: {
             type: 'array',
             contains: {
-                properties: {
-                },
+                type: 'LoadbalancerCreateForwardingRules',
             },
         },
         backend_servers: {
             type: 'array',
             contains: {
-                properties: {
-                },
+                type: 'LoadbalancerCreateBackendServers',
             },
         },
         status: {

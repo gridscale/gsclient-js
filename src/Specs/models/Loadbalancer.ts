@@ -2,6 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
+
 export type Loadbalancer = {
     /**
      * The UUID of an object is always unique, and refers to a specific object.
@@ -75,4 +78,6 @@ export type Loadbalancer = {
      * The UUID of the IPv6 address the Load balancer will listen to for incoming requests.
      */
     listen_ipv6_uuid?: string;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
 }

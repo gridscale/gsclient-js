@@ -10,7 +10,7 @@ export type Bucket = {
     /**
      * The current usage of the bucket.
      */
-    ussage?: {
+    usage?: {
         /**
          * The size of the the bucket (in kb).
          */

@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
 import { IpRelation } from './IpRelation';
 
 export type Ip = {
@@ -78,4 +80,6 @@ export type Ip = {
      * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
     name?: string;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
 }

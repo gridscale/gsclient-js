@@ -3,7 +3,7 @@
 /* eslint-disable */
 export const $BucketsGetResponse = {
     properties: {
-        Buckets: {
+        buckets: {
             type: 'BucketList',
         },
     },

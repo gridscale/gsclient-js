@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
 import { IsoimageRelation } from './IsoimageRelation';
 
 export type Isoimage = {
@@ -74,4 +76,6 @@ export type Isoimage = {
      * Deprecated
      */
     current_price?: number;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
 }

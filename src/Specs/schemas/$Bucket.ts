@@ -6,7 +6,7 @@ export const $Bucket = {
         name: {
             type: 'string',
         },
-        ussage: {
+        usage: {
             properties: {
                 size_kb: {
                     type: 'number',

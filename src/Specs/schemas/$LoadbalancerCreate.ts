@@ -10,16 +10,14 @@ export const $LoadbalancerCreate = {
         forwarding_rules: {
             type: 'array',
             contains: {
-                properties: {
-                },
+                type: 'LoadbalancerCreateForwardingRules',
             },
             isRequired: true,
         },
         backend_servers: {
             type: 'array',
             contains: {
-                properties: {
-                },
+                type: 'LoadbalancerCreateBackendServers',
             },
             isRequired: true,
         },

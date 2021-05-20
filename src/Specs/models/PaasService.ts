@@ -52,8 +52,4 @@ export type PaasService = {
     name?: string;
     parameters?: PaasServiceParameters;
     resource_limits?: PaasServiceResourceLimits;
-    /**
-     * List of service template uuids to which an upgrade is allowed.
-     */
-    upgrade_options?: Array<string>;
 }

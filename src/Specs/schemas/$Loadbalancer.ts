@@ -77,5 +77,11 @@ export const $Loadbalancer = {
             type: 'string',
             format: 'uuid',
         },
+        current_usage_per_minute: {
+            type: 'CurrentUsagePerMinute',
+        },
+        accumulated_usage: {
+            type: 'AccumulatedUsage',
+        },
     },
 };

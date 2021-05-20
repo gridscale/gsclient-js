@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
 import { ServerRelation } from './ServerRelation';
 
 export type Server = {
@@ -38,6 +40,8 @@ export type Server = {
      * Deprecated
      */
     current_price?: number;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
     /**
      * The human-readable name of the location. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */

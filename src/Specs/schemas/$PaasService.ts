@@ -54,11 +54,5 @@ export const $PaasService = {
         resource_limits: {
             type: 'PaasServiceResourceLimits',
         },
-        upgrade_options: {
-            type: 'array',
-            contains: {
-                type: 'string',
-            },
-        },
     },
 };

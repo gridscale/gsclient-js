@@ -67,5 +67,11 @@ export const $Isoimage = {
             type: 'number',
             format: 'float',
         },
+        current_usage_per_minute: {
+            type: 'CurrentUsagePerMinute',
+        },
+        accumulated_usage: {
+            type: 'AccumulatedUsage',
+        },
     },
 };

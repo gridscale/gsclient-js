@@ -5,5 +5,5 @@
 import { BucketList } from './BucketList';
 
 export type BucketsGetResponse = {
-    Buckets?: BucketList;
+    buckets?: BucketList;
 }

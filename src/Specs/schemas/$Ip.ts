@@ -70,5 +70,11 @@ export const $Ip = {
         name: {
             type: 'string',
         },
+        current_usage_per_minute: {
+            type: 'CurrentUsagePerMinute',
+        },
+        accumulated_usage: {
+            type: 'AccumulatedUsage',
+        },
     },
 };

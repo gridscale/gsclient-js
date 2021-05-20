@@ -2,6 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AccumulatedUsage } from './AccumulatedUsage';
+import { CurrentUsagePerMinute } from './CurrentUsagePerMinute';
+
 export type Template = {
     /**
      * Status indicates the status of the object.
@@ -79,4 +82,6 @@ export type Template = {
      * List of labels.
      */
     labels?: Array<string>;
+    current_usage_per_minute?: CurrentUsagePerMinute;
+    accumulated_usage?: AccumulatedUsage;
 }
