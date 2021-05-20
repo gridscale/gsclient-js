@@ -65,6 +65,18 @@ class ObjectStorage {
     createAccessKey(_callback?: Function): Promise<ApiResult<models.AccessKeyCreateResponse>> {
         return this._api.post( '/objects/objectstorages/access_keys'  , _callback);
     }
+
+    /**
+     * List Buckets
+     *
+     *
+     * @param _options
+     * @param _callback
+     * @returns {Promise<ApiResult<models.AccessKeysGetResponse>>}
+     */
+    buckets(_options: RequestOptions, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.BucketsGetResponse>> {
+        return this._api.get( '/objects/objectstorages/buckets', _options, _callback);
+    }
 }
 
 export { ObjectStorage };
