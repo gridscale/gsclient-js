@@ -138,6 +138,14 @@ class GridscaleClient {
   }
 
   /**
+   * Calls the Validate Token Endpoint of the API
+   * @returns HTTP Promise
+   */
+  public validateToken() {
+    return api.get('/validate_token');
+  }
+
+  /**
    * Get the paas service metrics API which is a special one as the service-uuid is required early in the URL
    * @param _serviceUUID
    */
