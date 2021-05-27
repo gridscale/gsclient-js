@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.3
+* Add validateToken Function to easy validate the current Token.
+
 
 ## 1.1.0
 
