@@ -24,7 +24,10 @@
     "server",
     "firewall",
     "automation",
-    "load balancer"
+    "load balancer",
+    "kubernetes",
+    "paas",
+    "ip"
   ],
   "license": "ISC",
   "dependencies": {
