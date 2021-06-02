@@ -7,7 +7,7 @@ interface Certificate {
   list(
     _options?: RequestOptions,
     _callback?: Function
-  ): Promise<Omit<ApiResult<models.CertificatesGetResponse>, "meta" | "links">>;
+  ): Promise<ApiResult<models.CertificatesGetResponse>>;
   get(
     _uuid: string,
     _callback?: Function
