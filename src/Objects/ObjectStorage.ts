@@ -59,11 +59,12 @@ class ObjectStorage {
     /**
      * Creates new Access Key
      *
+     * @param _options
      * @param _callback
      * @returns {Promise<ApiResult<models.AccessKeyCreateResponse>>}
      */
-    createAccessKey(_callback?: Function): Promise<ApiResult<models.AccessKeyCreateResponse>> {
-        return this._api.post( '/objects/objectstorages/access_keys'  , _callback);
+    createAccessKey(_attributes: models.AccessKeyCreate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<models.AccessKeyCreateResponse>> {
+        return this._api.post( '/objects/objectstorages/access_keys', _attributes, _callback);
     }
 
     /**
