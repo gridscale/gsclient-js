@@ -12,7 +12,7 @@ export type AccessKey = {
      */
     access_key?: string;
     /**
-     * Account this credentials belong to.
+     * A comment for this access_key.
      */
-    user?: string;
+    comment?: string;
 }

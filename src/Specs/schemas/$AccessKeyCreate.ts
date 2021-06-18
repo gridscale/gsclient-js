@@ -1,14 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $AccessKey = {
+export const $AccessKeyCreate = {
     properties: {
-        secret_key: {
-            type: 'string',
-        },
-        access_key: {
-            type: 'string',
-        },
         comment: {
             type: 'string',
         },

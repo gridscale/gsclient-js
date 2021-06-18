@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export { AccessKey } from './models/AccessKey';
+export { AccessKeyCreate } from './models/AccessKeyCreate';
 export { AccessKeyCreateResponse } from './models/AccessKeyCreateResponse';
 export { AccessKeyGetResponse } from './models/AccessKeyGetResponse';
 export { AccessKeyList } from './models/AccessKeyList';
@@ -235,6 +236,7 @@ export { TemplateUpdate } from './models/TemplateUpdate';
 export { VlansinNetwork } from './models/VlansinNetwork';
 
 export { $AccessKey } from './schemas/$AccessKey';
+export { $AccessKeyCreate } from './schemas/$AccessKeyCreate';
 export { $AccessKeyCreateResponse } from './schemas/$AccessKeyCreateResponse';
 export { $AccessKeyGetResponse } from './schemas/$AccessKeyGetResponse';
 export { $AccessKeyList } from './schemas/$AccessKeyList';
