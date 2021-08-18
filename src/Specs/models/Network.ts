@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { DhcpServer } from './DhcpServer';
 import { NetworkRelation } from './NetworkRelation';
 
 export type Network = {
@@ -62,4 +63,20 @@ export type Network = {
      * The human-readable name of the location. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
     location_name?: string;
+    /**
+     * Defines the information if dhcp is activated for this network or not
+     */
+    dhcp_active?: boolean;
+    dhcp_range?: string;
+    dhcp_gateway?: string;
+    dhcp_dns?: string;
+    /**
+     * Any subrange within the ip range not conflicting with gateway or dns address, not used for automatic assignment of IPs
+     */
+    dhcp_reserved_subnet?: Array<string>;
+    auto_assigned_servers?: Array<DhcpServer>;
+    /**
+     * Contains ips of all servers in the network which got a designated IP by the user
+     */
+    pinned_servers?: Array<DhcpServer>;
 }

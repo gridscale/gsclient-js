@@ -15,5 +15,23 @@ export const $NetworkUpdate = {
                 type: 'string',
             },
         },
+        dhcp_active: {
+            type: 'boolean',
+        },
+        dhcp_range: {
+            type: 'string',
+        },
+        dhcp_gateway: {
+            type: 'string',
+        },
+        dhcp_dns: {
+            type: 'string',
+        },
+        dhcp_reserved_subnet: {
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
+        },
     },
 };

@@ -19,5 +19,5 @@ export type PaasServiceUpdate = {
     /**
      * The template to which you want to update/upgrade your paas service.
      */
-    paas_service_template_uuid?: string;
+    service_template_uuid?: string;
 }

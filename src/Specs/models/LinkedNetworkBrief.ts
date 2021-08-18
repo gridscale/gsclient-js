@@ -48,6 +48,10 @@ export type LinkedNetworkBrief = {
      */
     object_name?: string;
     /**
+     * IP of this server in DHCP network, in case DHCP is configured.
+     */
+    dhcp_ip?: string;
+    /**
      * Defines the date and time the object was initially created.
      */
     create_time?: string;

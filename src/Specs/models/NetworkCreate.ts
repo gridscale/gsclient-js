@@ -15,4 +15,24 @@ export type NetworkCreate = {
      * List of labels.
      */
     labels?: Array<string>;
+    /**
+     * Set if dhcp is supposed to be active on the new network
+     */
+    dhcp_active?: boolean;
+    /**
+     * The general IP Range configured for this network (/24 for private networks). If None will default to our internal default range for either
+     */
+    dhcp_range?: string;
+    /**
+     * The ip reserved and communicated by the dhcp service to be the default gateway If none, will default to the first adress in the defined (or default) range
+     */
+    dhcp_gateway?: string;
+    /**
+     * The ip reserved and communicated by the dhcp service to be the default gateway If none, will default to the first adress in the defined (or default) range
+     */
+    dhcp_dns?: string;
+    /**
+     * Any subrange within the ip range not conflicting with gateway or dns address, not used for automatic assignment of IPs
+     */
+    dhcp_reserved_subnet?: Array<string>;
 }

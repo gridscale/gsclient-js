@@ -15,7 +15,7 @@ export type StorageCreateTemplateSshkey = {
      */
     hostname?: string;
     /**
-     * List of SSH Keys uuid.
+     * List of SSH Keys uuid. SSH keys cannot be injected into a windows template.
      */
     sshkeys: Array<string>;
 }

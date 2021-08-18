@@ -42,6 +42,9 @@ export const $LinkedNetworkBrief = {
         object_name: {
             type: 'string',
         },
+        dhcp_ip: {
+            type: 'string',
+        },
         create_time: {
             type: 'string',
             format: 'date-time',
