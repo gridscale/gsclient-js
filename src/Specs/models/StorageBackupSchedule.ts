@@ -28,6 +28,14 @@ export type StorageBackupSchedule = {
      */
     object_uuid?: string;
     /**
+     * The Location where your backup is stored
+     */
+    backup_location_uuid?: string;
+    /**
+     * The human-readable name of backup location. It supports the full UTF-8 character set, with a maximum of 64 characters.
+     */
+    backup_location_name?: string;
+    /**
      * The UUID of an object is always unique, and refers to a specific object.
      */
     relations?: {

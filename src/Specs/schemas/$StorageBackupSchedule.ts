@@ -26,6 +26,13 @@ export const $StorageBackupSchedule = {
             type: 'string',
             format: 'uuid',
         },
+        backup_location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        backup_location_name: {
+            type: 'string',
+        },
         relations: {
             properties: {
                 storages_backups: {

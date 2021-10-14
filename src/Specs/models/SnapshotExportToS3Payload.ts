@@ -4,7 +4,7 @@
 
 export type SnapshotExportToS3Payload = {
     s3auth?: {
-        access_keys?: string,
+        access_key?: string,
         secret_key?: string,
     };
     s3data?: {

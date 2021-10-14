@@ -26,5 +26,9 @@ export const $StorageBackupScheduleCreate = {
             type: 'boolean',
             isRequired: true,
         },
+        backup_location_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
     },
 };

@@ -5,7 +5,7 @@ export const $SnapshotExportToS3Payload = {
     properties: {
         s3auth: {
             properties: {
-                access_keys: {
+                access_key: {
                     type: 'string',
                 },
                 secret_key: {

@@ -23,4 +23,8 @@ export type StorageBackupScheduleCreate = {
      * The status of the schedule active or not. will be set true if not set
      */
     active: boolean;
+    /**
+     * The Location where your backup is stored
+     */
+    backup_location_uuid?: string;
 }
