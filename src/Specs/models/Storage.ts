@@ -17,6 +17,47 @@ export type Storage = {
      */
     labels?: Array<string>;
     /**
+     * Bakckups list in this storage.
+     */
+    backups?: Array<{
+        /**
+         * Defines the date and time the object was initially created.
+         */
+        create_time?: string,
+        /**
+         * Indicates the UUID of the last used template on this storage.
+         */
+        last_used_template?: string,
+        /**
+         * The size of the object in GB
+         */
+        object_capacity?: number,
+        /**
+         * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
+         */
+        object_name?: string,
+        /**
+         * The UUID of an object is always unique, and refers to a specific object.
+         */
+        object_uuid?: string,
+        /**
+         * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
+         */
+        schedules_storages_backups_name?: string,
+        /**
+         * The UUID of an object is always unique, and refers to a specific object.
+         */
+        schedules_storages_backups_uuid?: string,
+        /**
+         * The status of the object
+         */
+        status?: string,
+        /**
+         * The UUID of an object is always unique, and refers to a specific object.
+         */
+        storage_uuid?: string,
+    }>;
+    /**
      * Snapshots list in this storage.
      */
     snapshots?: Array<{
@@ -25,13 +66,13 @@ export type Storage = {
          */
         object_uuid?: string,
         /**
-         * The UUID of an object is always unique, and refers to a specific object.
-         */
-        storage_uuid?: string,
-        /**
          * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
          */
         object_name?: string,
+        /**
+         * The size of the object in GB
+         */
+        object_capacity?: number,
         /**
          * The UUID of an object is always unique, and refers to a specific object.
          */
@@ -48,6 +89,10 @@ export type Storage = {
          * Defines the date and time the object was initially created.
          */
         create_time?: string,
+        /**
+         * The UUID of an object is always unique, and refers to a specific object.
+         */
+        storage_uuid?: string,
     }>;
     /**
      * The UUID of an object is always unique, and refers to a specific object.

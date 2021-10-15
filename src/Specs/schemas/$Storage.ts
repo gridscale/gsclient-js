@@ -13,6 +13,44 @@ export const $Storage = {
                 type: 'string',
             },
         },
+        backups: {
+            type: 'array',
+            contains: {
+                properties: {
+                    create_time: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    last_used_template: {
+                        type: 'string',
+                    },
+                    object_capacity: {
+                        type: 'number',
+                    },
+                    object_name: {
+                        type: 'string',
+                    },
+                    object_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    schedules_storages_backups_name: {
+                        type: 'string',
+                    },
+                    schedules_storages_backups_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    status: {
+                        type: 'string',
+                    },
+                    storage_uuid: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                },
+            },
+        },
         snapshots: {
             type: 'array',
             contains: {
@@ -21,12 +59,11 @@ export const $Storage = {
                         type: 'string',
                         format: 'uuid',
                     },
-                    storage_uuid: {
-                        type: 'string',
-                        format: 'uuid',
-                    },
                     object_name: {
                         type: 'string',
+                    },
+                    object_capacity: {
+                        type: 'number',
                     },
                     schedules_snapshot_uuid: {
                         type: 'string',
@@ -39,6 +76,10 @@ export const $Storage = {
                         type: 'string',
                     },
                     create_time: {
+                        type: 'string',
+                        format: 'uuid',
+                    },
+                    storage_uuid: {
                         type: 'string',
                         format: 'uuid',
                     },
