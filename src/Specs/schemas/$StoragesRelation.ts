@@ -9,5 +9,8 @@ export const $StoragesRelation = {
         snapshot_schedules: {
             type: 'SnapshotSchedulesinStorage',
         },
+        backup_schedules: {
+            type: 'BackupSchedulesinStorage',
+        },
     },
 };

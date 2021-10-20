@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { BackupSchedulesinStorage } from './BackupSchedulesinStorage';
 import { ServerinStrorage } from './ServerinStrorage';
 import { SnapshotSchedulesinStorage } from './SnapshotSchedulesinStorage';
 
@@ -11,4 +12,5 @@ import { SnapshotSchedulesinStorage } from './SnapshotSchedulesinStorage';
 export type StoragesRelation = {
     servers?: ServerinStrorage;
     snapshot_schedules?: SnapshotSchedulesinStorage;
+    backup_schedules?: BackupSchedulesinStorage;
 }
