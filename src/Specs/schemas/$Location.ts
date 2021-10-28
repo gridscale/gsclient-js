@@ -39,5 +39,11 @@ export const $Location = {
         product_no: {
             type: 'number',
         },
+        location_information: {
+            type: 'LocationInformation',
+        },
+        features: {
+            type: 'LocationFeatures',
+        },
     },
 };

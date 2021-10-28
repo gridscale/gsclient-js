@@ -3,6 +3,8 @@
 /* eslint-disable */
 
 import { LocationChangeRequested } from './LocationChangeRequested';
+import { LocationFeatures } from './LocationFeatures';
+import { LocationInformation } from './LocationInformation';
 
 export type Location = {
     /**
@@ -39,4 +41,6 @@ export type Location = {
      * The product number of a valid and available dedicated cpunode article.
      */
     product_no?: number;
+    location_information?: LocationInformation;
+    features?: LocationFeatures;
 }
