@@ -22,6 +22,7 @@ import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
 import { MarketplaceApplication } from './Objects/MarketplaceApplication';
 import { Certificate } from './Objects/Certificate';
 import { forEach } from 'lodash';
+import { BackupLocation } from './Objects/BackupLocation';
 
 /**
  * generate Client Class for all Connections
@@ -44,6 +45,7 @@ class GridscaleClient {
   public Events: Events;
   public Firewall: Firewall;
   public Certificate: Certificate;
+  public BackupLocation: BackupLocation;
   /**
    * @deprecated
    */
@@ -93,6 +95,7 @@ class GridscaleClient {
     this.Deleted = new Deleted(api);
     this.MarketplaceApplication = new MarketplaceApplication(api);
     this.Certificate = new Certificate(api);
+    this.BackupLocation = new BackupLocation(api);
     this.watchRequest = api.watchRequest.bind(api);
   }
 
