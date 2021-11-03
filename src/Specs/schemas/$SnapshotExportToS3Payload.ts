@@ -24,6 +24,9 @@ export const $SnapshotExportToS3Payload = {
                 private: {
                     type: 'boolean',
                 },
+                host: {
+                    type: 'string',
+                },
             },
         },
     },

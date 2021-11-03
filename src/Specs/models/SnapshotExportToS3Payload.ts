@@ -11,5 +11,6 @@ export type SnapshotExportToS3Payload = {
         bucket?: string,
         filename?: string,
         private?: boolean,
+        host?: string,
     };
 }
