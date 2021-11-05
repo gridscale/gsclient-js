@@ -11,6 +11,9 @@ export const $SnapshotExportToS3Payload = {
                 secret_key: {
                     type: 'string',
                 },
+                host: {
+                    type: 'string',
+                },
             },
         },
         s3data: {
