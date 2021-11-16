@@ -7,4 +7,5 @@ export type LocationFeatures = {
     has_rocket_storage?: string;
     has_server_provisioning?: string;
     object_storage_region?: string;
+    backup_center_location_uuid?: string;
 }

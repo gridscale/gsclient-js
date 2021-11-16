@@ -19,5 +19,9 @@ export const $LocationFeatures = {
             type: 'string',
             format: 'string',
         },
+        backup_center_location_uuid: {
+            type: 'string',
+            format: 'string',
+        },
     },
 };

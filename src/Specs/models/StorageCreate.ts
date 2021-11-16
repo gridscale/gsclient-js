@@ -21,7 +21,7 @@ export type StorageCreate = {
     storage_type?: StorageType;
     storage_variant?: StorageVariant;
     /**
-     * An object holding important values such as hostnames, passwords, and SSH keys. Creating a storage with a template is required either sshkey or password. Windows template is only accepted password
+     * An object holding important values such as hostnames, passwords, and SSH keys. Creating a storage with a template is required sshkey and/or password. Windows template is only accepted password
      */
     template?: any;
 }
