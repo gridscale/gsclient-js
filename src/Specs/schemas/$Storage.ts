@@ -19,7 +19,7 @@ export const $Storage = {
                 properties: {
                     create_time: {
                         type: 'string',
-                        format: 'uuid',
+                        format: 'date-time',
                     },
                     last_used_template: {
                         type: 'string',
@@ -77,7 +77,7 @@ export const $Storage = {
                     },
                     create_time: {
                         type: 'string',
-                        format: 'uuid',
+                        format: 'date-time',
                     },
                     storage_uuid: {
                         type: 'string',

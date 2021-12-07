@@ -87,6 +87,9 @@ export const $PaasServiceTemplate = {
                         max: {
                             type: 'number',
                         },
+                        product_no: {
+                            type: 'number',
+                        },
                     },
                 },
                 storage: {
@@ -95,6 +98,9 @@ export const $PaasServiceTemplate = {
                             type: 'number',
                         },
                         max: {
+                            type: 'number',
+                        },
+                        product_no: {
                             type: 'number',
                         },
                     },

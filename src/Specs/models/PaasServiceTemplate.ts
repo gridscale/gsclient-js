@@ -89,6 +89,10 @@ export type PaasServiceTemplate = {
         cores?: {
             min?: number,
             max?: number,
+            /**
+             * Product number used for billing this autoscaling resource. (per core)
+             */
+            product_no?: number,
         },
         /**
          * Limit values storage autoscaling
@@ -96,6 +100,10 @@ export type PaasServiceTemplate = {
         storage?: {
             min?: number,
             max?: number,
+            /**
+             * Product number used for billing this autoscaling resource. (per GiB)
+             */
+            product_no?: number,
         },
     };
 }
