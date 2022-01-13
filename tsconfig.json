@@ -1,28 +1,8 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "declaration": true,
-        "module": "commonjs",
-        "sourceMap": true,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "outDir": "dist/src/",
-        "noImplicitAny": false,
-        "allowJs": false,
-        "rootDir": "./src",
-        "types": [
-            "node"
-         ],
-         "typeRoots": [
-           "node_modules/@types"
-        ],
-        "lib": [
-          "es2015",
-          "dom"
-        ]
-    },
-    "include": [
-        "src/**/*",
-    ]
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+      "module": "esnext",
+      "outDir": "dist/mjs",
+      "target": "esnext"
+  }
 }

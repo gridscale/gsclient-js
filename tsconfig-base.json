@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "outDir": "dist/src/",
+        "noImplicitAny": false,
+        "allowJs": false,
+        "rootDir": "./src",
+        "types": [
+            "node"
+         ],
+         "typeRoots": [
+           "node_modules/@types"
+        ],
+        "lib": [
+          "esnext",
+          "dom"
+        ]
+    },
+    "exclude": ["node_modules", "dist"],
+    "include": [
+        "src/**/*",
+    ]
+}
