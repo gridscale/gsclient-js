@@ -1,7 +1,11 @@
 import { assignIn, isArray, isFunction, isObject, isUndefined, uniqueId, assign, forEach, isPlainObject } from 'lodash';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+if (typeof(require) !== 'undefined') {
+  require('es6-promise').polyfill();
+  require('isomorphic-fetch');  
+}
+
+
 
 
 export interface Links<T> {
