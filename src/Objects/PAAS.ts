@@ -8,11 +8,16 @@ import { APIClass } from '../api';
  * @deprecated
  */
 class PAAS {
-    constructor(private _api: APIClass) { }
+    serviceTemplates: PaasServiceTemplate;
+    securityZones: PaasSecurityZone;
+    services: PaasService;
 
-    serviceTemplates = new PaasServiceTemplate(this._api);
-    securityZones = new PaasSecurityZone(this._api);
-    services = new PaasService(this._api);
+    constructor(private _api: APIClass) {
+        this.serviceTemplates = new PaasServiceTemplate(this._api);
+        this.securityZones = new PaasSecurityZone(this._api);
+        this.services = new PaasService(this._api);    
+     }
+
 
 }
 
