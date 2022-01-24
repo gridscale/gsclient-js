@@ -19,4 +19,8 @@ export type StorageBackup = {
      * The size of a backup in GB.
      */
     capacity?: number;
+    /**
+     * UUID of the location the backup resides.
+     */
+    backup_location_uuid?: string;
 }

@@ -12,7 +12,7 @@ export type LocationUpdate = {
      */
     labels?: Array<string>;
     /**
-     * The OpenSSH public key string (all key types are supported => ed25519, ecdsa, dsa, rsa, rsa1).
+     * The number of dedicated cpunodes to assigne to the private location.
      */
     cpunode_count?: string;
 }

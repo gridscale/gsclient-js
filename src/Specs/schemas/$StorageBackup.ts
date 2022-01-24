@@ -17,5 +17,8 @@ export const $StorageBackup = {
         capacity: {
             type: 'number',
         },
+        backup_location_uuid: {
+            type: 'string',
+        },
     },
 };
