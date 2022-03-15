@@ -1,14 +1,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $AccessKeyCreate = {
+export const $AccessKeyUpdate = {
     properties: {
         comment: {
             type: 'string',
-        },
-        user_uuid: {
-            type: 'string',
-            format: 'uuid',
         },
     },
 };

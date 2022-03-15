@@ -15,4 +15,8 @@ export type AccessKey = {
      * A comment for this access_key.
      */
     comment?: string;
+    /**
+     * user of access_key
+     */
+    user_uuid?: string;
 }

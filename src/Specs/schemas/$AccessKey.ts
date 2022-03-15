@@ -12,5 +12,9 @@ export const $AccessKey = {
         comment: {
             type: 'string',
         },
+        user_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
     },
 };
