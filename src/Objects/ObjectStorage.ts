@@ -68,6 +68,16 @@ class ObjectStorage {
     }
 
     /**
+     * patches Access Key
+     *
+     * @param _options
+     * @param _callback
+     */
+    patchAccessKey(_access_key: string, _attributes: models.AccessKeyUpdate, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>> {
+        return this._api.patch('/objects/objectstorages/access_keys/' + _access_key, _attributes, _callback);
+    }
+
+    /**
      * List Buckets
      *
      *
