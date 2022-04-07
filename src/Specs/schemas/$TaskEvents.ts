@@ -1004,6 +1004,19 @@ export const $TaskEvents = {
                                 },
                             },
                         },
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
+                        },
                         paas_service_uuid: {
                             properties: {
                                 type: {
@@ -1123,6 +1136,19 @@ export const $TaskEvents = {
                         },
                         name: {
                             type: 'TaskEventName',
+                        },
+                        network_uuid: {
+                            properties: {
+                                type: {
+                                    type: 'string',
+                                },
+                                description: {
+                                    type: 'string',
+                                },
+                                required: {
+                                    type: 'boolean',
+                                },
+                            },
                         },
                         resource_limit: {
                             properties: {

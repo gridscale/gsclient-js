@@ -22,6 +22,10 @@ export type PaasServiceCreate = {
      * The UUID of the security zone that the service is running in.
      */
     paas_security_zone_uuid?: string;
+    /**
+     * The UUID of the private network to which the service should be connected
+     */
+    network_uuid?: string;
     parameters?: PaasServiceParameters;
     resource_limits?: PaasServiceResourceLimits;
 }

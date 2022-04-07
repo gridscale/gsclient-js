@@ -22,6 +22,10 @@ export const $PaasServiceCreate = {
             type: 'string',
             format: 'uuid',
         },
+        network_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
         parameters: {
             type: 'PaasServiceParameters',
         },

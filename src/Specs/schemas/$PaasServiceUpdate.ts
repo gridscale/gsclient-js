@@ -18,6 +18,10 @@ export const $PaasServiceUpdate = {
         resource_limits: {
             type: 'PaasServiceResourceLimits',
         },
+        network_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
         service_template_uuid: {
             type: 'string',
             format: 'uuid',

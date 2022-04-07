@@ -393,6 +393,11 @@ export type TaskEvents = {
                 description?: string,
                 required?: boolean,
             },
+            network_uuid?: {
+                type?: string,
+                description?: string,
+                required?: boolean,
+            },
             paas_service_uuid?: {
                 type?: string,
                 description?: string,
@@ -439,6 +444,11 @@ export type TaskEvents = {
         paas_service_update?: {
             labels?: TaskEventLabel,
             name?: TaskEventName,
+            network_uuid?: {
+                type?: string,
+                description?: string,
+                required?: boolean,
+            },
             resource_limit?: {
                 type?: string,
                 schema?: {

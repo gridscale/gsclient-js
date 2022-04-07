@@ -27,9 +27,17 @@ export type PaasService = {
      */
     security_zone_uuid?: string;
     /**
+     * The UUID of the private network to which the service should be connected
+     */
+    network_uuid?: string;
+    /**
      * The template used to create the service, you can find an available list at the /service_templates endpoint.
      */
     service_template_uuid?: string;
+    /**
+     * The template service's category used to create the service
+     */
+    service_template_category?: string;
     /**
      * Total minutes the object has been running.
      */

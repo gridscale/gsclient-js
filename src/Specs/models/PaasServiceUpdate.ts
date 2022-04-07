@@ -17,6 +17,10 @@ export type PaasServiceUpdate = {
     parameters?: PaasServiceParameters;
     resource_limits?: PaasServiceResourceLimits;
     /**
+     * The UUID of the private network to which the service should be connected
+     */
+    network_uuid?: string;
+    /**
      * The template to which you want to update/upgrade your paas service.
      */
     service_template_uuid?: string;

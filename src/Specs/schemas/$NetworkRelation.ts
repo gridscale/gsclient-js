@@ -12,5 +12,8 @@ export const $NetworkRelation = {
         paas_security_zones: {
             type: 'PaasSecurityZonesinNetwork',
         },
+        paas_services: {
+            type: 'PaasServicesInNetwork',
+        },
     },
 };

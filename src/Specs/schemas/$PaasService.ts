@@ -27,9 +27,16 @@ export const $PaasService = {
             type: 'string',
             format: 'uuid',
         },
+        network_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
         service_template_uuid: {
             type: 'string',
             format: 'uuid',
+        },
+        service_template_category: {
+            type: 'string',
         },
         usage_in_minutes: {
             type: 'number',
