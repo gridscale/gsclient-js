@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import { PaasServiceParametersSchema } from './PaasServiceParametersSchema';
+import { StorageType } from './StorageType';
 
 export type PaasServiceTemplate = {
     /**
@@ -73,6 +74,7 @@ export type PaasServiceTemplate = {
          * The amount of concurrent connections for the service.
          */
         connections?: number,
+        storage_type?: StorageType,
     };
     /**
      * Status indicates the status of the object.
