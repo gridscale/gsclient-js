@@ -35,7 +35,7 @@ export const $StorageBackupSchedule = {
         },
         relations: {
             properties: {
-                storages_backups: {
+                storage_backups: {
                     type: 'array',
                     contains: {
                         properties: {

@@ -39,7 +39,7 @@ export type StorageBackupSchedule = {
      * The UUID of an object is always unique, and refers to a specific object.
      */
     relations?: {
-        storages_backups?: Array<{
+        storage_backups?: Array<{
             /**
              * Defines the date and time the object was initially created.
              */
