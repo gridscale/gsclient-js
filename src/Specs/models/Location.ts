@@ -24,6 +24,14 @@ export type Location = {
      */
     object_uuid?: string;
     /**
+     * Used to uniquely identify the Hybrid Core.
+     */
+    hybrid_core_uuid?: string;
+    /**
+     * The ID of a Hybrid Core.
+     */
+    hybrid_core_id?: string;
+    /**
      * The human-readable name of the location. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
     country?: string;

@@ -20,6 +20,14 @@ export const $Location = {
             type: 'string',
             format: 'uuid',
         },
+        hybrid_core_uuid: {
+            type: 'string',
+            format: 'uuid',
+        },
+        hybrid_core_id: {
+            type: 'string',
+            format: 'uuid',
+        },
         country: {
             type: 'string',
             format: 'string',

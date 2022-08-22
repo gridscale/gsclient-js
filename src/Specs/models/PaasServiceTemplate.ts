@@ -74,6 +74,10 @@ export type PaasServiceTemplate = {
          * The amount of concurrent connections for the service.
          */
         connections?: number,
+        /**
+         * The amount of cores for the service.
+         */
+        cores?: number,
         storage_type?: StorageType,
     };
     /**

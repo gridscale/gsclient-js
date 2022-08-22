@@ -33,7 +33,7 @@ export type StoragesUsage = {
     /**
      * (one of storage, storage_high, storage_insane).
      */
-    storage_type?: 'storage' | 'storage_high' | 'storage_insane';
+    storage_type?: 'storage' | 'storage_high' | 'storage_insane' | 'storage_local';
     /**
      * Indicates the UUID of the last used template on this storage.
      */

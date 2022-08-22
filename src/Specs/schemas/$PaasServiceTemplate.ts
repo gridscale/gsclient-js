@@ -69,6 +69,9 @@ export const $PaasServiceTemplate = {
                 connections: {
                     type: 'number',
                 },
+                cores: {
+                    type: 'number',
+                },
                 storage_type: {
                     type: 'StorageType',
                 },
