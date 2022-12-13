@@ -66,7 +66,7 @@ export interface ApiResult<T> {
   /**
    * The raw HTTP Response
    */
-  response?: Response;
+  response?: Response & { request?: Request };
   /**
    * The Request options
    */
@@ -205,7 +205,7 @@ export class GSError extends Error {
   success = false;
   response: Response;
 
-  constructor(message, result) {
+  constructor(message, result: ApiResult<any>) {
     super();
     this.name = 'GridscaleError';
 
@@ -277,7 +277,7 @@ export class APIClass {
      * @param _callback
      * @returns {Promise}
      */
-    public request(_path: string = '', _options: RequestInit, _callback: (response: Response, result: ApiResult<GenericApiResult>) => void = (response, result) => { }): Promise<ApiResult<GenericApiResult>> {
+  public request(_path: string = '', _options: RequestInit, _callback: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>> {
       const options: RequestInit = !isObject(_options) ? {} : assignIn( {}, _options );
 
       // check if we should use another endpoint for this path (mocking)
@@ -369,7 +369,9 @@ export class APIClass {
             }
 
             _resolve(result);
-            setTimeout(() => _callback(_response.clone(), result));
+            if (_callback !== undefined) {
+              setTimeout(() => _callback(_response.clone(), result));
+            }
           })
           .catch(() => {
             // tslint:disable-next-line: no-use-before-declare
@@ -397,7 +399,9 @@ export class APIClass {
             });
 
             _reject( new GSError('Request Error', result) );
-            setTimeout(() => _callback(_response.clone(), result));
+            if (_callback !== undefined) {
+              setTimeout(() => _callback(_response.clone(), result));
+            }
           });
         };
 
