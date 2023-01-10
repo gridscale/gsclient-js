@@ -6,6 +6,9 @@ export const $Template = {
         status: {
             type: 'string',
         },
+        published: {
+            type: 'boolean',
+        },
         ostype: {
             type: 'string',
         },

@@ -8,6 +8,10 @@ export type TemplateUpdate = {
      */
     name?: string;
     /**
+     * Allow/forbid other user to use this template. Correct access rights are required to make the request with this key
+     */
+    published?: boolean;
+    /**
      * List of labels.
      */
     labels?: Array<string>;

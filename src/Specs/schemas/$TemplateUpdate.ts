@@ -6,6 +6,9 @@ export const $TemplateUpdate = {
         name: {
             type: 'string',
         },
+        published: {
+            type: 'boolean',
+        },
         labels: {
             type: 'array',
             contains: {

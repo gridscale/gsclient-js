@@ -11,6 +11,10 @@ export type Template = {
      */
     status?: string;
     /**
+     * Indicates if the template can be used by other users
+     */
+    published?: boolean;
+    /**
      * The operating system installed in the template.
      */
     ostype?: string;
