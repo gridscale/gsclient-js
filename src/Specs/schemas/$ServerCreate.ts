@@ -61,5 +61,9 @@ export const $ServerCreate = {
                 },
             },
         },
+        user_data: {
+            type: 'string',
+            format: 'byte',
+        },
     },
 };

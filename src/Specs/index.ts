@@ -167,7 +167,7 @@ export { PaasServiceParametersSchema } from './models/PaasServiceParametersSchem
 export { PaasServiceResourceLimit } from './models/PaasServiceResourceLimit';
 export { PaasServiceResourceLimits } from './models/PaasServiceResourceLimits';
 export { PaasServicesGetResponse } from './models/PaasServicesGetResponse';
-export { PaasServicesInNetwork } from './models/PaasServicesInNetwork';
+export { PaasServicesinNetwork } from './models/PaasServicesinNetwork';
 export { PaasServicesUsage } from './models/PaasServicesUsage';
 export { PaasServicesUsages } from './models/PaasServicesUsages';
 export { PaasServiceTemplate } from './models/PaasServiceTemplate';
@@ -435,7 +435,7 @@ export { $PaasServiceParametersSchema } from './schemas/$PaasServiceParametersSc
 export { $PaasServiceResourceLimit } from './schemas/$PaasServiceResourceLimit';
 export { $PaasServiceResourceLimits } from './schemas/$PaasServiceResourceLimits';
 export { $PaasServicesGetResponse } from './schemas/$PaasServicesGetResponse';
-export { $PaasServicesInNetwork } from './schemas/$PaasServicesInNetwork';
+export { $PaasServicesinNetwork } from './schemas/$PaasServicesinNetwork';
 export { $PaasServicesUsage } from './schemas/$PaasServicesUsage';
 export { $PaasServicesUsages } from './schemas/$PaasServicesUsages';
 export { $PaasServiceTemplate } from './schemas/$PaasServiceTemplate';

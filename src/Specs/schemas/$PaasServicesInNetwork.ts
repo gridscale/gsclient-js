@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export const $PaasServicesInNetwork = {
+export const $PaasServicesinNetwork = {
     type: 'array',
     contains: {
         properties: {

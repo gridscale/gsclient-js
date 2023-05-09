@@ -94,4 +94,18 @@ export type Server = {
      * Status indicates the status of the object, e.g., in-provisioning or active.
      */
     status?: string;
+    hardware_profile_config?: {
+        machinetype?: 'i440fx' | 'q35_bios' | 'q35_uefi',
+        storage_device?: 'ide' | 'sata' | 'virtio_scsi' | 'virtio_block',
+        usb_controller?: 'nec_xhci' | 'piix3_uhci',
+        nested_virtualization?: boolean,
+        hyperv_extensions?: boolean,
+        network_model?: 'e1000' | 'e1000e' | 'virtio' | 'vmxnet3',
+        serial_interface?: boolean,
+        server_renice?: boolean,
+    };
+    /**
+     * For system configuration on first boot. May contain cloud-config data or shell scripting, encoded as base64 string. Supported tools are cloud-init, Cloudbase-init, and Ignition.
+     */
+    user_data?: string;
 }

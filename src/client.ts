@@ -23,6 +23,10 @@ import { MarketplaceApplication } from './Objects/MarketplaceApplication';
 import { Certificate } from './Objects/Certificate';
 import { forEach } from 'lodash';
 import { BackupLocation } from './Objects/BackupLocation';
+import { MarketplaceService } from './Objects/MarketplaceService';
+import { MarketplacePlan } from './Objects/MarketplacePlan';
+import { MarketplaceVersion } from './Objects/MarketplaceVersion';
+import { MarketplaceServiceInstance } from './Objects/MarketplaceServiceInstance';
 
 /**
  * generate Client Class for all Connections
@@ -55,6 +59,10 @@ class GridscaleClient {
   public PaasSecurityZone: PaasSecurityZone;
   public Deleted: Deleted;
   public MarketplaceApplication: MarketplaceApplication;
+  public MarketplaceService: MarketplaceService;
+  public MarketplaceServiceInstance: MarketplaceServiceInstance;
+  public MarketplacePlan: MarketplacePlan;
+  public MarketplaceVersion: MarketplaceVersion;
 
   public watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
 
@@ -94,6 +102,10 @@ class GridscaleClient {
     this.PaasSecurityZone = new PaasSecurityZone(api);
     this.Deleted = new Deleted(api);
     this.MarketplaceApplication = new MarketplaceApplication(api);
+    this.MarketplaceService = new MarketplaceService(api);
+    this.MarketplaceServiceInstance = new MarketplaceServiceInstance(api);
+    this.MarketplacePlan = new MarketplacePlan(api);
+    this.MarketplaceVersion = new MarketplaceVersion(api);
     this.Certificate = new Certificate(api);
     this.BackupLocation = new BackupLocation(api);
     this.watchRequest = api.watchRequest.bind(api);

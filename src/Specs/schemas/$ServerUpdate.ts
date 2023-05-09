@@ -55,5 +55,9 @@ export const $ServerUpdate = {
                 },
             },
         },
+        user_data: {
+            type: 'string',
+            format: 'byte',
+        },
     },
 };

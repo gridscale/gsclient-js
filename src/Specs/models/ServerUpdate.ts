@@ -50,4 +50,8 @@ export type ServerUpdate = {
         serial_interface?: boolean,
         server_renice?: boolean,
     };
+    /**
+     * For system configuration on first boot. May contain cloud-config data or shell scripting, encoded as base64 string. Supported tools are cloud-init, Cloudbase-init, and Ignition.
+     */
+    user_data?: string;
 }

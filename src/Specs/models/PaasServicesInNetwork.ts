@@ -4,7 +4,7 @@
 
 import { ListenPortsByIpIndex } from './ListenPortsByIpIndex';
 
-export type PaasServicesInNetwork = Array<{
+export type PaasServicesinNetwork = Array<{
     /**
      * The human-readable name of the object. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
