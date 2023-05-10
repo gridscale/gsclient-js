@@ -16,7 +16,7 @@
   ],
   "private": false,
   "scripts": {
-    "build": "node ./scripts/clean_dist.js && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && ./scripts/fixup",
+    "build": "rm -rf dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && ./scripts/fixup",
     "build-browser": "npm run build && webpack",
     "updateFromSpec": "node ./scripts/types_from_apispec.js"
   },
