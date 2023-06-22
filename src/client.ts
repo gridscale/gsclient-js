@@ -20,13 +20,13 @@ import { PaasService } from './Objects/PaasService';
 import { PaasSecurityZone } from './Objects/PaasSecurityZone';
 import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
 import { MarketplaceApplication } from './Objects/MarketplaceApplication';
+import { MarketplaceApplication as ServiceMarketplaceApplication } from './Objects/ServiceMarketplace/MarketplaceApplication';
 import { Certificate } from './Objects/Certificate';
 import { forEach } from 'lodash';
 import { BackupLocation } from './Objects/BackupLocation';
-import { MarketplaceService } from './Objects/MarketplaceService';
-import { MarketplacePlan } from './Objects/MarketplacePlan';
-import { MarketplaceVersion } from './Objects/MarketplaceVersion';
-import { MarketplaceServiceInstance } from './Objects/MarketplaceServiceInstance';
+import { MarketplacePlan } from './Objects/ServiceMarketplace/MarketplacePlan';
+import { MarketplaceApplicationInstance } from './Objects/ServiceMarketplace/MarketplaceApplicationInstance';
+import { MarketplaceVersion } from './Objects/ServiceMarketplace/MarketplaceVersion';
 
 /**
  * generate Client Class for all Connections
@@ -59,10 +59,10 @@ class GridscaleClient {
   public PaasSecurityZone: PaasSecurityZone;
   public Deleted: Deleted;
   public MarketplaceApplication: MarketplaceApplication;
-  public MarketplaceService: MarketplaceService;
-  public MarketplaceServiceInstance: MarketplaceServiceInstance;
-  public MarketplacePlan: MarketplacePlan;
-  public MarketplaceVersion: MarketplaceVersion;
+  public ServiceMarketplaceApplication: ServiceMarketplaceApplication;
+  public ServiceMarketplaceApplicationInstance: MarketplaceApplicationInstance;
+  public ServiceMarketplacePlan: MarketplacePlan;
+  public ServiceMarketplaceVersion: MarketplaceVersion;
 
   public watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
 
@@ -102,10 +102,10 @@ class GridscaleClient {
     this.PaasSecurityZone = new PaasSecurityZone(api);
     this.Deleted = new Deleted(api);
     this.MarketplaceApplication = new MarketplaceApplication(api);
-    this.MarketplaceService = new MarketplaceService(api);
-    this.MarketplaceServiceInstance = new MarketplaceServiceInstance(api);
-    this.MarketplacePlan = new MarketplacePlan(api);
-    this.MarketplaceVersion = new MarketplaceVersion(api);
+    this.ServiceMarketplaceApplication = new ServiceMarketplaceApplication(api);
+    this.ServiceMarketplaceApplicationInstance = new MarketplaceApplicationInstance(api);
+    this.ServiceMarketplacePlan = new MarketplacePlan(api);
+    this.ServiceMarketplaceVersion = new MarketplaceVersion(api);
     this.Certificate = new Certificate(api);
     this.BackupLocation = new BackupLocation(api);
     this.watchRequest = api.watchRequest.bind(api);

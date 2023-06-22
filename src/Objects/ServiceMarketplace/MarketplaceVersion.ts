@@ -1,6 +1,6 @@
-import { GridscaleObjects } from './GridscaleObjects';
-import { APIClass, ApiResult } from '../api';
-import { MarketplaceVersionDetailResponse } from '../custom.models';
+import { GridscaleObjects } from './../GridscaleObjects';
+import { APIClass, ApiResult } from '../../api';
+import { MarketplaceVersionDetailResponse } from '../../custom.models';
 
 
 interface MarketplaceVersion {

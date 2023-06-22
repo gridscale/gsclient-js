@@ -66,7 +66,7 @@ export interface MarketplaceNamedPlan {
   };
 }
 
-export interface MarketplaceServiceListRow {
+export interface MarketplaceApplicationListRow {
   attributes: {
     name: string;
     category_name: string;
@@ -84,8 +84,8 @@ export interface MarketplaceServiceListRow {
 
 
 
-export interface MarketplaceServiceListResponse {
-  data: MarketplaceServiceListRow[],
+export interface MarketplaceApplicationListResponse {
+  data: MarketplaceApplicationListRow[],
   links: {
     first: string;
     last: string;
@@ -101,7 +101,7 @@ export interface MarketplaceServiceListResponse {
   };
 }
 
-export interface MarketplaceServiceDetailData {
+export interface MarketplaceApplicationDetailData {
   attributes: {
     name: string;
     description: string;
@@ -110,7 +110,7 @@ export interface MarketplaceServiceDetailData {
     state: string;
   };
   id: string;
-  type: 'services';
+  type: 'applications';
   relationships: {
     vendor?: {
       data: {
@@ -149,7 +149,7 @@ export interface MarketplaceNamedVersionAttributes {
   name: string;
 }
 
-export interface MarketplaceServiceDetailVendor {
+export interface MarketplaceApplicationDetailVendor {
   attributes: MarketplaceVendorAttributes;
   id: string;
   type: 'vendors';
@@ -157,10 +157,10 @@ export interface MarketplaceServiceDetailVendor {
 
 
 
-export interface MarketplaceServiceDetailResponse {
-  data: MarketplaceServiceDetailData;
+export interface MarketplaceApplicationDetailResponse {
+  data: MarketplaceApplicationDetailData;
   included: (
-    MarketplaceServiceDetailVendor | MarketplaceNamedVersion
+    MarketplaceApplicationDetailVendor | MarketplaceNamedVersion
   )[];
   links: {
     self?: string;
@@ -168,13 +168,13 @@ export interface MarketplaceServiceDetailResponse {
   }
 }
 
-export interface MarketplaceServiceInstanceCreateResult {
+export interface MarketplaceApplicationInstanceCreateResult {
   links?: null;
   data?: {
-    type: "service_instances",
+    type: "application_instances",
     id: string;
     attributes?: {
-      service_uuid: string;
+      application_uuid: string;
       plan_uuid: string;
       version_uuid: string;
       release_uuid: string;
@@ -189,19 +189,19 @@ export interface MarketplaceServiceInstanceCreateResult {
   object_uuid?: string;
 }
 
-export interface MarketplaceServiceInstanceDataRow {
-  type: "service_instances_list";
+export interface MarketplaceApplicationInstanceDataRow {
+  type: "application_instances_list";
   id: string;
   attributes?: {
     name: string;
     state: string;
     links?: {
-      linkServiceInstanceDetail?: string;
+      linkApplicationInstanceDetail?: string;
     }
   }
 }
 
-export interface MarketplaceServiceInstanceListResponse {
+export interface MarketplaceApplicationInstanceListResponse {
   links?: {
     self?: string;
     first?: string;
@@ -209,7 +209,7 @@ export interface MarketplaceServiceInstanceListResponse {
     next?: string;
     last?: string;
   },
-  data?: MarketplaceServiceInstanceDataRow[];
+  data?: MarketplaceApplicationInstanceDataRow[];
   meta?: {
     count?: string;
     limit?: string;
@@ -218,11 +218,11 @@ export interface MarketplaceServiceInstanceListResponse {
   }
 }
 
-export interface MarketplaceServiceInstanceDetailData {
-  type: "service_instances";
+export interface MarketplaceApplicationInstanceDetailData {
+  type: "application_instances";
   id: string;
   attributes?: {
-    service_uuid?: string;
+    application_uuid?: string;
     plan_uuid?: string;
     version_uuid?: string;
     release_uuid?: string;
@@ -233,9 +233,9 @@ export interface MarketplaceServiceInstanceDetailData {
   }
 }
 
-export interface MarketplaceServiceInstanceDetailResponse {
+export interface MarketplaceApplicationInstanceDetailResponse {
   links?: null;
-  data?: MarketplaceServiceInstanceDetailData;
+  data?: MarketplaceApplicationInstanceDetailData;
   included?: null;
 }
 
@@ -247,10 +247,10 @@ export interface MarketplaceVersionDetailData {
     state: string;
   };
   relationships: {
-    service: {
+    application: {
       data: {
         id: string;
-        type: 'services';
+        type: 'applications';
       }
     };
     named_plans: {
@@ -268,7 +268,7 @@ export interface MarketplaceVersionDetailResponse {
   data: MarketplaceVersionDetailData;
   included: (
     {
-      type: 'services';
+      type: 'applications';
       id: string;
       attributes: {
         name: string;
