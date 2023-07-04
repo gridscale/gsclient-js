@@ -18,6 +18,21 @@ export interface MarketplaceProductExcerpt {
   }
 }
 
+export interface MarketplacePlanSettingsResponse {
+  $id: string;
+  $schema: string;
+  title: string;
+  type: string;
+  required: string[];
+  properties: {
+    [key: string]: {
+      type: string;
+      format: string;
+      description: string;
+    }
+  }
+}
+
 export interface MarketplacePlanDetailResponse {
   data: MarketplacePlanDetailData;
   included: (

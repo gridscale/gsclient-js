@@ -25,6 +25,7 @@ import { Certificate } from './Objects/Certificate';
 import { forEach } from 'lodash';
 import { BackupLocation } from './Objects/BackupLocation';
 import { MarketplacePlan } from './Objects/ServiceMarketplace/MarketplacePlan';
+import { MarketplacePlanSettings } from './Objects/ServiceMarketplace/MarketplacePlanSettings';
 import { MarketplaceApplicationInstance } from './Objects/ServiceMarketplace/MarketplaceApplicationInstance';
 import { MarketplaceVersion } from './Objects/ServiceMarketplace/MarketplaceVersion';
 
@@ -62,6 +63,7 @@ class GridscaleClient {
   public ServiceMarketplaceApplication: ServiceMarketplaceApplication;
   public ServiceMarketplaceApplicationInstance: MarketplaceApplicationInstance;
   public ServiceMarketplacePlan: MarketplacePlan;
+  public ServiceMarketplacePlanSettings: MarketplacePlanSettings;
   public ServiceMarketplaceVersion: MarketplaceVersion;
 
   public watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
@@ -105,6 +107,7 @@ class GridscaleClient {
     this.ServiceMarketplaceApplication = new ServiceMarketplaceApplication(api);
     this.ServiceMarketplaceApplicationInstance = new MarketplaceApplicationInstance(api);
     this.ServiceMarketplacePlan = new MarketplacePlan(api);
+    this.ServiceMarketplacePlanSettings = new MarketplacePlanSettings(api);
     this.ServiceMarketplaceVersion = new MarketplaceVersion(api);
     this.Certificate = new Certificate(api);
     this.BackupLocation = new BackupLocation(api);
