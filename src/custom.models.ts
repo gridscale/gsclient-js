@@ -27,8 +27,9 @@ export interface MarketplacePlanSettingsResponse {
   properties: {
     [key: string]: {
       type: string;
-      format: string;
-      description: string;
+      format?: string;
+      description?: string;
+      enum?: string[];
     }
   }
 }
