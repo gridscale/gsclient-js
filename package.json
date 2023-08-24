@@ -1,6 +1,6 @@
 {
   "name": "@gridscale/gsclient-js",
-  "version": "1.5.2",
+  "version": "1.5.3-0",
   "description": "gridscale API Wrapper",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
