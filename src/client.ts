@@ -28,6 +28,7 @@ import { MarketplacePlan } from './Objects/ServiceMarketplace/MarketplacePlan';
 import { MarketplacePlanSettings } from './Objects/ServiceMarketplace/MarketplacePlanSettings';
 import { MarketplaceApplicationInstance } from './Objects/ServiceMarketplace/MarketplaceApplicationInstance';
 import { MarketplaceVersion } from './Objects/ServiceMarketplace/MarketplaceVersion';
+import { GPU } from './Objects/GPU';
 
 /**
  * generate Client Class for all Connections
@@ -51,6 +52,7 @@ class GridscaleClient {
   public Firewall: Firewall;
   public Certificate: Certificate;
   public BackupLocation: BackupLocation;
+  public GPU: GPU;
   /**
    * @deprecated
    */
@@ -111,6 +113,7 @@ class GridscaleClient {
     this.ServiceMarketplaceVersion = new MarketplaceVersion(api);
     this.Certificate = new Certificate(api);
     this.BackupLocation = new BackupLocation(api);
+    this.GPU = new GPU(api);
     this.watchRequest = api.watchRequest.bind(api);
   }
 
