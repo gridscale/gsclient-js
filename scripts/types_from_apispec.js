@@ -13,7 +13,7 @@ const jsYaml = require('js-yaml');
 const OpenAPI = require('openapi-typescript-codegen');
 
 const specFile = __dirname + '/spec.yaml';
-const specUrl = "https://gos3.io/dgdfg/spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=6PLU2QECA8MKF4C4PMU3%2F20230808%2Feu%2Fs3%2Faws4_request&X-Amz-Date=20230808T152803Z&X-Amz-Expires=7200&X-Amz-Signature=b35b0b2e2c3850ab42fdaddcf5e2db6ea33c64b356defe893e13f932522bf7a2&X-Amz-SignedHeaders=host&x-id=GetObject";
+const specUrl = "https://gsapispecsfordocs.eu-central-1.gos3.io/publicapi/gsapispec.json";
 const distDir = __dirname + '/../src/Specs';
 
 
