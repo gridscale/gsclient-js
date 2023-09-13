@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Location } from './Location';
+import { LocationWithRelations } from './LocationWithRelations';
 
 export type LocationGetResponse = {
-    location?: Location;
+    location?: LocationWithRelations;
 }
