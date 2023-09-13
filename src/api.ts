@@ -130,6 +130,11 @@ export interface ApiSettings {
    * A custom fetch method
    */
   fetch?: Function;
+
+  /**
+   * optional additional headers
+   */
+  additionalHeaders?: Record<string, string>;
 }
 
 export interface RequestOptions {
@@ -302,10 +307,13 @@ export class APIClass {
 
       // Build Options
       const url: string = _path.search('https://') === 0 ? _path :  endpoint + _path; // on Links there is already
-      options.headers = options.headers ? options.headers : {};
-      options.headers['X-Auth-UserId'] = this.settings.userId;
-      options.headers['X-Auth-Token'] = this.settings.token;
-      options.headers['X-Api-Client'] = this.settings.apiClient;
+    options.headers = {
+      ...options.headers || {},
+      'X-Auth-UserId': this.settings.userId,
+      'X-Auth-Token': this.settings.token,
+      'X-Api-Client': this.settings.apiClient,
+      ...this.settings.additionalHeaders || {}
+    };
 
       // return results as object or text
       const getResult = (_response: Response, _rejectOnJsonFailure = true): Promise<GenericApiResult> => {
