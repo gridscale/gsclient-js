@@ -151,6 +151,13 @@ class GridscaleClient {
   }
 
   /**
+   * set addiotional headers
+   */
+  public setAdditionalHeaders(additionalHeaders: Record<string, string>) {
+    api.setOptions({ additionalHeaders })
+  }
+
+  /**
    * Add an additional logger callback, called whenever an error is happening
    * @param _callback
    */
