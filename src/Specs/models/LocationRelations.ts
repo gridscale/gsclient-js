@@ -5,5 +5,5 @@
 import { LocationRelationsGpuFlavor } from './LocationRelationsGpuFlavor';
 
 export type LocationRelations = {
-    gpu_flavors?: LocationRelationsGpuFlavor[];
+    gpu_flavors?: Array<LocationRelationsGpuFlavor>;
 }
