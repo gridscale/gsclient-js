@@ -1,4 +1,4 @@
-import { api, ApiSettings, LogData } from './api';
+import { api as globalApi, ApiSettings, LogData, APIClass } from './api';
 
 import { Server } from './Objects/Server';
 import { Storage } from './Objects/Storage';
@@ -66,7 +66,9 @@ class GridscaleClient {
   public ServiceMarketplacePlanSettings: MarketplacePlanSettings;
   public ServiceMarketplaceVersion: MarketplaceVersion;
 
-  public watchRequest: (_requestid: string) => ReturnType<typeof api.watchRequest>;
+  public watchRequest: (_requestid: string) => ReturnType<typeof globalApi.watchRequest>;
+
+  private myapi: APIClass;
 
   /**
    * Init Client with Default Values
@@ -75,43 +77,48 @@ class GridscaleClient {
    * @param _token Security Token
    * @param _userId UUID of User
    * @param _options
+   * @param _isolated (if true, use isolated api which can be used alongside other instances. Default behavior is shared settings/tokens between the client instances)
    */
-  constructor(_token: string, _userId: string, _options: ApiSettings = {}) {
+  constructor(_token: string, _userId: string, _options: ApiSettings = {}, _isolated = false) {
+
+    if (_isolated) {
+      this.myapi = new APIClass();
+    } 
     
     // Store Security Tokens
-    api.storeToken(_token, _userId);
+    this.api.storeToken(_token, _userId);
 
     // Store advanced Options
-    api.setOptions(_options);
+    this.api.setOptions(_options);
 
     // Call Subtypes
-    this.Server = new Server(api);
-    this.Storage = new Storage(api);
-    this.Network = new Network(api);
-    this.IP = new IP(api);
-    this.ISOImage = new ISOImage(api);
-    this.SSHKey = new SSHKey(api);
-    this.Template = new Template(api);
-    this.Location = new Location(api);
-    this.ObjectStorage = new ObjectStorage(api);
-    this.Label = new Label(api);
-    this.Loadbalancer = new Loadbalancer(api);
-    this.Events = new Events(api);
-    this.Firewall = new Firewall(api);
-    this.PAAS = new PAAS(api);
-    this.PaasServiceTemplate = new PaasServiceTemplate(api);
-    this.PaasService = new PaasService(api);
-    this.PaasSecurityZone = new PaasSecurityZone(api);
-    this.Deleted = new Deleted(api);
-    this.MarketplaceApplication = new MarketplaceApplication(api);
-    this.ServiceMarketplaceApplication = new ServiceMarketplaceApplication(api);
-    this.ServiceMarketplaceApplicationInstance = new MarketplaceApplicationInstance(api);
-    this.ServiceMarketplacePlan = new MarketplacePlan(api);
-    this.ServiceMarketplacePlanSettings = new MarketplacePlanSettings(api);
-    this.ServiceMarketplaceVersion = new MarketplaceVersion(api);
-    this.Certificate = new Certificate(api);
-    this.BackupLocation = new BackupLocation(api);
-    this.watchRequest = api.watchRequest.bind(api);
+    this.Server = new Server(this.api);
+    this.Storage = new Storage(this.api);
+    this.Network = new Network(this.api);
+    this.IP = new IP(this.api);
+    this.ISOImage = new ISOImage(this.api);
+    this.SSHKey = new SSHKey(this.api);
+    this.Template = new Template(this.api);
+    this.Location = new Location(this.api);
+    this.ObjectStorage = new ObjectStorage(this.api);
+    this.Label = new Label(this.api);
+    this.Loadbalancer = new Loadbalancer(this.api);
+    this.Events = new Events(this.api);
+    this.Firewall = new Firewall(this.api);
+    this.PAAS = new PAAS(this.api);
+    this.PaasServiceTemplate = new PaasServiceTemplate(this.api);
+    this.PaasService = new PaasService(this.api);
+    this.PaasSecurityZone = new PaasSecurityZone(this.api);
+    this.Deleted = new Deleted(this.api);
+    this.MarketplaceApplication = new MarketplaceApplication(this.api);
+    this.ServiceMarketplaceApplication = new ServiceMarketplaceApplication(this.api);
+    this.ServiceMarketplaceApplicationInstance = new MarketplaceApplicationInstance(this.api);
+    this.ServiceMarketplacePlan = new MarketplacePlan(this.api);
+    this.ServiceMarketplacePlanSettings = new MarketplacePlanSettings(this.api);
+    this.ServiceMarketplaceVersion = new MarketplaceVersion(this.api);
+    this.Certificate = new Certificate(this.api);
+    this.BackupLocation = new BackupLocation(this.api);
+    this.watchRequest = this.api.watchRequest.bind(this.api);
   }
 
   /**
@@ -119,7 +126,7 @@ class GridscaleClient {
    * @param _client
    */
   public setApiClient(_client: string) {
-    api.storeClient(_client);
+    this.api.storeClient(_client);
   }
 
   /**
@@ -128,7 +135,7 @@ class GridscaleClient {
    * @param _userId
    */
   public setToken (_token: string, _userUUID: string) {
-    api.storeToken(_token, _userUUID);
+    this.api.storeToken(_token, _userUUID);
   }
 
   /**
@@ -136,7 +143,7 @@ class GridscaleClient {
    * @param _endpoint
    */
   public setEndpoint(_endpoint: string) {
-    api.setOptions({ endpoint: _endpoint });
+    this.api.setOptions({ endpoint: _endpoint });
   }
 
   /**
@@ -144,7 +151,7 @@ class GridscaleClient {
    * @param _fetch
    */
   public setFetch(_fetch: Function) {
-    api.setOptions({ fetch: fetch });
+    this.api.setOptions({ fetch: fetch });
   }
 
   /**
@@ -152,7 +159,7 @@ class GridscaleClient {
    * @param _callback
    */
    public addLogger ( _callback: (logData: LogData) => void ) {
-    api.addLogger( _callback );
+     this.api.addLogger(_callback);
   }
 
   /**
@@ -160,7 +167,7 @@ class GridscaleClient {
    * @returns HTTP Promise
    */
   public validateToken() {
-    return api.get('/validate_token');
+    return this.api.get('/validate_token');
   }
 
   /**
@@ -168,7 +175,7 @@ class GridscaleClient {
    * @param _serviceUUID
    */
   public PaasServiceMetrics(_serviceUUID: string) {
-    return new PaasServiceMetrics(api, _serviceUUID);
+    return new PaasServiceMetrics(this.api, _serviceUUID);
   }
 
   /**
@@ -196,6 +203,10 @@ class GridscaleClient {
     });
 
     return tmp;
+  }
+
+  get api() {
+    return this.myapi || globalApi;
   }
   
 }
