@@ -156,6 +156,7 @@ The isolated mode behaves more common; each `Client` instance uses it's own sett
 
 ```js
 const client = new gridscale.Client("[API-Token]", "[User-UUID]", {}, true);
+//                                                                    ^^^^
 ```
 
 ### Filters 
