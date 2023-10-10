@@ -1,6 +1,6 @@
 {
   "name": "@gridscale/gsclient-js",
-  "version": "1.5.3-7",
+  "version": "1.6.0",
   "description": "gridscale API Wrapper",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -48,9 +48,9 @@
     "js-yaml": "^4.0.0",
     "merge2": "^1.0.2",
     "openapi-typescript-codegen": "^0.7.2",
-    "ts-loader": "^8.4.0",
+    "ts-loader": "^9.4.4",
     "typescript": "~4.3.5",
-    "webpack": "^5.74.0",
+    "webpack": "^5.88.2",
     "webpack-cli": "^4.10.0"
   }
 }

@@ -120,6 +120,9 @@ onUserInput(formData) {
 
 You can set global options, which apply on every object type when creating the client. The third parameter of the constructor can be used for options
 
+#### global mode
+By default, multiple client instances share token and settings. So if you create a new client instance, all the settings you apply there, will also be applied to all other instance. Even if you instanciate a new client instance with a different token, all the other instances will use the new token. This is due to historical reasonls.
+
 **Example**
 
 ```js
@@ -146,6 +149,17 @@ client.Server.setDefaults({
 
 You can also set the options for a single request to filter your objects. This will override global and per-object-type settings
 
+#### isolated mode
+The isolated mode behaves more common; each `Client` instance uses it's own settings. So you can have multiple instances with, for example, different tokens. Just set the 4th constructor property to `true`
+
+**Example**
+
+```js
+const client = new gridscale.Client("[API-Token]", "[User-UUID]", {}, true);
+//                                                                    ^^^^
+```
+
+### Filters 
 **Example**
 
 ```js
@@ -160,7 +174,7 @@ client.Server.list({
 
 In this example the result will be the first 10 servers with more then 16GB of memory. Sorted by name and only returning the `name` and the `object_uuid`.
 
-### Available filter operators:
+#### Available filter operators:
 
 Here you find an overview of the filter operators available when using the `filter` option.
 
