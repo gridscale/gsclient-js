@@ -8,7 +8,10 @@ export const $FirewallCreate = {
             isRequired: true,
         },
         labels: {
-            type: 'string',
+            type: 'array',
+            contains: {
+                type: 'string',
+            },
         },
         rules: {
             type: 'FirewallRules',

@@ -11,7 +11,7 @@ export type ProductUsage = {
      */
     product_number?: number;
     /**
-     * Total usage of a product
+     * sum of all runtimes of the object in minutes of the current billing period
      */
     value?: number;
 }

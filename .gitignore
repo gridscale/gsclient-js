@@ -54,3 +54,5 @@ tsc-seed-1.0.0.tgz
 .idea
 
 /scripts/spec.yaml
+
+gridscale-gsclient-js-*.tgz

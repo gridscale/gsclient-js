@@ -16,7 +16,7 @@ export type NetworkUpdate = {
      */
     labels?: Array<string>;
     /**
-     * Set if dhcp is supposed to be active on the new network
+     * Set if dhcp is supposed to be active on the new network. The last 2 IPs in dhcp_range would be reserved for internal use
      */
     dhcp_active?: boolean;
     /**

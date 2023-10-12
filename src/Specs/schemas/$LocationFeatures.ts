@@ -15,6 +15,10 @@ export const $LocationFeatures = {
             type: 'string',
             format: 'string',
         },
+        has_gpu: {
+            type: 'string',
+            format: 'string',
+        },
         object_storage_region: {
             type: 'string',
             format: 'string',

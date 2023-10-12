@@ -64,7 +64,7 @@ export type Network = {
      */
     location_name?: string;
     /**
-     * Defines the information if dhcp is activated for this network or not
+     * Defines the information if dhcp is activated for this network or not. The last 2 IPs in dhcp_range would be reserved for internal use
      */
     dhcp_active?: boolean;
     dhcp_range?: string;
