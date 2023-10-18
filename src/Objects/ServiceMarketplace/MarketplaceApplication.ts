@@ -20,11 +20,11 @@ class MarketplaceApplication extends GridscaleObjects {
   }
 
   catalog(_options?: RequestOptions, _callback?: (response: Response, result: ApiResult<MarketplaceApplicationListResponse>) => void): Promise<ApiResult<MarketplaceApplicationListResponse>> {
-    return this._api.get(this._basepath, _options, _callback);
+    return this._api.get('/marketplace/v1/catalog', _options, _callback);
   }
 
   catalogForAccount(account_uuid: string, _options?: RequestOptions, _callback?: (response: Response, result: ApiResult<MarketplaceApplicationListResponse>) => void): Promise<ApiResult<MarketplaceApplicationListResponse>> {
-    return this._api.get(this._basepath + '/' + account_uuid, _options, _callback);
+    return this._api.get('/marketplace/v1/catalog/' + account_uuid, _options, _callback);
   }
 }
 
