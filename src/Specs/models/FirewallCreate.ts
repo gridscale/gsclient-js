@@ -6,6 +6,9 @@ import { FirewallRules } from './FirewallRules';
 
 export type FirewallCreate = {
     name: string;
-    labels?: string;
+    /**
+     * List of labels.
+     */
+    labels?: Array<string>;
     rules: FirewallRules;
 }

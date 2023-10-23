@@ -4,7 +4,10 @@
 export const $LocationRelations = {
     properties: {
         gpu_flavors: {
-            type: 'LocationRelationsGpuFlavor',
+            type: 'array',
+            contains: {
+                type: 'LocationRelationsGpuFlavor',
+            },
         },
     },
 };

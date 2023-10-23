@@ -4,7 +4,7 @@
 export const $LocationGetResponse = {
     properties: {
         location: {
-            type: 'Location',
+            type: 'LocationWithRelations',
         },
     },
 };
