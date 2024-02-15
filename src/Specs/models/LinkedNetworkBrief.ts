@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { FirewallRules } from './FirewallRules';
+
 export type LinkedNetworkBrief = {
     /**
      * (one of network, network_high, network_insane)
@@ -34,11 +36,11 @@ export type LinkedNetworkBrief = {
     /**
      * Defines the ordering of the network interfaces. Lower numbers have lower PCI-IDs.
      */
-    ordering?: string;
+    ordering?: number;
     /**
      * Firewall that is used to this server network relation
      */
-    firewall?: string;
+    firewall?: FirewallRules;
     /**
      * The UUID of firewall template.
      */

@@ -26,11 +26,11 @@ export type ServerCreate = {
     /**
      * Defines which Availability-Zone the Server is placed.
      */
-    availability_zone?: string;
+    availability_zone?: string | null;
     /**
      * If the server should be auto-started in case of a failure (default=true).
      */
-    auto_recovery?: string;
+    auto_recovery?: boolean;
     /**
      * Specifies the hardware settings for the virtual machine.
      *
