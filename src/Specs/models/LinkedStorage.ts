@@ -6,7 +6,7 @@ export type LinkedStorage = {
     /**
      * Indicates the speed of the storage. This may be (storage, storage_high or storage_insane).
      */
-    storage_type?: string;
+    storage_type?: 'storage' | 'storage_high' | 'storage_insane' | 'storage_local';
     /**
      * Defines the SCSI target ID. The SCSI defines transmission routes like Serial Attached SCSI (SAS), Fibre Channel and iSCSI. The target ID is a device (e.g. disk).
      */

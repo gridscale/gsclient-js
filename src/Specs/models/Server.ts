@@ -77,7 +77,7 @@ export type Server = {
     /**
      * Specifies the hardware settings for the virtual machine.
      */
-    hardware_profile?: string;
+    hardware_profile?: "default" | "nested" | "legacy" | "cisco_csr" | "sophos_utm" | "f5_bigip" | "q35";
     /**
      * The human-readable name of the location. It supports the full UTF-8 character set, with a maximum of 64 characters.
      */
