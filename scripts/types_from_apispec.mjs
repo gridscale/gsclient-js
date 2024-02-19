@@ -7,14 +7,20 @@
  * Find the result in src/src/Objects/model                   *
 \**************************************************************/
 
-const http = require('https');
-const fs = require('fs');
-const jsYaml = require('js-yaml');
-const OpenAPI = require('openapi-typescript-codegen');
+import http from 'https';
+import fs from 'fs';
+import jsYaml from 'js-yaml';
+import OpenAPI from 'openapi-typescript-codegen';
+import chalk from 'chalk';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const specFile = __dirname + '/spec.yaml';
 const specUrl = "https://gsapispecsfordocs.eu-central-1.gos3.io/publicapi/gsapispec.json";
-const distDir = __dirname + '/../src/Specs';
+const distDir = __dirname + '/../NewSpecs';
 
 
 /**
@@ -23,31 +29,29 @@ const distDir = __dirname + '/../src/Specs';
  * @param {*} distDir 
  */
 const removeTypeImExportRecursive = (distDir) => {
-    fs.readdir(distDir, (err, files) => {
-        if (err) {
-            console.error('readdir err', err);
+    const files = fs.readdirSync(distDir);
+
+    files.forEach(file => {
+        const stats = fs.statSync(distDir + '/' + file);
+        if (stats.isDirectory()) {
+            removeTypeImExportRecursive(distDir + '/' + file);
             return;
         }
-        files.forEach(file => {
-            const stats = fs.statSync(distDir + '/' + file);
-            if (stats.isDirectory()) {
-                removeTypeImExportRecursive(distDir + '/' + file);
-                return;
-            }
 
-            const source = fs.readFileSync(distDir + '/' + file, 'utf-8');
-            const target = source.replace(/(export|import) type \{/mg, '$1 {');
-            fs.writeFileSync(distDir + '/' + file, target);
-            console.log(distDir + '/' + file + ' - written');
-            
-            
-        });
+        const source = fs.readFileSync(distDir + '/' + file, 'utf-8');
+        const target = source.replace(/(export|import) type \{/mg, '$1 {');
+        fs.writeFileSync(distDir + '/' + file, target);
+        console.log(chalk.cyan(distDir + '/' + file + ' - written'));
+
+
     });
 }
 
+fs.mkdirSync(distDir, { recursive: true });
+
 // first download the current API Spec
 const file = fs.createWriteStream(specFile);
-console.log('Downloading '+ specUrl + ' ...');
+console.log('Downloading ' + specUrl + ' ...');
 http.get(specUrl, function (response) {
     response.pipe(file);
     file.on('finish', function () {
@@ -63,7 +67,7 @@ http.get(specUrl, function (response) {
                     if (yaml.definitions.hasOwnProperty(x)) {
                         if (yaml.definitions[x].type === undefined) {
                             yaml.definitions[x].type = 'object';
-                        } 
+                        }
                     }
                 }
             }
@@ -80,11 +84,11 @@ http.get(specUrl, function (response) {
                     });
                 });
             }
-            
+
 
             // clean the dist dir
             if (fs.existsSync(distDir)) {
-                fs.rmSync(distDir, { recursive: true });
+                fs.rmSync(distDir, { recursive: true });
             }
 
 
@@ -102,11 +106,14 @@ http.get(specUrl, function (response) {
 
                 removeTypeImExportRecursive(distDir);
 
-                
+                console.warn(chalk.bgYellow('I put all new Specs into ' + chalk.bold(distDir) + '. Copy the specs your interested in into ' + chalk.bold('src/Specs') + '.'));
+                console.warn(chalk.bgYellow('If you overrride existing ones, check all the new and changed properties if that makes sense. Also only copy the specs you need, do not just "update everything"!!!. The specs from the API docs are not always correct...'));
+
+
             });
 
-            
-            
+
+
         });
     });
 }).on('error', function (err) { // Handle errors
