@@ -41,7 +41,7 @@ class ObjectStorage {
      * @param _uuid
      * @param _callback
      */
-    accessKey(_access_key: string, _callback?: Function): Promise<ApiResult<models.AccessKeyGetResponse>> {
+    accessKey(_access_key: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.AccessKeyGetResponse>> {
         return this._api.get( '/objects/objectstorages/access_keys/' + _access_key, _callback);
     }
 
