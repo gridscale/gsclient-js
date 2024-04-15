@@ -19,7 +19,7 @@
     "build": "rm -rf dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && tsc-alias -p tsconfig.json && ./scripts/fixup",
     "build-browser": "npm run build && webpack",
     "updateFromSpec": "node ./scripts/types_from_apispec.mjs",
-    "prepublish": "npm run build"
+    "prepack": "npm run build"
   },
   "homepage": "https://gridscale.io",
   "repository": "https://github.com/gridscale/gsclient-js",
