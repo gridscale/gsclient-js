@@ -52,6 +52,12 @@ const gridscale = require("@gridscale/gsclient-js").gridscale;
 const client = new gridscale.Client("[API-Token]", "[User-UUID]");
 ```
 
+### In Node.js with module format
+```js
+import * as gsclient from '@gridscale/gsclient-js';
+const client = new gsclient.gridscale.Client("[API-Token]", "[User-UUID]");
+```
+
 ## API Documentation 
 For details to all API endpoints and their methods, you should refer to the **official API documentation** here - https://gridscale.io/en/api-documentation/index.html
 
