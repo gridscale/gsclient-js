@@ -28,6 +28,7 @@ import { MarketplacePlanSettings } from './Objects/ServiceMarketplace/Marketplac
 import { MarketplaceApplicationInstance } from './Objects/ServiceMarketplace/MarketplaceApplicationInstance';
 import { MarketplaceVersion } from './Objects/ServiceMarketplace/MarketplaceVersion';
 import { GPU } from './Objects/GPU';
+import { VERSION } from './.version';
 
 /**
  * generate Client Class for all Connections
@@ -68,6 +69,8 @@ class GridscaleClient {
   public ServiceMarketplaceVersion: MarketplaceVersion;
 
   public watchRequest: (_requestid: string) => ReturnType<typeof globalApi.watchRequest>;
+
+  public VERSION = VERSION;
 
   private myapi: APIClass;
 
