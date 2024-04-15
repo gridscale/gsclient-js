@@ -1,5 +1,8 @@
-// browserify-ignore-start
+//#if isBrowserify
+var process = {};
+//#else
 var process = require('process');
+//#endif
 // browserify-ignore-end
 var colors = require('colors');
 

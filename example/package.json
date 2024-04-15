@@ -2,14 +2,26 @@
   "name": "gs_api_client_example",
   "description": "Small example application, explaining how to use the gridscale API client",
   "scripts": {
-    "browserify": "browserify index.js -o ./dist/index.js --transform browserify-ignore-code"
+    "browserify": "browserify index.js -o ./dist/index.js"
   },
   "dependencies": {
     "@gridscale/gsclient-js": "latest",
-    "browserify-ignore-code": "^0.1.0",
     "colors": "^1.4.0"
   },
   "devDependencies": {
-    "browserify": "^16.5.2"
+    "browserify": "^16.5.2",
+    "browserify-conditionalify": "^1.0.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "browserify-conditionalify",
+        {
+          "definitions": {
+            "isBrowserify": true
+          }
+        }
+      ]
+    ]
   }
 }
