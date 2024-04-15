@@ -3,7 +3,6 @@
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, RequestOptions, ApiResult, VoidApiResult, GenericApiResult } from '../api';
 import * as models from '../Specs';
-import * as _ from 'lodash';
 
 interface GPU {
     list(_options?: RequestOptions, _callback?: Function): Promise<ApiResult<models.GPUsGetResponse>>;
@@ -22,7 +21,7 @@ class GPU extends GridscaleObjects {
         const requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
-        if (_.isFunction(_options) && _.isUndefined(_callback)) {
+        if (typeof _options === 'function' && _callback === undefined) {
             _callback = _options;
         }
 

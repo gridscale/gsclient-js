@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
 import * as models from './../Specs';
 
@@ -34,7 +33,10 @@ class Location {
      * @param _options
      */
     public setDefaults( _options: RequestOptions ) {
-        _.assignIn(this._defaults, _options);
+        this._defaults = {
+            ...this._defaults,
+            ..._options
+        };
     }
 
 
@@ -50,12 +52,10 @@ class Location {
     _buildRequestOptions (_options?: RequestOptions) {
 
         // Clone Defaults
-        const defaults = _.assignIn({}, this._defaults);
-
-        // Add Options
-        if (!_.isUndefined(_options) && !_.isFunction(_options)) {
-            _.assignIn(defaults, _options);
-        }
+        const defaults = {
+            ...this._defaults,
+            ..._options || {}
+        };
 
         // Return Default Values
         return defaults;
@@ -77,7 +77,7 @@ class Location {
         const requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
-        if (_.isFunction(_options) && _.isUndefined(_callback)) {
+        if (typeof _options === 'function' && _callback === undefined) {
             _callback = _options;
         }
 
@@ -121,35 +121,35 @@ class Location {
      * @param _uuid
      * @param _callback
      */
-    get(_uuid: string, _callback?: Function): Promise<ApiResult<models.LocationGetResponse>> {
+    get(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.LocationGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid, _callback);
     }
 
     /**
     Return all IP Adresses for this locations
     */
-    getLocationIPs(_uuid: string, _callback?: Function): Promise<ApiResult<models.IpsGetResponse>> {
+    getLocationIPs(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.IpsGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid + '/ips', _callback);
     }
 
     /**
     Return all isoimages for this location
     */
-    getLocationISOImages(_uuid: string, _callback?: Function): Promise<ApiResult<models.IsoimagesGetResponse>>  {
+    getLocationISOImages(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.IsoimagesGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid + '/isoimages', _callback);
     }
 
     /**
     Return all networks for this location
     */
-    getLocationNetworks(_uuid: string, _callback?: Function): Promise<ApiResult<models.NetworksGetResponse>> {
+    getLocationNetworks(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.NetworksGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid + '/networks', _callback);
     }
 
     /**
     Return all servers for this location
     */
-    getLocationServers(_uuid: string, _callback?: Function): Promise<ApiResult<models.ServersGetResponse>> {
+    getLocationServers(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.ServersGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid + '/servers', _callback);
 
     }
@@ -157,21 +157,21 @@ class Location {
     /**
     Return all snapshots for this location
     */
-    getLocationSnapshots(_uuid: string, _callback?: Function): Promise<ApiResult<models.SnapshotGetResponse>> {
+    getLocationSnapshots(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.SnapshotGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid + '/snapshots', _callback);
     }
 
     /**
     Return all storages for this location
     */
-    getLocationStorages(_uuid: string, _callback?: Function): Promise<ApiResult<models.StoragesGetResponse>> {
+    getLocationStorages(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.StoragesGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid + '/storages', _callback);
     }
 
     /**
     Return all storages for this location
     */
-    getLocationTemplates(_uuid: string, _callback?: Function): Promise<ApiResult<models.TemplatesGetResponse>> {
+    getLocationTemplates(_uuid: string, _callback?: ((response: Response, result: ApiResult<any>) => void)): Promise<ApiResult<models.TemplatesGetResponse>> {
         return this._api.get( this._basepath + '/' + _uuid + '/templates', _callback);
     }
 

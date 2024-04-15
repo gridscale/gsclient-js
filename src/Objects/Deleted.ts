@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { APIClass, RequestOptions, ApiResult, GenericApiResult } from '../api';
 import * as models from './../Specs';
 
@@ -32,18 +31,19 @@ class Deleted {
    * @param _options
    */
   public setDefaults( _options: RequestOptions ) {
-    _.assignIn(this._defaults, _options);
+    this._defaults = {
+      ...this._defaults,
+      ..._options
+    };
   }
 
   _buildRequestOptions (_options?: RequestOptions) {
 
       // Clone Defaults
-    const defaults = _.assignIn({}, this._defaults);
-
-      // Add Options
-    if (!_.isUndefined(_options) && !_.isFunction(_options)) {
-      _.assignIn(defaults, _options);
-      }
+    let defaults = {
+      ...this._defaults,
+      ..._options || {}
+    };
 
       // Return Default Values
       return defaults;
@@ -53,7 +53,7 @@ class Deleted {
     const requestOptions = this._buildRequestOptions(_options);
 
     // Set Callback
-    if (_.isFunction(_options) && _.isUndefined(_callback)) {
+    if (typeof _options === 'function' && _callback === undefined) {
         _callback = _options;
     }
       return this._api.get( '/objects/deleted/' + _key, _options, _callback);

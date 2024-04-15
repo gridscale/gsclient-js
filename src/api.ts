@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 
 if (typeof(require) !== 'undefined') {
   require('es6-promise').polyfill();
@@ -271,7 +270,10 @@ export class APIClass {
      */
     public setOptions = (_option: ApiSettings) => {
       // Assign new Values
-      _.assignIn(this.settings, _option);
+      this.settings = {
+        ...this.settings,
+        ..._option
+      }
     }
 
     /**
@@ -283,24 +285,29 @@ export class APIClass {
      * @returns {Promise}
      */
   public request(_path: string = '', _options: RequestInit, _callback: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>> {
-    const options: RequestInit = !_.isObject(_options) ? {} : _.assignIn({}, _options);
+    const options = {
+      ..._options
+    };
 
       // check if we should use another endpoint for this path (mocking)
       var endpoint = this.settings.endpoint;
       if (this.settings.endpointOverrides && typeof(this.settings.endpointOverrides) === 'object') {
-        _.forEach(this.settings.endpointOverrides, (_overrideEndpoint, _overridePath) => {
-          if (_overridePath.match(/^\/(.*)\/$/) && _path.split('?')[0].match(new RegExp(RegExp.$1))) {
-            endpoint = _overrideEndpoint;
 
-          } else if (_path.split('?')[0] === _overridePath) {
-            endpoint = _overrideEndpoint;
+        for (let _overridePath in this.settings.endpointOverrides) {
+          if (this.settings.endpointOverrides.hasOwnProperty(_overridePath)) {
+            const _overrideEndpoint = this.settings.endpointOverrides[_overridePath];
 
-          } else {
-            return true;
+            if (_overridePath.match(/^\/(.*)\/$/) && _path.split('?')[0].match(new RegExp(RegExp.$1))) {
+              endpoint = _overrideEndpoint;
+              break;
+
+            } else if (_path.split('?')[0] === _overridePath) {
+              endpoint = _overrideEndpoint;
+              break;
+
+            } 
           }
-
-          return false;
-        });
+        }
       }
 
 
@@ -357,9 +364,11 @@ export class APIClass {
             // Check for Links and generate them as Functions
             if (_result && _result._links) {
               const links = {};
-              _.forEach(_result._links, (link, linkname) => {
-                links[linkname] = this.link(_result._links[linkname]);
-              });
+              for (let linkname in _result._links) {
+                if (_result._links.hasOwnProperty(linkname)) {
+                  links[linkname] = this.link(_result._links[linkname]);
+                }
+              }
               result.links = links;
             }
 
@@ -386,18 +395,23 @@ export class APIClass {
             onFail(_response, _request, _requestInit, 'json');
           });
         };
+        let errorCounter = 0;
         const onFail = (_response: Response, _request: Request, _requestInit: RequestInit, _failType = 'request') => {
           getResult(_response.clone(), false).then((_result) => {
             const result: ApiResult<GenericApiResult> = {
               success: false,
               result: _result,
-              response: _.assign(_response.clone(), { request: _request }),
+              response: {
+                ..._response.clone(),
+                request: _request
+              },
               links: {},
               watch: null,
-              id: _.uniqueId('apierror_' + (new Date()).getTime() + '_'),
+              id: 'apierror_' + (new Date()).getTime() + '_' + errorCounter,
               requestInit: _requestInit,
               failureType: _failType
             };
+            ++errorCounter;
 
             this.log({
               result: result,
@@ -455,18 +469,19 @@ export class APIClass {
       const url = [];
 
       // Add Options to URL
-      _.forEach(_options, (val, key) => {
-        if (_options[key] === undefined) {
-          return;
-        }
-        if (_.isArray(_options[key])) {
-          if (_options[key].length > 0) {
-            url.push(key + '=' + _options[key].join(',') );
+      for (let key in _options) {
+        if (_options.hasOwnProperty(key)) {
+          if (_options[key] !== undefined) {
+            if (typeof _options[key] === 'object' && typeof _options[key].length === 'number') {
+              if (_options[key].length > 0) {
+                url.push(key + '=' + _options[key].join(','));
+              }
+            } else {
+              url.push(key + '=' + _options[key]);
+            }
           }
-        } else {
-            url.push(key + '=' + _options[key] );
         }
-      });
+      };
 
       return url.length > 0 ? ('?' + url.join('&')) : '';
     }
@@ -477,13 +492,13 @@ export class APIClass {
      * @param _path
      * @param _callback
      */
-    public get(_path: string, _options?: RequestOptions | Function, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>> {
-      if (_.isObject(_options)) {
+  public get(_path: string, _options?: RequestOptions | ((response: Response, result: ApiResult<any>) => void), _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>> {
+    if (typeof _options === 'object' && _options !== null) {
           _path += this.buildRequestURL( _options );
       }
 
       // If No Options but Callback is given
-      if (_.isUndefined(_callback) && _.isFunction(_options)) {
+    if (_callback === undefined && typeof _options === 'function') {
           _callback = _options;
       }
 

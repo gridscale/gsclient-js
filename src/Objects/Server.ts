@@ -2,7 +2,6 @@
 
 import { GridscaleObjects } from './GridscaleObjects';
 import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
-import * as _ from 'lodash';
 import * as models from './../Specs';
 import { ServerCreate, ServerUpdate, LinkedStorageUpdate, LinkedIsoimageUpdate, LinkedNetworkUpdate, LinkNetwork } from './../Specs';
 
@@ -314,7 +313,10 @@ class Server extends GridscaleObjects {
      */
     addNetwork(_uuid: string, _network_uuid: string, _additionalOptions?: LinkNetwork, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<VoidApiResult>> {
         if (_additionalOptions === undefined) { _additionalOptions = { object_uuid: _network_uuid }; }
-        const _options = _.assignIn({ 'object_uuid': _network_uuid }, _additionalOptions);
+        const _options = {
+            'object_uuid': _network_uuid,
+            ..._additionalOptions || {}
+        };
 
         return this._sub_post('networks', _uuid, _options, _callback);
     }

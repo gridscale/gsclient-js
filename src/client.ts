@@ -22,7 +22,6 @@ import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
 import { MarketplaceApplication } from './Objects/MarketplaceApplication';
 import { MarketplaceApplication as ServiceMarketplaceApplication } from './Objects/ServiceMarketplace/MarketplaceApplication';
 import { Certificate } from './Objects/Certificate';
-import * as _ from 'lodash';
 import { BackupLocation } from './Objects/BackupLocation';
 import { MarketplacePlan } from './Objects/ServiceMarketplace/MarketplacePlan';
 import { MarketplacePlanSettings } from './Objects/ServiceMarketplace/MarketplacePlanSettings';
@@ -196,21 +195,24 @@ class GridscaleClient {
    public stringifyResponseRequest<T>(object: Object): T {
     // tslint:disable-next-line: no-any
     const tmp: any = {};
-     _.forEach(object, (_val, _key) => {
-      if (_val instanceof Headers) {
-        tmp[_key] = {};
+     for (let _key in object) {
+       if (object.hasOwnProperty(_key)) {
+         const _val = object[_key];
+         if (_val instanceof Headers) {
+           tmp[_key] = {};
 
-        _val.forEach((_h, _k) => {
-          tmp[_key][_k] = _h;
-        });
+          _val.forEach((_h, _k) => {
+            tmp[_key][_k] = _h;
+          });
 
-      } else if (_val instanceof Request) {
-        tmp[_key] = this.stringifyResponseRequest(_val);
+        } else if (_val instanceof Request) {
+          tmp[_key] = this.stringifyResponseRequest(_val);
 
-      } else if (['string', 'number', 'object', 'boolean'].indexOf(typeof (_val)) >= 0) {
-        tmp[_key] = _val;
-      }
-    });
+        } else if (['string', 'number', 'object', 'boolean'].indexOf(typeof (_val)) >= 0) {
+          tmp[_key] = _val;
+        }
+       }
+     };
 
     return tmp;
   }
