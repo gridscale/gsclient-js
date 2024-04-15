@@ -4,5 +4,8 @@
       "module": "esnext",
       "outDir": "dist/mjs",
       "target": "esnext"
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true
   }
 }
