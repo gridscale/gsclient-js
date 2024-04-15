@@ -1,4 +1,4 @@
-import { assignIn, isArray, isFunction, isObject, isUndefined, uniqueId, assign, forEach, isPlainObject } from 'lodash';
+import * as _ from 'lodash';
 
 if (typeof(require) !== 'undefined') {
   require('es6-promise').polyfill();
@@ -271,7 +271,7 @@ export class APIClass {
      */
     public setOptions = (_option: ApiSettings) => {
       // Assign new Values
-      assignIn(this.settings, _option);
+      _.assignIn(this.settings, _option);
     }
 
     /**
@@ -283,12 +283,12 @@ export class APIClass {
      * @returns {Promise}
      */
   public request(_path: string = '', _options: RequestInit, _callback: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>> {
-      const options: RequestInit = !isObject(_options) ? {} : assignIn( {}, _options );
+    const options: RequestInit = !_.isObject(_options) ? {} : _.assignIn({}, _options);
 
       // check if we should use another endpoint for this path (mocking)
       var endpoint = this.settings.endpoint;
       if (this.settings.endpointOverrides && typeof(this.settings.endpointOverrides) === 'object') {
-        forEach(this.settings.endpointOverrides, (_overrideEndpoint, _overridePath) => {
+        _.forEach(this.settings.endpointOverrides, (_overrideEndpoint, _overridePath) => {
           if (_overridePath.match(/^\/(.*)\/$/) && _path.split('?')[0].match(new RegExp(RegExp.$1))) {
             endpoint = _overrideEndpoint;
 
@@ -357,7 +357,7 @@ export class APIClass {
             // Check for Links and generate them as Functions
             if (_result && _result._links) {
               const links = {};
-              forEach(_result._links, (link, linkname) => {
+              _.forEach(_result._links, (link, linkname) => {
                 links[linkname] = this.link(_result._links[linkname]);
               });
               result.links = links;
@@ -391,10 +391,10 @@ export class APIClass {
             const result: ApiResult<GenericApiResult> = {
               success: false,
               result: _result,
-              response: assign(_response.clone(), { request: _request }),
+              response: _.assign(_response.clone(), { request: _request }),
               links: {},
               watch: null,
-              id: uniqueId('apierror_' + (new Date()).getTime() + '_'),
+              id: _.uniqueId('apierror_' + (new Date()).getTime() + '_'),
               requestInit: _requestInit,
               failureType: _failType
             };
@@ -455,11 +455,11 @@ export class APIClass {
       const url = [];
 
       // Add Options to URL
-      forEach(_options, (val, key) => {
+      _.forEach(_options, (val, key) => {
         if (_options[key] === undefined) {
           return;
         }
-        if ( isArray(_options[key]) ) {
+        if (_.isArray(_options[key])) {
           if (_options[key].length > 0) {
             url.push(key + '=' + _options[key].join(',') );
           }
@@ -478,12 +478,12 @@ export class APIClass {
      * @param _callback
      */
     public get(_path: string, _options?: RequestOptions | Function, _callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>> {
-      if ( isObject( _options ) ) {
+      if (_.isObject(_options)) {
           _path += this.buildRequestURL( _options );
       }
 
       // If No Options but Callback is given
-      if ( isUndefined( _callback ) && isFunction( _options ) ) {
+      if (_.isUndefined(_callback) && _.isFunction(_options)) {
           _callback = _options;
       }
 
