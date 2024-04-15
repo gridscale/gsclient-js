@@ -1,4 +1,4 @@
-import { assignIn, isFunction, isUndefined } from 'lodash';
+import * as _ from 'lodash';
 import { APIClass, ApiResult, GenericApiResult, RequestOptions, VoidApiResult } from '../api';
 import { EventResponse, CreateResponse } from './../Specs';
 
@@ -35,8 +35,7 @@ class GridscaleObjects {
      * @param _options
      */
     public setDefaults( _options: RequestOptions ) {
-
-         assignIn( this._defaults , _options );
+        _.assignIn(this._defaults, _options);
     }
 
 
@@ -51,11 +50,11 @@ class GridscaleObjects {
      */
     _buildRequestOptions (_options?: RequestOptions) {
         // Clone Defaults
-        const defaults = assignIn({}, this._defaults);
+        const defaults = _.assignIn({}, this._defaults);
 
         // Add Options
-        if ( !isUndefined( _options ) && !isFunction( _options ) ) {
-            assignIn(defaults, _options);
+        if (!_.isUndefined(_options) && !_.isFunction(_options)) {
+            _.assignIn(defaults, _options);
         }
 
         // Return Default Values
@@ -76,7 +75,7 @@ class GridscaleObjects {
         const requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
-        if ( isFunction( _options ) && isUndefined( _callback ) ) {
+        if (_.isFunction(_options) && _.isUndefined(_callback)) {
             _callback = _options;
         }
 
@@ -145,7 +144,7 @@ class GridscaleObjects {
         const requestOptions = this._buildRequestOptions(_options);
 
         // Set Callback
-        if ( isFunction( _options ) && isUndefined( _callback ) ) {
+        if (_.isFunction(_options) && _.isUndefined(_callback)) {
             _callback = _options;
         }
 

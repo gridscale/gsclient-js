@@ -22,7 +22,7 @@ import { PaasServiceMetrics } from './Objects/PaasServiceMetrics';
 import { MarketplaceApplication } from './Objects/MarketplaceApplication';
 import { MarketplaceApplication as ServiceMarketplaceApplication } from './Objects/ServiceMarketplace/MarketplaceApplication';
 import { Certificate } from './Objects/Certificate';
-import { forEach } from 'lodash';
+import * as _ from 'lodash';
 import { BackupLocation } from './Objects/BackupLocation';
 import { MarketplacePlan } from './Objects/ServiceMarketplace/MarketplacePlan';
 import { MarketplacePlanSettings } from './Objects/ServiceMarketplace/MarketplacePlanSettings';
@@ -196,7 +196,7 @@ class GridscaleClient {
    public stringifyResponseRequest<T>(object: Object): T {
     // tslint:disable-next-line: no-any
     const tmp: any = {};
-    forEach(object, (_val, _key) => {
+     _.forEach(object, (_val, _key) => {
       if (_val instanceof Headers) {
         tmp[_key] = {};
 
