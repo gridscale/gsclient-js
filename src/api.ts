@@ -401,10 +401,7 @@ export class APIClass {
             const result: ApiResult<GenericApiResult> = {
               success: false,
               result: _result,
-              response: {
-                ..._response.clone(),
-                request: _request
-              },
+              response: Object.assign(_response.clone(), { request: _request }),
               links: {},
               watch: null,
               id: 'apierror_' + (new Date()).getTime() + '_' + errorCounter,
