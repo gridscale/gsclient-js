@@ -12,4 +12,5 @@ export type LocationInformation = {
     owner?: string;
     owner_website?: string;
     site_name?: string;
+    high_performance?: string;
 }
