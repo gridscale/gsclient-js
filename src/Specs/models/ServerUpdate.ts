@@ -33,7 +33,7 @@ export type ServerUpdate = {
      * Note: hardware_profile and hardware_profile_config parameters can't be used at the same time.
      *
      */
-    hardware_profile?: 'default' | 'nested' | 'legacy' | 'cisco_csr' | 'sophos_utm' | 'f5_bigip' | 'q35';
+    hardware_profile?: 'default' | 'nested' | 'legacy' | 'cisco_csr' | 'sophos_utm' | 'f5_bigip' | 'q35' | 'custom';
     /**
      * Specifies the custom hardware settings for the virtual machine.
      *

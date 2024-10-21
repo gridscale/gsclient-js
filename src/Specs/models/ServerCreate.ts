@@ -26,18 +26,18 @@ export type ServerCreate = {
     /**
      * Defines which Availability-Zone the Server is placed.
      */
-    availability_zone?: string | null;
+    availability_zone?: string;
     /**
      * If the server should be auto-started in case of a failure (default=true).
      */
-    auto_recovery?: boolean;
+    auto_recovery?: string;
     /**
      * Specifies the hardware settings for the virtual machine.
      *
      * Note: hardware_profile and hardware_profile_config parameters can't be used at the same time.
      *
      */
-    hardware_profile?: 'default' | 'nested' | 'legacy' | 'cisco_csr' | 'sophos_utm' | 'f5_bigip' | 'q35';
+    hardware_profile?: 'default' | 'nested' | 'legacy' | 'cisco_csr' | 'sophos_utm' | 'f5_bigip' | 'q35' | 'custom';
     /**
      * Specifies the custom hardware settings for the virtual machine.
      *
