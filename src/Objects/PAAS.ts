@@ -18,6 +18,7 @@ class PAAS {
         this.serviceTemplates = new PaasServiceTemplate(this._api);
         this.securityZones = new PaasSecurityZone(this._api);
         this.services = new PaasService(this._api);    
+        this.deprecatedClusters = new PaasDeprecatedClusters(this._api);
      }
 
 

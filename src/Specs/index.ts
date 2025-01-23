@@ -154,6 +154,7 @@ export { NetworksGetResponse } from './models/NetworksGetResponse';
 export { NetworkUpdate } from './models/NetworkUpdate';
 export { ObjectUsageOverview } from './models/ObjectUsageOverview';
 export { PaasDeprecatedClustersGetResponse } from './models/PaasDeprecatedClustersGetResponse';
+export { PaasDeprecatedClustersIndex } from './models/PaasDeprecatedClustersIndex';
 export { PaasDeprecatedCluster } from './models/PaasDeprecatedCluster';
 export { PaasSecurityZone } from './models/PaasSecurityZone';
 export { PaasSecurityZoneCreate } from './models/PaasSecurityZoneCreate';
