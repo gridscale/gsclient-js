@@ -29,6 +29,7 @@ import { MarketplaceApplicationInstance } from './Objects/ServiceMarketplace/Mar
 import { MarketplaceVersion } from './Objects/ServiceMarketplace/MarketplaceVersion';
 import { GPU } from './Objects/GPU';
 import { VERSION } from './.version';
+import { PaasDeprecatedClusters } from './Objects/PaasDeprecatedClusters';
 
 /**
  * generate Client Class for all Connections
@@ -57,6 +58,7 @@ class GridscaleClient {
    * @deprecated
    */
   public PAAS: PAAS;
+  public PaasDeprecatedClusters: PaasDeprecatedClusters;
   public PaasService: PaasService;
   public PaasServiceTemplate: PaasServiceTemplate;
   public PaasSecurityZone: PaasSecurityZone;
@@ -110,6 +112,7 @@ class GridscaleClient {
     this.Events = new Events(this.api);
     this.Firewall = new Firewall(this.api);
     this.PAAS = new PAAS(this.api);
+    this.PaasDeprecatedClusters = new PaasDeprecatedClusters(this.api);
     this.PaasServiceTemplate = new PaasServiceTemplate(this.api);
     this.PaasService = new PaasService(this.api);
     this.PaasSecurityZone = new PaasSecurityZone(this.api);
