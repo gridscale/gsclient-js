@@ -153,6 +153,8 @@ export { NetworkRelation } from './models/NetworkRelation';
 export { NetworksGetResponse } from './models/NetworksGetResponse';
 export { NetworkUpdate } from './models/NetworkUpdate';
 export { ObjectUsageOverview } from './models/ObjectUsageOverview';
+export { PaasDeprecatedClustersGetResponse } from './models/PaasDeprecatedClustersGetResponse';
+export { PaasDeprecatedCluster } from './models/PaasDeprecatedCluster';
 export { PaasSecurityZone } from './models/PaasSecurityZone';
 export { PaasSecurityZoneCreate } from './models/PaasSecurityZoneCreate';
 export { PaasSecurityZoneCreateResponse } from './models/PaasSecurityZoneCreateResponse';
