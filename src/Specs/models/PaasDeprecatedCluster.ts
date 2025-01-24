@@ -8,6 +8,10 @@ export type PaasDeprecatedCluster = {
      */
     cluster_uuid?: string;
     /**
+     * The name of the cluster.
+     */
+    cluster_name?: string;
+    /**
      * The UUID of the containing project.
      */
     project_uuid?: string;
