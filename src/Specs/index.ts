@@ -22,6 +22,7 @@ export { CertificateCreate } from './models/CertificateCreate';
 export { CertificateGetResponse } from './models/CertificateGetResponse';
 export { CertificateIndex } from './models/CertificateIndex';
 export { CertificatesGetResponse } from './models/CertificatesGetResponse';
+export { ContractStorageBackupGetResponse } from './models/ContractStorageBackupGetResponse'
 export { CreateResponse } from './models/CreateResponse';
 export { CurrentUsagePerMinute } from './models/CurrentUsagePerMinute';
 export { DeletedIpsGetResponse } from './models/DeletedIpsGetResponse';

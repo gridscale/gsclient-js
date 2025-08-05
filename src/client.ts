@@ -30,6 +30,7 @@ import { MarketplaceVersion } from './Objects/ServiceMarketplace/MarketplaceVers
 import { GPU } from './Objects/GPU';
 import { VERSION } from './.version';
 import { PaasDeprecatedClusters } from './Objects/PaasDeprecatedClusters';
+import { ContractStorageBackup } from './Objects/ContractStorageBackup'
 
 /**
  * generate Client Class for all Connections
@@ -54,6 +55,7 @@ class GridscaleClient {
   public Certificate: Certificate;
   public BackupLocation: BackupLocation;
   public GPU: GPU;
+  public ContractStorageBackup: ContractStorageBackup
   /**
    * @deprecated
    */
@@ -126,6 +128,7 @@ class GridscaleClient {
     this.Certificate = new Certificate(this.api);
     this.BackupLocation = new BackupLocation(this.api);
     this.GPU = new GPU(this.api);
+    this.ContractStorageBackup = new ContractStorageBackup(this.api);
     this.watchRequest = this.api.watchRequest.bind(this.api);
   }
 
