@@ -549,7 +549,13 @@ export class APIClass {
        * generate Function that has an Optional Callback
        */
       return (_callback?: (response: Response, result: ApiResult<GenericApiResult>) => void): Promise<ApiResult<GenericApiResult>> => {
-        return this.request(_link.href, {method: 'GET'}, _callback );
+
+        // even if this is more an API bug, we fix a `filter` param here if present and uri-encode it
+        const href = (_link.href as string ?? '').replace(/filter=([^&]*)/g, (match, filter) => {
+          return 'filter=' + encodeURIComponent(filter);
+        });
+
+        return this.request(href, {method: 'GET'}, _callback );
       };
     }
 
